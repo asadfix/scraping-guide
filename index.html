@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Asad's Guide to Web Scraping 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #0a0a0a;
+  --s1:    #111111;
+  --s2:    #181818;
+  --s3:    #222222;
+  --b1:    #2a2a2a;
+  --b2:    #383838;
+  --t1:    #f0f0f0;
+  --t2:    #aaaaaa;
+  --t3:    #666666;
+  --y:     #f5c518;   /* primary yellow */
+  --yd:    #c49a10;   /* dark yellow */
+  --yl:    rgba(245,197,24,.10);
+  --yl2:   rgba(245,197,24,.06);
+  --red:   #e05555;   --rl: rgba(224,85,85,.1);
+  --grn:   #4caf74;   --gl: rgba(76,175,116,.1);
+  --blu:   #5b9cdd;   --bll: rgba(91,156,221,.1);
+  --pur:   #9b72cf;   --pl: rgba(155,114,207,.1);
+  --orn:   #e07b30;   --ol: rgba(224,123,48,.1);
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --mono:  'JetBrains Mono', monospace;
+  --w:     1100px;
+  --nh:    56px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);
+  line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;width:100%}
+
+/* ── NAV ─────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;height:var(--nh);
+  background:rgba(10,10,10,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--b1);
+}
+.ni{
+  height:var(--nh);padding:0 24px;
+  display:flex;align-items:center;gap:0;
+}
+.nb{
+  display:flex;align-items:center;gap:9px;text-decoration:none;
+  flex-shrink:0;margin-right:4px;padding-right:20px;
+  border-right:1px solid var(--b1);
+}
+.nd{
+  width:8px;height:8px;border-radius:50%;background:var(--y);
+  box-shadow:0 0 8px var(--y),0 0 16px rgba(245,197,24,.3);flex-shrink:0;
+}
+.nav-title{font-size:14px;font-weight:700;color:var(--t1);letter-spacing:-.01em;white-space:nowrap}
+.nav-badge{
+  font-family:var(--mono);font-size:9px;background:var(--s3);color:var(--t3);
+  padding:2px 7px;border-radius:3px;border:1px solid var(--b2);letter-spacing:.06em;white-space:nowrap;
+}
+/* scrollable nav links */
+.nls{
+  display:flex;flex:1;overflow-x:auto;gap:0;
+  scrollbar-width:none;-ms-overflow-style:none;
+  padding-left:8px;
+}
+.nls::-webkit-scrollbar{display:none}
+.nl{
+  font-size:12px;font-weight:500;color:var(--t3);text-decoration:none;
+  padding:0 14px;height:var(--nh);display:flex;align-items:center;
+  border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+  white-space:nowrap;flex-shrink:0;letter-spacing:.01em;
+}
+.nl:hover{color:var(--t1)}
+.nl.on{color:var(--y);border-bottom-color:var(--y);font-weight:600}
+#np{
+  height:2px;background:linear-gradient(90deg,var(--y),var(--orn));
+  position:absolute;bottom:-1px;left:0;width:0;transition:width .08s;
+}
+
+/* ── MARQUEE ─────────────────── */
+.mwrap{
+  background:var(--s1);border-bottom:1px solid var(--b1);
+  overflow:hidden;padding:10px 0;
+}
+.mtrack{display:flex;white-space:nowrap;animation:mq 42s linear infinite}
+.mtrack span{font-family:var(--mono);font-size:11px;color:var(--t3);padding:0 20px}
+.mtrack span b{color:var(--y);font-weight:500}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── LAYOUT ──────────────────── */
+main{max-width:var(--w);margin:0 auto;padding:0 28px;overflow-x:hidden}
+.sec{padding:68px 0 52px;border-bottom:1px solid var(--b1)}
+.sec:last-child{border-bottom:none}
+.sk{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.sk .sn{color:var(--y)}
+.sk::after{content:'';flex:1;height:1px;background:var(--b1)}
+.sh{
+  font-family:var(--serif);font-size:clamp(32px,4.5vw,52px);
+  font-weight:400;line-height:1;letter-spacing:-.02em;margin-bottom:12px;
+}
+.sh em{font-style:italic;color:var(--y)}
+.ss{font-size:15px;color:var(--t2);line-height:1.8;max-width:660px;margin-bottom:36px}
+
+/* ── HERO ────────────────────── */
+#hero{
+  min-height:100vh;padding-top:var(--nh);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(245,197,24,.07) 0%,transparent 65%);
+}
+.hgrid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+.hinner{
+  position:relative;z-index:2;text-align:center;
+  max-width:800px;padding:80px 28px 96px;
+}
+.hk{
+  font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--y);margin-bottom:24px;display:inline-flex;align-items:center;gap:12px;
+}
+.hk::before,.hk::after{content:'';width:24px;height:1px;background:var(--y)}
+.hh{
+  font-family:var(--serif);font-size:clamp(52px,9vw,108px);
+  font-weight:400;line-height:.88;letter-spacing:-.03em;margin-bottom:24px;
+}
+.hh em{font-style:italic;color:var(--y)}
+.hd{font-size:18px;color:var(--t2);max-width:560px;line-height:1.75;margin:0 auto 44px}
+.htags{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:52px;
+}
+.htag{
+  font-family:var(--mono);font-size:10px;padding:5px 12px;
+  border:1px solid var(--b2);color:var(--t3);border-radius:4px;
+  transition:all .15s;cursor:default;background:var(--s1);
+}
+.htag:hover{border-color:var(--y);color:var(--y);background:var(--yl)}
+.hstats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--b1);max-width:580px;margin:0 auto;
+  border:1px solid var(--b1);border-radius:8px;overflow:hidden;
+}
+.hst{background:var(--s1);padding:22px 16px;text-align:center}
+.hst-n{
+  font-family:var(--serif);font-size:44px;font-style:italic;
+  color:var(--y);line-height:1;margin-bottom:4px;
+}
+.hst-l{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--t3);
+}
+
+/* ── INFO BOX ────────────────── */
+.ib{
+  border-left:3px solid;padding:14px 18px;margin:18px 0;
+  font-size:14px;line-height:1.75;color:var(--t2);border-radius:0 6px 6px 0;
+}
+.ib.tip{border-color:var(--grn);background:var(--gl)}
+.ib.warn{border-color:var(--y);background:var(--yl)}
+.ib.danger{border-color:var(--red);background:var(--rl)}
+.ib strong{color:var(--t1);font-weight:600}
+.ib code{
+  font-family:var(--mono);font-size:12px;background:var(--s3);
+  padding:2px 6px;border-radius:3px;color:var(--y);
+}
+
+/* ── CODE BLOCK ──────────────── */
+.cb{background:#0d0d0d;border:1px solid var(--b1);border-radius:8px;margin:18px 0;overflow:hidden}
+.cbh{
+  background:var(--s2);padding:9px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--b1);
+}
+.cbl{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+.cbc{
+  font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--t3);background:none;border:1px solid var(--b2);
+  padding:3px 9px;cursor:pointer;transition:all .15s;border-radius:3px;
+}
+.cbc:hover{color:var(--y);border-color:var(--y)}
+.cbc.ok{color:var(--grn);border-color:var(--grn)}
+pre{padding:20px 18px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.78;color:#cdd6f4}
+.kw{color:#cba6f7}.fn{color:#89b4fa}.st{color:#a6e3a1}
+.cm{color:#4a4a6a}.nb2{color:#fab387}.at{color:#f9e2af}.py{color:#89dceb}.df{color:#cdd6f4}
+
+/* ── TOGGLE ──────────────────── */
+.tog{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--y);border:1px solid rgba(245,197,24,.3);
+  padding:7px 14px;cursor:pointer;background:none;margin:10px 0;
+  transition:all .15s;border-radius:5px;
+}
+.tog:hover{background:var(--yl);border-color:var(--y)}
+.tog svg{transition:transform .2s}.tog.open svg{transform:rotate(90deg)}
+.coll{display:none}.coll.open{display:block}
+
+/* ── CARDS ───────────────────── */
+.cards{display:grid;gap:1px;background:var(--b1);margin:22px 0;border-radius:8px;overflow:hidden}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.c4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:800px){.c3,.c4{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.c2,.c3,.c4{grid-template-columns:1fr}}
+.card{background:var(--s1);padding:22px 20px;transition:background .15s}
+.card:hover{background:var(--s2);box-shadow:0 0 0 1px rgba(245,197,24,.15)}
+.cbar{height:2px;margin-bottom:14px;border-radius:1px}
+.ctag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
+.cname{font-size:17px;font-weight:600;color:var(--t1);margin-bottom:5px;line-height:1.15}
+.cname .cstar{font-size:10px;color:var(--y);font-family:var(--mono);margin-left:5px}
+.csub{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+.cbody{font-size:14px;color:var(--t2);line-height:1.72}
+.cbody strong{color:var(--t1);font-weight:600}
+.cbody code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+
+/* ── FLOW DIAGRAM ────────────── */
+.fdwrap{
+  background:var(--s1);border:1px solid var(--b1);padding:26px 20px;
+  margin:26px 0;overflow-x:auto;overflow-y:hidden;border-radius:8px;
+  -webkit-overflow-scrolling:touch;
+}
+.fdtop{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--b1);
+}
+.fdrow{display:flex;align-items:flex-start;min-width:max-content;gap:0;padding-bottom:4px}
+.fds{display:flex;flex-direction:column;align-items:center;min-width:120px;position:relative;margin-right:18px}
+.fds:last-child{margin-right:0}
+.fds:not(:last-child)::after{
+  content:"→";position:absolute;right:-15px;top:42px;
+  font-size:17px;color:var(--b2);
+}
+.fdsn{font-family:var(--mono);font-size:9px;color:var(--t3);margin-bottom:8px;letter-spacing:.08em}
+.fdsb{
+  width:110px;padding:14px 10px;border:1px solid;border-radius:8px;
+  text-align:center;transition:transform .15s,box-shadow .15s;cursor:default;
+}
+.fdsb:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.fdsi{font-size:24px;margin-bottom:7px}
+.fdsl{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:3px;line-height:1.2}
+.fdsh{font-family:var(--mono);font-size:9px;color:var(--t3);line-height:1.5}
+.fd1 .fdsb{border-color:rgba(245,197,24,.4);background:rgba(245,197,24,.06)}
+.fd2 .fdsb{border-color:rgba(91,156,221,.4);background:rgba(91,156,221,.06)}
+.fd3 .fdsb{border-color:rgba(224,123,48,.4);background:rgba(224,123,48,.06)}
+.fd4 .fdsb{border-color:rgba(76,175,116,.4);background:rgba(76,175,116,.06)}
+.fd5 .fdsb{border-color:rgba(155,114,207,.4);background:rgba(155,114,207,.06)}
+.fd6 .fdsb{border-color:rgba(224,85,85,.4);background:rgba(224,85,85,.06)}
+
+/* ── ANTI-BOT CARDS ──────────── */
+.abc{
+  background:var(--s1);border:1px solid var(--b1);margin-bottom:8px;
+  display:grid;grid-template-columns:1fr 1fr;border-radius:8px;
+  overflow:hidden;transition:border-color .15s;
+}
+.abc:hover{border-color:rgba(245,197,24,.2)}
+.abstr{position:absolute;top:0;left:0;width:4px;bottom:0}
+.abl{padding:24px 22px 20px 26px;position:relative}
+.absy{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.abn{font-family:var(--serif);font-size:clamp(24px,3.5vw,38px);font-weight:400;font-style:italic;letter-spacing:-.02em;line-height:.9;margin-bottom:9px}
+.abd{font-size:13px;color:var(--t2);line-height:1.72;margin-bottom:11px}
+.absigs{display:flex;flex-wrap:wrap;gap:4px}
+.sig{font-family:var(--mono);font-size:9px;padding:3px 8px;border:1px solid;border-radius:3px}
+.abr{border-left:1px solid var(--b1);padding:24px 22px}
+.abbt{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--grn);margin-bottom:9px;display:flex;align-items:center;gap:6px;
+}
+.abbt::before{content:'';width:10px;height:1px;background:var(--grn)}
+.bitem{
+  font-size:14px;color:var(--t2);padding:6px 0;border-bottom:1px solid var(--b1);
+  display:flex;align-items:flex-start;gap:7px;line-height:1.55;
+}
+.bitem:last-child{border-bottom:none}
+.bitem::before{content:"→";color:var(--grn);flex-shrink:0;margin-top:1px;font-size:11px}
+.bitem code{font-family:var(--mono);font-size:10px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+.abstats{display:flex;border-top:1px solid var(--b1);grid-column:1/-1}
+.abst{flex:1;padding:13px 16px;border-right:1px solid var(--b1)}
+.abst:last-child{border-right:none}
+.abstl{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:2px}
+.abstv{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--t1)}
+.absts{font-size:11px;color:var(--t3)}
+@media(max-width:680px){.abc{grid-template-columns:1fr}.abr{border-left:none;border-top:1px solid var(--b1)}}
+
+/* ── LIB TABLE ───────────────── */
+.lt-wrap{overflow-x:auto;margin:22px 0;border-radius:8px;border:1px solid var(--b1)}
+.lt{width:100%;border-collapse:collapse;font-size:13px}
+.lt th{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--t3);background:var(--s2);padding:10px 14px;text-align:left;
+  border-bottom:1px solid var(--b1);border-right:1px solid var(--b1);
+  white-space:nowrap;font-weight:500;
+}
+.lt td{padding:10px 14px;border-bottom:1px solid var(--b1);border-right:1px solid var(--b1);color:var(--t2);vertical-align:middle}
+.lt tr:last-child td{border-bottom:none}
+.lt tr:hover td{background:var(--s2)}
+.lt td:first-child{font-weight:600;color:var(--t1);font-family:var(--mono);font-size:12px;white-space:nowrap}
+.lt td:last-child,.lt th:last-child{border-right:none}
+.dy{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grn);box-shadow:0 0 5px var(--grn)}
+.dn{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--b2)}
+.dp{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--y);box-shadow:0 0 5px var(--y)}
+.lcat{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;margin-left:3px}
+.lh{background:var(--bll);color:var(--blu)}
+.lb{background:var(--pl);color:var(--pur)}
+.lf{background:var(--gl);color:var(--grn)}
+.la{background:rgba(224,85,85,.12);color:var(--red)}
+.lm{background:var(--ol);color:var(--orn)}
+.lp{background:var(--yl);color:var(--y)}
+
+/* ── DETECTION LAYERS ─────────── */
+.lyrs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:22px 0}
+@media(max-width:640px){.lyrs{grid-template-columns:1fr}}
+.lyr{background:var(--s1);padding:22px 20px;border:1px solid var(--b1);border-radius:8px}
+.lyrn{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.lyrt{font-size:16px;font-weight:600;margin-bottom:7px}
+.lyrb{font-size:14px;color:var(--t2);line-height:1.75}
+.lyrb strong{color:var(--t1);font-weight:600}
+.lyrb code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+.lyrfix{margin-top:11px;padding:8px 12px;background:var(--gl);border-left:3px solid var(--grn);font-family:var(--mono);font-size:11px;color:var(--grn);border-radius:0 5px 5px 0}
+
+/* ── DECISION STEPS ──────────── */
+.dsteps{display:flex;flex-direction:column;gap:8px;margin:22px 0}
+.ds{
+  background:var(--s1);display:grid;grid-template-columns:68px 1fr 160px;
+  gap:22px;padding:22px 24px;transition:background .15s;
+  border:1px solid var(--b1);border-radius:8px;align-items:start;
+}
+.ds:hover{background:var(--s2)}
+.dsn{font-family:var(--serif);font-size:48px;font-style:italic;color:var(--b2);line-height:1;margin-top:-3px}
+.dsl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:4px}
+.dst{font-size:17px;font-weight:600;color:var(--t1);margin-bottom:7px}
+.dsb{font-size:14px;color:var(--t2);line-height:1.75}
+.dsb strong{color:var(--t1);font-weight:600}
+.dsb code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+.dstools{display:flex;flex-direction:column;gap:4px;padding-top:22px}
+.dstool{font-family:var(--mono);font-size:11px;padding:5px 10px;border-left:3px solid var(--grn);background:var(--gl);color:var(--grn);border-radius:0 4px 4px 0}
+@media(max-width:640px){.ds{grid-template-columns:1fr}.dsn{display:none}.dstools{padding-top:0}}
+
+/* ── TIMELINE ─────────────────── */
+.tl{padding-left:38px;position:relative}
+.tl::before{content:'';position:absolute;left:13px;top:0;bottom:0;width:1px;background:var(--b1)}
+.tli{position:relative;padding:0 0 30px 22px}
+.tli::before{content:'';position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--b2);transition:all .15s}
+.tli:hover::before{border-color:var(--y);background:var(--yl)}
+.tliy{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--y);margin-bottom:4px}
+.tlit{font-size:14px;color:var(--t2);line-height:1.75}
+.tlit strong{color:var(--t1);font-weight:600}
+
+/* ── PROXY ────────────────────── */
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 0}
+@media(max-width:640px){.pgrid{grid-template-columns:1fr 1fr}}
+.pg{background:var(--s1);padding:20px 18px;border:1px solid var(--b1);border-radius:8px}
+.pgt{font-size:16px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.pgtr{font-family:var(--mono);font-size:11px;margin-bottom:9px;font-weight:500}
+.pgb{font-size:13px;color:var(--t2);line-height:1.65}
+
+/* ── CHEAT TABLE ─────────────── */
+.ct{width:100%;border-collapse:collapse;margin:22px 0;border:1px solid var(--b1)}
+.ct th{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);background:var(--s2);padding:10px 14px;text-align:left;border-bottom:1px solid var(--b1);border-right:1px solid var(--b1);font-weight:500}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--b1);border-right:1px solid var(--b1);font-size:13px;color:var(--t2);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+.ct tr:hover td{background:var(--s2)}
+.ct td:first-child{color:var(--t1);font-weight:600;white-space:nowrap}
+.ct td:last-child,.ct th:last-child{border-right:none}
+.ct td code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+.bdg{display:inline-block;font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;text-transform:uppercase;vertical-align:middle;margin-left:3px;font-weight:500}
+.bg{background:var(--gl);color:var(--grn)}
+.br{background:var(--rl);color:var(--red)}
+.by{background:var(--yl);color:var(--y)}
+
+/* ── AI SECTION ───────────────── */
+.aiwrap{background:linear-gradient(135deg,rgba(155,114,207,.08),rgba(245,197,24,.05));border:1px solid rgba(245,197,24,.2);padding:26px 30px;margin:26px 0;border-radius:8px}
+.aik{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--y);margin-bottom:9px}
+.ait-title{font-family:var(--serif);font-size:24px;font-style:italic;color:var(--t1);margin-bottom:8px}
+.aib{font-size:15px;color:var(--t2);line-height:1.75}
+.aib strong{color:var(--t1)}
+.aitools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}
+@media(max-width:700px){.aitools{grid-template-columns:1fr}}
+.ait2{background:var(--s1);padding:20px 18px;transition:background .15s;border:1px solid var(--b1);border-radius:8px;border-top:3px solid}
+.ait2:hover{background:var(--s2)}
+.ait2n{font-size:15px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.ait2t{font-family:var(--mono);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:9px}
+.ait2b{font-size:13px;color:var(--t2);line-height:1.7}
+.ait2b strong{color:var(--t1)}
+.ait2b code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+.ait2s{margin-top:9px;padding-top:8px;border-top:1px solid var(--b1);font-family:var(--mono);font-size:10px;color:var(--y)}
+
+/* ── PLATFORMS ────────────────── */
+.ptgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0}
+@media(max-width:700px){.ptgrid{grid-template-columns:1fr}}
+.ptcard{background:var(--s1);padding:22px 20px;transition:background .15s;border:1px solid var(--b1);border-radius:8px;border-top:3px solid}
+.ptcard:hover{background:var(--s2)}
+.ptname{font-size:16px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.pttag{font-family:var(--mono);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:9px}
+.ptbody{font-size:13px;color:var(--t2);line-height:1.7}
+.ptbody strong{color:var(--t1)}
+.ptbody code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+.ptstat{margin-top:9px;padding-top:8px;border-top:1px solid var(--b1);font-family:var(--mono);font-size:10px;color:var(--grn)}
+h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13px;color:var(--t1);font-weight:400}
+
+/* ── LLM BUTTON ──────────────── */
+#llmw{position:fixed;bottom:26px;right:26px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+#llmbtn{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,#f5c518,#c49a10);
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:22px;transition:transform .18s;
+  animation:yanim 2.4s ease-in-out infinite;position:relative;
+}
+/* Ask me anything popup */
+#llmbtn::before{
+  content:'Ask me anything';
+  position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);
+  background:var(--s2);border:1px solid var(--b2);
+  color:var(--t1);font-family:var(--mono);font-size:10px;
+  padding:6px 12px;border-radius:5px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+  letter-spacing:.04em;
+}
+#llmbtn::after{
+  content:'';position:absolute;right:calc(100% + 2px);top:50%;
+  transform:translateY(-50%);
+  border:5px solid transparent;border-left-color:var(--b2);
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+#llmbtn:hover::before,#llmbtn:hover::after{opacity:1}
+#llmbtn:hover{transform:scale(1.1);animation:none;box-shadow:0 0 0 8px rgba(245,197,24,.25),0 0 40px rgba(245,197,24,.5)}
+@keyframes yanim{
+  0%,100%{box-shadow:0 0 0 3px rgba(245,197,24,.25),0 0 16px rgba(245,197,24,.35)}
+  50%{box-shadow:0 0 0 7px rgba(245,197,24,.15),0 0 32px rgba(245,197,24,.55)}
+}
+#llmp{
+  width:390px;max-height:520px;background:var(--s1);
+  border:1px solid var(--b2);border-radius:10px;overflow:hidden;
+  display:none;flex-direction:column;
+  box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px rgba(245,197,24,.08);
+}
+#llmp.open{display:flex}
+.llmh{background:var(--s2);padding:13px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between}
+.llmhl{display:flex;align-items:center;gap:9px}
+.llmdot{width:8px;height:8px;border-radius:50%;background:var(--y);box-shadow:0 0 8px var(--y);animation:ydot 2s ease infinite}
+@keyframes ydot{0%,100%{opacity:1}50%{opacity:.4}}
+.llmtitle{font-size:14px;font-weight:600;color:var(--t1)}
+.llmsub{font-family:var(--mono);font-size:9px;color:var(--t3);margin-top:1px}
+.llmx{background:none;border:none;color:var(--t3);cursor:pointer;font-size:17px;padding:3px;transition:color .12s;line-height:1}
+.llmx:hover{color:var(--t1)}
+.llmchips{padding:9px 12px;display:flex;flex-wrap:wrap;gap:5px;border-bottom:1px solid var(--b1)}
+.llmchip{font-family:var(--mono);font-size:9px;padding:4px 9px;border:1px solid var(--b2);color:var(--t3);cursor:pointer;border-radius:4px;background:none;transition:all .15s}
+.llmchip:hover{border-color:var(--y);color:var(--y);background:var(--yl)}
+.llmmsgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;min-height:0}
+.llmmsgs::-webkit-scrollbar{width:4px}
+.llmmsgs::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+.msg{max-width:93%;line-height:1.6;font-size:13px}
+.msg.u{align-self:flex-end;background:var(--yl);border:1px solid rgba(245,197,24,.2);padding:9px 13px;border-radius:8px 8px 2px 8px;color:var(--t1)}
+.msg.a{align-self:flex-start;background:var(--s2);border:1px solid var(--b1);padding:9px 13px;border-radius:8px 8px 8px 2px;color:var(--t2)}
+.msg.a strong{color:var(--t1)}
+.msg.a code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
+.msg.a em{color:var(--t3);font-style:italic;font-size:11px}
+.llminw{padding:11px;border-top:1px solid var(--b1);display:flex;gap:8px;background:var(--bg)}
+.llmin{flex:1;background:var(--s1);border:1px solid var(--b1);padding:8px 12px;font-family:var(--sans);font-size:13px;color:var(--t1);outline:none;border-radius:5px;resize:none;line-height:1.4;max-height:78px;transition:border-color .15s}
+.llmin:focus{border-color:rgba(245,197,24,.5);box-shadow:0 0 0 3px rgba(245,197,24,.1)}
+.llmsend{background:var(--y);border:none;color:#0a0a0a;font-family:var(--sans);font-size:12px;font-weight:700;padding:0 16px;cursor:pointer;border-radius:5px;transition:background .15s;white-space:nowrap}
+.llmsend:hover{background:var(--yd)}
+.llmsend:disabled{opacity:.4;cursor:default}
+
+/* ── FOOTER ───────────────────── */
+#footer{background:var(--s1);border-top:1px solid var(--b1);padding:44px 0 28px}
+.fi{max-width:var(--w);margin:0 auto;padding:0 28px}
+.ft{display:flex;justify-content:space-between;align-items:flex-start;gap:22px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid var(--b1);margin-bottom:18px}
+.fb{font-family:var(--serif);font-size:19px;font-style:italic;color:var(--t1)}
+.fb p{font-size:12px;color:var(--t3);margin-top:6px;max-width:280px;line-height:1.65;font-family:var(--sans);font-style:normal}
+.fls{display:flex;gap:14px;flex-wrap:wrap}
+.fl{font-size:13px;color:var(--t3);text-decoration:none;transition:color .15s}
+.fl:hover{color:var(--t2)}
+.fb2{font-family:var(--mono);font-size:9px;color:var(--t3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:7px}
+
+
+/* ── TOOLTIPS ─────────────────────────── */
+.tip{
+  position:relative;cursor:help;
+  border-bottom:1px dashed var(--b2);
+  transition:border-color .15s;
+}
+.tip:hover{border-bottom-color:var(--y)}
+.tip::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%);
+  background:var(--s2);border:1px solid var(--b2);
+  color:var(--t2);font-family:var(--sans);font-size:12px;
+  font-style:normal;font-weight:400;
+  padding:8px 13px;border-radius:6px;
+  white-space:nowrap;max-width:280px;white-space:normal;
+  width:max-content;min-width:160px;max-width:260px;
+  opacity:0;pointer-events:none;z-index:100;
+  line-height:1.55;transition:opacity .18s;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.tip::before{
+  content:'';position:absolute;bottom:calc(100% + 2px);left:50%;
+  transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:var(--b2);
+  opacity:0;pointer-events:none;z-index:100;transition:opacity .18s;
+}
+.tip:hover::after,.tip:hover::before{opacity:1}
+
+/* ── REVEAL ───────────────────── */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .52s ease,transform .52s ease}
+.rv.vi{opacity:1;transform:none}
+
+@media(max-width:600px){main,.fi{padding:0 14px}.ni{padding:0 14px}}
+@media(max-width:400px){.htag{font-size:9px;padding:4px 9px}}
+@media print{#nav,#llmw{display:none}.coll{display:block!important}}
+</style>
+</head>
+<body>
+<!-- AI TOGGLE BANNER -->
+<div id="ai-banner" style="background:rgba(245,197,24,.08);border-bottom:1px solid rgba(245,197,24,.2);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:200">
+  <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t2)">
+    <span style="font-size:16px">🤖</span>
+    <span>AI Scraping Assistant available — powered by Claude. Ask any question about anti-bot bypass, libraries, or techniques.</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+    <button onclick="toggleLLM()" style="background:var(--y);border:none;color:#0a0a0a;font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 14px;border-radius:4px;cursor:pointer;letter-spacing:.06em;white-space:nowrap">Ask Claude</button>
+    <button onclick="document.getElementById('ai-banner').style.display='none'" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:18px;padding:0 4px;line-height:1;transition:color .15s" title="Dismiss" onmouseover="this.style.color='var(--t1)'" onmouseout="this.style.color='var(--t3)'">×</button>
+  </div>
+</div>
+
+<nav id="nav">
+  <div class="ni">
+    <a href="#hero" class="nb">
+      <span class="nd"></span>
+      <span class="nav-title">Asad's Scraping Guide</span>
+      <span class="nav-badge">2026</span>
+    </a>
+    <div class="nls">
+      <a class="nl" href="#flow">Flow</a>
+      <a class="nl" href="#detect">Detection</a>
+      <a class="nl" href="#antibots">Anti-Bots</a>
+      <a class="nl" href="#libs">Libraries</a>
+      <a class="nl" href="#ai">AI Scraping</a>
+      <a class="nl" href="#platforms">Platforms</a>
+      <a class="nl" href="#proxies">Proxies</a>
+      <a class="nl" href="#play">Playbook</a>
+      <a class="nl" href="#innovation">Innovation</a><a class="nl" href="#community">Community</a><a class="nl" href="#tl">Timeline</a>
+    </div>
+  </div>
+  <div id="np"></div>
+</nav>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="sec" id="about" style="padding:36px 0 32px;border-bottom:1px solid var(--b1)">
+<div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+  <div style="flex:1;min-width:260px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--y);margin-bottom:8px">About the author</div>
+    <p style="font-size:15px;color:var(--t2);line-height:1.75;max-width:720px;margin-bottom:16px">Built by <strong style="color:var(--t1)">Asad Ikram</strong> — Chevening Scholar 2024/25, MSc Data Analytics (Distinction), Data Engineer at M+C Saatchi Fluency, and co-founder of ArtemisAI. Five years building production scrapers at scale: 500+ regional spiders at Dubizzle Labs (MENA), 50M+ data points at Fix.com, and enterprise NLP pipelines. This guide is distilled from real production experience — not docs, not tutorials.</p>
+    <a href="https://asad-ikram-mc.github.io/portfolio" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;background:var(--y);color:#0a0a0a;font-family:var(--mono);font-size:11px;font-weight:700;padding:9px 18px;border-radius:5px;text-decoration:none;letter-spacing:.04em;transition:background .15s" onmouseover="this.style.background='#c49a10'" onmouseout="this.style.background='var(--y)'">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      View portfolio
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ═══ 01 FLOW ═══ -->
+<section class="sec" id="flow">
+<div class="sk"><span class="sn">01</span> Attack strategy</div>
+<h2 class="sh">The scraping<br><em>decision flow</em></h2>
+<p class="ss">Walk steps in order. Stop at the first win. Complexity and cost increase right. Most production scraping is solved at steps 1–3.</p>
+
+<div class="fdwrap rv">
+  <div class="fdtop">Asad's Priority Order — start left, move right only when needed</div>
+  <div class="fdrow">
+    <div class="fds fd1">
+      <div class="fdsn">Step 1</div>
+      <div class="fdsb"><div class="fdsi">📱</div><div class="fdsl">Mobile API</div><div class="fdsh">HTTPToolkit<br>Frida · mitmproxy</div></div>
+    </div>
+    <div class="fds fd2" style="margin-left:14px">
+      <div class="fdsn">Step 2</div>
+      <div class="fdsb"><div class="fdsi">🔍</div><div class="fdsl">XHR Endpoint</div><div class="fdsh">Chrome DevTools<br>Burpsuite · webclaw</div></div>
+    </div>
+    <div class="fds fd3" style="margin-left:14px">
+      <div class="fdsn">Step 3</div>
+      <div class="fdsb"><div class="fdsi">🗃️</div><div class="fdsl">JSON in HTML</div><div class="fdsh">__NEXT_DATA__<br>chompjs · Parsel</div></div>
+    </div>
+    <div class="fds fd4" style="margin-left:14px">
+      <div class="fdsn">Step 4</div>
+      <div class="fdsb"><div class="fdsi">⚡</div><div class="fdsl">HTTP Scraping</div><div class="fdsh">curl_cffi<br>Scrapy · Scrapling</div></div>
+    </div>
+    <div class="fds fd5" style="margin-left:14px">
+      <div class="fdsn">Step 5</div>
+      <div class="fdsb"><div class="fdsi">🌐</div><div class="fdsl">C++ Browser</div><div class="fdsh">Camoufox<br>CloakBrowser</div></div>
+    </div>
+    <div class="fds fd6" style="margin-left:14px">
+      <div class="fdsn">Step 6</div>
+      <div class="fdsb" style="border-bottom:none"><div class="fdsi">☁️</div><div class="fdsl">Managed API</div><div class="fdsh">Bright Data<br>Zyte · Firecrawl</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="ib warn rv"><strong>Rule #1 — Asad's priority:</strong> Never start at Step 5. The mobile app often hits the same backend with zero anti-bot. Confirmed on a major retailer — a direct GraphQL endpoint bypassed all HTML anti-bot protection entirely. Find the API first, always.</div>
+
+<div class="ib tip rv" style="margin-top:24px">
+<strong>Before we go deeper:</strong> The flow above tells you <em>what order</em> to try things. But to understand <em>why</em> those steps exist in that order — and what happens when you skip one — you need to understand how detection actually works. The next section breaks down every signal anti-bots collect, starting at the TCP handshake.
+</div>
+</section>
+
+
+
+<!-- ═══ 02 DETECTION ═══ -->
+<section class="sec" id="detect">
+<div class="sk"><span class="sn">02</span> The anatomy of detection</div>
+<h2 class="sh">Before you send a single byte,<br><em>you've already been judged.</em></h2>
+<p class="ss">The moment your scraper opens a TCP connection to a CDN, a fingerprinting pipeline triggers. By the time your HTTP request body arrives, four independent scoring systems have already assigned you a trust score. Here's exactly what each one measures — and why defeating just one is never enough.</p>
+
+<div class="ib warn rv">
+<strong>The fundamental insight:</strong> Anti-bots don't make binary decisions. They assign a continuous trust score across all four layers simultaneously. A perfect TLS fingerprint with a datacenter IP and machine-like mouse movement still fails — just at a different layer. The only winning strategy is addressing all four at once.
+</div>
+
+<h3 class="rh rv">Layer 1 — TLS Fingerprinting: The Handshake That Betrays You</h3>
+<p class="ss rv">This fires before a single HTTP byte is exchanged. Understanding it is non-negotiable.</p>
+
+<div class="cards c2 rv">
+<div class="card">
+  <div class="cbar" style="background:var(--red)"></div>
+  <div class="ctag">Origin 2017 · Salesforce Research</div>
+  <div class="cname">JA3 — The First Fingerprint</div>
+  <div class="cbody">
+    When any HTTPS client connects, it sends a <strong>TLS ClientHello</strong> message. JA3 extracts five fields from it and MD5-hashes the combination:<br><br>
+    <code>TLS Version</code> + <code>Cipher Suites</code> + <code>Extensions</code> + <code>Elliptic Curves</code> + <code>Curve Formats</code><br><br>
+    This produced a stable 32-char hex hash. Python's <code>requests</code> library has always had the same JA3 hash. Every major anti-bot catalogued it. By 2021, your Python scraper was identifiable before the first HTTP header.<br><br>
+    <strong>JA3's weakness:</strong> Chrome started randomising TLS extension order in 2022. Same browser, different JA3 every session. The fingerprint became unstable and unreliable.
+  </div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--y)"></div>
+  <div class="ctag">2023 · FoxIO · Replaces JA3</div>
+  <div class="cname">JA4+ — The Unbreakable Standard</div>
+  <div class="cbody">
+    JA4 was engineered specifically to survive Chrome's randomisation. Instead of hashing raw extension order, it <strong>sorts extensions alphabetically</strong> and <strong>removes GREASE values</strong> before hashing. The result is stable regardless of Chrome's ordering.<br><br>
+    <strong>JA4 format:</strong> <code>t13d1516h2_8daaf6152771_b0da82dd1658</code><br>
+    — <code>t13</code> = TLS 1.3, <code>d</code> = DTLS, <code>1516</code> = cipher count+length hash, <code>h2</code> = ALPN (HTTP/2), remainder = extension hash<br><br>
+    <strong>JA4+ extends this</strong> with: JA4H (HTTP header fingerprint), JA4X (X.509 certificate), JA4SSH (SSH handshake), JA4T (TCP window + options). Cloudflare deployed it in a <strong>Rust crate at CDN edge</strong>. Akamai in an <strong>EdgeWorker</strong>. Both fire before your request reaches origin.
+  </div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--blu)"></div>
+  <div class="ctag">HTTP/2 · Wireshark Observable</div>
+  <div class="cname">HTTP/2 Frame Fingerprinting</div>
+  <div class="cbody">
+    Even with a perfect JA4 hash, HTTP/2 itself leaks your client identity. The <strong>SETTINGS frame</strong> that every HTTP/2 client sends at connection start has parameters that vary by implementation:<br><br>
+    <code>HEADER_TABLE_SIZE</code>, <code>MAX_CONCURRENT_STREAMS</code>, <code>INITIAL_WINDOW_SIZE</code>, <code>MAX_FRAME_SIZE</code>, <code>MAX_HEADER_LIST_SIZE</code><br><br>
+    Chrome's exact values are documented. Python's <code>httpx</code> sends different values. curl sends different values. The ordering of these settings, the window update frame sizes, and the HPACK compression decisions all create a secondary fingerprint that <strong>cannot be spoofed without rewriting the HTTP/2 client</strong> — which is exactly what curl_cffi does.
+  </div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--pur)"></div>
+  <div class="ctag">2024+ · Emerging Standard</div>
+  <div class="cname">QUIC / HTTP/3 Fingerprinting</div>
+  <div class="cbody">
+    As HTTP/3 adoption grows, JA4Q and QUIC Initial packet fingerprinting are being deployed. QUIC's handshake carries its own fingerprint surface: connection ID length, transport parameters, initial packet number, token presence.<br><br>
+    Chrome's QUIC stack differs from libcurl's QUIC implementation differs from Python's <code>aioquic</code>. Each leaves a unique signature in the Initial packets.<br><br>
+    <strong>Current status:</strong> JA4+ covers QUIC. Cloudflare has begun collecting QUIC fingerprints. Not yet widely enforced for blocking, but the infrastructure is live. Tools like curl_cffi are actively implementing QUIC parity.
+  </div>
+</div>
+</div>
+
+<button class="tog rv" onclick="tog(this,'tls-code')">
+  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  Show code — compare your JA4 fingerprint
+</button>
+<div class="coll" id="tls-code">
+<div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
+<pre><span class="cm"># Test your actual JA4 fingerprint against tls.browserleaks.com</span>
+<span class="kw">import</span> <span class="df">requests</span>
+<span class="kw">from</span> <span class="df">curl_cffi</span> <span class="kw">import</span> <span class="df">requests</span> <span class="kw">as</span> <span class="df">cffi</span>
+
+<span class="cm"># ❌ requests — exposes Python/urllib3 JA4, blocked immediately</span>
+<span class="df">r1</span> <span class="py">=</span> <span class="df">requests</span><span class="py">.</span><span class="fn">get</span><span class="py">(</span><span class="st">"https://tls.browserleaks.com/json"</span><span class="py">)</span>
+<span class="fn">print</span><span class="py">(</span><span class="df">r1</span><span class="py">.</span><span class="fn">json</span><span class="py">()[</span><span class="st">"ja4"</span><span class="py">])</span>
+<span class="cm"># → t13d1516h2_8daaf6152771_b0da82dd1658  (Python fingerprint — catalogued, blocked)</span>
+
+<span class="cm"># ✓ curl_cffi — emits Chrome 124's exact JA4 hash, HTTP/2 frames, cipher order</span>
+<span class="df">r2</span> <span class="py">=</span> <span class="df">cffi</span><span class="py">.</span><span class="fn">get</span><span class="py">(</span>
+    <span class="st">"https://tls.browserleaks.com/json"</span><span class="py">,</span>
+    <span class="at">impersonate</span><span class="py">=</span><span class="st">"chrome124"</span>  <span class="cm"># also: chrome110, chrome107, safari17</span>
+<span class="py">)</span>
+<span class="fn">print</span><span class="py">(</span><span class="df">r2</span><span class="py">.</span><span class="fn">json</span><span class="py">()[</span><span class="st">"ja4"</span><span class="py">])</span>
+<span class="cm"># → t13d1517h2_c4b4b4b4b4b4_aaaaaaaaaa   (Chrome 124 fingerprint — passes)</span>
+
+<span class="cm"># Also check HTTP/2 fingerprint</span>
+<span class="fn">print</span><span class="py">(</span><span class="df">r2</span><span class="py">.</span><span class="fn">json</span><span class="py">()[</span><span class="st">"http2"</span><span class="py">])</span>  <span class="cm"># Chrome's exact SETTINGS frame values</span></pre>
+</div>
+</div>
+
+<h3 class="rh rv">Layer 2 — JavaScript Fingerprinting: The Page That Interrogates You</h3>
+<p class="ss rv" style="margin-bottom:24px">Once your TLS passes, the page loads its anti-bot script. This is a 500KB+ obfuscated interrogation that runs dozens of tests in parallel.</p>
+
+<div class="cards c2 rv">
+<div class="card">
+  <div class="cbar" style="background:var(--orn)"></div>
+  <div class="ctag">Most stable signal · GPU dependent</div>
+  <div class="cname">Canvas + WebGL Fingerprinting</div>
+  <div class="cbody">
+    The page draws invisible shapes, gradients, and text using <code>canvas.getContext('2d')</code> then calls <code>canvas.toDataURL()</code>. The exact pixel output varies by:<br><br>
+    — GPU manufacturer and model (NVIDIA vs AMD vs Intel)<br>
+    — Driver version and sub-pixel rendering<br>
+    — OS-level font rendering (Windows ClearType vs macOS CoreText)<br>
+    — Canvas size and DPI scaling<br><br>
+    A headless Chromium with no GPU produces a <strong>software-rendered canvas</strong> with a known hash. Botaaurus and CloakBrowser spoof this at the C++ level by injecting slight noise into the pixel values before <code>toDataURL()</code> returns — enough to vary the hash while remaining visually identical.
+  </div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--blu)"></div>
+  <div class="ctag">GPU vendor string · Renderer string</div>
+  <div class="cname">WebGL Fingerprinting</div>
+  <div class="cbody">
+    WebGL exposes the GPU through <code>gl.getParameter(gl.RENDERER)</code> and <code>gl.getParameter(gl.VENDOR)</code>. Real Chrome returns something like <code>ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0)</code>.<br><br>
+    Headless Chrome returns a generic string or crashes on WebGL entirely. Anti-bots cross-reference: if WebGL says "Intel UHD 620" but Canvas hash shows software rendering, that's a contradiction — you're flagged.<br><br>
+    <strong>WebGL extensions list</strong> is also fingerprinted. Real GPUs expose 30–40 extensions. Software renderers expose a different subset. The exact combination is GPU-specific and stable across sessions.
+  </div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--grn)"></div>
+  <div class="ctag">Deterministic · Hard to spoof</div>
+  <div class="cname">AudioContext Fingerprinting</div>
+  <div class="cbody">
+    The page creates an <code>AudioContext</code>, generates a sine wave through an <code>OscillatorNode</code>, runs it through a <code>DynamicsCompressorNode</code>, and reads the output buffer values. The floating-point output depends on:<br><br>
+    — CPU architecture (x86 vs ARM floating-point precision)<br>
+    — Operating system audio stack<br>
+    — Audio driver implementation<br><br>
+    Headless environments often return <code>0.0</code> across the buffer (no audio context), or a software-emulated value that differs from hardware. CloakBrowser patches this at the <strong>Chromium C++ audio rendering layer</strong>.
+  </div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--red)"></div>
+  <div class="ctag">Runtime patches exposed · 2026 standard</div>
+  <div class="cname">Function.toString() Detection</div>
+  <div class="cbody">
+    This is why playwright-stealth fails against Kasada in 2026.<br><br>
+    When JS patches a native function — for example, <code class="tip" data-tip="A JavaScript property set to true by WebDriver/Selenium. Every anti-bot checks this first. SeleniumBase UC mode and Selenium-Driverless remove it.">navigator.webdriver</code> — it replaces the getter with a custom function. Calling <code>Function.prototype.toString.call(getter)</code> on the patched function returns <code>function () { [custom code] }</code> instead of <code>function () { [native code] }</code>.<br><br>
+    Kasada specifically tests dozens of native functions this way. playwright-stealth patches them in JavaScript — so toString() reveals the patch. <strong>PatchRight fixes this at the Python source level</strong>, before Chrome even starts. There's no JS to inspect.
+  </div>
+</div>
+</div>
+
+<div class="cards c2 rv" style="margin-top:8px">
+<div class="card">
+  <div class="cbar" style="background:var(--y)"></div>
+  <div class="ctag">Akamai specific · 60 probes in 2026</div>
+  <div class="cname">Chrome Extension Probing (Akamai)</div>
+  <div class="cbody">
+    Akamai's sensor.js fetches 60 known Chrome extension resource URLs using <code>fetch('chrome-extension://[id]/manifest.json')</code>. Real Chrome browsers have at least a few extensions installed (ad blockers, password managers, etc.).<br><br>
+    A headless browser returns <code>net::ERR_FAILED</code> on all 60 requests simultaneously — a statistically impossible result for a real user. The extension IDs probed include:<br><br>
+    <code>cjpalhdlnbpafiamejdnhcphjbkeiagm</code> (uBlock Origin)<br>
+    <code>hdokiejnpimakedhajhdlcegeplioahd</code> (LastPass)<br>
+    <code>nngceckbapebfimnlniiiahkandclblb</code> (Bitwarden)<br><br>
+    <strong>Fix:</strong> CloakBrowser loads real extension profiles. You install 1Password or Bitwarden into it so some probes return real manifest data.
+  </div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--pur)"></div>
+  <div class="ctag">CDP timing leaks · Protocol signals</div>
+  <div class="cname">Headless / CDP Detection</div>
+  <div class="cbody">
+    Beyond <code>navigator.webdriver</code>, CDP-controlled browsers expose themselves through subtler signals:<br><br>
+    <strong>Timing:</strong> CDP's <code>Runtime.enable</code> command leaves a timing gap between page parse and script execution that doesn't exist in real Chrome.<br>
+    <strong>Execution context:</strong> <code>window.cdc_adoQpoasnfa76pfcZLmcfl_Array</code> and similar artifacts left by ChromeDriver are checked.<br>
+    <strong>Permission API:</strong> Real Chrome returns realistic permission states. ChromeDriver returns defaults inconsistent with a "normal" browser.<br>
+    <strong>Plugins:</strong> Headless Chrome has zero plugins. Real Chrome always has at least the PDF viewer plugin.<br><br>
+    <strong>Camoufox's solution:</strong> Uses Mozilla's Juggler protocol, which sits below CDP entirely — none of these artifacts exist.
+  </div>
+</div>
+</div>
+
+<h3 class="rh rv">Layer 3 — Network Identity: The Five Vectors That Must Agree</h3>
+<div class="cards c3 rv">
+<div class="card">
+  <div class="cbar" style="background:var(--blu)"></div>
+  <div class="ctag">Primary signal</div>
+  <div class="cname">IP Reputation & ASN</div>
+  <div class="cbody">Anti-bots check your IP against ASN databases. AWS (AS16509), GCP (AS15169), Azure (AS8075) are immediately flagged. DigitalOcean, Linode, Vultr — all known. Even residential proxy networks from DataCenter IPs in the 24.105.x.x range are flagged if the ASN is a known proxy provider. <strong>Genuine ISP residential or 4G carrier IPs are the only reliably clean option.</strong></div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--orn)"></div>
+  <div class="ctag">Browser API · Often overlooked</div>
+  <div class="cname">WebRTC IP Leak</div>
+  <div class="cbody">JavaScript can query WebRTC ICE candidates which reveal your real local and public IP, even through a proxy. If your browser has a US proxy but WebRTC reveals a Pakistani local address, or the ICE candidate is from a different subnet than the HTTP request IP, that's an immediate flag. <strong>Camoufox's <code>geoip=True</code> aligns WebRTC candidates with the proxy exit country.</strong></div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--y)"></div>
+  <div class="ctag">All five must agree</div>
+  <div class="cname">The Coherence Test</div>
+  <div class="cbody">Anti-bots run a coherence check across: <code>IP country</code>, <code>timezone</code>, <code>Accept-Language</code>, <code>WebRTC candidate</code>, <code>DNS resolver location</code>. A US proxy with <code>Accept-Language: ur-PK</code> fails immediately. All five must tell a consistent geographic story. This is why setting <code>geoip=True</code> in Camoufox is critical — it auto-configures all five to match the proxy's exit country.</div>
+</div>
+</div>
+
+<h3 class="rh rv">Layer 4 — Behavioural ML: You Can't Fake Being Human</h3>
+<div class="cards c2 rv">
+<div class="card">
+  <div class="cbar" style="background:var(--pur)"></div>
+  <div class="ctag">Physics-based · Gaussian jitter</div>
+  <div class="cname">Mouse Movement Curves</div>
+  <div class="cbody">Human mouse movements follow Bezier curves with Gaussian noise applied to velocity. The mouse <strong>decelerates as it approaches a target</strong> (Fitts's Law), overshoots slightly, then corrects. Scrapers that click elements directly (teleporting the mouse to x,y) create a trajectory signature that's statistically impossible for a human. DataDome's 35-signal behavioural model catches this immediately. Botasaurus generates physically realistic curves with randomised velocity profiles.</div>
+</div>
+<div class="card">
+  <div class="cbar" style="background:var(--grn)"></div>
+  <div class="ctag">Sub-millisecond precision · ML scored</div>
+  <div class="cname">Timing Analysis</div>
+  <div class="cbody">Transformer ML models trained on millions of sessions measure: time between page load and first interaction, scroll acceleration curves, inter-keystroke timing variance, navigation dwell time, and <strong>micro-timing of JS event handlers at &lt;1ms precision</strong>. A scraper that immediately calls <code>document.querySelector()</code> after <code>DOMContentLoaded</code> looks nothing like a human who reads the page for 2.3 seconds first. Warm-up navigation (visiting homepage before target) significantly improves behavioural scores.</div>
+</div>
+</div>
+
+<div class="ib tip rv" style="margin-top:32px">
+<strong>The story so far:</strong> You now understand the full detection stack — TLS fingerprints at the network layer, JS interrogation in the browser, IP reputation checks per request, and ML behavioural analysis across the session. The next sections show you exactly which anti-bot vendors use which combination of these layers, and the specific bypass strategies for each.
+</div>
+</section>
+
+
+<!-- ═══ 03 ANTI-BOTS ═══ -->
+<section class="sec" id="antibots">
+<div class="sk"><span class="sn">03</span> The vendors</div>
+<h2 class="sh">Six companies built the walls.<br><em>Here's every key.</em></h2>
+<p class="ss">Each vendor applies the detection layers differently — different weights, different signals, different architectures. What bypasses Cloudflare has zero effect on Kasada. You need to know exactly which wall you're facing before you choose a tool.</p>
+
+<div class="ib warn rv">
+<strong>How to identify your target:</strong> Before choosing any bypass strategy, run Wappalyzer on the target URL. Check response cookies (<code>_abck</code>=Akamai, <code>cf_clearance</code>=Cloudflare, <code>datadome</code>=DataDome, <code>_px3</code>=PerimeterX, <code>x-kpsdk-ct</code>=Kasada, <code>reese84</code>=F5 Shape). Wrong strategy on the wrong vendor wastes hours.
+</div>
+
+<div class="rv">
+<!-- AKAMAI -->
+<div class="abc" style="margin-bottom:8px">
+  <div class="abstr" style="background:var(--red)"></div>
+  <div class="abl">
+    <div class="absy">01/06 · Airlines · Banks · ~30% Fortune 500</div>
+    <div class="abn" style="color:var(--red)">Akamai</div>
+    <div class="abd">Bot Manager v3+ injects <strong>sensor.js (~512KB, fully obfuscated)</strong> into every protected page. Unlike Cloudflare which checks at CDN edge, Akamai runs its full fingerprint suite <em>inside your browser</em> via this script. It collects 500+ signals over multiple requests — trust accumulates across the session, not just on the first hit. The critical 2026 signal: <strong>60 chrome-extension:// URL probes</strong>. Zero passing = instant bot score regardless of all other signals. JA4+ is checked at EdgeWorker before HTML is served.</div>
+    <div class="absigs">
+      <span class="sig" style="border-color:rgba(224,85,85,.4);color:var(--red)">_abck cookie</span>
+      <span class="sig" style="border-color:rgba(224,85,85,.4);color:var(--red)">bm_sz</span>
+      <span class="sig" style="border-color:rgba(224,85,85,.4);color:var(--red)">60 ext probes</span>
+      <span class="sig" style="border-color:rgba(224,85,85,.4);color:var(--red)">Battery API</span>
+      <span class="sig" style="border-color:rgba(224,85,85,.4);color:var(--red)">Multi-req scoring</span>
+    </div>
+  </div>
+  <div class="abr">
+    <div class="abbt">Bypass strategy</div>
+    <div class="bitem"><strong>Step 1:</strong> Check for GraphQL/XHR API first — a direct endpoint bypasses HTML anti-bot entirely</div>
+    <div class="bitem"><code>curl_cffi impersonate="chrome124"</code> handles TLS + HTTP/2 layer</div>
+    <div class="bitem">CloakBrowser with 49 C++ patches handles sensor.js interrogation</div>
+    <div class="bitem">Load Bitwarden + 1Password extensions to pass 60 extension probes</div>
+    <div class="bitem">ISP/static residential proxy — never rotate mid-session (trust accumulates)</div>
+    <div class="bitem">Homepage warm-up → 2–3s human dwell → scroll → navigate to target</div>
+  </div>
+  <div class="abstats">
+    <div class="abst"><div class="abstl">Script size</div><div class="abstv">~512KB</div><div class="absts">Re-obfuscated per rotation</div></div>
+    <div class="abst"><div class="abstl">Ext probes</div><div class="abstv">60</div><div class="absts">Zero passing = instant block</div></div>
+    <div class="abst"><div class="abstl">Fortune 500</div><div class="abstv">~30%</div><div class="absts">Retail, airlines, finance</div></div>
+    <div class="abst"><div class="abstl">Scoring</div><div class="abstv">Multi-req</div><div class="absts">Trust builds across session</div></div>
+  </div>
+</div>
+
+<!-- CLOUDFLARE -->
+<div class="abc" style="margin-bottom:8px">
+  <div class="abstr" style="background:var(--orn)"></div>
+  <div class="abl">
+    <div class="absy">02/06 · 20% of all internet traffic · 200+ countries</div>
+    <div class="abn" style="color:var(--orn)">Cloudflare</div>
+    <div class="abd">Cloudflare's uniqueness is <strong>infrastructure-level deployment</strong>. JA4 is computed in a Rust crate running on every Cloudflare edge node — your request is fingerprinted before it reaches any application server. The ML bot score (1–99) is trained on Cloudflare's view of 20% of all internet traffic, giving it an unmatched baseline for what "real" browsers look like. Turnstile (their CAPTCHA replacement) submits a <strong>79-parameter POST</strong> including Canvas hash, font measurements, SHA-256 proof-of-work, and TEA-encrypted timing data.</div>
+    <div class="absigs">
+      <span class="sig" style="border-color:rgba(224,123,48,.4);color:var(--orn)">cf_clearance</span>
+      <span class="sig" style="border-color:rgba(224,123,48,.4);color:var(--orn)">__cf_bm</span>
+      <span class="sig" style="border-color:rgba(224,123,48,.4);color:var(--orn)">JA4 Rust edge</span>
+      <span class="sig" style="border-color:rgba(224,123,48,.4);color:var(--orn)">Turnstile 79 params</span>
+      <span class="sig" style="border-color:rgba(224,123,48,.4);color:var(--orn)">ML score 1–99</span>
+    </div>
+  </div>
+  <div class="abr">
+    <div class="abbt">Bypass strategy</div>
+    <div class="bitem"><strong>Origin IP bypass:</strong> check SecurityTrails DNS history — many sites had Cloudflare added later, origin IP is in old A records</div>
+    <div class="bitem">Camoufox with <code>geoip=True</code> — <strong>100% pass rate</strong> Mar 2026 on Instagram, Reddit, X, LinkedIn</div>
+    <div class="bitem">Scrapling's <code>StealthyFetcher</code> solves Turnstile natively and automatically</div>
+    <div class="bitem">Turnstile HTTP bypass possible: solve the PoW + Canvas hash without a browser in ~0.27s</div>
+    <div class="bitem">Camoufox uses Juggler (not CDP) — zero CDP timing artifacts that Cloudflare's ML scores heavily</div>
+  </div>
+  <div class="abstats">
+    <div class="abst"><div class="abstl">Web coverage</div><div class="abstv">20%</div><div class="absts">All internet traffic</div></div>
+    <div class="abst"><div class="abstl">Turnstile params</div><div class="abstv">79</div><div class="absts">Canvas + PoW + TEA crypto</div></div>
+    <div class="abst"><div class="abstl">Camoufox</div><div class="abstv">100%</div><div class="absts">Pass rate Mar 2026</div></div>
+    <div class="abst"><div class="abstl">ML training</div><div class="abstv">Global</div><div class="absts">20% of all traffic</div></div>
+  </div>
+</div>
+
+<!-- DATADOME -->
+<div class="abc" style="margin-bottom:8px">
+  <div class="abstr" style="background:var(--blu)"></div>
+  <div class="abl">
+    <div class="absy">03/06 · 5 trillion signals/day · 1,200+ clients</div>
+    <div class="abn" style="color:var(--blu)">DataDome</div>
+    <div class="abd">DataDome's architecture is fundamentally different from the others: it deploys <strong>85,000 separate ML models</strong> — one per protected site. There is no universal bypass. What works on Grainger.com may not work on Le Monde. It runs at the application server level (not CDN), so origin IP bypass is impossible. The WASM <code class="tip" data-tip="DataDome&#39;s WASM challenge — a Rust-compiled state machine that cannot be emulated. Requires actual browser execution to produce a valid solve token.">boring_challenge</code> is a Rust-compiled state machine that <strong>cannot be emulated</strong> — it requires actual browser execution to produce valid tokens. IP reputation alone accounts for 25–30% of the total trust score.</div>
+    <div class="absigs">
+      <span class="sig" style="border-color:rgba(91,156,221,.4);color:var(--blu)">datadome cookie</span>
+      <span class="sig" style="border-color:rgba(91,156,221,.4);color:var(--blu)">WASM boring_challenge</span>
+      <span class="sig" style="border-color:rgba(91,156,221,.4);color:var(--blu)">Picasso device FP</span>
+      <span class="sig" style="border-color:rgba(91,156,221,.4);color:var(--blu)">35+ behavioural</span>
+      <span class="sig" style="border-color:rgba(91,156,221,.4);color:var(--blu)">85K per-site models</span>
+    </div>
+  </div>
+  <div class="abr">
+    <div class="abbt">Confirmed bypass — Grainger.com ✓</div>
+    <div class="bitem"><strong>Always try first:</strong> find <code>__NEXT_DATA__</code> in HTML source — Grainger had 110KB of product data in it, bypassing DataDome entirely</div>
+    <div class="bitem"><code>curl_cffi chrome124</code> + residential proxy → confirmed 200 OK (Grainger.com)</div>
+    <div class="bitem">Mobile carrier IP (T-Mobile, Vodafone 4G) — highest trust score, hardest to flag</div>
+    <div class="bitem">Camoufox + <code>geoip=True</code> — aligns all 5 identity vectors with proxy exit country</div>
+    <div class="bitem">2ms real-time response means every request is independently scored</div>
+  </div>
+  <div class="abstats">
+    <div class="abst"><div class="abstl">ML models</div><div class="abstv">85,000</div><div class="absts">One per protected site</div></div>
+    <div class="abst"><div class="abstl">Response</div><div class="abstv">2ms</div><div class="absts">Real-time, app server</div></div>
+    <div class="abst"><div class="abstl">IP weight</div><div class="abstv">25–30%</div><div class="absts">Of total trust score</div></div>
+    <div class="abst"><div class="abstl">Universal bypass</div><div class="abstv">None</div><div class="absts">Per-site models</div></div>
+  </div>
+</div>
+
+<!-- PERIMETERX -->
+<div class="abc" style="margin-bottom:8px">
+  <div class="abstr" style="background:var(--pur)"></div>
+  <div class="abl">
+    <div class="absy">04/06 · HUMAN Security · 3 billion devices</div>
+    <div class="abn" style="color:var(--pur)">PerimeterX</div>
+    <div class="abd">After merging with HUMAN Security, PerimeterX gained the most powerful <strong>network effect</strong> in anti-bot. It verifies 15 trillion interactions per week across 3 billion devices. The critical risk: <strong>get detected on any one of 29,650+ protected sites and your fingerprint is flagged across the entire network</strong>. Nike, Walmart, Zillow, StubHub all share reputation data. Its 5-vector unified score (TLS + IP + HTTP headers + JS fingerprint + Behaviour) requires all five to pass simultaneously — fixing only one vector has zero effect.</div>
+    <div class="absigs">
+      <span class="sig" style="border-color:rgba(155,114,207,.4);color:var(--pur)">_px3 cookie</span>
+      <span class="sig" style="border-color:rgba(155,114,207,.4);color:var(--pur)">_pxde cookie</span>
+      <span class="sig" style="border-color:rgba(155,114,207,.4);color:var(--pur)">5-vector score</span>
+      <span class="sig" style="border-color:rgba(155,114,207,.4);color:var(--pur)">29,650 site network</span>
+      <span class="sig" style="border-color:rgba(155,114,207,.4);color:var(--pur)">Human Challenge</span>
+    </div>
+  </div>
+  <div class="abr">
+    <div class="abbt">Bypass strategy</div>
+    <div class="bitem"><strong>All 5 vectors must pass simultaneously</strong> — Camoufox + residential proxy addresses all of them</div>
+    <div class="bitem">Generate a fresh fingerprint per session — never reuse fingerprints across different target domains</div>
+    <div class="bitem">SeleniumWire can intercept the <code>_px3</code> token generation flow for token replay</div>
+    <div class="bitem">Scrapfly's ASP flag handles all 5 layers automatically at managed API level</div>
+    <div class="bitem">Never use burned IPs — the network effect means cross-site reputation</div>
+  </div>
+  <div class="abstats">
+    <div class="abst"><div class="abstl">Sites</div><div class="abstv">29,650+</div><div class="absts">Nike, Walmart, Zillow</div></div>
+    <div class="abst"><div class="abstl">Weekly verif.</div><div class="abstv">15T</div><div class="absts">3B devices/month</div></div>
+    <div class="abst"><div class="abstl">Vectors</div><div class="abstv">5/5</div><div class="absts">All must pass</div></div>
+    <div class="abst"><div class="abstl">Network effect</div><div class="abstv">Global</div><div class="absts">Reputation shared</div></div>
+  </div>
+</div>
+
+<!-- KASADA -->
+<div class="abc" style="margin-bottom:8px">
+  <div class="abstr" style="background:var(--y)"></div>
+  <div class="abl">
+    <div class="absy">05/06 · No CAPTCHA · Gatekeeper proxy architecture</div>
+    <div class="abn" style="color:var(--y)">Kasada</div>
+    <div class="abd">Kasada operates as a <strong>gatekeeper proxy</strong> — every request flows through it before reaching origin. Its JavaScript (<code>ips.js</code>, renamed polymorphically each deployment) issues <strong>proof-of-work challenges</strong> that require real CPU cycles and browser APIs to solve. There are no CAPTCHAs — failures are silent 403s or 429s with no explanation. The critical 2026 fact: <strong>Kasada specifically fingerprints playwright-stealth</strong> by calling <code>Function.prototype.toString()</code> on patched native functions. The patch signatures are catalogued.</div>
+    <div class="absigs">
+      <span class="sig" style="border-color:rgba(245,197,24,.4);color:var(--y)">x-kpsdk-ct</span>
+      <span class="sig" style="border-color:rgba(245,197,24,.4);color:var(--y)">x-kpsdk-cd</span>
+      <span class="sig" style="border-color:rgba(245,197,24,.4);color:var(--y)">ips.js PoW</span>
+      <span class="sig" style="border-color:rgba(245,197,24,.4);color:var(--y)">polymorphic JS</span>
+      <span class="sig" style="border-color:rgba(245,197,24,.4);color:var(--y)">toString() inspection</span>
+    </div>
+  </div>
+  <div class="abr">
+    <div class="abbt">Bypass strategy</div>
+    <div class="bitem"><strong>Never use playwright-stealth</strong> — Kasada has its toString() signatures catalogued and blocks it outright</div>
+    <div class="bitem">PatchRight patches at Python source level — nothing in the JS runtime to inspect via toString()</div>
+    <div class="bitem">SeleniumBase UC mode — removes webdriver flag and auto-handles PoW challenges</div>
+    <div class="bitem">Residential proxy essential — datacenter IPs receive near-zero trust regardless of browser</div>
+    <div class="bitem">PoW tokens are single-use — never replay, always generate fresh per request</div>
+  </div>
+  <div class="abstats">
+    <div class="abst"><div class="abstl">Block style</div><div class="abstv">Silent</div><div class="absts">403 no explanation</div></div>
+    <div class="abst"><div class="abstl">playwright-stealth</div><div class="abstv">Detected</div><div class="absts">Catalogued signatures</div></div>
+    <div class="abst"><div class="abstl">Challenge</div><div class="abstv">JS PoW</div><div class="absts">Real CPU required</div></div>
+    <div class="abst"><div class="abstl">JS file</div><div class="abstv">Polymorphic</div><div class="absts">Renamed each deploy</div></div>
+  </div>
+</div>
+
+<!-- F5 SHAPE -->
+<div class="abc">
+  <div class="abstr" style="background:var(--grn)"></div>
+  <div class="abl">
+    <div class="absy">06/06 · $1 billion acquisition · Most sophisticated</div>
+    <div class="abn" style="color:var(--grn)">F5 Shape</div>
+    <div class="abd">F5 acquired Shape Security for <strong>$1 billion in 2020</strong> — and the price reflects what they built. Shape runs a <strong>custom JavaScript virtual machine</strong>. The bytecode that executes in the browser is not standard JavaScript — it's a proprietary instruction set that you cannot reverse-engineer with standard tooling. Session tokens expire in minutes. The challenge payload is re-generated with every rotation. For production scraping at scale, DIY bypass is economically irrational — the engineering cost of maintaining a bypass exceeds the cost of Bright Data's API within weeks.</div>
+    <div class="absigs">
+      <span class="sig" style="border-color:rgba(76,175,116,.4);color:var(--grn)">reese84 cookie</span>
+      <span class="sig" style="border-color:rgba(76,175,116,.4);color:var(--grn)">TS cookie</span>
+      <span class="sig" style="border-color:rgba(76,175,116,.4);color:var(--grn)">custom JS VM</span>
+      <span class="sig" style="border-color:rgba(76,175,116,.4);color:var(--grn)">minute-cadence rotation</span>
+      <span class="sig" style="border-color:rgba(76,175,116,.4);color:var(--grn)">$rsc= params</span>
+    </div>
+  </div>
+  <div class="abr">
+    <div class="abbt">Bypass strategy</div>
+    <div class="bitem"><strong>First:</strong> check if mobile app uses a weaker backend — Shape is often only on the web frontend</div>
+    <div class="bitem"><strong>Only reliable option at scale:</strong> Bright Data (98.44%) or Zyte (93.14%) managed APIs</div>
+    <div class="bitem">DIY reverse engineering: deobfuscate VM bytecode — takes weeks per rotation</div>
+    <div class="bitem">Cost-justify: &gt;2 days/month of maintenance time → managed API is cheaper</div>
+    <div class="bitem">The custom VM produces tokens that can be replayed for a few minutes — session pooling can reduce API costs</div>
+  </div>
+  <div class="abstats">
+    <div class="abst"><div class="abstl">Acquisition</div><div class="abstv">$1B</div><div class="absts">F5 Networks 2020</div></div>
+    <div class="abst"><div class="abstl">Token expiry</div><div class="abstv">Minutes</div><div class="absts">Tight rotation cadence</div></div>
+    <div class="abst"><div class="abstl">VM type</div><div class="abstv">Custom</div><div class="absts">Proprietary bytecode</div></div>
+    <div class="abst"><div class="abstl">DIY viability</div><div class="abstv">None</div><div class="absts">Use managed API</div></div>
+  </div>
+</div>
+</div>
+
+<h3 class="rh rv">Quick identification reference</h3>
+<table class="ct rv">
+<thead><tr><th>What you see</th><th>Anti-bot</th><th>Key cookie/header</th><th>Detection method</th></tr></thead>
+<tbody>
+<tr><td>"Pardon Our Interruption" page</td><td>Akamai <span class="bdg br">block</span></td><td><code>_abck</code></td><td>Wappalyzer · response body</td></tr>
+<tr><td>CF-Ray header · Turnstile iframe</td><td>Cloudflare <span class="bdg by">challenge</span></td><td><code>cf_clearance</code></td><td>Response header <code>CF-Ray</code></td></tr>
+<tr><td>JSON with <code>datadome</code> key</td><td>DataDome <span class="bdg br">block</span></td><td><code>datadome</code></td><td>Response header <code>x-datadome</code></td></tr>
+<tr><td><code>_px3</code> or <code>_pxde</code> set</td><td>PerimeterX <span class="bdg br">block</span></td><td><code>_px3</code></td><td>Cookie inspection</td></tr>
+<tr><td>Silent 403 · no body</td><td>Kasada <span class="bdg br">silent</span></td><td><code>x-kpsdk-ct</code></td><td>Response headers · <code>ips.js</code> in source</td></tr>
+<tr><td><code>reese84</code> or <code>TS</code> cookie</td><td>F5 Shape <span class="bdg br">block</span></td><td><code>reese84</code></td><td>Cookie names · Shape JS reference</td></tr>
+</tbody>
+</table>
+
+<div class="ib tip rv">
+<strong>The through-line:</strong> Every anti-bot vendor is defending against the same thing — automated access that looks like a machine. The difference is which layer they weight most heavily. Akamai weights browser execution (sensor.js). Cloudflare weights TLS + global ML. DataDome weights per-site behaviour + IP. PerimeterX weights the network effect. Kasada weights PoW + JS integrity. F5 Shape weights token validity via a proprietary VM. The tools in the next section exist as direct countermeasures to each of these specific approaches.
+</div>
+</section>
+
+<!-- ═══ 04 LIBRARIES ═══ -->
+<section class="sec" id="libs">
+<div class="sk"><span class="sn">04</span> The arsenal</div>
+<h2 class="sh">Every tool built to fight<br><em>every wall we just described.</em></h2>
+<p class="ss">Now that you understand the detection stack and the six anti-bot vendors, every library below makes sense in context. curl_cffi exists because of JA4. Camoufox exists because of CDP leaks. PatchRight exists because of Kasada's toString() inspection. The arsenal wasn't built randomly — each tool is a direct countermeasure to a specific detection innovation.</p>
+
+<h3 class="rh rv">Master comparison table — all 60+ libraries & tools</h3>
+<div class="lt-wrap rv"><table class="lt">
+<thead><tr>
+  <th>Library</th><th>Type</th><th>Lang</th><th>JS render</th><th>TLS spoof</th><th>TLS detail</th><th>Anti-bot target</th><th>MCP</th><th>Stars</th>
+</tr></thead><tbody>
+<tr><td><a href="https://github.com/lexiforest/curl_cffi" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">curl_cffi</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome JA4+</span></td><td style="font-size:13px">Akamai, DataDome</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/D4Vinci/Scrapling" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapling</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dp"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome TLS</span></td><td style="font-size:13px">Cloudflare Turnstile</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">38k</td></tr>
+<tr><td><a href="https://github.com/webclaw/webclaw" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">webclaw</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Rust</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome TLS</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/encode/httpx" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">httpx</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">None</span></td><td style="font-size:13px">Unprotected only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/psf/requests" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">requests</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">None</span></td><td style="font-size:13px">Unprotected only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">52k</td></tr>
+<tr><td><a href="https://github.com/FlorianREGAZ/Python-Tls-Client" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">tls-client</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Go/Py</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome/Firefox TLS</span></td><td style="font-size:13px">Akamai, DataDome</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/microsoft/playwright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Playwright</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/JS</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP (detectable)</span></td><td style="font-size:13px">Medium (CDP leaks)</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">68k</td></tr>
+<tr><td><a href="https://github.com/daijro/camoufox" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Camoufox</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">C++ Firefox Juggler</span></td><td style="font-size:13px">Cloudflare 100%, Akamai</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>CloakBrowser</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">49 C++ patches</span></td><td style="font-size:13px">Akamai, reCAPTCHA v3 0.9</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/Kaliiiiiiiiii-Vinyzu/patchright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">PatchRight</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Py source patches</span></td><td style="font-size:13px">Kasada, Cloudflare</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/puppeteer/puppeteer" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Puppeteer</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP (detectable)</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">89k</td></tr>
+<tr><td><a href="https://github.com/SeleniumHQ/selenium" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Selenium</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Multi</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:14px">webdriver=true</span></td><td style="font-size:13px">Weak (legacy)</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">29k</td></tr>
+<tr><td><a href="https://github.com/seleniumbase/SeleniumBase" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">SeleniumBase UC</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">UC removes WD flag</span></td><td style="font-size:13px">Kasada, general stealth</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">10k</td></tr>
+<tr><td>Selenium-Driverless</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP no WebDriver</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/ultrafunkamsterdam/nodriver" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">nodriver</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Raw CDP async</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/autbor/pydoll" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">pydoll</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Async CDP</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/Vinyzu/Botright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Botright</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CAPTCHA solving</span></td><td style="font-size:13px">CAPTCHA targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/omkarcloud/botasaurus" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Botasaurus</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Gaussian mouse</span></td><td style="font-size:13px">DataDome behaviour</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>rayobrowse</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/Docker</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Real device FP DB</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>undetected-chromedriver</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Removes WD flag</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">5k</td></tr>
+<tr><td><a href="https://github.com/scrapy/scrapy" target="_blank" rel="noopener" style="color:var(--y);text-decoration:none;font-weight:700;border-bottom:1px solid rgba(245,197,24,.4);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='rgba(245,197,24,.4)'">⭐ Scrapy</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:14px">Via curl_cffi mw</span></td><td style="font-size:13px">Medium (with middleware)</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">52k</td></tr>
+<tr><td><a href="https://github.com/apify/crawlee" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Crawlee</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node/Py</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Playwright-based</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">15k</td></tr>
+<tr><td>scrapy-camoufox</td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Camoufox integration</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>scrapy-nodriver</td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">nodriver integration</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/mendableai/firecrawl" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Firecrawl</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">FIRE-1 engine</span></td><td style="font-size:13px">Hard via managed</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">111k</td></tr>
+<tr><td><a href="https://github.com/unclecode/crawl4ai" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Crawl4AI</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Playwright-based</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">60k</td></tr>
+<tr><td><a href="https://github.com/ScrapeGraphAI/Scrapegraph-ai" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">ScrapeGraphAI</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:14px">NL graph pipeline</span></td><td style="font-size:13px">Light protection</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">18k</td></tr>
+<tr><td>Jina Reader API</td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Built-in rendering</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/steel-dev/steel-browser" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Steel</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Docker browser</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>Bright Data</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Full enterprise stack</span></td><td style="font-size:13px">All incl. F5 Shape</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>Zyte</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Full stack</span></td><td style="font-size:13px">All targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>Apify</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">10K+ Actors</span></td><td style="font-size:13px">Medium-hard</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>ScrapingBee</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Managed rendering</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>Oxylabs</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">OxyCopilot AI</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td>Browserbase</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Managed browser</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/Nykakin/chompjs" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">chompjs</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Parser only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/scrapy/parsel" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Parsel</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Parser only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://www.crummy.com/software/BeautifulSoup/" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">BeautifulSoup4</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Parser only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">10k</td></tr>
+<tr><td><a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">mitmproxy</a></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">RE / intercept</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">37k</td></tr>
+<tr><td><a href="https://httptoolkit.com" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">HTTPToolkit</a></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Any</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Mobile API intercept</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://frida.re" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Frida</a></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/JS</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">SSL hooks</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
+
+<tr><td><a href="https://github.com/rebrowser/rebrowser-patches" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">rebrowser-patches</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Chrome source patches</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/Danny-Dasilva/CycleTLS" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">cycle-tls</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go/JS</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:11px">Chrome/Firefox TLS</span></td><td style="font-size:12px">Akamai, DataDome</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>GoLogin</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Cloud</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Antidetect profiles</span></td><td style="font-size:12px">Hard multi-account</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>Multilogin</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Cloud</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Antidetect profiles</span></td><td style="font-size:12px">Hard multi-account</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>ScraperAPI</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Full stack</span></td><td style="font-size:12px">All incl. Walmart</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>Decodo</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Full stack</span></td><td style="font-size:12px">All targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>CapSolver</td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">reCAPTCHA/hCaptcha</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>2captcha</td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">All CAPTCHA types</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>Anti-Captcha</td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">reCAPTCHA/image</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/scrapy/scrapyd" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapyd</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:11px">Via middleware</span></td><td style="font-size:12px">Scrapy deploy tool</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/rmax/scrapy-redis" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-redis</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Distributed Scrapy</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/istresearch/scrapy-cluster" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-cluster</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Enterprise Scrapy</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/scrapinghub/scrapy-poet" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-poet</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Page Object pattern</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/scrapinghub/splash" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Splash</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Docker</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:11px">Lua scripting</span></td><td style="font-size:12px">Light protection</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/rushter/selectolax" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">selectolax</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Fast HTML parser</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>lxml</td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">XPath + CSS parser</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>w3lib</td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">URL/text utils</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/Aahaan-k/swiftshadow" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">SwiftShadow</a></td><td><span class="lcat lp">Proxy</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Proxy pool manager</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>requests-ip-rotator</td><td><span class="lcat lp">Proxy</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">AWS API Gateway IPs</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td><a href="https://github.com/gocolly/colly" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Colly</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:11px">Go TLS</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">15k</td></tr>
+<tr><td><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Katana</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Go TLS + Chromium</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">8k</td></tr>
+<tr><td>playwright-go</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">CDP (detectable)</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+<tr><td>Charles Proxy</td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Any</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Mobile API intercept</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
+</tbody></table>
+<div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:6px">
+  <span style="margin-right:10px"><span class="dy"></span> Yes</span>
+  <span style="margin-right:10px"><span class="dp"></span> Partial</span>
+  <span style="margin-right:10px"><span class="dn"></span> No</span>
+  <span style="margin-right:10px"><span class="lcat lh">HTTP/Parser/RE</span></span>
+  <span style="margin-right:10px"><span class="lcat lb">Browser</span></span>
+  <span style="margin-right:10px"><span class="lcat lf">Framework</span></span>
+  <span style="margin-right:10px"><span class="lcat la">AI</span></span>
+  <span><span class="lcat lm">Managed</span></span>  <span><span class="lcat lp">CAPTCHA</span></span>  <span><span class="lcat lb" style="margin-left:4px">Proxy</span></span>
+</div></div>
+
+<h3 class="rh rv">Browser engines — deep dive</h3>
+<div class="ib danger rv"><strong>Critical 2026 fact:</strong> CDP (Chrome DevTools Protocol) is itself detectable. <code>Runtime.enable</code> timing, execution context leaks, and binding exposure all signal automation. Camoufox uses Mozilla's Juggler protocol <em>below</em> CDP — no CDP leaks. playwright-stealth patches JS at runtime but <code>Function.toString()</code> exposes the patch.</div>
+
+<div class="cards c3 rv">
+<div class="card"><div class="cbar" style="background:var(--blue)"></div>
+  <div class="ctag">Microsoft 2020</div><div class="cname">Playwright <span class="cstar" style="font-size:14px">★ 68k</span></div>
+  <div class="csub">Chromium + Firefox + WebKit</div>
+  <div class="cbody">The 2026 standard framework. Powers Firecrawl, Crawl4AI, Browserbase. <strong>CDP is detectable</strong> — use C++ wrappers above Playwright. Auto-wait, network interception, multi-browser.<br><br><code>pip install playwright && playwright install</code></div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--green)"></div>
+  <div class="ctag">C++ Firefox · Juggler</div><div class="cname">Camoufox <span class="cstar" style="font-size:14px">★ 100%</span></div>
+  <div class="csub">Zero CDP exposure · geoip alignment</div>
+  <div class="cbody">Mozilla Juggler <strong>below CDP level</strong> — zero CDP leaks. Near-zero fingerprint surface. <strong>100% pass rate</strong> Mar 2026 on Cloudflare, Instagram, Reddit, X. Note: Firefox ~3% market share.<br><br><code>from camoufox.sync_api import Firefox</code></div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--red)"></div>
+  <div class="ctag">Stealth Chromium</div><div class="cname">CloakBrowser</div>
+  <div class="csub">49+ C++ binary patches</div>
+  <div class="cbody">Binary patches: Canvas, WebGL, Battery API, AudioContext, CDP input. <strong>reCAPTCHA v3 score 0.9</strong>. Passes Akamai's 60 extension probes with real extension loading. Best for Akamai-targeted Chromium sites.</div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--orange)"></div>
+  <div class="ctag">Playwright source fork</div><div class="cname">PatchRight</div>
+  <div class="csub">No JS signatures anywhere</div>
+  <div class="cbody">Patches Playwright Python source — not JS injection. <strong>Kasada fingerprints playwright-stealth</strong> via toString(). PatchRight leaves nothing in the runtime to inspect.<br><br><code>pip install patchright</code></div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--purple)"></div>
+  <div class="ctag">Google · Node.js</div><div class="cname">Puppeteer <span class="cstar" style="font-size:14px">★ 89k</span></div>
+  <div class="csub">Chrome DevTools Protocol</div>
+  <div class="cbody">Google's original CDP automation. <code>puppeteer-stealth</code> plugin patches common detection points. CDP signature still visible at protocol level. Better for rendering tasks than hard anti-bot targets.</div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--yellow)"></div>
+  <div class="ctag">Multi-language · WebDriver</div><div class="cname">Selenium <span class="cstar" style="font-size:14px">★ 29k</span></div>
+  <div class="csub">Legacy — navigator.webdriver=true</div>
+  <div class="cbody"><code>navigator.webdriver=true</code> detectable in 2 JS lines. Use <strong>SeleniumBase UC mode</strong> to remove. Stock Selenium is dead against Akamai in 2026. Still valid for non-protected targets.</div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--teal)"></div>
+  <div class="ctag">Python · UC Mode</div><div class="cname">SeleniumBase <span class="cstar" style="font-size:14px">★ 10k</span></div>
+  <div class="csub">Undetected Chrome Mode</div>
+  <div class="cbody">UC mode removes <code>navigator.webdriver</code>. Auto-solves many CAPTCHAs. Good for Kasada, medium targets. Not production-safe against Akamai at scale.<br><br><code>from seleniumbase import Driver</code></div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--pink)"></div>
+  <div class="ctag">Raw CDP · Async Python</div><div class="cname">nodriver / pydoll</div>
+  <div class="csub">Direct Chrome DevTools Protocol</div>
+  <div class="cbody">Direct CDP without WebDriver overhead. Used with Botright for CAPTCHA solving. <code>scrapy-nodriver</code> integrates with Scrapy directly. Lighter than full Playwright for medium targets.</div>
+</div>
+<div class="card"><div class="cbar" style="background:var(--t3)"></div>
+  <div class="ctag">Human behaviour simulation</div><div class="cname">Botasaurus</div>
+  <div class="csub">Gaussian mouse physics</div>
+  <div class="cbody">Physically realistic mouse curves via Gaussian jitter. Combines with Patchright for protocol-level evasion + human behaviour. Effective against DataDome's 35-signal behavioural analysis.<br><br><code>pip install botasaurus</code></div>
+</div>
+</div>
+
+<button class="tog rv" onclick="tog(this,'cam-c')">
+  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  Show code — Camoufox with geoip + proxy
+</button>
+<div class="coll" id="cam-c">
+<div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
+<pre><span class="kw">from</span> <span class="df">camoufox.sync_api</span> <span class="kw">import</span> <span class="df">Firefox</span>
+
+<span class="cm"># geoip=True: auto-aligns IP, timezone, locale, WebRTC simultaneously</span>
+<span class="kw">with</span> <span class="fn">Firefox</span><span class="py">(</span>
+    <span class="at">geoip</span><span class="py">=</span><span class="kw">True</span><span class="py">,</span>        <span class="cm"># align all 5 identity vectors to proxy exit country</span>
+    <span class="at">humanize</span><span class="py">=</span><span class="kw">True</span><span class="py">,</span>    <span class="cm"># Gaussian mouse jitter</span>
+    <span class="at">proxy</span><span class="py">={</span><span class="st">"server"</span><span class="py">:</span> <span class="st">"http://proxy.provider.com:8011"</span><span class="py">,</span>
+           <span class="st">"username"</span><span class="py">:</span> <span class="st">"user"</span><span class="py">,</span> <span class="st">"password"</span><span class="py">:</span> <span class="st">"pass"</span><span class="py">},</span>
+    <span class="at">screen</span><span class="py">={</span><span class="st">"width"</span><span class="py">:</span> <span class="nb">1920</span><span class="py">,</span> <span class="st">"height"</span><span class="py">:</span> <span class="nb">1080</span><span class="py">}</span>
+<span class="py">)</span> <span class="kw">as</span> <span class="df">browser</span><span class="py">:</span>
+    <span class="df">page</span> <span class="py">=</span> <span class="df">browser</span><span class="py">.</span><span class="fn">new_page</span><span class="py">()</span>
+    <span class="cm"># Warm up — never go directly to target URL</span>
+    <span class="df">page</span><span class="py">.</span><span class="fn">goto</span><span class="py">(</span><span class="st">"https://www.google.com"</span><span class="py">)</span>
+    <span class="df">page</span><span class="py">.</span><span class="fn">wait_for_timeout</span><span class="py">(</span><span class="nb">2000</span><span class="py">)</span>
+    <span class="df">page</span><span class="py">.</span><span class="fn">goto</span><span class="py">(</span><span class="st">"https://cloudflare-protected.com"</span><span class="py">)</span>
+    <span class="df">page</span><span class="py">.</span><span class="fn">wait_for_load_state</span><span class="py">(</span><span class="st">"networkidle"</span><span class="py">)</span>
+    <span class="fn">print</span><span class="py">(</span><span class="df">page</span><span class="py">.</span><span class="fn">content</span><span class="py">()[:</span><span class="nb">500</span><span class="py">])</span></pre></div>
+</div>
+</section>
+
+<!-- ═══ 05 AI SCRAPING ═══ -->
+<section class="sec" id="ai">
+<div class="sk"><span class="sn">05</span> AI &amp; LLM Scraping</div>
+<h2 class="sh">Describe, don't<br><em>select</em></h2>
+<p class="ss">AI-native scraping replaces CSS selectors with natural language. A 2025 NEXT-EVAL benchmark showed LLMs hit F1 &gt; 0.95 on structured extraction when input is properly formatted.</p>
+
+<div class="aiwrap rv">
+  <div class="aik">2026 Market Shift</div>
+  <div class="ait">Why AI scraping matters now</div>
+  <div class="aib">Firecrawl's markdown output uses <strong>67% fewer tokens</strong> than raw HTML — compounds significantly at thousands of pages for RAG pipelines. AI web scraping market: <strong>$7.5B → $38B by 2034</strong> (CAGR 19.93%). LangChain, LlamaIndex, and CrewAI all have native integrations. Claude and Cursor can scrape the web via MCP tools with zero code.</div>
+</div>
+
+<div class="aitools rv">
+<div class="ait2" style="border-color:var(--teal)">
+  <div class="ait2n">Firecrawl <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 111k</span></div>
+  <div class="ait2t">Managed · Self-hostable · FIRE-1 · MCP</div>
+  <div class="ait2b">Send URL → clean Markdown/JSON. No selectors. <strong>MCP server</strong> — Claude scrapes via natural language. FIRE-1 agent autonomously navigates. <code>/interact</code> endpoint clicks, fills forms, extracts behind dynamic content. SAP, Zapier, Deloitte.<br><br><code>app.scrape(url)</code> | <code>app.crawl(site)</code> | <code>app.search("query")</code></div>
+  <div class="ait2s">✓ LangChain + LlamaIndex native · 500 free/mo</div>
+</div>
+<div class="ait2" style="border-color:var(--blue)">
+  <div class="ait2n">Crawl4AI <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 60k</span></div>
+  <div class="ait2t">Open-source · Local LLM · Full control · MIT</div>
+  <div class="ait2b">"Scrapy for the LLM era." <strong>Runs on your infrastructure</strong> — data never leaves your servers. Adaptive crawling learns selectors over time. BM25 content filter. Plug in Ollama for local models or OpenAI/Deepseek.<br><br><code>result = await crawler.arun(url)</code></div>
+  <div class="ait2s">✓ Full data sovereignty, free, MIT license</div>
+</div>
+<div class="ait2" style="border-color:var(--pink)">
+  <div class="ait2n">ScrapeGraphAI <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 18k</span></div>
+  <div class="ait2t">NL prompts · Graph pipeline · Self-healing</div>
+  <div class="ait2b">Describe what you want — LLM builds and executes a graph-based extraction pipeline. <strong>Self-healing:</strong> site structure changes, re-describe and it adapts. No selectors ever written. Supports OpenAI, Claude, local.<br><br><code>SmartScraperGraph(prompt="...", source=url)</code></div>
+  <div class="ait2s">✓ Best for: schema-free exploration, prototyping</div>
+</div>
+<div class="ait2" style="border-color:var(--orn)">
+  <div class="ait2n"><a href="https://github.com/webclaw/webclaw" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none">webclaw</a></div>
+  <div class="ait2t">Rust · Chrome TLS · 10 MCP tools · 95.1% accuracy</div>
+  <div class="ait2b">Rust-native scraper built for AI agent integration. <strong>10 MCP tools</strong> — Claude and Cursor can call it directly via natural language. 95.1% success rate on bot-protected sites. Zero Python overhead — runs as subprocess or HTTP service. Chrome-level TLS fingerprinting baked in.<br><br><code>pip install webclaw</code></div>
+  <div class="ait2s">✓ Best for: AI agents needing high-performance scraping + MCP integration</div>
+</div>
+<div class="ait2" style="border-color:var(--purple)">
+  <div class="ait2n">Jina Reader API</div>
+  <div class="ait2t">URL → clean text · Zero code</div>
+  <div class="ait2b">Simplest LLM scraping tool. <code>r.jina.ai/{url}</code> is the entire API. Returns clean Markdown. Dynamic content handled via built-in rendering. Free tier available, paid ~$0.002–$0.01/page.</div>
+  <div class="ait2s">✓ Best for: text extraction, no-code integration</div>
+</div>
+<div class="ait2" style="border-color:var(--green)">
+  <div class="ait2n">Steel</div>
+  <div class="ait2t">Open-source · Docker · MCP · AI agents</div>
+  <div class="ait2b">Self-hostable headless browser API for AI agents. <strong>MCP server</strong> — Claude controls browsers directly. Session persistence + CAPTCHA auto-solve. &lt;1s session start. LangChain/CrewAI integration.</div>
+  <div class="ait2s">✓ Best for: AI agents needing browser control</div>
+</div>
+<div class="ait2" style="border-color:var(--yellow)">
+  <div class="ait2n">Browserbase</div>
+  <div class="ait2t">Managed cloud · $300M valuation</div>
+  <div class="ait2b">50M sessions in 2025. Playwright/Puppeteer drop-in — <strong>one endpoint swap</strong>. Session recordings + CAPTCHA auto-solve. Used by AI agent frameworks as the browser layer. From $50/mo.</div>
+  <div class="ait2s">✓ Best for: AI agent infrastructure at scale</div>
+</div>
+</div>
+
+<button class="tog rv" onclick="tog(this,'ai-c')">
+  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  Show code — Crawl4AI + Pydantic schema extraction
+</button>
+<div class="coll" id="ai-c">
+<div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
+<pre><span class="kw">import</span> <span class="df">asyncio</span>
+<span class="kw">from</span> <span class="df">crawl4ai</span> <span class="kw">import</span> <span class="df">AsyncWebCrawler</span>
+<span class="kw">from</span> <span class="df">crawl4ai.extraction_strategy</span> <span class="kw">import</span> <span class="df">LLMExtractionStrategy</span>
+<span class="kw">from</span> <span class="df">pydantic</span> <span class="kw">import</span> <span class="df">BaseModel</span>
+
+<span class="cm"># Define exactly what you want — LLM extracts it, no selectors needed</span>
+<span class="kw">class</span> <span class="fn">Product</span><span class="py">(</span><span class="df">BaseModel</span><span class="py">):</span>
+    <span class="df">name</span><span class="py">:</span> <span class="df">str</span>
+    <span class="df">price</span><span class="py">:</span> <span class="df">float</span>
+    <span class="df">model_number</span><span class="py">:</span> <span class="df">str</span>
+    <span class="df">brand</span><span class="py">:</span> <span class="df">str</span>
+
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">extract</span><span class="py">(</span><span class="df">url</span><span class="py">):</span>
+    <span class="df">strategy</span> <span class="py">=</span> <span class="fn">LLMExtractionStrategy</span><span class="py">(</span>
+        <span class="at">provider</span><span class="py">=</span><span class="st">"openai/gpt-4o-mini"</span><span class="py">,</span>
+        <span class="at">schema</span><span class="py">=</span><span class="df">Product</span><span class="py">.</span><span class="fn">model_json_schema</span><span class="py">(),</span>
+        <span class="at">extraction_type</span><span class="py">=</span><span class="st">"schema"</span><span class="py">,</span>
+        <span class="at">instruction</span><span class="py">=</span><span class="st">"Extract all products with prices and model numbers"</span>
+    <span class="py">)</span>
+    <span class="kw">async</span> <span class="kw">with</span> <span class="fn">AsyncWebCrawler</span><span class="py">()</span> <span class="kw">as</span> <span class="df">crawler</span><span class="py">:</span>
+        <span class="df">result</span> <span class="py">=</span> <span class="kw">await</span> <span class="df">crawler</span><span class="py">.</span><span class="fn">arun</span><span class="py">(</span><span class="at">url</span><span class="py">=</span><span class="df">url</span><span class="py">,</span> <span class="at">extraction_strategy</span><span class="py">=</span><span class="df">strategy</span><span class="py">)</span>
+        <span class="kw">import</span> <span class="df">json</span>
+        <span class="kw">return</span> <span class="df">json</span><span class="py">.</span><span class="fn">loads</span><span class="py">(</span><span class="df">result</span><span class="py">.</span><span class="df">extracted_content</span><span class="py">)</span>
+<span class="cm"># F1 > 0.95 on well-structured pages — NEXT-EVAL benchmark 2025</span></pre></div>
+</div>
+</section>
+
+<!-- ═══ 06 PLATFORMS ═══ -->
+<section class="sec" id="platforms">
+<div class="sk"><span class="sn">06</span> Managed platforms</div>
+<h2 class="sh">When DIY cost<br><em>exceeds platform cost</em></h2>
+<p class="ss">If spending more than 2 engineer-days/month on anti-bot maintenance, a managed platform is cheaper. Crossover typically hits when facing F5 Shape or Kasada at scale.</p>
+
+<div class="ptgrid rv">
+<div class="ptcard" style="border-color:var(--teal)">
+  <div class="ptname">Bright Data <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">98.44%</span></div>
+  <div class="pttag">Enterprise · 72M+ IPs · Scrape.do #1 2025</div>
+  <div class="ptbody">Highest success rate in Scrape.do 2025. <strong>100% on Indeed, Zillow, Capterra</strong>. 72M+ residential IPs. GDPR, ISO 27001. Scraping Browser for JS-heavy targets. $1.50/1K requests.</div>
+  <div class="ptstat">✓ Best for: F5 Shape, hard targets at scale</div>
+</div>
+<div class="ptcard" style="border-color:var(--blue)">
+  <div class="ptname">Zyte <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">93.14%</span></div>
+  <div class="pttag">#1 Proxyway 2025 · Fastest API · Scrapy</div>
+  <div class="ptbody"><strong>#1 Proxyway 2025</strong>, 93.14% success rate. Fastest API response. Smart Proxy auto-selects type. GPTE AI generates parsers from natural language. scrapy-zyte-smartproxy integration.</div>
+  <div class="ptstat">✓ Best for: Scrapy pipelines, speed</div>
+</div>
+<div class="ptcard" style="border-color:var(--pink)">
+  <div class="ptname">Firecrawl <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 111k</span></div>
+  <div class="pttag">AI scraping · Self-hostable · MCP</div>
+  <div class="ptbody">URL → Markdown/JSON. No selectors. MCP server — Claude scrapes via natural language. LangChain + LlamaIndex native. Used by SAP, Zapier, Deloitte. 500 free/mo.</div>
+  <div class="ptstat">✓ Best for: RAG pipelines, AI agents</div>
+</div>
+<div class="ptcard" style="border-color:var(--green)">
+  <div class="ptname">Crawl4AI <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 60k</span></div>
+  <div class="pttag">Open-source · Local LLM · Free</div>
+  <div class="ptbody">89.7% OOTB success rate. Runs on your infrastructure. Local LLM support (Ollama). MIT license. Adaptive crawling. Full data sovereignty — data never leaves your servers.</div>
+  <div class="ptstat">✓ Best for: privacy, open-source, cost $0</div>
+</div>
+<div class="ptcard" style="border-color:var(--orange)">
+  <div class="ptname">Apify</div>
+  <div class="pttag">Serverless · 10K+ Actors · MCP</div>
+  <div class="ptbody">10,000+ pre-built Actors. Crawlee at core. <strong>MCP server with LangChain built-in</strong>. ~$0.25/CU. Used by enterprise teams for production pipelines without custom infrastructure.</div>
+  <div class="ptstat">✓ Best for: ready-made scrapers, LangChain</div>
+</div>
+<div class="ptcard" style="border-color:var(--yellow)">
+  <div class="ptname">Oxylabs</div>
+  <div class="pttag">Enterprise · 100M+ IPs · OxyCopilot AI</div>
+  <div class="ptbody">100M+ IPs, 195 countries. <strong>OxyCopilot AI</strong> generates parser code from natural language. Owns ScrapingBee (acquired 2025). ISO 27001 + GDPR. From $49/mo.</div>
+  <div class="ptstat">✓ Best for: enterprise scale, AI-generated parsers</div>
+</div>
+</div>
+</section>
+
+<!-- ═══ 07 PROXIES ═══ -->
+<section class="sec" id="proxies">
+<div class="sk"><span class="sn">07</span> Proxy strategy</div>
+<h2 class="sh">IP type matters<br><em>more than provider</em></h2>
+<p class="ss">Rotating proxies is table stakes. The real variable is IP type — datacenter IPs score near-zero on DataDome and PerimeterX regardless of fingerprint quality.</p>
+
+<div class="pgrid rv">
+<div class="pg"><div class="pgt">Datacenter</div><div class="pgtr" style="color:var(--red)">Trust: Very Low</div>
+  <div class="pgb">AWS/GCP/Azure ranges. Instantly flagged by DataDome and PerimeterX. Cheapest (~$0.01/GB). Use only on non-protected public data. Never for Akamai or PerimeterX targets.</div>
+</div>
+<div class="pg"><div class="pgt">Residential</div><div class="pgtr" style="color:var(--yellow)">Trust: High</div>
+  <div class="pgb">Real home ISP addresses. Passes most trust checks. Confirmed: curl_cffi + residential bypasses DataDome on Grainger.com. Rotate per session, not per request — mid-session rotation = Akamai block.</div>
+</div>
+<div class="pg"><div class="pgt">Mobile / 4G</div><div class="pgtr" style="color:var(--green)">Trust: Highest</div>
+  <div class="pgb">T-Mobile, Vodafone, O2 carrier IPs. <strong>Highest trust score</strong> on DataDome and PerimeterX. Shared tower IPs — hard to flag. Mobile IPs get DataDome 200 OK where residential fails. ~$10–15/GB.</div>
+</div>
+<div class="pg"><div class="pgt">ISP / Static</div><div class="pgtr" style="color:var(--yellow)">Trust: High</div>
+  <div class="pgb">Static residential range. Akamai multi-request scoring rewards consistent IPs — trust accumulates from same ISP IP. Best for long sessions on Akamai sites. Never rotate mid-session.</div>
+</div>
+</div>
+
+<div class="ib tip rv"><strong>WebRTC coherence rule:</strong> Proxy IP country, WebRTC ICE candidate, DNS resolver, timezone, and Accept-Language must all agree. US residential proxy + Pakistani DNS = flagged by every major anti-bot. Use <code>geoip=True</code> in Camoufox to align all five vectors automatically.</div>
+<div class="ib warn rv"><strong>Crawlera/Zyte proxy bug:</strong> Port 8011 speaks plain HTTP. Both <code>http://</code> and <code>https://</code> keys must use <code>http://</code> scheme. Using <code>https://</code> causes BoringSSL <code>WRONG_VERSION_NUMBER</code> (TLS-over-TLS failure). Fix: <code>"https": "http://key:@proxy.crawlera.com:8011/"</code></div>
+
+<button class="tog rv" onclick="tog(this,'proxy-c')">
+  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  Show code — curl_cffi with proxy + retry
+</button>
+<div class="coll" id="proxy-c">
+<div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
+<pre><span class="kw">from</span> <span class="df">curl_cffi</span> <span class="kw">import</span> <span class="df">requests</span>
+<span class="kw">import</span> <span class="df">time</span><span class="py">,</span> <span class="df">random</span>
+
+<span class="df">session</span> <span class="py">=</span> <span class="df">requests</span><span class="py">.</span><span class="fn">Session</span><span class="py">(</span><span class="at">impersonate</span><span class="py">=</span><span class="st">"chrome124"</span><span class="py">)</span>
+
+<span class="cm"># Crawlera/Zyte: BOTH keys use http:// — never https://</span>
+<span class="df">PROXIES</span> <span class="py">= {</span>
+    <span class="st">"http"</span><span class="py">:</span>  <span class="st">"http://apikey:@proxy.crawlera.com:8011"</span><span class="py">,</span>
+    <span class="st">"https"</span><span class="py">:</span> <span class="st">"http://apikey:@proxy.crawlera.com:8011"</span><span class="py">,</span>  <span class="cm"># http:// not https://</span>
+<span class="py">}</span>
+
+<span class="kw">def</span> <span class="fn">fetch</span><span class="py">(</span><span class="df">url</span><span class="py">,</span> <span class="df">retries</span><span class="py">=</span><span class="nb">3</span><span class="py">):</span>
+    <span class="kw">for</span> <span class="df">i</span> <span class="kw">in</span> <span class="fn">range</span><span class="py">(</span><span class="df">retries</span><span class="py">):</span>
+        <span class="kw">try</span><span class="py">:</span>
+            <span class="df">r</span> <span class="py">=</span> <span class="df">session</span><span class="py">.</span><span class="fn">get</span><span class="py">(</span><span class="df">url</span><span class="py">,</span> <span class="at">proxies</span><span class="py">=</span><span class="df">PROXIES</span><span class="py">,</span>
+                             <span class="at">timeout</span><span class="py">=</span><span class="nb">30</span><span class="py">,</span> <span class="at">verify</span><span class="py">=</span><span class="kw">False</span><span class="py">)</span>  <span class="cm"># verify=False: proxy cert</span>
+            <span class="kw">if</span> <span class="df">r</span><span class="py">.</span><span class="df">status_code</span> <span class="py">==</span> <span class="nb">200</span><span class="py">:</span> <span class="kw">return</span> <span class="df">r</span>
+            <span class="kw">if</span> <span class="df">r</span><span class="py">.</span><span class="df">status_code</span> <span class="kw">in</span> <span class="py">(</span><span class="nb">403</span><span class="py">,</span><span class="nb">429</span><span class="py">):</span>
+                <span class="df">time</span><span class="py">.</span><span class="fn">sleep</span><span class="py">(</span><span class="nb">2</span><span class="py">**</span><span class="df">i</span> <span class="py">+</span> <span class="df">random</span><span class="py">.</span><span class="fn">uniform</span><span class="py">(</span><span class="nb">0</span><span class="py">,</span><span class="nb">1</span><span class="py">))</span>
+        <span class="kw">except</span> <span class="df">Exception</span> <span class="kw">as</span> <span class="df">e</span><span class="py">:</span>
+            <span class="fn">print</span><span class="py">(</span><span class="st">f"Error: {e}"</span><span class="py">)</span>
+    <span class="kw">return</span> <span class="kw">None</span></pre></div>
+</div>
+</section>
+
+<!-- ═══ 08 PLAYBOOK ═══ -->
+<section class="sec" id="play">
+<div class="sk"><span class="sn">08</span> Decision playbook</div>
+<h2 class="sh">Walk this in order.<br><em>Stop at first win.</em></h2>
+<p class="ss">Each step adds complexity, cost, and maintenance. Most production scraping is solved at steps 1–3. Never start at step 5.</p>
+
+<div class="dsteps rv">
+<div class="ds">
+  <div class="dsn">01</div>
+  <div>
+    <div class="dsl">Lowest friction · Asad's priority #1</div>
+    <div class="dst">Find the mobile API</div>
+    <div class="dsb">Mobile apps hit same backend with <strong>far weaker bot protection</strong>. HTTPToolkit intercepts all HTTPS from Android emulator. Frida hooks into <code>SSL_read/SSL_write</code> directly. If you find the API endpoint, every HTML anti-bot becomes irrelevant.</div>
+  </div>
+  <div class="dstools"><div class="dstool">HTTPToolkit</div><div class="dstool">Frida</div><div class="dstool">mitmproxy</div><div class="dstool">Burpsuite</div></div>
+</div>
+<div class="ds">
+  <div class="dsn">02</div>
+  <div>
+    <div class="dsl">XHR reverse engineering</div>
+    <div class="dst">Find the GraphQL or REST endpoint</div>
+    <div class="dsb">Chrome DevTools → Network → Fetch/XHR. <strong>Many SPAs load from one undocumented JSON endpoint</strong>. Confirmed in production — a direct GraphQL endpoint bypassed all Akamai HTML protection.</div>
+  </div>
+  <div class="dstools"><div class="dstool">Chrome DevTools</div><div class="dstool">Burpsuite</div><div class="dstool">webclaw CLI</div></div>
+</div>
+<div class="ds">
+  <div class="dsn">03</div>
+  <div>
+    <div class="dsl">JSON in HTML · No requests needed</div>
+    <div class="dst">Look for embedded state</div>
+    <div class="dsb">Next.js embeds full state in <code>__NEXT_DATA__</code>. React SPAs often have &gt;50KB script containing all data. <strong>Confirmed: Grainger.com (DataDome-protected)</strong> — 110KB JS state blob bypasses DataDome entirely because it's in initial HTML.</div>
+  </div>
+  <div class="dstools"><div class="dstool">chompjs</div><div class="dstool">Parsel</div><div class="dstool">BeautifulSoup4</div></div>
+</div>
+<div class="ds">
+  <div class="dsn">04</div>
+  <div>
+    <div class="dsl">HTTP scraping · No browser</div>
+    <div class="dst">curl_cffi + Scrapy</div>
+    <div class="dsb">Identify anti-bot with Wappalyzer. <code>curl_cffi</code> with JA4 impersonation resolves most Akamai and DataDome at HTTP layer. Add residential proxy. If <code>__NEXT_DATA__</code> appears in response, extract it with chompjs.</div>
+  </div>
+  <div class="dstools"><div class="dstool">curl_cffi</div><div class="dstool">Scrapy</div><div class="dstool">Scrapling</div></div>
+</div>
+<div class="ds">
+  <div class="dsn">05</div>
+  <div>
+    <div class="dsl">Browser automation · C++ level only</div>
+    <div class="dst">Camoufox or CloakBrowser</div>
+    <div class="dsb"><strong>JS injection patches leave signatures.</strong> Camoufox: 100% pass rate Mar 2026. CloakBrowser: 49 C++ patches, reCAPTCHA v3 score 0.9, Akamai extension probes pass. PatchRight for Kasada specifically — no JS signatures.</div>
+  </div>
+  <div class="dstools"><div class="dstool">Camoufox ★</div><div class="dstool">CloakBrowser</div><div class="dstool">PatchRight</div></div>
+</div>
+<div class="ds">
+  <div class="dsn">06</div>
+  <div>
+    <div class="dsl">Last resort · F5 Shape only viable path</div>
+    <div class="dst">Managed platform API</div>
+    <div class="dsb">F5 Shape's custom VM makes DIY impractical. Token expiry in minutes, payload changes every rotation. At scale: engineer maintenance cost &gt; platform cost. One API flag handles everything. Cost-justify: &gt;2 days/month maintenance → managed API wins.</div>
+  </div>
+  <div class="dstools"><div class="dstool">Bright Data</div><div class="dstool">Zyte</div><div class="dstool">Firecrawl</div></div>
+</div>
+</div>
+
+<h3 class="rh rv">Quick reference cheat sheet</h3>
+<table class="ct rv">
+<thead><tr><th>Anti-bot</th><th>Primary vector</th><th>Steps 1–2 viable?</th><th>Best tool</th><th>Key note</th></tr></thead>
+<tbody>
+<tr><td>Akamai</td><td>JA4+ + sensor.js + extension probes</td><td><span class="bdg bg">Often</span></td><td>curl_cffi + CloakBrowser</td><td>Find mobile/GraphQL first</td></tr>
+<tr><td>Cloudflare</td><td>JA4 Rust edge + Turnstile</td><td><span class="bdg by">Sometimes</span></td><td><a href="https://github.com/daijro/camoufox" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Camoufox</a></td><td>Origin IP via SecurityTrails</td></tr>
+<tr><td>DataDome</td><td>85K ML + WASM boring_challenge</td><td><span class="bdg bg">Yes</span></td><td>curl_cffi + mobile IP</td><td>Check __NEXT_DATA__ first</td></tr>
+<tr><td>PerimeterX</td><td>5-vector score</td><td><span class="bdg by">Sometimes</span></td><td>Camoufox + residential</td><td>Fresh session per domain</td></tr>
+<tr><td>Kasada</td><td>Polymorphic JS PoW</td><td><span class="bdg br">Rarely</span></td><td>PatchRight + residential</td><td>Never playwright-stealth</td></tr>
+<tr><td>F5 Shape</td><td>Custom VM + minute expiry</td><td><span class="bdg br">No</span></td><td>Managed API</td><td>DIY not practical</td></tr>
+</tbody>
+</table>
+</section>
+
+
+
+<!-- ═══ INNOVATION ═══ -->
+<section class="sec" id="innovation">
+<div class="sk"><span class="sn">★</span> From the community</div>
+<h2 class="sh">What practitioners are<br><em>actually shipping in 2026</em></h2>
+<p class="ss">Fresh insights from engineers who live in production scrapers. These aren't blog posts — they're dispatches from the field, shared on LinkedIn by people actively solving these problems.</p>
+
+<div class="cards c2 rv" style="margin-bottom:8px">
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">Jerry Luong · Senior Software Engineer</div>
+    <div class="cname">Cloudflare Turnstile: Solved Without a Browser</div>
+    <div class="cbody">
+      Turnstile doesn't require browser automation. Reverse engineer the POST payload — it was built with 79 parameters covering Fingerprint (Canvas, WebGL), Timing, Browser Environment, and Interaction sequence with crypto hashes.<br><br>
+      The flow in 4 steps:<br>
+      <strong>1.</strong> Extract the Sitekey automatically from the page<br>
+      <strong>2.</strong> Initiate the challenge request<br>
+      <strong>3.</strong> Construct the challenge responses (custom SHA-256, TEA encryption)<br>
+      <strong>4.</strong> Generate cryptographic token → 95-char string, Format: Encrypted_Data-Timestamp-Version-Checksum<br><br>
+      <strong>Result: Status 200, Callback Ready, completed in 0.27s.</strong> No Playwright. No browser. Pure HTTP. The token is valid and accepted by Turnstile-protected endpoints.
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 Key insight: Turnstile's PoW is solvable in &lt;1s via HTTP — browser automation is overkill</div>
+  </div>
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--orn)"></div>
+    <div class="ctag">Jose Pena · CEO, Proxiware</div>
+    <div class="cname">Why "Just Get Better Proxies" Stopped Working</div>
+    <div class="cbody">
+      Rotating residential IPs and still getting blocked? The problem probably isn't your IP. It's your TLS handshake.<br><br>
+      Modern detection systems don't just check where a request comes from — they check <strong>how it arrives</strong>. The cipher suite ordering, HTTPS extension sequence, GREASE values. Together these form a JA4 fingerprint that reveals exactly what client is making the request.<br><br>
+      A Python requests call looks different from Chrome at the handshake level. A headless browser looks different from a real one. Even with a clean residential IP, the fingerprint exposes you.<br><br>
+      <strong>What actually works in 2026:</strong><br>
+      → Clean residential or ISP IPs (IP reputation still matters, just isn't sufficient alone)<br>
+      → A TLS fingerprint matching a real browser client<br>
+      → Session behaviour that doesn't look like a script on a timer
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:rgba(224,123,48,.1);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--orn)">💡 The residential IP passed. The fingerprint gave it away.</div>
+  </div>
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--red)"></div>
+    <div class="ctag">Giedrius Karanda · Anti-Bot & Automation Engineer</div>
+    <div class="cname">The WebRTC Trap: Your Browser Is Leaking Your Real Location</div>
+    <div class="cbody">
+      You're not getting blocked. You're getting exposed.<br><br>
+      Your proxy says: <em>"I'm a clean US residential IP"</em><br>
+      Your browser says: <em>"I'm actually somewhere else"</em><br><br>
+      WebRTC doesn't care about your proxy. It can: leak your real public IP, expose local network addresses, reveal interfaces that don't match your proxy, create geo mismatches through ICE candidates.<br><br>
+      So your identity looks like: <code>IP → US</code> + <code>WebRTC → Canada</code> + <code>Behaviour → inconsistent</code> = bot signal.<br><br>
+      Modern anti-bots don't ask "Is this IP good?" They ask "Does everything about this session make sense together?"<br><br>
+      <strong>Common mistake:</strong> "Just disable WebRTC." Now your browser is missing a feature most real users have.<br>
+      <strong>Better approach:</strong> Align WebRTC IP with your proxy. Control ICE candidates. Match geo across DNS, TCP, TLS, WebRTC. Keep behaviour coherent across the entire session.
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 Quick test: browserleaks.com/webrtc — check it before blaming your proxy</div>
+  </div>
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--blu)"></div>
+    <div class="ctag">2026 Benchmark · Browser Use Cloud</div>
+    <div class="cname">The 30-Point Gap: Browser Scraping Success Rates Are Not Equal</div>
+    <div class="cbody">
+      Browser Use published a 2026 scraping guide with a stealth benchmark across 71 sites protected by Cloudflare, Akamai, PerimeterX, and DataDome.<br><br>
+      <strong>Results:</strong> Browser Use Cloud hit 81% success. Browserbase came in at 42%.<br><br>
+      The gap between providers at the top and bottom of the market is no longer marginal. In 2026, the difference between providers is the difference between a working pipeline and a broken one.<br><br>
+      <strong>Key finding:</strong> The distinction between basic and interactive scraping matters more than ever. Basic scraping (fetching a URL, parsing HTML) is increasingly commoditised. The data worth having in 2026 sits behind login walls, search interfaces, and multi-step flows that require actual browser interaction.<br><br>
+      <strong>On AI in the scraping stack:</strong> AI fits in at extraction, code generation, self-healing selectors — less about replacing the infrastructure layer, more about reducing the maintenance burden on top of it.
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Observer's Note: The 30-point spread in success rates between providers is no longer marginal</div>
+  </div>
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--grn)"></div>
+    <div class="ctag">Neil Emeigh · Founder, Rayobyte</div>
+    <div class="cname">Why rayobrowse Exists: Browsers as a Session Layer, Not a Product</div>
+    <div class="cbody">
+      A lot of scraping teams hit this point: HTTP is fast. Browsers are expensive. But modern sites don't care what's fast — they care how sessions are created.<br><br>
+      So you end up needing a browser anyway, even if it's just to generate cookies or warm sessions before switching back to HTTP.<br><br>
+      That's why rayobrowse was built — not as a "browser scraping product" but as a <strong>browser layer you can plug into your existing pipeline</strong>:<br><br>
+      → Use it to generate sessions<br>
+      → Use it for the hard parts (Akamai, Cloudflare challenges)<br>
+      → Switch back to lightweight HTTP workers when you can<br><br>
+      Self-hosted, Linux-native, Playwright-compatible. The architecture insight: browsers shouldn't replace your whole pipeline — they should be a targeted tool for the parts that actually need them.
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:var(--gl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--grn)">💡 Architecture: browser for session warmup → HTTP for bulk data collection</div>
+  </div>
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--pur)"></div>
+    <div class="ctag">Karim Shoair · Senior Python Developer</div>
+    <div class="cname">Scrapling v0.4: The Biggest Framework Update in Python Scraping</div>
+    <div class="cbody">
+      Scrapling v0.4 introduced a fully async spider framework with a Scrapy-like API. Key new capabilities:<br><br>
+      <strong>Async Spider Framework:</strong><br>
+      → Concurrent crawling with per-domain throttling<br>
+      → Mix HTTP, headless, and stealth browser sessions in one spider<br>
+      → Pause with Ctrl+C, resume from checkpoint<br>
+      → Stream items in real-time with async<br>
+      → Built-in JSON/JSONL export<br><br>
+      <strong>New Proxy Rotation:</strong> Thread-safe ProxyRotator with custom rotation strategies. Works with all fetchers and spider sessions. Override per-request.<br><br>
+      <strong>Browser Fetcher Improvements:</strong><br>
+      → Block requests to specific domains with blocked_domains<br>
+      → Automatic retries with proxy-aware error detection<br>
+      → Response.follow() for easy link-following<br><br>
+      Its parser <strong>learns from website changes</strong> and automatically relocates elements — handles Cloudflare Turnstile out of the box. All in a few lines of Python.
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 pip install scrapling --upgrade  |  Scrapy-like API with built-in Cloudflare + anti-bot handling</div>
+  </div>
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">Hocine Abed · Web Scraping Specialist</div>
+    <div class="cname">SwiftShadow: The Quiet Proxy Library Saving Production Scrapers</div>
+    <div class="cbody">
+      For scrapers hitting "429 Too Many Requests" and IP blocks, SwiftShadow has been a quiet lifesaver. It's a lightweight Python library that grabs free proxies, validates them, rotates them automatically, and lets you filter by country or protocol — without watching your script die after 50 requests.<br><br>
+      <code>from swiftshadow import QuickProxy<br>proxy = QuickProxy(countries=["FR", "DE"])<br>session.proxies = {"http": str(proxy), "https": str(proxy)}</code><br><br>
+      What makes it stand out:<br>
+      → Stupidly fast compared to heavier solutions<br>
+      → Built-in caching = fewer unnecessary requests to proxy providers<br>
+      → Super simple API — 2 lines to get going<br>
+      → Switches proxies automatically when one fails<br><br>
+      Repo sitting at ~300 stars, actively maintained. Best for scraping targets with light to medium protection where free proxy pools work.
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 pip install swiftshadow  |  github.com/Aahaan-k/swiftshadow</div>
+  </div>
+
+  <div class="card" style="border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--pink,#ff6baa)"></div>
+    <div class="ctag">André Lindenberg · Agents, Graphs, Ontologies</div>
+    <div class="cname">CocoIndex: Keep Your LLM's Context Fresh Without Stale Batches</div>
+    <div class="cbody">
+      Your agents deserve fresh context. CocoIndex turns codebases, PDFs, Slack inboxes, and videos into a continuously updated index your LLM can actually reason over — no stale nightly batches, no context gap.<br><br>
+      Python on a Rust delta engine: edit a chunker or swap embedding models, only the affected rows re-run. Pgvector, LanceDB, Neo4j as targets. Byte-level lineage per row. Production AI agent ready in 10 minutes.<br><br>
+      Why this matters for scrapers building RAG pipelines: most scraped data goes stale within days. CocoIndex keeps the downstream vector store incrementally updated as new data is scraped — so your agent always reasons on current information.<br><br>
+      <strong>GitHub Trending: #1 Repository of the Day</strong> when posted. 7K+ stars.
+    </div>
+    <div style="margin-top:12px;padding:9px 12px;background:rgba(255,107,170,.1);border-radius:4px;font-family:var(--mono);font-size:10px;color:#ff6baa">💡 github.com/cocoindex-io/cocoindex  |  Incremental RAG context for LLM agents</div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══ COMMUNITY ═══ -->
+<section class="sec" id="community">
+<div class="sk"><span class="sn">★</span> Community</div>
+<h2 class="sh">Where scrapers<br><em>talk to each other</em></h2>
+<p class="ss">The best scraping techniques rarely come from documentation — they come from people who've already hit the same wall you're hitting. These communities are where the real knowledge lives.</p>
+
+<h3 class="rh rv" style="margin-top:0">Discord servers</h3>
+<div class="cards c3 rv">
+  <a href="https://discord.gg/webscrapingclub" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">Recommended ★</div>
+    <div class="cname">The Web Scraping Club</div>
+    <div class="csub">Pierluigi Vinciguerra</div>
+    <div class="cbody">The community behind the best scraping newsletter. Anti-bot discussions, real-world bypasses, tool comparisons. Active and high-signal. <strong>Recommended first stop.</strong></div>
+  </div>
+  </a>
+  <a href="https://discord.gg/oxylabs" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--blu)"></div>
+    <div class="ctag">Official · Experts on call</div>
+    <div class="cname">Oxylabs</div>
+    <div class="csub">discord.gg/oxylabs</div>
+    <div class="cbody">Live Q&As with Oxylabs in-house engineers. Webinars on proxies and anti-bot bypass. Exclusive discounts. Rapidly growing — technical conversations welcome.</div>
+  </div>
+  </a>
+  <a href="https://discord.gg/extractdata" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--orn)"></div>
+    <div class="ctag">Zyte-powered · Annual summit</div>
+    <div class="cname">Extract Data Community</div>
+    <div class="csub">discord.gg/extractdata</div>
+    <div class="cbody">One of the largest web scraping servers. Powered by Zyte. Associated with the annual Extract Summit conference. Thousands of members, high-activity channels.</div>
+  </div>
+  </a>
+  <a href="https://discord.gg/scraping-enthusiasts" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--red)"></div>
+    <div class="ctag">Anti-bot experts · Reverse engineers</div>
+    <div class="cname">Scraping Enthusiasts</div>
+    <div class="csub">Anti-bot reverse engineering focus</div>
+    <div class="cbody">Home of puppeteer-extra-plugin-stealth maintainers. Community bots that detect anti-bot software, find hidden API endpoints, and monitor anti-bot updates. Best server for hard targets.</div>
+  </div>
+  </a>
+  <a href="https://discord.gg/scraping-in-prod" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--grn)"></div>
+    <div class="ctag">Python · Node.js · Production</div>
+    <div class="cname">Scraping In Prod</div>
+    <div class="csub">General web scraping questions</div>
+    <div class="cbody">General scraping questions, site-specific help, anti-bot discussions. Python and Node.js focused. Good place to ask about specific websites or frameworks.</div>
+  </div>
+  </a>
+  <a href="https://discord.gg/scrapy" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--pur)"></div>
+    <div class="ctag">Official Scrapy · Framework experts</div>
+    <div class="cname">Scrapy Official</div>
+    <div class="csub">Scrapy core maintainers active</div>
+    <div class="cbody">Official Scrapy community. Core maintainers are active daily. Best place for Scrapy-specific questions, extensions, architecture advice, and code reviews.</div>
+  </div>
+  </a>
+</div>
+
+<h3 class="rh rv">Reddit communities</h3>
+<div class="cards c3 rv">
+  <a href="https://reddit.com/r/webscraping" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--red)"></div>
+    <div class="ctag">Reddit · Largest</div>
+    <div class="cname">r/webscraping</div>
+    <div class="csub">General web scraping</div>
+    <div class="cbody">The largest web scraping subreddit. Questions, tutorials, tool recommendations. Good for beginners. Search before posting — most common questions have been answered.</div>
+  </div>
+  </a>
+  <a href="https://reddit.com/r/scrapy" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--orn)"></div>
+    <div class="ctag">Reddit · Framework specific</div>
+    <div class="cname">r/scrapy</div>
+    <div class="csub">Scrapy framework</div>
+    <div class="cbody">Scrapy-specific questions and discussions. Original creators active. Spiders, extensions, deployment, middleware — anything Scrapy. Code reviews welcomed by moderators.</div>
+  </div>
+  </a>
+  <a href="https://reddit.com/r/WebScrapingInsider" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">Reddit · Professional · Zero fluff</div>
+    <div class="cname">r/WebScrapingInsider</div>
+    <div class="csub">Launched late 2025 · Production focus</div>
+    <div class="cbody">New community (late 2025) for production-grade scraping. High-signal, zero-fluff discussions for people shipping scrapers and keeping them running. Infrastructure decisions, real-world challenges.</div>
+  </div>
+  </a>
+</div>
+
+<h3 class="rh rv">Newsletters worth reading</h3>
+<div class="cards c3 rv">
+  <a href="https://substack.com/@thewebscrapingclub" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">★ Must-read · Weekly</div>
+    <div class="cname">The Web Scraping Club</div>
+    <div class="csub">Pierluigi Vinciguerra</div>
+    <div class="cbody">Deep technical dives on anti-bot bypass, fingerprinting, and production scraping. Weekly. The most respected technical newsletter in the scraping world.</div>
+  </div>
+  </a>
+  <a href="https://scrapeops.io" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--grn)"></div>
+    <div class="ctag">Tutorials · Playbook</div>
+    <div class="cname">ScrapeOps</div>
+    <div class="csub">Complete scraping toolkit</div>
+    <div class="cbody">Comprehensive playbook, Scrapy tutorials, monitoring tools. Their web scraping playbook is one of the most comprehensive free resources available. Community discord listed above.</div>
+  </div>
+  </a>
+  <a href="https://proxyway.com" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--blu)"></div>
+    <div class="ctag">Annual benchmarks</div>
+    <div class="cname">Proxyway</div>
+    <div class="csub">Proxy & scraping API benchmarks</div>
+    <div class="cbody">Runs the definitive annual proxy and web scraping API benchmarks. Zyte #1 in 2025. Independent testing methodology — data used throughout this guide.</div>
+  </div>
+  </a>
+</div>
+</section>
+
+<!-- ═══ 09 TIMELINE ═══ -->
+<section class="sec" id="tl">
+<div class="sk"><span class="sn">09</span> The arms race</div>
+<h2 class="sh">From IP bans<br><em>to transformer ML</em></h2>
+<p class="ss">Every bypass technique was born as a direct response to a specific detection innovation. The escalation explains why each tool exists.</p>
+<div class="tl rv">
+<div class="tli"><div class="tliy">2004</div><div class="tlit"><strong>Selenium born</strong> for QA testing. WebDriver protocol. Zero anti-bot thinking — scraping wasn't a threat concept yet.</div></div>
+<div class="tli"><div class="tliy">2017</div><div class="tlit"><strong>Puppeteer launches.</strong> First CDP Chrome automation. Anti-bots respond with IP reputation + User-Agent checks. Defeated by: proxy rotation + fake UA strings.</div></div>
+<div class="tli"><div class="tliy">2018–2020</div><div class="tlit"><strong>JS fingerprinting era.</strong> Canvas hash, WebGL, <code>navigator.webdriver=true</code>. playwright-stealth emerges. Playwright 2020 — Microsoft, cross-browser. <strong>F5 acquires Shape Security for $1 billion.</strong></div></div>
+<div class="tli"><div class="tliy">2021–2022</div><div class="tlit"><strong>TLS fingerprinting mainstream.</strong> JA3 at CDN edges. Python httpx identified by hash. curl_cffi emerges. DataDome + Akamai add behavioural scoring. <strong>PerimeterX + HUMAN Security merge</strong>, creating 29,650-site network.</div></div>
+<div class="tli"><div class="tliy">2023–2024</div><div class="tlit"><strong>JA4+ standardisation.</strong> Cloudflare Rust crate. Chrome randomises extensions — breaks JA3. <strong>Camoufox and CloakBrowser emerge as first C++ binary solutions.</strong> DataDome WASM boring_challenge. Scrapling 38K stars.</div></div>
+<div class="tli"><div class="tliy">2025</div><div class="tlit"><strong>ML + OS-level signals.</strong> HTTP/2 SETTINGS frames. TCP TTL. Transformer ML on micro-timing at &lt;1ms. DataDome 85K models. Browserbase $40M at $300M valuation. Firecrawl 60K stars. ScrapingBee acquired by Oxylabs.</div></div>
+<div class="tli"><div class="tliy">2026</div><div class="tlit"><strong>C++ binary patches are the baseline.</strong> JS injection obsolete — toString() exposes all patches. Camoufox 100% pass rate. Firecrawl 111K stars. webclaw Rust + 10 MCP tools. JA4+ universal. <strong>Market: $7.5B → $38B by 2034. The arms race is AI vs AI.</strong></div></div>
+</div>
+</section>
+
+</main>
+
+<!-- LLM ASSISTANT -->
+<div id="llmw">
+  <div id="llmp">
+    <div class="llmh">
+      <div style="display:flex;align-items:center">
+        <span class="llmdot"></span>
+        <span class="llmtitle">Scraping Assistant</span>
+      </div>
+      <div>
+        <div class="llmsub">Powered by Claude · Ask anything</div>
+      </div>
+      <button class="llmx" onclick="toggleLLM()">✕</button>
+    </div>
+    <div class="llmchips">
+      <button class="llmchip" onclick="askQ('How do I bypass DataDome in 2026?')">Bypass DataDome</button>
+      <button class="llmchip" onclick="askQ('curl_cffi vs requests — when to use each?')">curl_cffi vs requests</button>
+      <button class="llmchip" onclick="askQ('Best browser for Cloudflare in 2026?')">Best for Cloudflare</button>
+      <button class="llmchip" onclick="askQ('How does JA4 fingerprinting work?')">JA4 explained</button>
+      <button class="llmchip" onclick="askQ('Proxy strategy: residential vs mobile vs datacenter?')">Proxy strategy</button>
+      <button class="llmchip" onclick="askQ('How to use Camoufox with Scrapy?')">Camoufox + Scrapy</button>
+    </div>
+    <div class="llmmsgs" id="llmmsgs">
+      <div class="msg a">Ask me anything about web scraping — anti-bot bypass, library selection, proxy strategy, TLS fingerprinting, AI scraping, or production architecture. I have full context from this guide.</div>
+    </div>
+    <div class="llminw">
+      <textarea class="llmin" id="llmin" placeholder="Ask about any scraping technique..." rows="1" onkeydown="llmkey(event)" oninput="llmresize(this)"></textarea>
+      <button class="llmsend" id="llmsend" onclick="sendMsg()">Ask</button>
+    </div>
+  </div>
+  <button id="llmbtn" onclick="toggleLLM()" title="Ask the scraping assistant">🕷️</button>
+</div>
+
+<footer id="footer">
+<div class="fi">
+  <div class="ft">
+    <div class="fb">Asad's Guide to Web Scraping
+      <p>Complete 2026 anti-bot bypass and scraping reference. Production experience, confirmed bypasses, 37+ libraries.</p>
+    </div>
+    <div class="fls">
+      <a href="#flow" class="fl">Flow</a><a href="#detect" class="fl">Detection</a>
+      <a href="#antibots" class="fl">Anti-Bots</a><a href="#libs" class="fl">Libraries</a>
+      <a href="#ai" class="fl">AI Scraping</a><a href="#platforms" class="fl">Platforms</a>
+      <a href="#proxies" class="fl">Proxies</a><a href="#play" class="fl">Playbook</a>
+      <a href="#tl" class="fl">Timeline</a>
+    </div>
+  </div>
+  <div class="fb2"><span>Asad's Scraping Guide 2026</span><span>Updated May 2026</span></div>
+</div>
+</footer>
+<script>
+const np = document.getElementById('np');
+const nls = document.querySelectorAll('.nl');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  np.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  let cur = '';
+  document.querySelectorAll('section[id]').forEach(s => {
+    if (window.scrollY >= s.offsetTop - 72) cur = s.id;
+  });
+  nls.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + cur));
+}, {passive:true});
+
+const ob = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('vi'); }), {threshold:.08, rootMargin:'0px 0px -36px 0px'});
+document.querySelectorAll('.rv').forEach(el => ob.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) window.scrollTo({top: el.offsetTop - 60, behavior:'smooth'});
+  });
+});
+
+function tog(btn, id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function cpc(btn) {
+  const pre = btn.closest('.cb').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'Copied!'; btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1800);
+  });
+}
+
+let llmOpen = false;
+function toggleLLM() {
+  llmOpen = !llmOpen;
+  document.getElementById('llmp').classList.toggle('open', llmOpen);
+}
+function llmresize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 72) + 'px'; }
+function llmkey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } }
+function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) toggleLLM(); sendMsg(); }
+
+const CTX = `You are a web scraping expert in Asad's Scraping Guide 2026. Expert on: curl_cffi (JA4 impersonation, confirmed DataDome bypass Grainger.com), Camoufox (100% Cloudflare pass rate Mar 2026, C++ Firefox Juggler), CloakBrowser (49 C++ patches, reCAPTCHA v3 0.9), PatchRight (Kasada bypass), DataDome (85K ML models, WASM boring_challenge, 2ms), Akamai (sensor.js 512KB, 60 ext probes, _abck), Cloudflare (JA4 Rust edge, Turnstile 79 params), PerimeterX (29650 sites, 5-vector, _px3), Kasada (polymorphic ips.js PoW, playwright-stealth detected), F5 Shape (custom VM $1B, minute expiry). Libraries: Scrapy (52K, production), Playwright (68K, CDP detectable), Puppeteer (89K), Selenium/SeleniumBase UC, nodriver, pydoll, Botasaurus (Gaussian mouse), Botright, rayobrowse, webclaw (Rust 95.1%), Scrapling (38K, StealthyFetcher MCP), rebrowser-patches, cycle-tls, GoLogin, Multilogin. AI: Firecrawl (111K FIRE-1 MCP), Crawl4AI (60K local LLM MIT), ScrapeGraphAI (18K), Jina Reader, Steel, Browserbase ($300M). Managed: Bright Data (98.44%), Zyte (93.14%), Apify, ScraperAPI, Decodo/Smartproxy, Oxylabs. CAPTCHA: CapSolver, 2captcha, Anti-Captcha. Proxies: datacenter=low trust, residential=high, mobile 4G=highest. Proxy bug: Crawlera port 8011 use http:// not https://. Priority: 1.Mobile API(HTTPToolkit/Frida) 2.XHR endpoint(DevTools) 3.__NEXT_DATA__(chompjs) 4.curl_cffi+Scrapy 5.Camoufox/CloakBrowser C++ 6.Managed API. Real: HD GraphQL api.example.com/graphql bypasses Akamai. Grainger DataDome bypassed via __NEXT_DATA__ 110KB. Be concise, under 200 words unless code.`;
+
+async function sendMsg() {
+  const inp = document.getElementById('llmin');
+  const btn = document.getElementById('llmsend');
+  const msgs = document.getElementById('llmmsgs');
+  const text = inp.value.trim();
+  if (!text) return;
+  if (!llmOpen) toggleLLM();
+  const um = document.createElement('div');
+  um.className = 'msg u'; um.textContent = text; msgs.appendChild(um);
+  inp.value = ''; inp.style.height = 'auto'; btn.disabled = true;
+  msgs.scrollTop = msgs.scrollHeight;
+  const tm = document.createElement('div');
+  tm.className = 'msg a'; tm.innerHTML = '<em>Thinking…</em>'; msgs.appendChild(tm);
+  msgs.scrollTop = msgs.scrollHeight;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+        system: CTX, messages: [{role: 'user', content: text}]
+      })
+    });
+    const d = await r.json();
+    const ans = d.content?.[0]?.text || 'Sorry, could not get a response.';
+    tm.innerHTML = ans
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\n/g, '<br>');
+  } catch(e) { tm.innerHTML = '<em>Connection error.</em>'; }
+  btn.disabled = false; msgs.scrollTop = msgs.scrollHeight;
+}
+</script>
+</body></html>
