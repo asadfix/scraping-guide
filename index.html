@@ -3308,7 +3308,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
         <span class="llmtitle" style="font-weight:800;letter-spacing:.02em">ScrapeIQ</span>
       </div>
       <div>
-        <div class="llmsub">Powered by Gemini · Answers from this guide only</div>
+        <div class="llmsub">Gemini · guide-only</div>
       </div>
       <button class="llmx" onclick="toggleLLM()">✕</button>
     </div>
@@ -3501,7 +3501,7 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 // ══════════════════════════════════════════════════════════════
 
 const GEMINI_KEY = 'AIzaSyD7RVCSnzJQsVxZi94n6Fvxrj7FgarffZE';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
 
 // Extract all meaningful text from the page
 function extractPageContext() {
