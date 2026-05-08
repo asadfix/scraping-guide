@@ -1035,6 +1035,37 @@ html { scroll-behavior: smooth; }
   .mob-step-num{margin-left:-14px}
 }
 
+
+/* ── APIFY FEATURED CARD ──────────────────────────────────── */
+.apify-featured{padding:20px 22px !important}
+.apify-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px;
+}
+.apify-box{
+  padding:12px 14px;border-radius:6px;
+  background:rgba(245,107,4,.05);border:1px solid rgba(245,107,4,.12);
+}
+.apify-box-title{
+  font-size:12px;font-weight:700;color:var(--t1);margin-bottom:6px;
+}
+.apify-box-body{font-size:12px;color:var(--t2);line-height:1.65}
+.apify-box-body strong{color:var(--t1)}
+.apify-when{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.apify-when-col{
+  padding:12px 14px;border-radius:6px;
+  background:rgba(255,255,255,.02);border:1px solid var(--b1);
+}
+.apify-when-head{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:8px;font-weight:700;
+}
+.apify-when-list{margin:0;padding-left:14px;list-style:disc}
+.apify-when-list li{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:3px}
+@media(max-width:768px){
+  .apify-grid,.apify-when{grid-template-columns:1fr}
+  .apify-featured{grid-column:span 1 !important}
+}
+
 </style>
 </head>
 <body>
@@ -2018,10 +2049,71 @@ html { scroll-behavior: smooth; }
   <div class="ptbody">89.7% OOTB success rate. Runs on your infrastructure. Local LLM support (Ollama). MIT license. Adaptive crawling. Full data sovereignty, data never leaves your servers.</div>
   <div class="ptstat">✓ Best for: privacy, open-source, cost $0</div>
 </div>
-<div class="ptcard" style="border-color:var(--orange)">
-  <div class="ptname">Apify</div>
-  <div class="pttag">Serverless · 10K+ Actors · MCP</div>
-  <div class="ptbody">10,000+ pre-built Actors. Crawlee at core. <strong>MCP server with LangChain built-in</strong>. ~$0.25/CU. Used by enterprise teams for production pipelines without custom infrastructure.</div>
+<div class="ptcard apify-featured" style="border-color:rgba(245,107,4,.6);grid-column:span 2">
+  <div class="ptname" style="font-size:18px">Apify <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:rgba(245,107,4,.7);font-weight:400;vertical-align:middle;margin-left:8px">FEATURED · NO-CODE OPTION</span></div>
+  <div class="pttag">Serverless cloud · 10,000+ Actors · MCP · LangChain</div>
+  <div class="ptbody">
+    <p style="margin:0 0 12px;font-size:13px;line-height:1.7;color:var(--t2)">
+      <strong style="color:var(--t1)">The best option if you don't want to build scrapers yourself.</strong> 
+      Apify is a cloud platform where scraping is already done for you — 10,000+ community-built 
+      <strong>Actors</strong> cover almost every major website: Amazon, LinkedIn, Instagram, Google Maps, 
+      TikTok, Zillow, Twitter/X, Google Search, and thousands more. You pick an Actor, give it a URL, 
+      and get back clean JSON. No Python, no proxies, no infrastructure.
+    </p>
+
+    <div class="apify-grid">
+      <div class="apify-box">
+        <div class="apify-box-title">🎭 What is an Actor?</div>
+        <div class="apify-box-body">An Actor is a serverless scraping programme that runs on Apify's cloud. Think of it like a function: you pass it inputs (URL, keywords, max results) and it returns data. Someone else wrote the spider, handles the anti-bot bypass, manages proxies, and keeps it updated. You just call it.</div>
+      </div>
+      <div class="apify-box">
+        <div class="apify-box-title">💰 How pricing works</div>
+        <div class="apify-box-body">You pay in <strong>Compute Units (CU)</strong>. One CU = 1 CPU core for 1 hour. Most Actors use 0.1–0.5 CU per 1,000 results. <strong>Free tier: $5/mo credit</strong> — enough for casual use. Paid plans from $49/mo. You can also run your own code as Actors and monetise them on the marketplace.</div>
+      </div>
+      <div class="apify-box">
+        <div class="apify-box-title">🤖 Apify + AI agents</div>
+        <div class="apify-box-body">Apify has a native <strong>MCP server</strong> — plug it directly into Claude, Cursor, or any LangChain agent. Your AI agent can call "scrape this URL", "search Google for X", or "get all reviews for this product" as natural language tool calls. No code required on the LLM side.</div>
+      </div>
+      <div class="apify-box">
+        <div class="apify-box-title">🏗️ For engineers who do build</div>
+        <div class="apify-box-body">Apify's open-source <strong>Crawlee</strong> library (formerly Apify SDK) is the core of many Actors. You can build your own Actor locally with Crawlee, push it to Apify, and run it on their infrastructure with built-in proxy rotation, auto-scaling, and a dataset API. 15K+ GitHub stars.</div>
+      </div>
+    </div>
+
+    <div class="apify-when">
+      <div class="apify-when-col">
+        <div class="apify-when-head" style="color:rgba(72,187,120,.8)">✓ Use Apify when</div>
+        <ul class="apify-when-list">
+          <li>You need data from a well-known site quickly</li>
+          <li>You don't want to maintain scrapers long-term</li>
+          <li>You're building an AI agent that needs live web data</li>
+          <li>You want someone else to handle anti-bot bypasses</li>
+          <li>You need to scale without managing infrastructure</li>
+        </ul>
+      </div>
+      <div class="apify-when-col">
+        <div class="apify-when-head" style="color:rgba(224,71,71,.8)">✗ Build your own when</div>
+        <ul class="apify-when-list">
+          <li>Your target site has no existing Actor</li>
+          <li>You need custom data transformation logic</li>
+          <li>You're scraping at very high volume (cost)</li>
+          <li>You need full control over request patterns</li>
+          <li>Data stays internal and can't touch third-party cloud</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="arch-tools" style="margin-top:14px;background:rgba(245,107,4,.04);border-color:rgba(245,107,4,.15)">
+      <span class="atools-label">Quick start</span>
+      <span class="arch-tool" style="border-color:rgba(245,107,4,.3);color:rgba(245,107,4,.8)">apify.com/store</span>
+      <span class="arch-tool">Crawlee (open source)</span>
+      <span class="arch-tool">MCP server</span>
+      <span class="arch-tool">~$0.25/CU</span>
+      <span class="arch-tool">Free $5/mo tier</span>
+      <span class="arch-tool">Python + Node.js SDK</span>
+    </div>
+  </div>
+</div>
   <div class="ptstat">✓ Best for: ready-made scrapers, LangChain</div>
 </div>
 <div class="ptcard" style="border-color:var(--yellow)">
