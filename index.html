@@ -1016,7 +1016,7 @@ html { scroll-behavior: smooth; }
       <a class="nl" href="#innovation">Innovation</a>
       <a class="nl" href="#tools">Testing</a>
       <a class="nl" href="#arch">Architecture</a>
-      <a class="nl" href="#community">Community</a>
+      <a class="nl" href="#jargon">Jargon</a><a class="nl" href="#community">Community</a>
       <a class="nl" href="#tl">Timeline</a>
     </div>
   </div>
@@ -1570,6 +1570,24 @@ html { scroll-behavior: smooth; }
     <div class="abst"><div class="abstl">VM type</div><div class="abstv">Custom</div><div class="absts">Proprietary bytecode</div></div>
     <div class="abst"><div class="abstl">DIY viability</div><div class="abstv">None</div><div class="absts">Use managed API</div></div>
   </div>
+  <div class="abc">
+    <div class="ab-head">
+      <div class="ab-dot" style="background:#e06b6b"></div>
+      <div class="ab-name">Forter</div>
+      <div class="ab-tag">Fraud / Behavioural</div>
+    </div>
+    <div class="abd">Focuses on behavioural analysis and device fingerprinting for fraud prevention. Monitors checkout speed, typing rhythm, and device profile. Common on e-commerce checkouts. <strong>Bypass:</strong> headless browser with randomised timings, diverse residential proxy pool, replay real user interaction sequences.</div>
+    <div class="ab-pills"><span class="absy">Behavioural</span><span class="absy">Device FP</span><span class="absy">Checkout fraud</span></div>
+  </div>
+  <div class="abc">
+    <div class="ab-head">
+      <div class="ab-dot" style="background:#c084fc"></div>
+      <div class="ab-name">Riskified</div>
+      <div class="ab-tag">Fraud / Behavioural</div>
+    </div>
+    <div class="abd">Monitors shopping and payment behaviour alongside device fingerprinting. Flags anomalies in purchase flow, typing patterns, and system details. <strong>Bypass:</strong> Playwright Stealth with realistic interaction replay, residential proxies, maintain full session cookies across the purchase flow.</div>
+    <div class="ab-pills"><span class="absy">Behavioural</span><span class="absy">Device FP</span><span class="absy">Payment flows</span></div>
+  </div>
 </div>
 </div>
 
@@ -1676,7 +1694,56 @@ html { scroll-behavior: smooth; }
 <tr><td><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Katana</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Go TLS + Chromium</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">8k</td></tr>
 <tr><td>playwright-go</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">CDP (detectable)</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
 <tr><td>Charles Proxy</td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Any</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Mobile API intercept</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-</tbody></table>
+
+  <tr class="lyr">
+    <td class="lyrt">Selenoid</td>
+    <td class="lyrn">Docker · Headless</td>
+    <td class="lyrb">Runs multiple headless browsers in Docker containers for parallel execution. Low resource per instance. Good for distributed scraping requiring many simultaneous browser sessions. <code>docker pull aerokube/selenoid</code></td>
+    <td><a href="https://github.com/aerokube/selenoid" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  <tr class="lyr">
+    <td class="lyrt">noble-tls</td>
+    <td class="lyrn">HTTP · TLS stealth</td>
+    <td class="lyrb">Provides stealth TLS handshakes that emulate browser-like TLS negotiations. Bypasses JA3/JA4 fingerprinting with minimal setup. Useful for high-security sites where curl_cffi is overkill.</td>
+    <td><a href="https://github.com/bycloudai/noble-tls" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  <tr class="lyr">
+    <td class="lyrt">hrequests</td>
+    <td class="lyrn">HTTP · Header stealth</td>
+    <td class="lyrb">Mimics browser headers, cookies and session handling to bypass header-based bot detection. Drop-in replacement for requests with stealth baked in. Good for API endpoint scraping with realistic headers.</td>
+    <td><a href="https://github.com/daijro/hrequests" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  <tr class="lyr">
+    <td class="lyrt">crawlee-python</td>
+    <td class="lyrn">Hybrid · HTTP + Browser</td>
+    <td class="lyrb">Python port of Apify's Crawlee. Offers flexibility with both HTTP clients and headless browsers in one framework. Handles retries, proxy rotation, and storage out of the box. Good for mixed crawling tasks.</td>
+    <td><a href="https://github.com/apify/crawlee-python" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  <tr class="lyr">
+    <td class="lyrt">estela</td>
+    <td class="lyrn">Cluster · Scrapy scale</td>
+    <td class="lyrb">Elastic web scraping cluster built on Docker and Kubernetes. Orchestrates Scrapy tasks across machines, handles distribution, monitoring and scaling. Good when you need Scrapy at cloud scale without building infra from scratch.</td>
+    <td><a href="https://github.com/scrapy-plugins/estela" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  <tr class="lyr">
+    <td class="lyrt">fake-useragent</td>
+    <td class="lyrn">HTTP · User-Agent</td>
+    <td class="lyrb">Generates realistic User-Agent strings from a database of real browsers. Rotates UA per request to avoid detection. <code>pip install fake-useragent</code> — <code>from fake_useragent import UserAgent; ua = UserAgent(); headers = {"User-Agent": ua.random}</code></td>
+    <td><a href="https://github.com/fake-useragent/fake-useragent" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  <tr class="lyr">
+    <td class="lyrt">grequests</td>
+    <td class="lyrn">HTTP · Async</td>
+    <td class="lyrb">Combines requests with gevent for concurrent HTTP requests. Simple API for firing dozens of requests in parallel without asyncio boilerplate. Good for bulk API scraping where you just need speed.</td>
+    <td><a href="https://github.com/spyoungtech/grequests" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  <tr class="lyr">
+    <td class="lyrt">Scrapoxy</td>
+    <td class="lyrn">Proxy · Manager</td>
+    <td class="lyrb">Open-source proxy manager that pools and rotates proxies across cloud providers (AWS, Azure, GCP). Routes requests through different IPs automatically. Self-hosted alternative to commercial proxy managers. <a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank">GitHub</a></td>
+    <td><a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank" class="lyr-link">GitHub ↗</a></td>
+  </tr>
+  </tbody></table>
 <div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:6px">
   <span style="margin-right:10px"><span class="dy"></span> Yes</span>
   <span style="margin-right:10px"><span class="dp"></span> Partial</span>
@@ -1935,7 +2002,16 @@ html { scroll-behavior: smooth; }
 <div class="pg"><div class="pgt">ISP / Static</div><div class="pgtr" style="color:var(--yellow)">Trust: High</div>
   <div class="pgb">Static residential range. Akamai multi-request scoring rewards consistent IPs, trust accumulates from same ISP IP. Best for long sessions on Akamai sites. Never rotate mid-session.</div>
 </div>
+
+<div class="pg"><div class="pgt">NetNut</div><div class="pgtr" style="color:var(--yellow)">ISP Direct</div>
+  <div class="pgb">ISP-based infrastructure with direct carrier connections. Lower detection risk than pooled residential. Fast and stable — good for e-commerce targets that check IP freshness and session age.</div>
 </div>
+<div class="pg"><div class="pgt">IPRoyal</div><div class="pgtr" style="color:var(--yellow)">Residential</div>
+  <div class="pgb">Ethically sourced residential + datacenter. Pay-as-you-go pricing — no long-term commitment. Good entry point before scaling to enterprise contracts with Oxylabs or Bright Data.</div>
+</div>
+<div class="pg"><div class="pgt">Scrapoxy</div><div class="pgtr" style="color:#60a5fa">Open Source Manager</div>
+  <div class="pgb">Self-hosted proxy manager that pools and rotates proxies across AWS, Azure, GCP. Routes requests through different IPs automatically. Free alternative to commercial proxy managers. <code>github.com/fabienvauchelles/scrapoxy</code></div>
+</div></div>
 
 <div class="ib tip rv"><strong>WebRTC coherence rule:</strong> Proxy IP country, WebRTC ICE candidate, DNS resolver, timezone, and Accept-Language must all agree. US residential proxy + Pakistani DNS = flagged by every major anti-bot. Use <code>geoip=True</code> in Camoufox to align all five vectors automatically.</div>
 <div class="ib warn rv"><strong>Crawlera/Zyte proxy bug:</strong> Port 8011 speaks plain HTTP. Both <code>http://</code> and <code>https://</code> keys must use <code>http://</code> scheme. Using <code>https://</code> causes BoringSSL <code>WRONG_VERSION_NUMBER</code> (TLS-over-TLS failure). Fix: <code>"https": "http://key:@proxy.crawlera.com:8011/"</code></div>
@@ -3576,6 +3652,71 @@ Return ONLY valid JSON with corrected selectors:
     </div>
   </div>
 </div>
+
+
+<!-- ═══ JARGON ═══ -->
+<section class="sec" id="jargon">
+<div class="sk"><span class="sn">★</span> Plain English</div>
+<h2 class="sh">Scraping jargon<br><em>in simple terms</em></h2>
+<p class="ss">Every term that makes scraping documentation confusing — explained with an analogy.</p>
+
+<div class="cards c3 rv">
+  <div class="card">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">Network layer</div>
+    <div class="cname">TLS Fingerprint</div>
+    <div class="cbody">How your browser "shakes hands" when connecting securely. Chrome and Firefox shake hands differently, so a server can tell them apart before you send a single header. <em>Analogy: recognising someone by the way they shake hands — firm, soft, awkward.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#60a5fa"></div>
+    <div class="ctag">Network layer</div>
+    <div class="cname">HTTP Fingerprint</div>
+    <div class="cbody">The order and style of your HTTP headers. A bot might say "I'm Chrome" but forget to include headers Chrome always sends. <em>Analogy: like a boarding pass — if your name and flight number don't match the expected pattern, it's suspicious.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#f97316"></div>
+    <div class="ctag">Network layer</div>
+    <div class="cname">TCP/IP Fingerprint</div>
+    <div class="cbody">Looks at how your computer sends and receives internet packets. Windows and Linux send packets with subtle differences. <em>Analogy: recognising someone's hometown by their accent — you didn't ask, they just gave it away by how they talk.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#a78bfa"></div>
+    <div class="ctag">Browser layer</div>
+    <div class="cname">Canvas Fingerprint</div>
+    <div class="cbody">Website secretly asks your browser to draw a hidden picture. Each GPU renders it slightly differently — that difference is your fingerprint. <em>Analogy: asking 10 artists to draw the same tree — each drawing is unique even with the same instructions.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#34d399"></div>
+    <div class="ctag">Browser layer</div>
+    <div class="cname">WebGL Fingerprint</div>
+    <div class="cbody">Uses 3D graphics rendering to identify your GPU and driver. Same browser, different hardware — different fingerprint. <em>Analogy: recognising a car engine by its sound — same model, but each engine has subtle variations you can hear.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#f43f5e"></div>
+    <div class="ctag">Browser layer</div>
+    <div class="cname">Device Fingerprint</div>
+    <div class="cbody">Collects OS, fonts, screen size, timezone, plugins, battery level — everything about your setup combined into a unique profile. <em>Analogy: identifying someone by their full outfit + hairstyle + voice + habits. Change one thing, the combo is still unique.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#fbbf24"></div>
+    <div class="ctag">Behavioural</div>
+    <div class="cname">Behavioural Analysis</div>
+    <div class="cbody">Watching how you type, scroll, move your mouse. Bots move in straight lines at constant speed. Humans are messy and inconsistent. DataDome runs 35 behavioural signals in real-time. <em>Analogy: a security guard watching body language — not what you say, how you move.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#818cf8"></div>
+    <div class="ctag">Challenge</div>
+    <div class="cname">Dynamic Challenges</div>
+    <div class="cbody">The website throws mini-tests to check if you're real — CAPTCHA, Turnstile, proof-of-work puzzles. Kasada changes them constantly so you can't pre-solve. <em>Analogy: a teacher changing exam questions mid-test to catch cheaters.</em></div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#fb923c"></div>
+    <div class="ctag">Network</div>
+    <div class="cname">IP Reputation</div>
+    <div class="cbody">Whether your IP address is associated with known bots, VPNs, datacenters, or abuse. Datacenter IPs are instantly flagged. Residential IPs from real ISPs get highest trust. <em>Analogy: your home address appearing on a blacklist — the doorman knows before you knock.</em></div>
+  </div>
+</div>
+</section>
 
 <!-- ═══ COMMUNITY ═══ -->
 <section class="sec" id="community">
