@@ -1219,6 +1219,52 @@ html { scroll-behavior: smooth; }
   .lyr-engine-box{grid-column:span 1}
 }
 
+
+/* ── LIBRARY EXPANDABLE ROWS ──────────────────────────────── */
+.lib-expandable{cursor:pointer;transition:background .1s}
+.lib-expandable:hover{background:rgba(245,197,24,.04) !important}
+.lib-row-badge{
+  font-size:10px;opacity:.7;margin-left:4px;
+  vertical-align:middle;font-style:normal;
+}
+.lib-browser-b{color:#60a5fa}
+.lib-http-b{color:var(--y)}
+
+.lib-detail-row{display:none}
+.lib-detail-row.open{display:table-row}
+.lib-detail-inner{
+  padding:14px 16px;
+  background:rgba(0,0,0,.2);
+  border-left:3px solid rgba(245,197,24,.3);
+  margin:0;
+}
+.lib-detail-top{
+  display:flex;align-items:flex-start;gap:12px;
+  margin-bottom:12px;flex-wrap:wrap;
+}
+.lib-browser-badge,.lib-http-badge{
+  flex-shrink:0;padding:3px 10px;border-radius:20px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.08em;
+  font-weight:700;white-space:nowrap;
+}
+.lib-browser-badge{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);color:#60a5fa}
+.lib-http-badge{background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.25);color:var(--y)}
+.lib-under-hood{font-size:12px;color:var(--t2);line-height:1.6;flex:1}
+.lib-hood-label{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-right:6px}
+.lib-pc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lib-pros,.lib-cons{padding:10px 12px;border-radius:5px;background:rgba(255,255,255,.02)}
+.lib-pros{border-left:2px solid rgba(72,187,120,.35)}
+.lib-cons{border-left:2px solid rgba(224,71,71,.35)}
+.lib-pc-head{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.lib-pros .lib-pc-head{color:rgba(72,187,120,.7)}
+.lib-cons .lib-pc-head{color:rgba(224,71,71,.7)}
+.lib-pros ul,.lib-cons ul{margin:0;padding-left:14px;list-style:disc}
+.lib-pros li,.lib-cons li{font-size:11.5px;color:var(--t2);line-height:1.6;margin-bottom:3px}
+@media(max-width:768px){
+  .lib-pc-row{grid-template-columns:1fr}
+  .lib-detail-top{flex-direction:column}
+}
+
 </style>
 </head>
 <body>
@@ -1931,127 +1977,1019 @@ html { scroll-behavior: smooth; }
 <h3 class="rh rv">Master comparison table, all 60+ libraries & tools</h3>
 <div class="lt-wrap rv"><table class="lt">
 <thead><tr>
-  <th>Library</th><th>Type</th><th>Lang</th><th>JS render</th><th>TLS spoof</th><th>TLS detail</th><th>Anti-bot target</th><th>MCP</th><th>Stars</th>
+  <th>Library <span style="font-size:9px;opacity:.5;font-weight:400">(click to expand)</span></th><th>Type</th><th>Lang</th><th>JS render</th><th>TLS spoof</th><th>TLS detail</th><th>Anti-bot target</th><th>MCP</th><th>Stars</th>
 </tr></thead><tbody>
-<tr><td><a href="https://github.com/lexiforest/curl_cffi" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">curl_cffi</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome JA4+</span></td><td style="font-size:13px">Akamai, DataDome</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/D4Vinci/Scrapling" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapling</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dp"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome TLS</span></td><td style="font-size:13px">Cloudflare Turnstile</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">38k</td></tr>
-<tr><td><a href="https://github.com/webclaw/webclaw" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">webclaw</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Rust</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome TLS</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/encode/httpx" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">httpx</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">None</span></td><td style="font-size:13px">Unprotected only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/psf/requests" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">requests</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">None</span></td><td style="font-size:13px">Unprotected only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">52k</td></tr>
-<tr><td><a href="https://github.com/FlorianREGAZ/Python-Tls-Client" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">tls-client</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Go/Py</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome/Firefox TLS</span></td><td style="font-size:13px">Akamai, DataDome</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/microsoft/playwright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Playwright</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/JS</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP (detectable)</span></td><td style="font-size:13px">Medium (CDP leaks)</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">68k</td></tr>
-<tr><td><a href="https://github.com/daijro/camoufox" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Camoufox</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">C++ Firefox Juggler</span></td><td style="font-size:13px">Cloudflare 100%, Akamai</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>CloakBrowser</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">49 C++ patches</span></td><td style="font-size:13px">Akamai, reCAPTCHA v3 0.9</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/Kaliiiiiiiiii-Vinyzu/patchright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">PatchRight</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Py source patches</span></td><td style="font-size:13px">Kasada, Cloudflare</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/puppeteer/puppeteer" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Puppeteer</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP (detectable)</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">89k</td></tr>
-<tr><td><a href="https://github.com/SeleniumHQ/selenium" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Selenium</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Multi</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:14px">webdriver=true</span></td><td style="font-size:13px">Weak (legacy)</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">29k</td></tr>
-<tr><td><a href="https://github.com/seleniumbase/SeleniumBase" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">SeleniumBase UC</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">UC removes WD flag</span></td><td style="font-size:13px">Kasada, general stealth</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">10k</td></tr>
-<tr><td>Selenium-Driverless</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP no WebDriver</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/ultrafunkamsterdam/nodriver" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">nodriver</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Raw CDP async</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/autbor/pydoll" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">pydoll</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Async CDP</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/Vinyzu/Botright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Botright</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CAPTCHA solving</span></td><td style="font-size:13px">CAPTCHA targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/omkarcloud/botasaurus" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Botasaurus</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Gaussian mouse</span></td><td style="font-size:13px">DataDome behaviour</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>rayobrowse</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/Docker</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Real device FP DB</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>undetected-chromedriver</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Removes WD flag</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">5k</td></tr>
-<tr><td><a href="https://github.com/scrapy/scrapy" target="_blank" rel="noopener" style="color:var(--y);text-decoration:none;font-weight:700;border-bottom:1px solid rgba(245,197,24,.4);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='rgba(245,197,24,.4)'">⭐ Scrapy</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:14px">Via curl_cffi mw</span></td><td style="font-size:13px">Medium (with middleware)</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">52k</td></tr>
-  <div class="ib tip rv" style="margin-top:12px">
-    <strong>Scrapy ecosystem essentials:</strong> Beyond the core framework, <strong>Scrapyd</strong> for daemon deployment, <strong>scrapy-redis</strong> for distributed crawling, <strong>scrapy-cluster</strong> for enterprise scale, <strong>scrapy-poet</strong> for the Page Object pattern, <strong>scrapy-camoufox</strong> for Cloudflare bypass, <strong>scrapy-nodriver</strong> for CDP integration. Scrapy Cloud (Zyte's hosted solution) for production deployment without managing servers.
-  </div>
-
-<tr><td><a href="https://github.com/apify/crawlee" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Crawlee</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node/Py</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Playwright-based</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">15k</td></tr>
-<tr><td>scrapy-camoufox</td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Camoufox integration</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>scrapy-nodriver</td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">nodriver integration</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/mendableai/firecrawl" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Firecrawl</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">FIRE-1 engine</span></td><td style="font-size:13px">Hard via managed</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">111k</td></tr>
-<tr><td><a href="https://github.com/unclecode/crawl4ai" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Crawl4AI</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Playwright-based</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">60k</td></tr>
-<tr><td><a href="https://github.com/ScrapeGraphAI/Scrapegraph-ai" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">ScrapeGraphAI</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:14px">NL graph pipeline</span></td><td style="font-size:13px">Light protection</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">18k</td></tr>
-<tr><td>Jina Reader API</td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Built-in rendering</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/steel-dev/steel-browser" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Steel</a></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Docker browser</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>Bright Data</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Full enterprise stack</span></td><td style="font-size:13px">All incl. F5 Shape</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>Zyte</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Full stack</span></td><td style="font-size:13px">All targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>Apify</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">10K+ Actors</span></td><td style="font-size:13px">Medium-hard</td><td style="text-align:center"><span class="dy"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>ScrapingBee</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Managed rendering</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>Oxylabs</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">OxyCopilot AI</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td>Browserbase</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Managed browser</span></td><td style="font-size:13px">Hard targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/Nykakin/chompjs" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">chompjs</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Parser only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/scrapy/parsel" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Parsel</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Parser only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://www.crummy.com/software/BeautifulSoup/" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">BeautifulSoup4</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Parser only</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">10k</td></tr>
-<tr><td><a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">mitmproxy</a></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">RE / intercept</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">37k</td></tr>
-<tr><td><a href="https://httptoolkit.com" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">HTTPToolkit</a></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Any</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">Mobile API intercept</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://frida.re" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Frida</a></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/JS</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td style="font-size:13px">SSL hooks</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">—</td></tr>
-
-<tr><td><a href="https://github.com/rebrowser/rebrowser-patches" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">rebrowser-patches</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Chrome source patches</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/Danny-Dasilva/CycleTLS" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">cycle-tls</a></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go/JS</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:11px">Chrome/Firefox TLS</span></td><td style="font-size:12px">Akamai, DataDome</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>GoLogin</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Cloud</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Antidetect profiles</span></td><td style="font-size:12px">Hard multi-account</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>Multilogin</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Cloud</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Antidetect profiles</span></td><td style="font-size:12px">Hard multi-account</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>ScraperAPI</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Full stack</span></td><td style="font-size:12px">All incl. Walmart</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>Decodo</td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Full stack</span></td><td style="font-size:12px">All targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>CapSolver</td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">reCAPTCHA/hCaptcha</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>2captcha</td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">All CAPTCHA types</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>Anti-Captcha</td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">reCAPTCHA/image</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/scrapy/scrapyd" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapyd</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:11px">Via middleware</span></td><td style="font-size:12px">Scrapy deploy tool</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/rmax/scrapy-redis" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-redis</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Distributed Scrapy</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/istresearch/scrapy-cluster" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-cluster</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Enterprise Scrapy</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/scrapinghub/scrapy-poet" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-poet</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Page Object pattern</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/scrapinghub/splash" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Splash</a></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Docker</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:11px">Lua scripting</span></td><td style="font-size:12px">Light protection</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/rushter/selectolax" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">selectolax</a></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Fast HTML parser</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>lxml</td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">XPath + CSS parser</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>w3lib</td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">URL/text utils</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/Aahaan-k/swiftshadow" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">SwiftShadow</a></td><td><span class="lcat lp">Proxy</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Proxy pool manager</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>requests-ip-rotator</td><td><span class="lcat lp">Proxy</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">AWS API Gateway IPs</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td><a href="https://github.com/gocolly/colly" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Colly</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:11px">Go TLS</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">15k</td></tr>
-<tr><td><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Katana</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Go TLS + Chromium</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">8k</td></tr>
-<tr><td>playwright-go</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">CDP (detectable)</span></td><td style="font-size:12px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-<tr><td>Charles Proxy</td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Any</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td style="font-size:12px">Mobile API intercept</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:11px;color:var(--yellow)">—</td></tr>
-
-  <tr class="lyr">
-    <td class="lyrt">Selenoid</td>
-    <td class="lyrn">Docker · Headless</td>
-    <td class="lyrb">Runs multiple headless browsers in Docker containers for parallel execution. Low resource per instance. Good for distributed scraping requiring many simultaneous browser sessions. <code>docker pull aerokube/selenoid</code></td>
-    <td><a href="https://github.com/aerokube/selenoid" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  <tr class="lyr">
-    <td class="lyrt">noble-tls</td>
-    <td class="lyrn">HTTP · TLS stealth</td>
-    <td class="lyrb">Provides stealth TLS handshakes that emulate browser-like TLS negotiations. Bypasses JA3/JA4 fingerprinting with minimal setup. Useful for high-security sites where curl_cffi is overkill.</td>
-    <td><a href="https://github.com/bycloudai/noble-tls" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  <tr class="lyr">
-    <td class="lyrt">hrequests</td>
-    <td class="lyrn">HTTP · Header stealth</td>
-    <td class="lyrb">Mimics browser headers, cookies and session handling to bypass header-based bot detection. Drop-in replacement for requests with stealth baked in. Good for API endpoint scraping with realistic headers.</td>
-    <td><a href="https://github.com/daijro/hrequests" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  <tr class="lyr">
-    <td class="lyrt">crawlee-python</td>
-    <td class="lyrn">Hybrid · HTTP + Browser</td>
-    <td class="lyrb">Python port of Apify's Crawlee. Offers flexibility with both HTTP clients and headless browsers in one framework. Handles retries, proxy rotation, and storage out of the box. Good for mixed crawling tasks.</td>
-    <td><a href="https://github.com/apify/crawlee-python" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  <tr class="lyr">
-    <td class="lyrt">estela</td>
-    <td class="lyrn">Cluster · Scrapy scale</td>
-    <td class="lyrb">Elastic web scraping cluster built on Docker and Kubernetes. Orchestrates Scrapy tasks across machines, handles distribution, monitoring and scaling. Good when you need Scrapy at cloud scale without building infra from scratch.</td>
-    <td><a href="https://github.com/scrapy-plugins/estela" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  <tr class="lyr">
-    <td class="lyrt">fake-useragent</td>
-    <td class="lyrn">HTTP · User-Agent</td>
-    <td class="lyrb">Generates realistic User-Agent strings from a database of real browsers. Rotates UA per request to avoid detection. <code>pip install fake-useragent</code> — <code>from fake_useragent import UserAgent; ua = UserAgent(); headers = {"User-Agent": ua.random}</code></td>
-    <td><a href="https://github.com/fake-useragent/fake-useragent" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  <tr class="lyr">
-    <td class="lyrt">grequests</td>
-    <td class="lyrn">HTTP · Async</td>
-    <td class="lyrb">Combines requests with gevent for concurrent HTTP requests. Simple API for firing dozens of requests in parallel without asyncio boilerplate. Good for bulk API scraping where you just need speed.</td>
-    <td><a href="https://github.com/spyoungtech/grequests" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  <tr class="lyr">
-    <td class="lyrt">Scrapoxy</td>
-    <td class="lyrn">Proxy · Manager</td>
-    <td class="lyrb">Open-source proxy manager that pools and rotates proxies across cloud providers (AWS, Azure, GCP). Routes requests through different IPs automatically. Self-hosted alternative to commercial proxy managers. <a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank">GitHub</a></td>
-    <td><a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank" class="lyr-link">GitHub ↗</a></td>
-  </tr>
-  </tbody></table>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('curl_cffi')"><td><a href="https://github.com/lexiforest/curl_cffi" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">curl_cffi</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome JA4+</span></td><td>Akamai, DataDome</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-curl_cffi">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> libcurl C library with custom TLS patches. Emits exact Chrome/Safari/Firefox TLS ClientHello at the C level — cipher suites, extensions, ALPN, GREASE all match real browsers.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Fastest HTTP option. Pure HTTP speed, no browser overhead</li><li>Confirmed DataDome + Akamai bypass in 2026</li><li>Asyncio support via AsyncSession</li><li>Simple requests-compatible API</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>No JavaScript execution — useless for JS-rendered pages</li><li>Cannot solve CAPTCHA or Turnstile challenges</li><li>TLS fingerprint only — no behaviour or canvas spoofing</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Scrapling')"><td><a href="https://github.com/D4Vinci/Scrapling" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapling</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dp"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome TLS</span></td><td>Cloudflare Turnstile</td><td><span class="dy"></span></td><td>38k</td></tr>
+<tr class="lib-detail-row" id="detail-Scrapling">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Wraps curl_cffi for stealth HTTP + integrates Camoufox for browser mode. StealthyFetcher uses a real patched Firefox under the hood when needed.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>StealthyFetcher solves Cloudflare Turnstile natively</li><li>Async spider v0.4 — pause/resume, per-domain throttling</li><li>Dual-mode: HTTP for speed, browser for hard targets</li><li>Active development, 38K stars</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Higher complexity than plain curl_cffi</li><li>Browser mode adds Camoufox overhead when triggered</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('webclaw')"><td><a href="https://github.com/webclaw/webclaw" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">webclaw</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Rust</span></td><td><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome TLS</span></td><td>Medium targets</td><td><span class="dy"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-webclaw">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Rust HTTP client with TLS fingerprint spoofing. Emits browser TLS signatures from Rust — fast and low-memory.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Rust speed — very low CPU/memory overhead</li><li>TLS fingerprinting at Rust level</li><li>Good for high-volume HTTP scraping</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Rust — no Python API</li><li>Less widespread adoption</li><li>No JS rendering</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('httpx')"><td><a href="https://github.com/encode/httpx" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">httpx</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">None</span></td><td>Unprotected only</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-httpx">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Modern Python HTTP library with async support and HTTP/2.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Async + sync in one library</li><li>HTTP/2 support unlike requests</li><li>Type hints, modern API</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>TLS fingerprint still Python-default — detectable</li><li>Not as stealthy as curl_cffi without patching</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('requests')"><td><a href="https://github.com/psf/requests" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">requests</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">None</span></td><td>Unprotected only</td><td><span class="dn"></span></td><td>52k</td></tr>
+<tr class="lib-detail-row" id="detail-requests">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Pure Python HTTP library. Sends HTTP/1.1 requests with standard Python TLS.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Simple API, universally known</li><li>Synchronous — easy to debug</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>TLS fingerprint is instantly detectable (Python urllib3)</li><li>No async — slow for concurrent scraping</li><li>No anti-bot capability</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('tls-client')"><td><a href="https://github.com/FlorianREGAZ/Python-Tls-Client" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">tls-client</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Go/Py</span></td><td><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome/Firefox TLS</span></td><td>Akamai, DataDome</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-tls-client">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Go/Python wrapper around a Go TLS client that mimics browser fingerprints. Predecessor to cycle-tls.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Python bindings available</li><li>Bypasses JA3/JA4 fingerprinting</li><li>Lighter than curl_cffi</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Less actively maintained than curl_cffi</li><li>No JS rendering</li><li>Binary dependency</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Playwright')"><td><a href="https://github.com/microsoft/playwright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Playwright</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/JS</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP (detectable)</span></td><td>Medium (CDP leaks)</td><td><span class="dn"></span></td><td>68k</td></tr>
+<tr class="lib-detail-row" id="detail-Playwright">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Chromium DevTools Protocol (CDP). Microsoft-maintained. Drives real Chromium, Firefox, or WebKit browsers over CDP socket.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Best JS execution support — renders any SPA</li><li>68K stars, massive ecosystem and docs</li><li>Cross-browser: Chrome, Firefox, Safari (WebKit)</li><li>Screenshot, PDF, network intercept built-in</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>CDP is detectable — needs C++ wrapper (PatchRight/Camoufox)</li><li>Heavy: launches a full browser process per session</li><li>Slow vs HTTP — ~10× more memory per concurrent task</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Camoufox')"><td><a href="https://github.com/daijro/camoufox" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Camoufox</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">C++ Firefox Juggler</span></td><td>Cloudflare 100%, Akamai</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Camoufox">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Forked Firefox with C++ binary patches to Juggler protocol (below CDP). Patches navigator, canvas, WebGL, fonts, window.chrome at binary level.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>100% Cloudflare pass rate as of March 2026</li><li>geoip=True aligns all 5 identity vectors automatically</li><li>Below-CDP — invisible to JS-level detection</li><li>Async context manager, drop-in playwright replacement</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Firefox only — no Chrome/Safari</li><li>Heavier than curl_cffi</li><li>Occasional site-specific quirks with Firefox fingerprint</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('CloakBrowser')"><td>CloakBrowser <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">49 C++ patches</span></td><td>Akamai, reCAPTCHA v3 0.9</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-CloakBrowser">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> 49 C++ binary patches to Chromium. Patches webdriver, chrome object, plugins, permissions, WebGL, Canvas at the binary level — not patchable by JS.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>reCAPTCHA v3 score 0.9 — highest of any tool</li><li>Passes Akamai extension probes</li><li>Real extension fingerprint database built-in</li><li>C++ level — undetectable by any JS probe</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Paid product — not open source</li><li>Less community support than Playwright</li><li>Chrome only</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('PatchRight')"><td><a href="https://github.com/Kaliiiiiiiiii-Vinyzu/patchright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">PatchRight</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Py source patches</span></td><td>Kasada, Cloudflare</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-PatchRight">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Patches Playwright Python source files at install time. Removes CDP signatures, webdriver property, and stealth tells from the JS layer.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Open source, free, Kasada bypass confirmed</li><li>Drop-in Playwright replacement — zero API changes</li><li>Patches JS layer without C++ recompilation</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>JS-level patches only — determined adversary can detect at binary level</li><li>Less robust than Camoufox on Cloudflare 5-second challenge</li><li>Requires Playwright to be installed first</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Puppeteer')"><td><a href="https://github.com/puppeteer/puppeteer" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Puppeteer</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP (detectable)</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>89k</td></tr>
+<tr class="lib-detail-row" id="detail-Puppeteer">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Node.js CDP driver for Chromium. Google-maintained. The original headless browser automation library.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>89K stars — largest ecosystem</li><li>Native Google product — Chromium compatibility guaranteed</li><li>Good for CI/CD screenshot and PDF generation</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>CDP is easily detectable (webdriver=true, window.chrome absent)</li><li>Node.js only — no Python</li><li>No anti-bot stealth built-in</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Selenium')"><td><a href="https://github.com/SeleniumHQ/selenium" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Selenium</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Multi</span></td><td><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:14px">webdriver=true</span></td><td>Weak (legacy)</td><td><span class="dn"></span></td><td>29k</td></tr>
+<tr class="lib-detail-row" id="detail-Selenium">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> WebDriver protocol (W3C standard). Drives any browser via standardised JSON protocol. The original browser automation framework.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Multi-language: Python, Java, C#, Ruby, JS</li><li>Supports all browsers including IE and Safari</li><li>Huge ecosystem, well-documented</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>navigator.webdriver=true is trivially detectable</li><li>Slowest option — WebDriver adds round-trip latency</li><li>Requires ChromeDriver binary management</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('SeleniumBase-UC')"><td><a href="https://github.com/seleniumbase/SeleniumBase" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">SeleniumBase UC</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">UC removes WD flag</span></td><td>Kasada, general stealth</td><td><span class="dn"></span></td><td>10k</td></tr>
+<tr class="lib-detail-row" id="detail-SeleniumBase-UC">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> SeleniumBase with undetected-chromedriver mode. Patches Chrome binary to remove webdriver flag and CDP signatures.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>UC mode removes webdriver=true flag</li><li>Passes basic Cloudflare and PerimeterX</li><li>Built-in test framework, good for QA teams</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Not as strong as Camoufox/PatchRight on hard targets</li><li>Chrome binary patches can break on updates</li><li>Slower than Playwright equivalent</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Selenium-Driverless')"><td>Selenium-Driverless <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CDP no WebDriver</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Selenium-Driverless">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Direct CDP connection without ChromeDriver binary — no webdriver flag set. Async Python API.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>No ChromeDriver binary needed</li><li>No webdriver=true flag</li><li>Async Python native</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Newer — less battle-tested than nodriver</li><li>Chrome only</li><li>Some CDP signatures still detectable</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('nodriver')"><td><a href="https://github.com/ultrafunkamsterdam/nodriver" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">nodriver</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Raw CDP async</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-nodriver">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Controls Chrome via its internal DevTools socket without using CDP's standard automation flag. Chrome doesn't know it's being driven.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Chrome does not set automation flags</li><li>Passes many sites that detect standard CDP</li><li>Lightweight — lower overhead than full Playwright</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Relatively new — less battle-tested</li><li>Python only</li><li>Some sites still detect via other JS signals</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('pydoll')"><td><a href="https://github.com/autbor/pydoll" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">pydoll</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Async CDP</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-pydoll">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Pure Python browser automation using Chrome DevTools Protocol directly. No external driver.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>No ChromeDriver dependency</li><li>Fast startup — no driver process</li><li>Pure Python, easy to install</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>CDP still potentially detectable</li><li>Less mature than Playwright</li><li>Smaller community</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Botright')"><td><a href="https://github.com/Vinyzu/Botright" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Botright</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">CAPTCHA solving</span></td><td>CAPTCHA targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Botright">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Playwright wrapper focused on CAPTCHA solving and stealth. Uses AI to solve CAPTCHAs during automation.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Auto-solves reCAPTCHA and hCAPTCHA inline</li><li>Stealth patches on top of Playwright</li><li>Good for CAPTCHA-heavy targets</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Heavier than raw Playwright</li><li>CAPTCHA AI may be rate-limited</li><li>Less control over fingerprinting</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Botasaurus')"><td><a href="https://github.com/omkarcloud/botasaurus" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Botasaurus</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Gaussian mouse</span></td><td>DataDome behaviour</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Botasaurus">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Playwright wrapper that adds Gaussian mouse movement, realistic typing, scroll physics, and session management.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Gaussian mouse curves — passes behavioural ML checks</li><li>Handles DataDome behavioural scoring</li><li>Session persistence and rotating profiles built-in</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Browser-based overhead</li><li>Overkill for targets without behavioural analysis</li><li>Less control than raw Playwright</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('rayobrowse')"><td>rayobrowse <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/Docker</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Real device FP DB</span></td><td>Hard targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-rayobrowse">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Self-hosted browser API with a real device fingerprint database. Each session gets a unique real-device fingerprint profile.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Real device fingerprints — not synthetic</li><li>Self-hosted — no third-party dependency</li><li>Chromium + Linux, Docker-deployable</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Less documented than Playwright</li><li>Self-hosting adds ops overhead</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('undetected-chromedriver')"><td>undetected-chromedriver <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Removes WD flag</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>5k</td></tr>
+<tr class="lib-detail-row" id="detail-undetected-chromedriver">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Patches ChromeDriver binary to remove webdriver=true and CDP automation flags at binary level.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Removes most obvious webdriver signals</li><li>Simple: just replace webdriver.Chrome with uc.Chrome</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Chrome binary patches break on updates frequently</li><li>Not as robust as Camoufox on modern Cloudflare</li><li>Maintenance has slowed</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Scrapy')"><td><a href="https://github.com/scrapy/scrapy" target="_blank" rel="noopener" style="color:var(--y);text-decoration:none;font-weight:700;border-bottom:1px solid rgba(245,197,24,.4);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='rgba(245,197,24,.4)'">⭐ Scrapy</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:14px">Via curl_cffi mw</span></td><td>Medium (with middleware)</td><td><span class="dn"></span></td><td>52k</td></tr>
+<tr class="lib-detail-row" id="detail-Scrapy">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Twisted-based async Python framework. Pure HTTP — sends requests, receives responses, parses with XPath/CSS. No browser.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>52K stars — production standard for HTTP scraping</li><li>Massive ecosystem: scrapy-redis, scrapy-playwright, scrapyd</li><li>Async by default — hundreds of concurrent requests</li><li>Mature: pipelines, middlewares, extensions all built-in</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>No JS rendering by default (need playwright middleware)</li><li>Pure HTTP — detectable by TLS fingerprint without curl_cffi middleware</li><li>Steeper learning curve than requests</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Crawlee')"><td><a href="https://github.com/apify/crawlee" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Crawlee</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node/Py</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Playwright-based</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>15k</td></tr>
+<tr class="lib-detail-row" id="detail-Crawlee">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Apify's unified Node.js framework. Wraps both HTTP (got-scraping) and Playwright/Puppeteer. Handles retries, deduplication, storage.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Dual HTTP+browser mode in one framework</li><li>15K stars, actively maintained by Apify</li><li>Built-in dataset storage, request queue, proxy rotation</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Node.js primary (Python port is newer, less mature)</li><li>More opinionated than Scrapy — harder to customise</li><li>Heavier dependency footprint</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-camoufox')"><td>scrapy-camoufox <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Camoufox integration</span></td><td>Hard targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-scrapy-camoufox">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Scrapy middleware that routes requests through Camoufox browser for stealth. Best of Scrapy + Camoufox.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Scrapy pipeline management + Camoufox stealth</li><li>Per-request browser decision (HTTP vs browser)</li><li>Good for mixed protection targets</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Camoufox overhead on browser requests</li><li>Requires both Scrapy and Camoufox installed</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-nodriver')"><td>scrapy-nodriver <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">nodriver integration</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-scrapy-nodriver">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Scrapy middleware using nodriver for browser requests — Chrome without CDP flags.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Scrapy framework + Chrome without automation flags</li><li>Good for Cloudflare-protected targets</li><li>Use Scrapy architecture you know</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>nodriver overhead per browser request</li><li>Less control than raw nodriver</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Firecrawl')"><td><a href="https://github.com/mendableai/firecrawl" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Firecrawl</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">FIRE-1 engine</span></td><td>Hard via managed</td><td><span class="dy"></span></td><td>111k</td></tr>
+<tr class="lib-detail-row" id="detail-Firecrawl">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> API service that converts any URL to clean Markdown or structured JSON for LLM consumption. FIRE-1 agent for multi-page crawls.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>111K stars — most popular LLM scraping tool</li><li>Outputs clean Markdown — 67% fewer tokens for LLMs</li><li>MCP server for Claude/Cursor/LangChain</li><li>Handles JS rendering and auth flows</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>API cost at scale</li><li>Less control over request details vs raw scraping</li><li>Data goes through third-party servers</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Crawl4AI')"><td><a href="https://github.com/unclecode/crawl4ai" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Crawl4AI</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Playwright-based</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>60k</td></tr>
+<tr class="lib-detail-row" id="detail-Crawl4AI">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Local Playwright wrapper optimised for LLM output. Runs locally, converts pages to clean Markdown with BM25 relevance filtering.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Fully local — no API cost</li><li>BM25 filter reduces LLM context bloat</li><li>LLM extraction schema definition</li><li>MIT license — commercial friendly</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Playwright overhead per page</li><li>Less anti-bot bypass than Camoufox</li><li>No managed infrastructure</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('ScrapeGraphAI')"><td><a href="https://github.com/ScrapeGraphAI/Scrapegraph-ai" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">ScrapeGraphAI</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:14px">NL graph pipeline</span></td><td>Light protection</td><td><span class="dn"></span></td><td>18k</td></tr>
+<tr class="lib-detail-row" id="detail-ScrapeGraphAI">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> LLM-powered extraction that builds a graph pipeline from a natural language prompt. Local or API.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Natural language extraction definition</li><li>Open source, self-hostable</li><li>Graph pipeline handles multi-step extractions</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>LLM inference cost/latency per extraction</li><li>Less deterministic than CSS/XPath selectors</li><li>Newer — less battle-tested at scale</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Jina-Reader-API')"><td>Jina Reader API <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Built-in rendering</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Jina-Reader-API">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> REST API: prefix r.jina.ai/ to any URL to get clean Markdown back. Zero setup.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Simplest possible API — one URL prefix</li><li>Good JS rendering</li><li>Free tier available</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Data goes through Jina servers</li><li>Less control than local scraping</li><li>Rate limited on free tier</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Steel')"><td><a href="https://github.com/steel-dev/steel-browser" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Steel</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat la">AI</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Docker browser</span></td><td>Medium targets</td><td><span class="dy"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Steel">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Self-hosted browser API with MCP server. AI agents call it as a tool to browse the web.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Self-hosted — data stays local</li><li>MCP server for AI agent integration</li><li>Docker deployment</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Newer product — smaller community</li><li>Setup overhead vs managed services</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Bright-Data')"><td>Bright Data <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Full enterprise stack</span></td><td>All incl. F5 Shape</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Bright-Data">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> 72M+ IP network + scraping API. Managed infrastructure handles anti-bot, JS rendering, proxy rotation.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>98.44% success rate — highest benchmark</li><li>Covers F5 Shape (only managed service that does)</li><li>Residential + ISP + datacenter + mobile IPs</li><li>Dataset marketplace for pre-scraped data</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Most expensive option</li><li>Data goes through third-party</li><li>Overkill for simple targets</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Zyte')"><td>Zyte <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Full stack</span></td><td>All targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Zyte">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Scrapy company's managed scraping platform. Zyte API + AutoExtract for structured data.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>#1 Proxyway benchmark 2025</li><li>AutoExtract returns structured product/article data</li><li>Built by the Scrapy maintainers</li><li>Smart proxy rotation built-in</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Expensive at scale</li><li>AutoExtract less flexible than custom extraction</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Apify')"><td>Apify <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">10K+ Actors</span></td><td>Medium-hard</td><td><span class="dy"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Apify">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> 10,000+ pre-built Actors on serverless cloud. Crawlee at core. MCP server for AI agents.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Biggest marketplace of pre-built scrapers</li><li>MCP server: AI agents call Actors as tools</li><li>Free $5/mo credit for casual use</li><li>Crawlee open source available locally</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>CU pricing can escalate</li><li>Data goes through Apify cloud</li><li>Less control over anti-bot approach in Actors</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('ScrapingBee')"><td>ScrapingBee <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Managed rendering</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-ScrapingBee">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Managed scraping API. Handles JS rendering, CAPTCHA, proxies via simple REST call.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Dead simple: one API call, get HTML back</li><li>Free tier available</li><li>Handles most modern JS rendering</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Less anti-bot strength than Zyte or Bright Data</li><li>Per-call pricing</li><li>Less control over request details</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Oxylabs')"><td>Oxylabs <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">OxyCopilot AI</span></td><td>Hard targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Oxylabs">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> 102M+ IP network with OxyCopilot AI extraction and scraper APIs.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Largest IP pool (102M+)</li><li>OxyCopilot: AI-powered extraction</li><li>Strong residential + datacenter options</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Enterprise pricing</li><li>Data through third-party</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Browserbase')"><td>Browserbase <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Managed browser</span></td><td>Hard targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Browserbase">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Managed Playwright cloud. Run Playwright scripts remotely without managing browser infrastructure.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>No browser infra to manage</li><li>Scales automatically</li><li>Playwright API unchanged — zero code changes</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>42% success rate on anti-bot benchmark (vs 81% Browser Use)</li><li>Per-session pricing</li><li>Less stealth than self-hosted Camoufox</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('chompjs')"><td><a href="https://github.com/Nykakin/chompjs" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">chompjs</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td>Parser only</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-chompjs">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Python library to parse JavaScript objects embedded in HTML pages. Converts JS literals to Python dicts.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Handles malformed JSON that json.loads rejects</li><li>Extracts __NEXT_DATA__ and embedded JS objects</li><li>Zero dependencies</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Parsing only — not a scraping framework</li><li>Narrow use case</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Parsel')"><td><a href="https://github.com/scrapy/parsel" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Parsel</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td>Parser only</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Parsel">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Scrapy's HTML/XML parser library. XPath and CSS selectors with a clean Python API.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>XPath + CSS in one library</li><li>Used inside Scrapy — familiar API</li><li>Faster than BeautifulSoup for selection</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Parsing only — no HTTP requests</li><li>Less beginner-friendly than BS4</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('BeautifulSoup4')"><td><a href="https://www.crummy.com/software/BeautifulSoup/" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">BeautifulSoup4</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td>Parser only</td><td><span class="dn"></span></td><td>10k</td></tr>
+<tr class="lib-detail-row" id="detail-BeautifulSoup4">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Python HTML/XML parser. Wraps lxml or html.parser. Builds a parse tree from raw HTML strings.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Simple, readable API — beginner-friendly</li><li>Works on any HTML string regardless of source</li><li>No network requests — pure parsing</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Not a scraping framework — needs requests/httpx separately</li><li>Slow on large documents vs selectolax/lxml</li><li>No anti-bot capability whatsoever</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('mitmproxy')"><td><a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">mitmproxy</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td>RE / intercept</td><td><span class="dn"></span></td><td>37k</td></tr>
+<tr class="lib-detail-row" id="detail-mitmproxy">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Python-based HTTPS proxy. Intercepts, inspects, and modifies HTTP/HTTPS traffic between client and server.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Full request/response visibility and modification</li><li>Script intercepted traffic with Python</li><li>Good for understanding anti-bot request patterns</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Requires certificate trust on device</li><li>SSL pinning blocks it on hardened apps</li><li>For analysis/RE — not production scraping</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('HTTPToolkit')"><td><a href="https://httptoolkit.com" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">HTTPToolkit</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Any</span></td><td><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td>Mobile API intercept</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-HTTPToolkit">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> HTTPS intercepting proxy for development and mobile API discovery. Open source.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Intercepts HTTPS without SSL pinning (with rooted device)</li><li>Beautiful UI for inspecting requests</li><li>Works with Android emulators via ADB</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>For analysis only — not for production scraping</li><li>Requires rooted device for mobile apps</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Frida')"><td><a href="https://frida.re" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Frida</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Py/JS</span></td><td><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:14px">N/A</span></td><td>SSL hooks</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Frida">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Dynamic instrumentation toolkit. Injects JavaScript into running processes. Used to hook native functions and bypass SSL pinning.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Bypass SSL pinning in any Android/iOS app</li><li>Hook any native function at runtime</li><li>Essential for mobile app API extraction</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Requires rooted/jailbroken device</li><li>Complex setup — not for beginners</li><li>App-specific scripts needed per target</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('rebrowser-patches')"><td><a href="https://github.com/rebrowser/rebrowser-patches" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">rebrowser-patches</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Chrome source patches</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-rebrowser-patches">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> JavaScript patches injected into Playwright/Puppeteer pages to mask automation signals.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Removes navigator.webdriver and CDP signals at JS level</li><li>Works with any Playwright version</li><li>Easy to integrate</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>JS-level only — binary signals still present</li><li>Less robust than C++ patches</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('cycle-tls')"><td><a href="https://github.com/Danny-Dasilva/CycleTLS" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">cycle-tls</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go/JS</span></td><td><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:11px">Chrome/Firefox TLS</span></td><td>Akamai, DataDome</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-cycle-tls">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Node.js/Go TLS client that cycles through browser fingerprints. Sends real JA3 hashes per request.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Node.js TLS fingerprint spoofing</li><li>Per-request fingerprint rotation</li><li>Good for JS pipeline scraping</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Node.js only — no Python</li><li>Less robust than curl_cffi on hard targets</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('GoLogin')"><td>GoLogin <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Cloud</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Antidetect profiles</span></td><td>Hard multi-account</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-GoLogin">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Cloud anti-detect browser. Manages browser profiles with unique fingerprints stored in cloud. Multi-account management.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Profile fingerprint management at scale</li><li>Good for multi-account scraping operations</li><li>Team sharing of browser profiles</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Paid product, cloud-dependent</li><li>Not suitable for automated pipeline scraping</li><li>Designed for manual browsing, not scripted crawling</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Multilogin')"><td>Multilogin <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Cloud</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Antidetect profiles</span></td><td>Hard multi-account</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Multilogin">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Commercial anti-detect browser with managed profile fingerprints. Team collaboration on browser profiles.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Professional multi-account management</li><li>Managed fingerprint database</li><li>Team profile sharing</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Very expensive</li><li>Designed for manual use — not automated crawling</li><li>Data in cloud</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('ScraperAPI')"><td>ScraperAPI <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Full stack</span></td><td>All incl. Walmart</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-ScraperAPI">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Simple proxy rotation + JS rendering API. Handles geo-targeting and header rotation.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Simple integration — just prepend URL</li><li>Free tier with 1000 calls/mo</li><li>Geo-targeting built in</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Weaker on hard anti-bot targets</li><li>Basic anti-bot handling vs Zyte/Bright Data</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Decodo')"><td>Decodo <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lm">Managed</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Full stack</span></td><td>All targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Decodo">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Smartproxy's new brand. Residential, datacenter, and mobile proxy network.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Affordable residential proxies</li><li>Pay-as-you-go pricing</li><li>Good for mid-scale scraping</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Less powerful than Bright Data on hard targets</li><li>Smaller IP pool</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('CapSolver')"><td>CapSolver <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>reCAPTCHA/hCaptcha</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-CapSolver">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> AI-powered CAPTCHA solving service. Uses computer vision to solve reCAPTCHA v2/v3, hCAPTCHA, Cloudflare Turnstile.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Solves reCAPTCHA v3, hCAPTCHA, Turnstile, ImageCAPTCHA</li><li>Fast: under 10 seconds for most CAPTCHA types</li><li>API-based — works with any language</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Cost per solve (~$0.001–0.002)</li><li>reCAPTCHA v3 score may be low vs C++ browser</li><li>Solving is symptomatic — better to avoid triggering CAPTCHA</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('2captcha')"><td>2captcha <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>All CAPTCHA types</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-2captcha">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Human + AI hybrid CAPTCHA solving service. One of the oldest in the market.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Solves almost any CAPTCHA type including custom ones</li><li>Human fallback for unusual CAPTCHAs</li><li>Large API ecosystem</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Slowest option — human solving adds latency</li><li>Cost per solve</li><li>Less automated than CapSolver</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Anti-Captcha')"><td>Anti-Captcha <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>reCAPTCHA/image</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Anti-Captcha">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Human + AI CAPTCHA solving service. Competitor to 2captcha.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Solves all major CAPTCHA types</li><li>Competitive pricing</li><li>API compatible with 2captcha</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Human solving latency</li><li>Cost per solve</li><li>Better to avoid triggering CAPTCHA in the first place</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Scrapyd')"><td><a href="https://github.com/scrapy/scrapyd" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapyd</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:11px">Via middleware</span></td><td>Scrapy deploy tool</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Scrapyd">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Daemon that deploys and runs Scrapy spiders via JSON API. Port 6800. Process-based job queue.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Zero cloud cost — runs on any server</li><li>ScrapydWeb provides visual dashboard</li><li>Simple deploy: scrapyd-deploy -p project</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Single node by default — no horizontal scaling</li><li>No built-in monitoring or alerting</li><li>Job isolation is process-level only</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-redis')"><td><a href="https://github.com/rmax/scrapy-redis" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-redis</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>Distributed Scrapy</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-scrapy-redis">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Scrapy extension connecting spiders to a Redis shared URL queue. Enables distributed crawling.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Horizontal scale: add workers without code change</li><li>Redis deduplicates URLs across all workers</li><li>One codebase, N machines</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Redis is a new SPOF</li><li>No built-in job scheduling</li><li>Requires Redis infrastructure</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-cluster')"><td><a href="https://github.com/istresearch/scrapy-cluster" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-cluster</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>Enterprise Scrapy</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-scrapy-cluster">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Distributed Scrapy cluster using Redis + Kafka + Zookeeper. Enterprise-scale distributed crawling.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>True enterprise-scale distributed crawling</li><li>Kafka for message durability</li><li>Multi-project support</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Complex infra: Redis + Kafka + Zookeeper</li><li>Overkill for most use cases</li><li>High ops overhead</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-poet')"><td><a href="https://github.com/scrapinghub/scrapy-poet" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">scrapy-poet</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>Page Object pattern</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-scrapy-poet">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Dependency injection framework for Scrapy spiders. Cleaner spider code with page objects.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Cleaner code via page objects pattern</li><li>Works with zyte-spider and AutoExtract</li><li>Testable spider logic</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Adds abstraction overhead</li><li>Learning curve for Scrapy veterans</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Splash')"><td><a href="https://github.com/scrapinghub/splash" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Splash</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Docker</span></td><td><span class="dy"></span></td><td><span class="dp"></span> <span style="font-size:11px">Lua scripting</span></td><td>Light protection</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Splash">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Lua-scriptable browser for JS rendering, runs in Docker. Integrates with Scrapy via scrapy-splash.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Docker-based — easy to deploy</li><li>Lua scripting for complex interactions</li><li>Good for Scrapy integration on JS sites</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Outdated — Playwright has superseded it</li><li>Lua scripting adds complexity</li><li>Less stealth than Camoufox</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('selectolax')"><td><a href="https://github.com/rushter/selectolax" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">selectolax</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>Fast HTML parser</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-selectolax">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> C-based HTML parser (lexbor engine). 10–100× faster than BeautifulSoup for pure parsing tasks.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Extremely fast — C engine vs Python in BS4</li><li>CSS selectors with clean Python API</li><li>Low memory footprint</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>CSS selectors only — no XPath</li><li>Less forgiving on malformed HTML than BS4</li><li>Smaller community/docs</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('lxml')"><td>lxml <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>XPath + CSS parser</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-lxml">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> C-based XML/HTML parser. Fastest Python HTML parsing option.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Fastest Python HTML parser by far</li><li>Full XPath 1.0 support</li><li>Handles massive documents efficiently</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Stricter on malformed HTML than BS4</li><li>C dependency — occasional install issues</li><li>Verbose API vs BS4</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('w3lib')"><td>w3lib <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">Parser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>URL/text utils</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-w3lib">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Web-related utility functions. URL normalisation, encoding handling. Used internally by Scrapy.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>URL cleaning and normalisation</li><li>Encoding detection and conversion</li><li>Scrapy internals — very stable</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Utility library only — not a scraper</li><li>Most devs use it via Scrapy, not directly</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('SwiftShadow')"><td><a href="https://github.com/Aahaan-k/swiftshadow" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">SwiftShadow</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">Proxy</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>Proxy pool manager</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-SwiftShadow">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Free proxy pool manager. Fetches, validates and rotates free proxies automatically.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Free — zero proxy cost</li><li>Auto-validates and rotates on failure</li><li>2 lines of code integration</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Free proxies are low quality — high failure rate</li><li>Not for hard anti-bot targets</li><li>IP reputation usually poor</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('requests-ip-rotator')"><td>requests-ip-rotator <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">Proxy</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>AWS API Gateway IPs</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-requests-ip-rotator">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Rotates requests through AWS API Gateway endpoints to get rotating IPs.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Free if AWS free tier available</li><li>AWS IPs have good reputation</li><li>Works with requests library</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>AWS API Gateway has rate limits</li><li>Setup requires AWS account</li><li>Limited rotation speed</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Colly')"><td><a href="https://github.com/gocolly/colly" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Colly</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:11px">Go TLS</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>15k</td></tr>
+<tr class="lib-detail-row" id="detail-Colly">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Go HTTP scraping framework. Fast, concurrent, clean API.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Very fast — Go concurrency model</li><li>Low memory vs Python</li><li>Good for high-throughput HTTP scraping</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Go only — no Python</li><li>Smaller ecosystem than Scrapy</li><li>No browser support</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Katana')"><td><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Katana</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">Go TLS + Chromium</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>8k</td></tr>
+<tr class="lib-detail-row" id="detail-Katana">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Go-based web crawler by ProjectDiscovery. Designed for security research and recon.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Extremely fast Go crawler</li><li>Headless mode with Playwright integration</li><li>Built for large-scale URL discovery</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Security/recon focus — not a data scraping framework</li><li>Go only</li><li>Less data extraction tooling than Scrapy</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('playwright-go')"><td>playwright-go <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Go</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:11px">CDP (detectable)</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-playwright-go">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Go bindings for Playwright. Same Playwright API in Go.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Go concurrency for browser scraping</li><li>Same Playwright API and capabilities</li><li>Lower memory than Python for concurrent sessions</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Less mature than Python Playwright</li><li>Smaller community</li><li>No stealth patches yet</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Charles-Proxy')"><td>Charles Proxy <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">RE Tool</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Any</span></td><td><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:11px">N/A</span></td><td>Mobile API intercept</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr class="lib-detail-row" id="detail-Charles-Proxy">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Commercial HTTPS proxy for request inspection and debugging. GUI-based.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>GUI-based — easy to use for non-developers</li><li>SSL proxying with certificate install</li><li>Session recording and replay</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Paid product</li><li>For debugging only — not automated scraping</li><li>Less powerful than mitmproxy for scripting</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Selenoid')"><td>Selenoid <span class="lib-row-badge lib-http-b">⚡</span></td><td>Docker · Headless</td><td>Runs multiple headless browsers in Docker containers for parallel execution. Low resource per instance. Good for distributed scraping requiring many simultaneous browser sessions. <code>docker pull aerokube/selenoid</code></td><td><a href="https://github.com/aerokube/selenoid" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('noble-tls')"><td>noble-tls <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · TLS stealth</td><td>Provides stealth TLS handshakes that emulate browser-like TLS negotiations. Bypasses JA3/JA4 fingerprinting with minimal setup. Useful for high-security sites where curl_cffi is overkill.</td><td><a href="https://github.com/bycloudai/noble-tls" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('hrequests')"><td>hrequests <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · Header stealth</td><td>Mimics browser headers, cookies and session handling to bypass header-based bot detection. Drop-in replacement for requests with stealth baked in. Good for API endpoint scraping with realistic headers.</td><td><a href="https://github.com/daijro/hrequests" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lib-detail-row" id="detail-hrequests">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Pure Python HTTP library. Sends HTTP/1.1 requests with standard Python TLS.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Simple API, universally known</li><li>Synchronous — easy to debug</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>TLS fingerprint is instantly detectable (Python urllib3)</li><li>No async — slow for concurrent scraping</li><li>No anti-bot capability</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('crawlee-python')"><td>crawlee-python <span class="lib-row-badge lib-browser-b">🌐</span></td><td>Hybrid · HTTP + Browser</td><td>Python port of Apify's Crawlee. Offers flexibility with both HTTP clients and headless browsers in one framework. Handles retries, proxy rotation, and storage out of the box. Good for mixed crawling tasks.</td><td><a href="https://github.com/apify/crawlee-python" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lib-detail-row" id="detail-crawlee-python">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Apify's unified Node.js framework. Wraps both HTTP (got-scraping) and Playwright/Puppeteer. Handles retries, deduplication, storage.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Dual HTTP+browser mode in one framework</li><li>15K stars, actively maintained by Apify</li><li>Built-in dataset storage, request queue, proxy rotation</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Node.js primary (Python port is newer, less mature)</li><li>More opinionated than Scrapy — harder to customise</li><li>Heavier dependency footprint</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('estela')"><td>estela <span class="lib-row-badge lib-http-b">⚡</span></td><td>Cluster · Scrapy scale</td><td>Elastic web scraping cluster built on Docker and Kubernetes. Orchestrates Scrapy tasks across machines, handles distribution, monitoring and scaling. Good when you need Scrapy at cloud scale without building infra from scratch.</td><td><a href="https://github.com/scrapy-plugins/estela" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('fake-useragent')"><td>fake-useragent <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · User-Agent</td><td>Generates realistic User-Agent strings from a database of real browsers. Rotates UA per request to avoid detection. <code>pip install fake-useragent</code> — <code>from fake_useragent import UserAgent; ua = UserAgent(); headers = {"User-Agent": ua.random}</code></td><td><a href="https://github.com/fake-useragent/fake-useragent" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('grequests')"><td>grequests <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · Async</td><td>Combines requests with gevent for concurrent HTTP requests. Simple API for firing dozens of requests in parallel without asyncio boilerplate. Good for bulk API scraping where you just need speed.</td><td><a href="https://github.com/spyoungtech/grequests" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lib-detail-row" id="detail-grequests">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Pure Python HTTP library. Sends HTTP/1.1 requests with standard Python TLS.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Simple API, universally known</li><li>Synchronous — easy to debug</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>TLS fingerprint is instantly detectable (Python urllib3)</li><li>No async — slow for concurrent scraping</li><li>No anti-bot capability</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Scrapoxy')"><td>Scrapoxy <span class="lib-row-badge lib-http-b">⚡</span></td><td>Proxy · Manager</td><td>Open-source proxy manager that pools and rotates proxies across cloud providers (AWS, Azure, GCP). Routes requests through different IPs automatically. Self-hosted alternative to commercial proxy managers. <a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank">GitHub</a></td><td><a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+</tbody></table>
 <div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:6px">
   <span style="margin-right:10px"><span class="dy"></span> Yes</span>
   <span style="margin-right:10px"><span class="dp"></span> Partial</span>
@@ -5180,6 +6118,13 @@ function initLibTable() {
 }
 
 document.addEventListener('DOMContentLoaded', initLibTable);
+
+
+function toggleLibDetail(name) {
+  const row = document.getElementById('detail-' + name);
+  if (!row) return;
+  row.classList.toggle('open');
+}
 
 </script>
 </body></html>
