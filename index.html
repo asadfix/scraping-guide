@@ -3975,7 +3975,7 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 // ══════════════════════════════════════════════════════════════
 
 const GEMINI_KEY = 'AIzaSyD7RVCSnzJQsVxZi94n6Fvxrj7FgarffZE';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${GEMINI_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_KEY}`;
 
 // Build context: use knowledge base + targeted section snippets for the question
 function extractPageContext(question) {
