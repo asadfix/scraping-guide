@@ -981,6 +981,52 @@ html { scroll-behavior: smooth; }
   .mob-menu-btn { display: none !important; }
 }
 
+
+/* ── MOBILE API STEPS ────────────────────────────────────────── */
+.mob-steps{display:flex;flex-direction:column;gap:0;margin:32px 0 40px;padding-left:16px}
+.mob-step-card{
+  display:grid;grid-template-columns:40px 1fr;
+  border-left:1px solid rgba(245,197,24,.2);
+  padding-bottom:28px;position:relative;
+}
+.mob-step-card:last-child{border-color:transparent}
+.mob-step-num{
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;font-weight:700;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);
+  display:flex;align-items:center;justify-content:center;color:var(--y);
+  flex-shrink:0;margin-left:-16px;margin-top:0;position:relative;z-index:1;
+}
+.mob-step-content{padding:4px 0 0 20px}
+.mob-step-title{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.mob-step-body{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:10px}
+.mob-step-body strong{color:var(--t1)}
+.mob-step-tip{
+  font-family:var(--mono);font-size:9.5px;color:rgba(245,197,24,.55);
+  padding:6px 10px;background:rgba(245,197,24,.05);
+  border-radius:4px;border-left:2px solid rgba(245,197,24,.2);line-height:1.5;
+}
+.mob-code-block{
+  margin:10px 0;background:rgba(0,0,0,.3);
+  border:1px solid rgba(255,255,255,.07);border-radius:6px;overflow-x:auto;
+}
+.mob-code-block pre{margin:0;padding:12px 16px}
+.mob-code-block code{
+  font-family:var(--mono);font-size:11px;color:rgba(240,240,244,.7);
+  line-height:1.7;white-space:pre;display:block;
+}
+.mob-compare{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:24px 0 16px}
+.mob-compare-col{padding:14px 16px;border-radius:7px;background:rgba(255,255,255,.02);border:1px solid var(--b1)}
+.mob-compare-head{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.mob-compare-list{margin:0;padding-left:14px;list-style:disc}
+.mob-compare-list li{font-size:12px;color:var(--t2);line-height:1.65;margin-bottom:4px}
+@media(max-width:768px){
+  .mob-compare{grid-template-columns:1fr}
+  .mob-steps{padding-left:12px}
+  .mob-step-card{grid-template-columns:36px 1fr}
+  .mob-step-num{margin-left:-14px}
+}
+
 </style>
 </head>
 <body>
@@ -1016,6 +1062,7 @@ html { scroll-behavior: smooth; }
       <a class="nl" href="#innovation">Innovation</a>
       <a class="nl" href="#tools">Testing</a>
       <a class="nl" href="#arch">Architecture</a>
+      <a class="nl" href="#mobile">Mobile API</a>
       <a class="nl" href="#jargon">Jargon</a><a class="nl" href="#community">Community</a>
       <a class="nl" href="#tl">Timeline</a>
     </div>
@@ -3652,6 +3699,139 @@ Return ONLY valid JSON with corrected selectors:
     </div>
   </div>
 </div>
+
+
+
+<!-- ═══ MOBILE API ═══ -->
+<section class="sec" id="mobile">
+<div class="sk"><span class="sn">★</span> Mobile API Scraping</div>
+<h2 class="sh">Intercept mobile app traffic<br><em>before it hits any anti-bot</em></h2>
+<p class="ss">Mobile APIs serve the same data as the web — but with weaker protection. No Cloudflare, no JA4 fingerprinting. Intercept the traffic once, replicate the call forever.</p>
+
+<div class="ib tip rv" style="margin-bottom:32px"><strong>Why mobile APIs?</strong> The same data served to a mobile app often sits behind a simpler auth layer than the web. No browser fingerprinting — just a clean JSON endpoint you can call directly from Python.</div>
+
+<div class="mob-steps">
+
+  <div class="mob-step-card">
+    <div class="mob-step-num">01</div>
+    <div class="mob-step-content">
+      <div class="mob-step-title">Install Android Studio + create a Virtual Device</div>
+      <div class="mob-step-body">Open Android Studio → Virtual Device Manager → Create Device. Pick any phone that shows the Play Store icon. For the system image, <strong>choose any API level above 28</strong> — do not choose Android 9 (Pie / API 28), the rooting script does not support it. API 30 (Android 11) is a safe default.</div>
+      <div class="mob-step-tip">💡 Any Android 10+ image works. Start the AVD and confirm it boots before proceeding.</div>
+    </div>
+  </div>
+
+  <div class="mob-step-card">
+    <div class="mob-step-num">02</div>
+    <div class="mob-step-content">
+      <div class="mob-step-title">Root the AVD using rootAVD</div>
+      <div class="mob-step-body">AVDs are not rooted by default. Root access lets HTTP Toolkit intercept SSL traffic. The <strong>rootAVD</strong> script handles everything in one command.</div>
+      <div class="mob-code-block"><pre><code>git clone https://github.com/newbit1/rootAVD.git
+cd rootAVD
+
+# Verify AVD is accessible
+adb shell
+
+# List your AVDs
+./rootAVD.sh ListAllAVDs
+
+# Copy the first command from the output and run it
+# e.g: ./rootAVD.sh system-images/android-30/google_apis_playstore/x86_64/ramdisk.img</code></pre></div>
+      <div class="mob-step-tip">💡 <code>adb</code> not found? Add to ~/.zshrc: <code>alias adb='/Users/$USER/Library/Android/sdk/platform-tools/adb'</code></div>
+    </div>
+  </div>
+
+  <div class="mob-step-card">
+    <div class="mob-step-num">03</div>
+    <div class="mob-step-content">
+      <div class="mob-step-title">Confirm root — Magisk appears in the app drawer</div>
+      <div class="mob-step-body">After rootAVD finishes the AVD reboots automatically. Once it's back up, open the app drawer and look for the <strong>Magisk</strong> app — this confirms root is working. Zygisk does not need to be enabled.</div>
+      <div class="mob-step-tip">💡 If the AVD didn't reboot itself, reboot it manually. No Magisk = root failed, re-run the script.</div>
+    </div>
+  </div>
+
+  <div class="mob-step-card">
+    <div class="mob-step-num">04</div>
+    <div class="mob-step-content">
+      <div class="mob-step-title">Install HTTP Toolkit and connect via ADB</div>
+      <div class="mob-step-body">Download from <strong>httptoolkit.com</strong> or install via Homebrew. Open it → Intercept tab → <strong>"Android device via ADB"</strong>. HTTP Toolkit detects your running AVD and prompts it to grant superuser rights — grant it.</div>
+      <div class="mob-code-block"><pre><code># macOS
+brew install --cask http-toolkit</code></pre></div>
+      <div class="mob-step-tip">💡 "System trust disabled" warning? Disconnect and reconnect in HTTP Toolkit, or reboot the AVD.</div>
+    </div>
+  </div>
+
+  <div class="mob-step-card">
+    <div class="mob-step-num">05</div>
+    <div class="mob-step-content">
+      <div class="mob-step-title">Install the target app and capture its requests</div>
+      <div class="mob-step-body">Sign into Google Play on the AVD and install the app, or download the APK from <strong>apk.support</strong> and drag-drop it onto the emulator. Open the app, navigate through it (lists, detail pages, search) while HTTP Toolkit runs. Switch to the <strong>View tab</strong> — every request the app makes is captured in real time.</div>
+      <div class="mob-step-tip">💡 Use the filter bar — you'll see 400+ requests but only ~10 are the data endpoints. Filter by the target domain name.</div>
+    </div>
+  </div>
+
+  <div class="mob-step-card">
+    <div class="mob-step-num">06</div>
+    <div class="mob-step-content">
+      <div class="mob-step-title">Replicate the API call in Python</div>
+      <div class="mob-step-body">Click any intercepted request to see full headers, auth tokens, and query parameters. Test in <strong>Postman</strong> first to confirm it returns data, then replicate in Python. Mobile APIs return clean JSON — no HTML parsing needed.</div>
+      <div class="mob-code-block"><pre><code>import curl_cffi.requests as requests
+
+resp = requests.get(
+    "https://api.targetapp.com/v2/listings",
+    headers={
+        "Authorization": "Bearer &lt;token_from_http_toolkit&gt;",
+        "X-App-Version": "4.2.1",
+        "User-Agent": "TargetApp/4.2.1 (Android 11; SDK 30)",
+        "Accept": "application/json",
+    },
+    impersonate="chrome120"
+)
+data = resp.json()</code></pre></div>
+      <div class="mob-step-tip">💡 Tokens expire — check if the app refreshes on login and build a token refresh step into your scraper.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mob-compare">
+  <div class="mob-compare-col">
+    <div class="mob-compare-head" style="color:rgba(72,187,120,.8)">✓ Works well for</div>
+    <ul class="mob-compare-list">
+      <li>Property portals, classifieds, marketplaces</li>
+      <li>Apps where the web version is heavily protected</li>
+      <li>Data only available in the mobile app</li>
+      <li>Targets using simple Bearer token auth</li>
+      <li>Any app that doesn't pin SSL certificates</li>
+    </ul>
+  </div>
+  <div class="mob-compare-col">
+    <div class="mob-compare-head" style="color:rgba(224,71,71,.8)">✗ Limitations</div>
+    <ul class="mob-compare-list">
+      <li>Apps with SSL pinning block interception</li>
+      <li>Some apps crash on rooted devices</li>
+      <li>ARM-only apps may not run on x86 emulators</li>
+      <li>Tokens expire — need refresh logic in scraper</li>
+      <li>App updates can silently change endpoints</li>
+    </ul>
+  </div>
+  <div class="mob-compare-col">
+    <div class="mob-compare-head" style="color:rgba(245,197,24,.8)">↑ SSL Pinning bypass</div>
+    <p style="font-size:12px;color:var(--t2);line-height:1.7">If the app blocks interception it likely uses SSL pinning. Use <strong>Frida</strong> or <strong>objection</strong> to bypass it at runtime, or use Burp Suite with the Xposed + TrustMeAlready module for a more permanent bypass.</p>
+  </div>
+</div>
+
+<div class="arch-tools" style="margin-top:16px">
+  <span class="atools-label">Stack</span>
+  <span class="arch-tool">Android Studio</span>
+  <span class="arch-tool">rootAVD (github.com/newbit1/rootAVD)</span>
+  <span class="arch-tool">Magisk</span>
+  <span class="arch-tool">HTTP Toolkit</span>
+  <span class="arch-tool">apk.support</span>
+  <span class="arch-tool">Postman</span>
+  <span class="arch-tool">curl_cffi</span>
+</div>
+</section>
 
 
 <!-- ═══ JARGON ═══ -->
