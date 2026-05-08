@@ -3493,246 +3493,52 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 
 
 
+
 // ══════════════════════════════════════════════════════════════
-// ScrapeIQ — Local Knowledge Engine v2
-// TF-IDF scoring + synonym expansion + intent classification
-// + structured response templates. Zero API. Works offline.
+// ScrapeIQ — Gemini RAG Engine
+// Reads ALL visible text from the page, sends as context to
+// Gemini 1.5 Flash. Answers ONLY from website content.
 // ══════════════════════════════════════════════════════════════
 
-// ── Synonym / alias expansion ──────────────────────────────────
-const SYNONYMS = {
-  'tls': ['ja4','ja3','fingerprint','cipher','handshake','clienthello','tls fingerprint'],
-  'ja4': ['tls fingerprint','cipher suite','clienthello','ja3','grease'],
-  'proxy': ['residential','datacenter','4g','mobile ip','isp proxy','ip rotation','proxies'],
-  'bypass': ['evade','avoid','get around','pass','solve','circumvent'],
-  'bot detection': ['anti-bot','antibot','bot protection','detection','waf'],
-  'javascript': ['js','browser fingerprint','canvas','webgl','navigator'],
-  'browser': ['playwright','puppeteer','selenium','camoufox','chromium','firefox','cdp'],
-  'scraping': ['crawling','extracting','scraper','spider','harvest'],
-  'blocked': ['403','429','captcha','challenge','denied','rate limit','blocked'],
-  'headers': ['user-agent','accept-language','referer','http headers','request headers'],
-};
+const GEMINI_KEY = 'AIzaSyD7RVCSnzJQsVxZi94n6Fvxrj7FgarffZE';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
 
-function expandQuery(q) {
-  const words = q.toLowerCase().split(/\s+/);
-  const expanded = new Set(words);
-  words.forEach(w => {
-    Object.entries(SYNONYMS).forEach(([key, vals]) => {
-      if (key.includes(w) || w.includes(key)) vals.forEach(v => v.split(' ').forEach(x => expanded.add(x)));
-      if (vals.some(v => v.includes(w))) { expanded.add(key); vals.forEach(v => v.split(' ').forEach(x => expanded.add(x))); }
-    });
-  });
-  return [...expanded].filter(w => w.length > 2);
-}
+// Extract all meaningful text from the page
+function extractPageContext() {
+  const sections = [];
 
-// ── Page KB — scan live DOM ────────────────────────────────────
-let _pageKB = null;
-function buildPageKB() {
-  if (_pageKB) return _pageKB;
-  const chunks = [];
-
-  // Scan each section for structured content
-  document.querySelectorAll('section[id], .sec').forEach(sec => {
-    const secId = sec.id || '';
-    const h2 = sec.querySelector('h2')?.innerText?.trim() || '';
-    const h3s = [...sec.querySelectorAll('h3')].map(h => h.innerText.trim());
-
-    // Individual cards as separate chunks (more precise retrieval)
-    sec.querySelectorAll('.card, .abc, .ds, .lyr, .ait2, .ptcard').forEach(card => {
-      const title = card.querySelector('.cname, .abn, .dst, .lyrt, .ait2n, .ptname')?.innerText?.trim() || '';
-      const body = card.querySelector('.cbody, .abd, .dsb, .lyrb, .ait2b, .ptbody')?.innerText?.trim() || '';
-      const tag = card.querySelector('.ctag, .absy, .dsl, .lyrn, .ait2t, .pttag')?.innerText?.trim() || '';
-      if (title || body) {
-        chunks.push({ id: secId, title, body, tag, text: `${title} ${tag} ${body}`, weight: 2 });
-      }
+  document.querySelectorAll('section[id]').forEach(sec => {
+    const id = sec.id;
+    const heading = sec.querySelector('h2, h3')?.innerText?.trim() || '';
+    
+    // Get all text content from cards, paragraphs, code, lists
+    const textNodes = [];
+    sec.querySelectorAll('p, .cbody, .abd, .dsb, .lyrb, .ait2b, .ic-body, .ic-detail, .ic-title, .ic-insight, .apc-list, .apc-text, .astack-item, .arch-desc, code, li, .bitem, .ib').forEach(el => {
+      const t = el.innerText?.trim();
+      if (t && t.length > 15) textNodes.push(t);
     });
 
-    // Full section text as fallback
-    const fullText = sec.innerText?.replace(/\s+/g,' ').trim().slice(0, 2000) || '';
-    if (fullText.length > 100) {
-      chunks.push({ id: secId, title: h2, body: fullText, tag: '', text: fullText, weight: 1 });
-    }
-  });
-
-  // Also add hardcoded KB entries as structured chunks
-  (typeof KNOWLEDGE_BASE !== 'undefined' ? KNOWLEDGE_BASE : '').split('\n\n').forEach(block => {
-    if (block.trim().length > 40) {
-      const lines = block.trim().split('\n');
-      const title = lines[0].replace(/:$/, '');
-      const body = lines.slice(1).join(' ');
-      chunks.push({ id: 'kb', title, body, tag: '', text: block, weight: 1.5 });
-    }
-  });
-
-  _pageKB = chunks;
-  console.log(`ScrapeIQ: indexed ${chunks.length} chunks from page`);
-  return chunks;
-}
-
-// ── TF-IDF style scoring ───────────────────────────────────────
-function scoreChunk(chunk, queryWords, allChunks) {
-  const text = chunk.text.toLowerCase();
-  const titleLow = chunk.title.toLowerCase();
-  let score = 0;
-
-  queryWords.forEach(word => {
-    if (word.length < 3) return;
-    // Term frequency in this chunk
-    const re = new RegExp(word.replace(/[+.?*()]/g,'\\$&'), 'gi');
-    const tf = (text.match(re) || []).length;
-    if (tf === 0) return;
-    // Inverse document frequency (rarer = more valuable)
-    const df = allChunks.filter(c => c.text.toLowerCase().includes(word)).length;
-    const idf = Math.log((allChunks.length + 1) / (df + 1)) + 1;
-    // Title match bonus
-    const titleBonus = titleLow.includes(word) ? 4 : 0;
-    score += (tf * idf + titleBonus) * chunk.weight;
-  });
-
-  return score;
-}
-
-// ── Intent classifier ──────────────────────────────────────────
-function classifyIntent(q) {
-  const ql = q.toLowerCase();
-  if (/how (do i|to|can i)/.test(ql)) return 'howto';
-  if (/what is|what are|explain|describe|tell me about/.test(ql)) return 'explain';
-  if (/best|recommend|should i use|which (tool|library|proxy|browser)/.test(ql)) return 'recommend';
-  if (/ vs | or |difference|compare/.test(ql)) return 'compare';
-  if (/why|reason|because/.test(ql)) return 'why';
-  if (/list|all|every|what tools|what libraries/.test(ql)) return 'list';
-  if (/bypass|evade|avoid|get around|pass|solve/.test(ql)) return 'bypass';
-  return 'general';
-}
-
-// ── Extract best sentences from top chunks ─────────────────────
-function extractSentences(chunks, queryWords, maxSentences) {
-  const seen = new Set();
-  const scored = [];
-  chunks.forEach(chunk => {
-    const sents = chunk.text.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 30);
-    sents.forEach(s => {
-      const key = s.trim().slice(0, 60);
-      if (seen.has(key)) return;
-      seen.add(key);
-      const matches = queryWords.filter(w => s.toLowerCase().includes(w)).length;
-      if (matches > 0) scored.push({ s: s.trim(), score: matches * chunk.weight });
+    // Also headings within section
+    sec.querySelectorAll('h3, h4, .cname, .abn, .dst, .ait2n').forEach(el => {
+      const t = el.innerText?.trim();
+      if (t) textNodes.push(t);
     });
+
+    if (textNodes.length > 0) {
+      sections.push(`=== SECTION: ${heading || id.toUpperCase()} ===\n${textNodes.join('\n')}`);
+    }
   });
-  scored.sort((a,b) => b.score - a.score);
-  return [...new Map(scored.map(x => [x.s.slice(0,50), x])).values()]
-    .slice(0, maxSentences)
-    .map(x => x.s);
+
+  // Add the hardcoded knowledge base
+  sections.push(`=== KNOWLEDGE BASE ===\n${KNOWLEDGE_BASE}`);
+
+  // Limit total context to ~28000 chars (well within Gemini 1.5 Flash's window)
+  const full = sections.join('\n\n');
+  return full.length > 28000 ? full.slice(0, 28000) : full;
 }
 
-// ── Format with rich HTML ──────────────────────────────────────
-const TOOL_LINKS = {
-  'curl_cffi': 'https://github.com/lexiforest/curl_cffi',
-  'Camoufox': 'https://github.com/daijro/camoufox',
-  'Scrapling': 'https://github.com/D4Vinci/Scrapling',
-  'Scrapy': 'https://github.com/scrapy/scrapy',
-  'Playwright': 'https://github.com/microsoft/playwright',
-  'PatchRight': 'https://github.com/Kaliiiiiiiiii-Vinyzu/patchright',
-  'Firecrawl': 'https://github.com/mendableai/firecrawl',
-  'Crawl4AI': 'https://github.com/unclecode/crawl4ai',
-  'Bright Data': 'https://brightdata.com',
-  'Zyte': 'https://www.zyte.com',
-  'Akamai': 'https://www.akamai.com/products/bot-manager',
-  'Cloudflare': 'https://www.cloudflare.com/products/bot-management/',
-  'DataDome': 'https://datadome.co',
-  'Kasada': 'https://www.kasada.io',
-  'F5 Shape': 'https://www.f5.com/products/security/shape-security',
-  'BrowserLeaks': 'https://browserleaks.com',
-};
-
-function formatAnswer(raw, intent, queryWords) {
-  // Bold key tool/technique names
-  let out = raw
-    .replace(/\b(curl_cffi|Camoufox|CloakBrowser|PatchRight|Scrapling|Scrapy|Playwright|Puppeteer|Selenium|SeleniumBase|Firecrawl|Crawl4AI|ScrapeGraphAI|Bright Data|Zyte|DataDome|Akamai|Cloudflare|PerimeterX|Kasada|F5 Shape|JA4\+?|JA3|WebRTC|boring_challenge|sensor\.js|Botasaurus|webclaw|Scrapy|BrowserLeaks|CreepJS|Pixelscan)\b/g,
-       '<strong>$1</strong>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/([.!?])\s+/g, '$1 ');
-
-  return out;
-}
-
-// ── Main response builder ──────────────────────────────────────
-function buildSmartAnswer(question, topChunks, intent, queryWords) {
-  const ql = question.toLowerCase();
-  let html_out = '';
-
-  // ── 1. BYPASS intent: structured steps ─────────────────────
-  if (intent === 'bypass') {
-    const antibot = ['akamai','cloudflare','datadome','perimeterx','kasada','f5 shape','f5','PerimeterX']
-      .find(a => ql.includes(a));
-    const sents = extractSentences(topChunks, queryWords, 4);
-    html_out = `<strong>Bypass strategy:</strong><br>`;
-    if (sents.length > 0) {
-      sents.forEach((s,i) => { html_out += `${i+1}. ${formatAnswer(s, intent, queryWords)}<br>`; });
-    } else {
-      html_out += formatAnswer(topChunks.map(c => c.body).join(' ').slice(0,400), intent, queryWords);
-    }
-  }
-
-  // ── 2. RECOMMEND/BEST intent: direct recommendation ────────
-  else if (intent === 'recommend') {
-    const toolMatch = topChunks[0]?.title || topChunks[0]?.text.match(/\b(curl_cffi|Camoufox|Scrapling|Scrapy|PatchRight|Firecrawl|Crawl4AI|Bright Data|Zyte)\b/)?.[0];
-    if (toolMatch) html_out = `<strong>${toolMatch}</strong> is the best choice here.<br><br>`;
-    const sents = extractSentences(topChunks, queryWords, 3);
-    html_out += sents.map(s => formatAnswer(s, intent, queryWords)).join(' ');
-  }
-
-  // ── 3. COMPARE intent: side-by-side ────────────────────────
-  else if (intent === 'compare') {
-    const vsMatch = question.match(/(\w[\w_\s]+?)\s+vs\s+([\w_\s]+)/i);
-    if (vsMatch) {
-      const [, a, b] = vsMatch;
-      const aChunks = topChunks.filter(c => c.text.toLowerCase().includes(a.toLowerCase().trim()));
-      const bChunks = topChunks.filter(c => c.text.toLowerCase().includes(b.toLowerCase().trim()));
-      if (aChunks[0] && bChunks[0]) {
-        html_out = `<strong>${a.trim()}:</strong> ${formatAnswer(extractSentences(aChunks, [a.toLowerCase().trim()], 2).join(' '), intent, queryWords)}<br><br>`;
-        html_out += `<strong>${b.trim()}:</strong> ${formatAnswer(extractSentences(bChunks, [b.toLowerCase().trim()], 2).join(' '), intent, queryWords)}`;
-      } else {
-        html_out = formatAnswer(extractSentences(topChunks, queryWords, 5).join(' '), intent, queryWords);
-      }
-    } else {
-      html_out = formatAnswer(extractSentences(topChunks, queryWords, 5).join(' '), intent, queryWords);
-    }
-  }
-
-  // ── 4. LIST intent ──────────────────────────────────────────
-  else if (intent === 'list') {
-    const items = topChunks.slice(0,6).map(c => c.title).filter(Boolean);
-    if (items.length > 0) {
-      html_out = '<strong>Relevant tools and concepts:</strong><br>';
-      items.forEach(item => { html_out += `• ${formatAnswer(item, intent, queryWords)}<br>`; });
-    } else {
-      html_out = formatAnswer(extractSentences(topChunks, queryWords, 4).join(' '), intent, queryWords);
-    }
-  }
-
-  // ── 5. EXPLAIN / HOW-TO / GENERAL ──────────────────────────
-  else {
-    const sents = extractSentences(topChunks, queryWords, 5);
-    html_out = formatAnswer(sents.join(' '), intent, queryWords);
-  }
-
-  // ── Add relevant links ──────────────────────────────────────
-  const linked = Object.keys(TOOL_LINKS).filter(name =>
-    html_out.includes(`<strong>${name}</strong>`) || html_out.includes(name)
-  ).slice(0, 3);
-  if (linked.length > 0) {
-    html_out += `<br><br><span style="font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)">See also</span><br>`;
-    linked.forEach(name => {
-      html_out += `<a href="${TOOL_LINKS[name]}" target="_blank" style="color:var(--y);font-family:var(--mono);font-size:11px;margin-right:12px">${name} ↗</a>`;
-    });
-  }
-
-  return html_out;
-}
-
-// ── sendMsg ────────────────────────────────────────────────────
-function sendMsg() {
+// Send message to Gemini with full page context
+async function sendMsg() {
   const inp = document.getElementById('llmin');
   const btn = document.getElementById('llmsend');
   const msgs = document.getElementById('llmmsgs');
@@ -3740,51 +3546,97 @@ function sendMsg() {
   if (!text) return;
   if (!llmOpen) toggleLLM();
 
+  // User message
   const um = document.createElement('div');
-  um.className = 'msg u'; um.textContent = text; msgs.appendChild(um);
-  inp.value = ''; inp.style.height = 'auto'; btn.disabled = true;
+  um.className = 'msg u';
+  um.textContent = text;
+  msgs.appendChild(um);
+  inp.value = '';
+  inp.style.height = 'auto';
+  btn.disabled = true;
   msgs.scrollTop = msgs.scrollHeight;
 
+  // Thinking indicator
   const tm = document.createElement('div');
   tm.className = 'msg a';
-  tm.innerHTML = '<em style="color:var(--t3);font-size:11px">Searching guide...</em>';
+  tm.innerHTML = '<span class="scrapeiq-thinking"><span></span><span></span><span></span></span>';
   msgs.appendChild(tm);
   msgs.scrollTop = msgs.scrollHeight;
 
-  setTimeout(() => {
-    try {
-      const kb = buildPageKB();
-      const intent = classifyIntent(text);
-      const queryWords = expandQuery(text);
+  try {
+    const pageContext = extractPageContext();
 
-      // Score all chunks
-      const scored = kb
-        .map(chunk => ({ chunk, score: scoreChunk(chunk, queryWords, kb) }))
-        .filter(x => x.score > 0)
-        .sort((a,b) => b.score - a.score)
-        .slice(0, 12)
-        .map(x => x.chunk);
+    const systemInstruction = `You are ScrapeIQ, a smart assistant embedded in Asad's Guide to Web Scraping 2026.
 
-      let answer;
-      if (scored.length === 0) {
-        answer = `I didn't find anything specific about that in this guide. Try asking about <code>JA4</code>, <code>Cloudflare bypass</code>, <code>curl_cffi</code>, or a specific library.`;
-      } else {
-        answer = buildSmartAnswer(text, scored, intent, queryWords);
-      }
+CRITICAL RULES:
+1. Answer ONLY using the website content provided below. Do not use any external knowledge.
+2. If the answer is not in the provided content, say: "I don't have information about that in this guide. Try asking about anti-bots, libraries, proxies, architecture patterns, or scraping techniques."
+3. Be concise, technical, and direct. Use bullet points for lists.
+4. When mentioning tools, include their key detail (e.g. curl_cffi for TLS impersonation, Camoufox for 100% Cloudflare pass rate).
+5. Never make up statistics, GitHub stars, or claims not in the content.
+6. Format responses with **bold** for key terms and \`code\` for library names/commands.
 
-      if (!answer || answer.trim().length < 20) {
-        answer = `Found some related content but couldn't form a clean answer. Try rephrasing — for example: <em>"How do I bypass DataDome?"</em> or <em>"What is curl_cffi?"</em>`;
-      }
+WEBSITE CONTENT:
+${pageContext}`;
 
-      tm.innerHTML = answer;
-    } catch(e) {
-      console.error('ScrapeIQ error:', e);
-      tm.innerHTML = 'Something went wrong. Try again.';
+    const body = {
+      system_instruction: { parts: [{ text: systemInstruction }] },
+      contents: [{ role: 'user', parts: [{ text }] }],
+      generationConfig: {
+        temperature: 0.1,
+        maxOutputTokens: 600,
+        topP: 0.8,
+      },
+      safetySettings: [
+        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+      ]
+    };
+
+    const res = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error?.message || `HTTP ${res.status}`);
     }
-    btn.disabled = false;
-    msgs.scrollTop = msgs.scrollHeight;
-  }, 150);
+
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!answer) throw new Error('Empty response from Gemini');
+
+    // Format markdown-style response
+    tm.innerHTML = answer
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\n([•\-\*]) /g, '<br>• ')
+      .replace(/\n/g, '<br>');
+
+  } catch (err) {
+    console.error('ScrapeIQ error:', err);
+    tm.innerHTML = `<span style="color:var(--red)">Error: ${err.message}. Please try again.</span>`;
+  }
+
+  btn.disabled = false;
+  msgs.scrollTop = msgs.scrollHeight;
 }
+
+// Add thinking animation CSS
+const thinkStyle = document.createElement('style');
+thinkStyle.textContent = `
+.scrapeiq-thinking{display:inline-flex;gap:4px;align-items:center;padding:4px 0}
+.scrapeiq-thinking span{width:6px;height:6px;border-radius:50%;background:var(--y);opacity:.3;animation:thdot .9s ease-in-out infinite}
+.scrapeiq-thinking span:nth-child(2){animation-delay:.15s}
+.scrapeiq-thinking span:nth-child(3){animation-delay:.3s}
+@keyframes thdot{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+`;
+document.head.appendChild(thinkStyle);
 
 // Fade banner logic
 function dismissBanner(){
