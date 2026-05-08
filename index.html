@@ -1066,6 +1066,16 @@ html { scroll-behavior: smooth; }
   .apify-featured{grid-column:span 1 !important}
 }
 
+
+.pt-link{
+  display:inline-block;margin-top:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--y);text-decoration:none;
+  padding:3px 0;border-bottom:1px solid rgba(245,197,24,.2);
+  transition:border-color .15s;
+}
+.pt-link:hover{border-color:var(--y)}
+
 </style>
 </head>
 <body>
@@ -2029,25 +2039,33 @@ html { scroll-behavior: smooth; }
   <div class="ptname">Bright Data <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">98.44%</span></div>
   <div class="pttag">Enterprise · 72M+ IPs · Scrape.do #1 2025</div>
   <div class="ptbody">Highest success rate in Scrape.do 2025. <strong>100% on Indeed, Zillow, Capterra</strong>. 72M+ residential IPs. GDPR, ISO 27001. Scraping Browser for JS-heavy targets. $1.50/1K requests.</div>
-  <div class="ptstat">✓ Best for: F5 Shape, hard targets at scale</div>
+  <div class="ptstat">✓ Best for: F5 Shape, hard targets at scale
+    <a href="https://brightdata.com" target="_blank" class="pt-link">brightdata.com ↗</a>
+  </div>
 </div>
 <div class="ptcard" style="border-color:var(--blue)">
   <div class="ptname">Zyte <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">93.14%</span></div>
   <div class="pttag">#1 Proxyway 2025 · Fastest API · Scrapy</div>
   <div class="ptbody"><strong>#1 Proxyway 2025</strong>, 93.14% success rate. Fastest API response. Smart Proxy auto-selects type. GPTE AI generates parsers from natural language. scrapy-zyte-smartproxy integration.</div>
-  <div class="ptstat">✓ Best for: Scrapy pipelines, speed</div>
+  <div class="ptstat">✓ Best for: Scrapy pipelines, speed
+    <a href="https://www.zyte.com" target="_blank" class="pt-link">zyte.com ↗</a>
+  </div>
 </div>
 <div class="ptcard" style="border-color:var(--pink)">
   <div class="ptname">Firecrawl <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 111k</span></div>
   <div class="pttag">AI scraping · Self-hostable · MCP</div>
   <div class="ptbody">URL → Markdown/JSON. No selectors. MCP server, Claude scrapes via natural language. LangChain + LlamaIndex native. Used by SAP, Zapier, Deloitte. 500 free/mo.</div>
-  <div class="ptstat">✓ Best for: RAG pipelines, AI agents</div>
+  <div class="ptstat">✓ Best for: RAG pipelines, AI agents
+    <a href="https://www.firecrawl.dev" target="_blank" class="pt-link">firecrawl.dev ↗</a>
+  </div>
 </div>
 <div class="ptcard" style="border-color:var(--green)">
   <div class="ptname">Crawl4AI <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 60k</span></div>
   <div class="pttag">Open-source · Local LLM · Free</div>
   <div class="ptbody">89.7% OOTB success rate. Runs on your infrastructure. Local LLM support (Ollama). MIT license. Adaptive crawling. Full data sovereignty, data never leaves your servers.</div>
-  <div class="ptstat">✓ Best for: privacy, open-source, cost $0</div>
+  <div class="ptstat">✓ Best for: privacy, open-source, cost $0
+    <a href="https://crawl4ai.com" target="_blank" class="pt-link">crawl4ai.com ↗</a>
+  </div>
 </div>
 <div class="ptcard apify-featured" style="border-color:rgba(245,107,4,.6);grid-column:span 2">
   <div class="ptname" style="font-size:18px">Apify <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:rgba(245,107,4,.7);font-weight:400;vertical-align:middle;margin-left:8px">FEATURED · NO-CODE OPTION</span></div>
@@ -2120,7 +2138,87 @@ html { scroll-behavior: smooth; }
   <div class="ptname">Oxylabs</div>
   <div class="pttag">Enterprise · 100M+ IPs · OxyCopilot AI</div>
   <div class="ptbody">100M+ IPs, 195 countries. <strong>OxyCopilot AI</strong> generates parser code from natural language. Owns ScrapingBee (acquired 2025). ISO 27001 + GDPR. From $49/mo.</div>
-  <div class="ptstat">✓ Best for: enterprise scale, AI-generated parsers</div>
+  <div class="ptst
+  <div class="ptcard" style="border-color:rgba(255,165,0,.3)">
+    <div class="ptname">ScrapingBee</div>
+    <div class="pttag">Headless · Managed rendering</div>
+    <div class="ptbody">Handles JS rendering, CAPTCHAs and proxies. Simple REST API — pass a URL, get back HTML or screenshots. Good for teams that want managed scraping without infrastructure. <strong>Free tier available.</strong></div>
+    <a href="https://www.scrapingbee.com" target="_blank" class="pt-link">scrapingbee.com ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(99,179,237,.3)">
+    <div class="ptname">Scrapfly</div>
+    <div class="pttag">Anti-bot · AI extraction · Monitoring</div>
+    <div class="ptbody">Premium scraping API with built-in anti-bot bypass, JS rendering, and AI-powered data extraction. Strong on hard targets. Includes scraping monitoring and scheduling out of the box.</div>
+    <a href="https://scrapfly.io" target="_blank" class="pt-link">scrapfly.io ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(167,139,250,.3)">
+    <div class="ptname">Diffbot</div>
+    <div class="pttag">AI extraction · Knowledge graph</div>
+    <div class="ptbody">Uses computer vision and AI to automatically extract structured data from any webpage — no CSS selectors, no XPath. Builds a knowledge graph from scraped content. Best for unstructured web data that needs AI parsing.</div>
+    <a href="https://www.diffbot.com" target="_blank" class="pt-link">diffbot.com ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(72,187,120,.3)">
+    <div class="ptname">WebScraper.io</div>
+    <div class="pttag">No-code · Chrome extension</div>
+    <div class="ptbody">Point-and-click scraping via a Chrome extension — select elements visually, define pagination, export to CSV. No coding required. Cloud version runs scrapers on schedule. Best for non-technical users.</div>
+    <a href="https://webscraper.io" target="_blank" class="pt-link">webscraper.io ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(245,197,24,.3)">
+    <div class="ptname">Browse.ai</div>
+    <div class="pttag">No-code · Monitor · Robots</div>
+    <div class="ptbody">Train a robot to scrape any website in 2 minutes by clicking on the data you want. Monitors for changes, sends alerts. Handles login flows, pagination, and dynamic sites. No code needed at all.</div>
+    <a href="https://www.browse.ai" target="_blank" class="pt-link">browse.ai ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(245,101,101,.3)">
+    <div class="ptname">Browser Use</div>
+    <div class="pttag">AI agent · LLM-controlled browser</div>
+    <div class="ptbody">Open-source library that lets LLMs control a real browser. The AI agent navigates, clicks, fills forms and extracts data from instructions in natural language. 81% success rate on anti-bot benchmarks. <a href="https://github.com/browser-use/browser-use" target="_blank" style="color:var(--y)">GitHub ↗</a></div>
+    <a href="https://browser-use.com" target="_blank" class="pt-link">browser-use.com ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(251,191,36,.3)">
+    <div class="ptname">Kadoa</div>
+    <div class="pttag">AI · Zero-config · Auto-adapt</div>
+    <div class="ptbody">AI-powered scraping that requires zero configuration — no selectors, no rules. Understands page structure automatically and adapts when sites change. Ideal for scraping at scale without maintaining spider code.</div>
+    <a href="https://www.kadoa.com" target="_blank" class="pt-link">kadoa.com ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(129,140,248,.3)">
+    <div class="ptname">ScrapeGraphAI</div>
+    <div class="pttag">LLM · Graph pipeline · Open source</div>
+    <div class="ptbody">Builds a graph-based extraction pipeline from a natural language prompt. Describe what data you want, it generates the scraping logic. Open source and self-hostable. Good for rapid prototyping of complex extractions.</div>
+    <a href="https://github.com/ScrapeGraphAI/Scrapegraph-ai" target="_blank" class="pt-link">GitHub ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(52,211,153,.3)">
+    <div class="ptname">TinyFish</div>
+    <div class="pttag">AI · Structured extraction · Fast</div>
+    <div class="ptbody">AI-native scraping API focused on speed and structured data output. Pass a URL and a schema, get back clean typed JSON. Handles JS rendering and basic anti-bot. Good fit for feeding structured data into AI pipelines.</div>
+    <a href="https://tinyfish.io" target="_blank" class="pt-link">tinyfish.io ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(56,189,248,.3)">
+    <div class="ptname">Nimble</div>
+    <div class="pttag">AI · Structured · E-commerce</div>
+    <div class="ptbody">AI-powered web data platform with pre-built pipelines for e-commerce, SERP, and social. Returns structured data with no parsing needed. Built-in proxy network. Strong for retail intelligence and price monitoring.</div>
+    <a href="https://www.nimbleway.com" target="_blank" class="pt-link">nimbleway.com ↗</a>
+  </div>
+
+  <div class="ptcard" style="border-color:rgba(248,113,113,.3)">
+    <div class="ptname">NetNut</div>
+    <div class="pttag">ISP · Residential · Scraping API</div>
+    <div class="ptbody">ISP-level residential proxy network with a built-in scraping API. Direct carrier connections for lower detection risk. Strong for e-commerce and SERP scraping where IP freshness and session stability matter.</div>
+    <a href="https://netnut.io" target="_blank" class="pt-link">netnut.io ↗</a>
+  </div>
+
+at">✓ Best for: enterprise scale, AI-generated parsers
+    <a href="https://oxylabs.io" target="_blank" class="pt-link">oxylabs.io ↗</a>
+  </div>
 </div>
 </div>
 </section>
