@@ -2185,13 +2185,6 @@ const ac = document.getElementById('author-card');
 if (ac) acObs.observe(ac);
 
 // AI tip bubble toggle
-let tipShown = false;
-function toggleTip() {
-  tipOn = !tipOn;
-  document.getElementById('tip-toggle').classList.toggle('on', tipOn);
-  if (!tipOn) document.getElementById('ai-tip-bubble').classList.remove('show');
-}
-
 // Also show on hover of button
 document.getElementById('llmbtn').addEventListener('mouseenter', () => {
   if (tipOn && !llmOpen) {
