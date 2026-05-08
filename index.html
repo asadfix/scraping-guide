@@ -1076,6 +1076,89 @@ html { scroll-behavior: smooth; }
 }
 .pt-link:hover{border-color:var(--y)}
 
+
+/* ── WAPPALYZER BLOCK ─────────────────────────────────────── */
+.wapp-block{
+  display:grid;grid-template-columns:1fr 280px;gap:24px;
+  margin:24px 0 32px;
+  padding:24px;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(245,197,24,.2);
+  border-radius:10px;
+  border-left:3px solid rgba(245,197,24,.5);
+}
+.wapp-badge{
+  display:inline-flex;
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--y);
+  background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.2);
+  padding:3px 10px;border-radius:20px;margin-bottom:10px;
+}
+.wapp-title{
+  font-size:18px;font-weight:700;color:var(--t1);
+  margin:0 0 8px;line-height:1.3;
+}
+.wapp-desc{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:16px}
+.wapp-method{margin-bottom:16px}
+.wapp-method-head{
+  display:flex;align-items:center;gap:8px;margin-bottom:6px;
+  font-size:13px;font-weight:700;color:var(--t1);
+}
+.wapp-num{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;color:var(--y);flex-shrink:0;
+}
+.wapp-link{
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;
+  color:var(--y);text-decoration:none;
+  padding:2px 8px;border-radius:3px;
+  border:1px solid rgba(245,197,24,.25);background:rgba(245,197,24,.06);
+  margin-left:auto;white-space:nowrap;
+}
+.wapp-link:hover{background:rgba(245,197,24,.12)}
+.wapp-method-body{font-size:12px;color:var(--t2);line-height:1.65;margin:0}
+.wapp-cookies{
+  display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:8px 0;
+}
+.wapp-cookie{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:5px 8px;background:rgba(0,0,0,.2);border-radius:4px;
+  border:1px solid rgba(255,255,255,.06);
+}
+.wapp-cookie code{font-size:10px;color:rgba(240,240,244,.6)}
+.wapp-vendor{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.04em}
+.wapp-right{}
+.wapp-tip-card{
+  background:rgba(0,0,0,.25);border:1px solid rgba(245,197,24,.2);
+  border-radius:8px;overflow:hidden;position:sticky;top:72px;
+}
+.wapp-tip-head{
+  padding:12px 14px;
+  background:rgba(245,197,24,.07);
+  border-bottom:1px solid rgba(245,197,24,.15);
+  font-size:14px;font-weight:700;color:var(--t1);
+}
+.wapp-tip-body{padding:14px}
+.wapp-tip-body p{font-size:12px;color:var(--t2);line-height:1.65;margin:0 0 8px}
+.wapp-tip-body ul{margin:0 0 12px;padding-left:16px}
+.wapp-tip-body ul li{font-size:12px;color:var(--t2);line-height:1.7}
+.wapp-install-btn{
+  display:block;text-align:center;
+  padding:9px 14px;border-radius:5px;
+  background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);
+  color:var(--y);font-family:var(--mono);font-size:10px;
+  letter-spacing:.06em;text-decoration:none;
+  transition:background .15s;
+}
+.wapp-install-btn:hover{background:rgba(245,197,24,.18)}
+@media(max-width:768px){
+  .wapp-block{grid-template-columns:1fr}
+  .wapp-cookies{grid-template-columns:1fr}
+  .wapp-tip-card{position:static}
+}
+
 </style>
 </head>
 <body>
@@ -1476,9 +1559,78 @@ html { scroll-behavior: smooth; }
 <h2 class="sh">Six companies built the walls.<br><em>Here's every key.</em></h2>
 <p class="ss">Each vendor applies the detection layers differently, different weights, different signals, different architectures. What bypasses Cloudflare has zero effect on Kasada. You need to know exactly which wall you're facing before you choose a tool.</p>
 
-<div class="ib warn rv">
-<strong>How to identify your target:</strong> Before choosing any bypass strategy, run Wappalyzer on the target URL. Check response cookies (<code>_abck</code>=Akamai, <code>cf_clearance</code>=Cloudflare, <code>datadome</code>=DataDome, <code>_px3</code>=PerimeterX, <code>x-kpsdk-ct</code>=Kasada, <code>reese84</code>=F5 Shape). Wrong strategy on the wrong vendor wastes hours.
+
+<!-- Wappalyzer + identification block -->
+<div class="wapp-block">
+  <div class="wapp-left">
+    <div class="wapp-badge">Step 0 — Before anything else</div>
+    <h3 class="wapp-title">Identify which anti-bot you're facing</h3>
+    <p class="wapp-desc">Wrong strategy on the wrong vendor wastes hours. Before writing a single line of code, spend 30 seconds identifying exactly what's protecting the target.</p>
+
+    <div class="wapp-method">
+      <div class="wapp-method-head">
+        <span class="wapp-num">1</span>
+        <strong>Wappalyzer Chrome Extension</strong>
+        <a href="https://chromewebstore.google.com/detail/wappalyzer-technology-pro/gppongmhjkpfnbhagpmjfkannfbllamg" target="_blank" class="wapp-link">Install free ↗</a>
+      </div>
+      <p class="wapp-method-body">Visit the target site, click the Wappalyzer icon in your toolbar. It instantly shows all detected technologies — including the anti-bot vendor. Shows Akamai, Cloudflare, DataDome, PerimeterX, Kasada and more with a single click.</p>
+    </div>
+
+    <div class="wapp-method">
+      <div class="wapp-method-head">
+        <span class="wapp-num">2</span>
+        <strong>Check response cookies</strong>
+      </div>
+      <div class="wapp-cookies">
+        <div class="wapp-cookie"><code>_abck</code><span class="wapp-vendor" style="color:#e05252">Akamai</span></div>
+        <div class="wapp-cookie"><code>cf_clearance</code><span class="wapp-vendor" style="color:#f97316">Cloudflare</span></div>
+        <div class="wapp-cookie"><code>datadome</code><span class="wapp-vendor" style="color:#60a5fa">DataDome</span></div>
+        <div class="wapp-cookie"><code>_px3</code><span class="wapp-vendor" style="color:#a78bfa">PerimeterX</span></div>
+        <div class="wapp-cookie"><code>x-kpsdk-ct</code><span class="wapp-vendor" style="color:#34d399">Kasada</span></div>
+        <div class="wapp-cookie"><code>reese84</code><span class="wapp-vendor" style="color:#fbbf24">F5 Shape</span></div>
+        <div class="wapp-cookie"><code>dd_cookie_test</code><span class="wapp-vendor" style="color:#60a5fa">DataDome</span></div>
+        <div class="wapp-cookie"><code>bm_sz</code><span class="wapp-vendor" style="color:#e05252">Akamai</span></div>
+      </div>
+      <p class="wapp-method-body" style="margin-top:8px">Open DevTools → Application → Cookies. Match any cookie name to identify the vendor. Multiple vendors can run on the same site.</p>
+    </div>
+
+    <div class="wapp-method">
+      <div class="wapp-method-head">
+        <span class="wapp-num">3</span>
+        <strong>Check response headers</strong>
+      </div>
+      <p class="wapp-method-body">DevTools → Network → any request → Response Headers. Look for <code>x-datadome</code>, <code>server: cloudflare</code>, <code>x-akamai-request-id</code>, or challenge redirect URLs containing vendor names.</p>
+    </div>
+  </div>
+
+  <div class="wapp-right">
+    <div class="wapp-tip-card">
+      <div class="wapp-tip-head">🔍 Wappalyzer</div>
+      <div class="wapp-tip-body">
+        <p>Free Chrome + Firefox extension. One click on any site shows:</p>
+        <ul>
+          <li>Anti-bot / security vendor</li>
+          <li>CDN provider</li>
+          <li>CMS, framework, analytics</li>
+          <li>Server technology</li>
+        </ul>
+        <a href="https://chromewebstore.google.com/detail/wappalyzer-technology-pro/gppongmhjkpfnbhagpmjfkannfbllamg" target="_blank" class="wapp-install-btn">
+          Install Wappalyzer Free ↗
+        </a>
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/wappalyzer/" target="_blank" class="wapp-install-btn" style="background:rgba(255,100,0,.1);border-color:rgba(255,100,0,.3);color:rgba(255,140,0,.8);margin-top:6px">
+          Firefox version ↗
+        </a>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Also useful</div>
+          <a href="https://www.wappalyzer.com" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block;margin-bottom:4px">wappalyzer.com ↗</a>
+          <a href="https://builtwith.com" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block;margin-bottom:4px">builtwith.com ↗</a>
+          <a href="https://www.whatcms.org" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block">whatcms.org ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 <div class="rv">
 <!-- AKAMAI -->
