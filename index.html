@@ -2239,89 +2239,131 @@ function llmkey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault();
 function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) toggleLLM(); sendMsg(); }
 
 
-// ── RAG SYSTEM ──────────────────────────────────────────────────
-// Knowledge base extracted from guide content
-const KNOWLEDGE_BASE = `
-DETECTION LAYERS:
-Layer 1 TLS/JA4+: JA4+ fingerprints TLS ClientHello by sorting extensions, removing GREASE, hashing cipher suites+ALPN. Cloudflare uses Rust crate at edge, Akamai uses EdgeWorker. HTTP/2 SETTINGS frames also fingerprinted. curl_cffi impersonate=chrome124 fixes this.
-Layer 2 JS Fingerprinting: Canvas 2D hash (GPU-dependent pixel output), WebGL renderer+vendor string, AudioContext floating-point output, Function.prototype.toString() exposes JS patches, navigator.webdriver=true for Selenium. C++ binary patches (Camoufox, CloakBrowser) are the 2026 baseline.
-Layer 3 Network Identity: IP ASN (datacenter=flagged), WebRTC ICE candidates leak real IP, DNS resolver location vs proxy mismatch. All 5 vectors must agree: IP country, WebRTC, DNS, timezone, Accept-Language. Camoufox geoip=True fixes all 5.
-Layer 4 Behavioural ML: Mouse movement Bezier curves with Gaussian noise, Fitts's Law deceleration near targets, scroll velocity, inter-keystroke timing, session dwell time. DataDome 35-signal behavioural model. Botasaurus provides Gaussian mouse simulation.
 
-ANTI-BOT SYSTEMS:
-Akamai: sensor.js ~512KB obfuscated, 60 chrome-extension:// probes (zero passing = bot), multi-request trust scoring, JA4+ at EdgeWorker. Bypass: curl_cffi + CloakBrowser + real extensions (Bitwarden/1Password) + ISP proxy + homepage warmup. Signals: _abck, bm_sz cookies. 30% Fortune 500.
-Cloudflare: JA4 in Rust crate at CDN edge, ML score 1-99 trained on 20% of internet traffic, Turnstile 79-parameter POST (Canvas hash, SHA-256 PoW, TEA crypto). Bypass: Camoufox 100% pass rate Mar 2026, StealthyFetcher for Turnstile. Find origin IP via SecurityTrails. Signals: cf_clearance, __cf_bm.
-DataDome: 85,000 per-site ML models, WASM boring_challenge (Rust, cannot emulate), runs at app server not CDN, IP=25-30% of score, 2ms response. Bypass: curl_cffi+residential confirmed on Grainger.com, __NEXT_DATA__ check first, mobile carrier IP highest trust. Signals: datadome cookie.
-PerimeterX/HUMAN: 29,650+ sites, 15 trillion weekly verifications, 5-vector score (TLS+IP+HTTP+JS+Behaviour), network effect = burn on one site = flagged everywhere. Bypass: Camoufox+residential, fresh fingerprint per session. Signals: _px3, _pxde.
-Kasada: Gatekeeper proxy, polymorphic ips.js PoW, silent 403, playwright-stealth fingerprinted via toString(), no CAPTCHA. Bypass: PatchRight (patches at Python source level), SeleniumBase UC, residential proxy essential. Signals: x-kpsdk-ct.
-F5 Shape: $1B acquisition, custom JS VM, minute expiry, proprietary bytecode. Bypass: managed API only - Bright Data 98.44%, Zyte 93.14%. Signals: reese84, TS cookies.
+// ── SCRAPEIQ LOCAL KNOWLEDGE ENGINE ────────────────────────────
+// Parses all visible text from the page to build a live knowledge base
+// then uses BM25-style scoring + structured matching to answer queries.
+// Zero API calls. Works for every visitor instantly.
 
-LIBRARIES:
-curl_cffi: TLS impersonation library, impersonate=chrome124 emits Chrome JA4+, HTTP/2 frames. pip install curl_cffi. github.com/lexiforest/curl_cffi. Confirmed DataDome bypass on Grainger.com.
-Scrapling: Adaptive scraping framework, 38K stars, StealthyFetcher solves Cloudflare Turnstile. Parser learns from site changes. v0.4 adds async spider, proxy rotation, checkpoint resume. github.com/D4Vinci/Scrapling.
-Camoufox: C++ Firefox browser using Juggler protocol (below CDP), 100% Cloudflare pass rate Mar 2026. geoip=True aligns all 5 identity vectors. github.com/daijro/camoufox.
-CloakBrowser: 49 C++ binary patches, reCAPTCHA v3 score 0.9, passes Akamai extension probes, loads real extensions.
-PatchRight: Patches Playwright Python source, no JS signatures, Kasada bypass. github.com/Kaliiiiiiiiii-Vinyzu/patchright.
-Playwright: 68K stars, CDP-based, cross-browser. github.com/microsoft/playwright. CDP detectable.
-Puppeteer: 89K stars, Node.js CDP. github.com/puppeteer/puppeteer.
-Selenium: 29K stars, webdriver=true flag. github.com/SeleniumHQ/selenium.
-SeleniumBase: UC mode removes webdriver flag, auto-handles CAPTCHAs. github.com/seleniumbase/SeleniumBase.
-Scrapy: 52K stars, production framework, ecosystem: Scrapyd for deployment, scrapy-redis for distributed, scrapy-cluster for enterprise. github.com/scrapy/scrapy.
-Firecrawl: 111K stars, URL→Markdown/JSON, FIRE-1 agent, MCP server. github.com/mendableai/firecrawl.
-Crawl4AI: 60K stars, local LLM support, MIT free, adaptive crawling. github.com/unclecode/crawl4ai.
-Bright Data: 98.44% success rate, 72M+ IPs, best for F5 Shape.
-Zyte: 93.14% success, #1 Proxyway 2025, Scrapy integration.
+// ── 1. Build knowledge index from page content ──────────────────
+let pageKB = null;
 
-DECISION FLOW (priority order):
-1. Mobile API: HTTPToolkit/Frida intercepts HTTPS from apps - same backend with weaker anti-bot
-2. XHR Endpoint: Chrome DevTools Network tab - find the JSON API the SPA calls
-3. __NEXT_DATA__: Next.js embeds full state in page - no requests needed
-4. HTTP Scraping: curl_cffi + Scrapy + residential proxy
-5. C++ Browser: Camoufox or CloakBrowser - never JS-level patches
-6. Managed API: F5 Shape only - Bright Data or Zyte
-
-PROXIES:
-Datacenter: Very low trust, instantly flagged by DataDome/PerimeterX
-Residential: High trust, confirmed DataDome bypass
-Mobile/4G (T-Mobile, Vodafone): Highest trust, hardest to flag
-ISP/Static: High trust, good for Akamai (trust accumulates, never rotate mid-session)
-Proxy bug: Crawlera port 8011 is plain HTTP - use http:// not https:// in both keys
-
-AI SCRAPING:
-Firecrawl: URL→Markdown, 67% fewer tokens than raw HTML, MCP server, LangChain/LlamaIndex native
-Crawl4AI: Self-hosted, local LLM, BM25 filter, adaptive crawling, free MIT
-ScrapeGraphAI: NL prompts build graph extraction pipeline, self-healing on site changes
-Jina Reader: r.jina.ai/{url} - simplest LLM scraping, no SDK
-Steel: Self-hosted browser API, MCP server, AI agents
-Browserbase: $300M valuation, Playwright drop-in, 50M sessions
-
-COMMUNITY:
-The Web Scraping Club newsletter by Pierluigi Vinciguerra: substack.thewebscraping.club
-Scraping Wiki: github.com/TheWebScrapingClub/scraping-wiki - 64 pages, 300+ articles
-Discord: Web Scraping Club, Oxylabs, Extract Data, Scrapy Official
-Reddit: r/webscraping, r/scrapy
-`;
-
-// Hover-highlight tooltip system
-// RAG-based answer function, chunks knowledge base for context
-function buildRAGContext(question) {
-  const q = question.toLowerCase();
-  const lines = KNOWLEDGE_BASE.split('\n').filter(l => l.trim());
-  // Score each line by relevance to question
-  const scored = lines.map(line => {
-    const words = q.split(/\s+/);
-    let score = 0;
-    words.forEach(w => { if (w.length > 3 && line.toLowerCase().includes(w)) score++; });
-    return { line, score };
+function buildPageKB() {
+  if (pageKB) return pageKB;
+  const sections = [];
+  document.querySelectorAll('.sec, section').forEach(sec => {
+    const id = sec.id || '';
+    const heading = sec.querySelector('h2,h3')?.innerText || '';
+    const paras = [...sec.querySelectorAll('p,.cbody,.abd,.dsb,.lyrb,.tlit,.aib')].map(el => el.innerText).join(' ');
+    const cards = [...sec.querySelectorAll('.card,.abc,.ds,.lyr')].map(el => el.innerText).join(' ');
+    const text = (heading + ' ' + paras + ' ' + cards).replace(/\s+/g,' ').trim();
+    if (text.length > 80) sections.push({ id, heading, text });
   });
-  scored.sort((a,b) => b.score - a.score);
-  // Take top relevant chunks
-  const topLines = scored.filter(s => s.score > 0).slice(0, 25).map(s => s.line);
-  return topLines.join('\n');
+  // Also embed the hardcoded knowledge base
+  const kbLines = KNOWLEDGE_BASE.split('\n').filter(l => l.trim().length > 30);
+  kbLines.forEach(line => sections.push({ id:'kb', heading:'', text: line }));
+  pageKB = sections;
+  return sections;
 }
 
-// Updated sendMsg with RAG
-async function sendMsg() {
+// ── 2. Score relevance ──────────────────────────────────────────
+function scoreChunk(chunk, words) {
+  const t = chunk.text.toLowerCase();
+  let score = 0;
+  words.forEach(w => {
+    if (w.length < 3) return;
+    const re = new RegExp(w.replace(/[+.]/g,'\\$&'), 'gi');
+    const matches = (t.match(re) || []).length;
+    score += matches * (w.length > 6 ? 2 : 1);
+  });
+  // Boost if heading matches
+  if (chunk.heading && words.some(w => chunk.heading.toLowerCase().includes(w))) score += 5;
+  return score;
+}
+
+// ── 3. Format answer from top chunks ───────────────────────────
+function buildAnswer(question, topChunks) {
+  const q = question.toLowerCase();
+
+  // ── Detect question type ────────────────────────────────────
+  const isHow = q.startsWith('how');
+  const isWhat = q.startsWith('what');
+  const isWhich = q.startsWith('which') || q.includes('best') || q.includes('recommend');
+  const isBest = q.includes('best') || q.includes('should i use');
+  const isDiff = q.includes('vs') || q.includes('difference') || q.includes('compare');
+  const isWhy = q.startsWith('why');
+
+  // ── Extract most relevant sentences ─────────────────────────
+  const words = question.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  let sentences = [];
+  topChunks.forEach(chunk => {
+    const parts = chunk.text.split(/[.!?]/).filter(s => s.trim().length > 25);
+    parts.forEach(s => {
+      const score = words.filter(w => s.toLowerCase().includes(w)).length;
+      if (score > 0) sentences.push({ s: s.trim(), score });
+    });
+  });
+  sentences.sort((a,b) => b.score - a.score);
+  const best = [...new Set(sentences.map(s => s.s))].slice(0, 6);
+
+  if (best.length === 0) {
+    return "I could not find a specific answer to that in this guide. Try searching for a related term like <code>Camoufox</code>, <code>JA4</code>, <code>DataDome</code>, or <code>curl_cffi</code>.";
+  }
+
+  // ── Build structured response ────────────────────────────────
+  let out = '';
+
+  // Add a direct answer prefix based on question type
+  if (isBest || isWhich) {
+    const toolMatch = best[0].match(/\b(curl_cffi|Camoufox|CloakBrowser|PatchRight|Scrapy|Scrapling|Firecrawl|Crawl4AI|Bright Data|Zyte)\b/);
+    if (toolMatch) out += `<strong>${toolMatch[1]}</strong> is the recommended choice here.<br><br>`;
+  }
+  if (isWhy) out += 'Here is why:<br><br>';
+
+  // Format sentences
+  best.forEach((s, i) => {
+    // Bold tool names
+    let formatted = s
+      .replace(/\b(curl_cffi|Camoufox|CloakBrowser|PatchRight|Scrapling|Scrapy|Playwright|Puppeteer|Selenium|Firecrawl|Crawl4AI|Bright Data|Zyte|DataDome|Akamai|Cloudflare|PerimeterX|Kasada|F5 Shape|JA4|JA3|WebRTC)\b/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
+    if (i === 0) out += formatted + '.';
+    else out += ' ' + formatted + '.';
+  });
+
+  // Add relevant links if detectable
+  const linkMap = {
+    'Akamai': 'https://www.akamai.com/products/bot-manager',
+    'Cloudflare': 'https://www.cloudflare.com/products/bot-management/',
+    'DataDome': 'https://datadome.co',
+    'Kasada': 'https://www.kasada.io',
+    'F5 Shape': 'https://www.f5.com/products/security/shape-security',
+    'curl_cffi': 'https://github.com/lexiforest/curl_cffi',
+    'Camoufox': 'https://github.com/daijro/camoufox',
+    'Scrapling': 'https://github.com/D4Vinci/Scrapling',
+    'Scrapy': 'https://github.com/scrapy/scrapy',
+    'Firecrawl': 'https://github.com/mendableai/firecrawl',
+    'Crawl4AI': 'https://github.com/unclecode/crawl4ai',
+    'PatchRight': 'https://github.com/Kaliiiiiiiiii-Vinyzu/patchright',
+    'BrowserLeaks': 'https://browserleaks.com',
+  };
+  const linked = [];
+  Object.entries(linkMap).forEach(([name, url]) => {
+    if (out.includes(name) && !linked.includes(name)) {
+      linked.push(name);
+    }
+  });
+  if (linked.length > 0) {
+    out += '<br><br><span style="font-family:var(--mono);font-size:10px;color:var(--t3);letter-spacing:.06em;text-transform:uppercase">Relevant links:</span><br>';
+    linked.slice(0,3).forEach(name => {
+      out += `<a href="${linkMap[name]}" target="_blank" style="color:var(--y);font-size:12px;font-family:var(--mono)">${name} ↗</a>  `;
+    });
+  }
+
+  return out;
+}
+
+// ── 4. Main sendMsg ─────────────────────────────────────────────
+function sendMsg() {
   const inp = document.getElementById('llmin');
   const btn = document.getElementById('llmsend');
   const msgs = document.getElementById('llmmsgs');
@@ -2338,39 +2380,28 @@ async function sendMsg() {
   tm.className = 'msg a'; tm.innerHTML = '<em>Searching guide...</em>'; msgs.appendChild(tm);
   msgs.scrollTop = msgs.scrollHeight;
 
-  // Build RAG context from knowledge base
-  const ragContext = buildRAGContext(text);
-  const systemPrompt = `You are a smart web scraping assistant embedded in Asad's Guide to Web Scraping 2026.
-Answer ONLY based on the following knowledge extracted from the guide. Be concise and technical.
-If the answer isn't in the context, say so briefly.
+  // Small delay so UI updates first
+  setTimeout(() => {
+    try {
+      const kb = buildPageKB();
+      const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+      const scored = kb.map(chunk => ({ chunk, score: scoreChunk(chunk, words) }))
+                       .filter(x => x.score > 0)
+                       .sort((a,b) => b.score - a.score)
+                       .slice(0, 10)
+                       .map(x => x.chunk);
 
-GUIDE KNOWLEDGE:
-${ragContext}
+      const answer = scored.length > 0
+        ? buildAnswer(text, scored)
+        : "I did not find a specific answer in this guide. Try asking about a specific tool like <code>Camoufox</code>, anti-bot like <code>DataDome</code>, or concept like <code>JA4</code>.";
 
-Answer in under 150 words unless code is needed. Use **bold** for key terms, \`code\` for library names.`;
-
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 600,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: text }]
-      })
-    });
-    const d = await r.json();
-    const ans = d.content?.[0]?.text || 'No answer found in the guide content.';
-    tm.innerHTML = ans
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      .replace(/\n/g, '<br>');
-  } catch(e) {
-    tm.innerHTML = '<em>Connection error. Please try again.</em>';
-  }
-  btn.disabled = false;
-  msgs.scrollTop = msgs.scrollHeight;
+      tm.innerHTML = answer;
+    } catch(e) {
+      tm.innerHTML = 'Something went wrong searching the guide.';
+    }
+    btn.disabled = false;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 200);
 }
 
 // Hover tip CSS is injected dynamically
