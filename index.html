@@ -1620,245 +1620,245 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <h2 class="sh">What practitioners are<br><em>actually shipping in 2026</em></h2>
 <p class="ss">Fresh insights from engineers who live in production scrapers. These aren't blog posts — they're dispatches from the field, shared on LinkedIn by people actively solving these problems.</p>
 
-<div class="cards c2 rv" style="margin-bottom:8px">
+<div class="cards c3 rv" style="margin-bottom:8px">
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--y)"></div>
-    <div class="ctag">Jerry Luong · Senior Software Engineer</div>
-    <div class="cname">Cloudflare Turnstile: Solved Without a Browser</div>
-    <div class="cbody">
-      Turnstile doesn't require browser automation. Reverse engineer the POST payload — it was built with 79 parameters covering Fingerprint (Canvas, WebGL), Timing, Browser Environment, and Interaction sequence with crypto hashes.<br><br>
-      The flow in 4 steps:<br>
-      <strong>1.</strong> Extract the Sitekey automatically from the page<br>
-      <strong>2.</strong> Initiate the challenge request<br>
-      <strong>3.</strong> Construct the challenge responses (custom SHA-256, TEA encryption)<br>
-      <strong>4.</strong> Generate cryptographic token → 95-char string, Format: Encrypted_Data-Timestamp-Version-Checksum<br><br>
-      <strong>Result: Status 200, Callback Ready, completed in 0.27s.</strong> No Playwright. No browser. Pure HTTP. The token is valid and accepted by Turnstile-protected endpoints.
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 Key insight: Turnstile's PoW is solvable in &lt;1s via HTTP — browser automation is overkill</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--y)"></div>
+ <div class="ctag">Web Scraping Engineer</div>
+ <div class="cname">Cloudflare Turnstile: Solved Without a Browser</div>
+ <div class="cbody">
+ Turnstile doesn't require browser automation. Reverse engineer the POST payload — it was built with 79 parameters covering Fingerprint (Canvas, WebGL), Timing, Browser Environment, and Interaction sequence with crypto hashes.<br><br>
+ The flow in 4 steps:<br>
+ <strong>1.</strong> Extract the Sitekey automatically from the page<br>
+ <strong>2.</strong> Initiate the challenge request<br>
+ <strong>3.</strong> Construct the challenge responses (custom SHA-256, TEA encryption)<br>
+ <strong>4.</strong> Generate cryptographic token → 95-char string, Format: Encrypted_Data-Timestamp-Version-Checksum<br><br>
+ <strong>Result: Status 200, Callback Ready, completed in 0.27s.</strong> No Playwright. No browser. Pure HTTP. The token is valid and accepted by Turnstile-protected endpoints.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 Key insight: Turnstile's PoW is solvable in &lt;1s via HTTP — browser automation is overkill</div>
+ </div>
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--orn)"></div>
-    <div class="ctag">Jose Pena · CEO, Proxiware</div>
-    <div class="cname">Why "Just Get Better Proxies" Stopped Working</div>
-    <div class="cbody">
-      Rotating residential IPs and still getting blocked? The problem probably isn't your IP. It's your TLS handshake.<br><br>
-      Modern detection systems don't just check where a request comes from — they check <strong>how it arrives</strong>. The cipher suite ordering, HTTPS extension sequence, GREASE values. Together these form a JA4 fingerprint that reveals exactly what client is making the request.<br><br>
-      A Python requests call looks different from Chrome at the handshake level. A headless browser looks different from a real one. Even with a clean residential IP, the fingerprint exposes you.<br><br>
-      <strong>What actually works in 2026:</strong><br>
-      → Clean residential or ISP IPs (IP reputation still matters, just isn't sufficient alone)<br>
-      → A TLS fingerprint matching a real browser client<br>
-      → Session behaviour that doesn't look like a script on a timer
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:rgba(224,123,48,.1);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--orn)">💡 The residential IP passed. The fingerprint gave it away.</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--orn)"></div>
+ <div class="ctag">Proxiware</div>
+ <div class="cname">Why "Just Get Better Proxies" Stopped Working</div>
+ <div class="cbody">
+ Rotating residential IPs and still getting blocked? The problem probably isn't your IP. It's your TLS handshake.<br><br>
+ Modern detection systems don't just check where a request comes from — they check <strong>how it arrives</strong>. The cipher suite ordering, HTTPS extension sequence, GREASE values. Together these form a JA4 fingerprint that reveals exactly what client is making the request.<br><br>
+ A Python requests call looks different from Chrome at the handshake level. A headless browser looks different from a real one. Even with a clean residential IP, the fingerprint exposes you.<br><br>
+ <strong>What actually works in 2026:</strong><br>
+ → Clean residential or ISP IPs (IP reputation still matters, just isn't sufficient alone)<br>
+ → A TLS fingerprint matching a real browser client<br>
+ → Session behaviour that doesn't look like a script on a timer
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:rgba(224,123,48,.1);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--orn)">💡 The residential IP passed. The fingerprint gave it away.</div>
+ </div>
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--red)"></div>
-    <div class="ctag">Giedrius Karanda · Anti-Bot & Automation Engineer</div>
-    <div class="cname">The WebRTC Trap: Your Browser Is Leaking Your Real Location</div>
-    <div class="cbody">
-      You're not getting blocked. You're getting exposed.<br><br>
-      Your proxy says: <em>"I'm a clean US residential IP"</em><br>
-      Your browser says: <em>"I'm actually somewhere else"</em><br><br>
-      WebRTC doesn't care about your proxy. It can: leak your real public IP, expose local network addresses, reveal interfaces that don't match your proxy, create geo mismatches through ICE candidates.<br><br>
-      So your identity looks like: <code>IP → US</code> + <code>WebRTC → Canada</code> + <code>Behaviour → inconsistent</code> = bot signal.<br><br>
-      Modern anti-bots don't ask "Is this IP good?" They ask "Does everything about this session make sense together?"<br><br>
-      <strong>Common mistake:</strong> "Just disable WebRTC." Now your browser is missing a feature most real users have.<br>
-      <strong>Better approach:</strong> Align WebRTC IP with your proxy. Control ICE candidates. Match geo across DNS, TCP, TLS, WebRTC. Keep behaviour coherent across the entire session.
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 Quick test: browserleaks.com/webrtc — check it before blaming your proxy</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--red)"></div>
+ <div class="ctag">Anti-Bot Engineer</div>
+ <div class="cname">The WebRTC Trap: Your Browser Is Leaking Your Real Location</div>
+ <div class="cbody">
+ You're not getting blocked. You're getting exposed.<br><br>
+ Your proxy says: <em>"I'm a clean US residential IP"</em><br>
+ Your browser says: <em>"I'm actually somewhere else"</em><br><br>
+ WebRTC doesn't care about your proxy. It can: leak your real public IP, expose local network addresses, reveal interfaces that don't match your proxy, create geo mismatches through ICE candidates.<br><br>
+ So your identity looks like: <code>IP → US</code> + <code>WebRTC → Canada</code> + <code>Behaviour → inconsistent</code> = bot signal.<br><br>
+ Modern anti-bots don't ask "Is this IP good?" They ask "Does everything about this session make sense together?"<br><br>
+ <strong>Common mistake:</strong> "Just disable WebRTC." Now your browser is missing a feature most real users have.<br>
+ <strong>Better approach:</strong> Align WebRTC IP with your proxy. Control ICE candidates. Match geo across DNS, TCP, TLS, WebRTC. Keep behaviour coherent across the entire session.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 Quick test: browserleaks.com/webrtc — check it before blaming your proxy</div>
+ </div>
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--blu)"></div>
-    <div class="ctag">2026 Benchmark · Browser Use Cloud</div>
-    <div class="cname">The 30-Point Gap: Browser Scraping Success Rates Are Not Equal</div>
-    <div class="cbody">
-      Browser Use published a 2026 scraping guide with a stealth benchmark across 71 sites protected by Cloudflare, Akamai, PerimeterX, and DataDome.<br><br>
-      <strong>Results:</strong> Browser Use Cloud hit 81% success. Browserbase came in at 42%.<br><br>
-      The gap between providers at the top and bottom of the market is no longer marginal. In 2026, the difference between providers is the difference between a working pipeline and a broken one.<br><br>
-      <strong>Key finding:</strong> The distinction between basic and interactive scraping matters more than ever. Basic scraping (fetching a URL, parsing HTML) is increasingly commoditised. The data worth having in 2026 sits behind login walls, search interfaces, and multi-step flows that require actual browser interaction.<br><br>
-      <strong>On AI in the scraping stack:</strong> AI fits in at extraction, code generation, self-healing selectors — less about replacing the infrastructure layer, more about reducing the maintenance burden on top of it.
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Observer's Note: The 30-point spread in success rates between providers is no longer marginal</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--blu)"></div>
+ <div class="ctag">Browser Use · 2026 Benchmark</div>
+ <div class="cname">The 30-Point Gap: Browser Scraping Success Rates Are Not Equal</div>
+ <div class="cbody">
+ Browser Use published a 2026 scraping guide with a stealth benchmark across 71 sites protected by Cloudflare, Akamai, PerimeterX, and DataDome.<br><br>
+ <strong>Results:</strong> Browser Use Cloud hit 81% success. Browserbase came in at 42%.<br><br>
+ The gap between providers at the top and bottom of the market is no longer marginal. In 2026, the difference between providers is the difference between a working pipeline and a broken one.<br><br>
+ <strong>Key finding:</strong> The distinction between basic and interactive scraping matters more than ever. Basic scraping (fetching a URL, parsing HTML) is increasingly commoditised. The data worth having in 2026 sits behind login walls, search interfaces, and multi-step flows that require actual browser interaction.<br><br>
+ <strong>On AI in the scraping stack:</strong> AI fits in at extraction, code generation, self-healing selectors — less about replacing the infrastructure layer, more about reducing the maintenance burden on top of it.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Observer's Note: The 30-point spread in success rates between providers is no longer marginal</div>
+ </div>
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--grn)"></div>
-    <div class="ctag">Neil Emeigh · Founder, Rayobyte</div>
-    <div class="cname">Why rayobrowse Exists: Browsers as a Session Layer, Not a Product</div>
-    <div class="cbody">
-      A lot of scraping teams hit this point: HTTP is fast. Browsers are expensive. But modern sites don't care what's fast — they care how sessions are created.<br><br>
-      So you end up needing a browser anyway, even if it's just to generate cookies or warm sessions before switching back to HTTP.<br><br>
-      That's why rayobrowse was built — not as a "browser scraping product" but as a <strong>browser layer you can plug into your existing pipeline</strong>:<br><br>
-      → Use it to generate sessions<br>
-      → Use it for the hard parts (Akamai, Cloudflare challenges)<br>
-      → Switch back to lightweight HTTP workers when you can<br><br>
-      Self-hosted, Linux-native, Playwright-compatible. The architecture insight: browsers shouldn't replace your whole pipeline — they should be a targeted tool for the parts that actually need them.
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:var(--gl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--grn)">💡 Architecture: browser for session warmup → HTTP for bulk data collection</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--grn)"></div>
+ <div class="ctag">Rayobyte</div>
+ <div class="cname">Why rayobrowse Exists: Browsers as a Session Layer, Not a Product</div>
+ <div class="cbody">
+ A lot of scraping teams hit this point: HTTP is fast. Browsers are expensive. But modern sites don't care what's fast — they care how sessions are created.<br><br>
+ So you end up needing a browser anyway, even if it's just to generate cookies or warm sessions before switching back to HTTP.<br><br>
+ That's why rayobrowse was built — not as a "browser scraping product" but as a <strong>browser layer you can plug into your existing pipeline</strong>:<br><br>
+ → Use it to generate sessions<br>
+ → Use it for the hard parts (Akamai, Cloudflare challenges)<br>
+ → Switch back to lightweight HTTP workers when you can<br><br>
+ Self-hosted, Linux-native, Playwright-compatible. The architecture insight: browsers shouldn't replace your whole pipeline — they should be a targeted tool for the parts that actually need them.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--gl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--grn)">💡 Architecture: browser for session warmup → HTTP for bulk data collection</div>
+ </div>
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--pur)"></div>
-    <div class="ctag">Karim Shoair · Senior Python Developer</div>
-    <div class="cname">Scrapling v0.4: The Biggest Framework Update in Python Scraping</div>
-    <div class="cbody">
-      Scrapling v0.4 introduced a fully async spider framework with a Scrapy-like API. Key new capabilities:<br><br>
-      <strong>Async Spider Framework:</strong><br>
-      → Concurrent crawling with per-domain throttling<br>
-      → Mix HTTP, headless, and stealth browser sessions in one spider<br>
-      → Pause with Ctrl+C, resume from checkpoint<br>
-      → Stream items in real-time with async<br>
-      → Built-in JSON/JSONL export<br><br>
-      <strong>New Proxy Rotation:</strong> Thread-safe ProxyRotator with custom rotation strategies. Works with all fetchers and spider sessions. Override per-request.<br><br>
-      <strong>Browser Fetcher Improvements:</strong><br>
-      → Block requests to specific domains with blocked_domains<br>
-      → Automatic retries with proxy-aware error detection<br>
-      → Response.follow() for easy link-following<br><br>
-      Its parser <strong>learns from website changes</strong> and automatically relocates elements — handles Cloudflare Turnstile out of the box. All in a few lines of Python.
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 pip install scrapling --upgrade  |  Scrapy-like API with built-in Cloudflare + anti-bot handling</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--pur)"></div>
+ <div class="ctag">Scrapling Developer</div>
+ <div class="cname">Scrapling v0.4: The Biggest Framework Update in Python Scraping</div>
+ <div class="cbody">
+ Scrapling v0.4 introduced a fully async spider framework with a Scrapy-like API. Key new capabilities:<br><br>
+ <strong>Async Spider Framework:</strong><br>
+ → Concurrent crawling with per-domain throttling<br>
+ → Mix HTTP, headless, and stealth browser sessions in one spider<br>
+ → Pause with Ctrl+C, resume from checkpoint<br>
+ → Stream items in real-time with async<br>
+ → Built-in JSON/JSONL export<br><br>
+ <strong>New Proxy Rotation:</strong> Thread-safe ProxyRotator with custom rotation strategies. Works with all fetchers and spider sessions. Override per-request.<br><br>
+ <strong>Browser Fetcher Improvements:</strong><br>
+ → Block requests to specific domains with blocked_domains<br>
+ → Automatic retries with proxy-aware error detection<br>
+ → Response.follow() for easy link-following<br><br>
+ Its parser <strong>learns from website changes</strong> and automatically relocates elements — handles Cloudflare Turnstile out of the box. All in a few lines of Python.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 pip install scrapling --upgrade | Scrapy-like API with built-in Cloudflare + anti-bot handling</div>
+ </div>
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--y)"></div>
-    <div class="ctag">Hocine Abed · Web Scraping Specialist</div>
-    <div class="cname">SwiftShadow: The Quiet Proxy Library Saving Production Scrapers</div>
-    <div class="cbody">
-      For scrapers hitting "429 Too Many Requests" and IP blocks, SwiftShadow has been a quiet lifesaver. It's a lightweight Python library that grabs free proxies, validates them, rotates them automatically, and lets you filter by country or protocol — without watching your script die after 50 requests.<br><br>
-      <code>from swiftshadow import QuickProxy<br>proxy = QuickProxy(countries=["FR", "DE"])<br>session.proxies = {"http": str(proxy), "https": str(proxy)}</code><br><br>
-      What makes it stand out:<br>
-      → Stupidly fast compared to heavier solutions<br>
-      → Built-in caching = fewer unnecessary requests to proxy providers<br>
-      → Super simple API — 2 lines to get going<br>
-      → Switches proxies automatically when one fails<br><br>
-      Repo sitting at ~300 stars, actively maintained. Best for scraping targets with light to medium protection where free proxy pools work.
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 pip install swiftshadow  |  github.com/Aahaan-k/swiftshadow</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--y)"></div>
+ <div class="ctag">Web Scraping Specialist</div>
+ <div class="cname">SwiftShadow: The Quiet Proxy Library Saving Production Scrapers</div>
+ <div class="cbody">
+ For scrapers hitting "429 Too Many Requests" and IP blocks, SwiftShadow has been a quiet lifesaver. It's a lightweight Python library that grabs free proxies, validates them, rotates them automatically, and lets you filter by country or protocol — without watching your script die after 50 requests.<br><br>
+ <code>from swiftshadow import QuickProxy<br>proxy = QuickProxy(countries=["FR", "DE"])<br>session.proxies = {"http": str(proxy), "https": str(proxy)}</code><br><br>
+ What makes it stand out:<br>
+ → Stupidly fast compared to heavier solutions<br>
+ → Built-in caching = fewer unnecessary requests to proxy providers<br>
+ → Super simple API — 2 lines to get going<br>
+ → Switches proxies automatically when one fails<br><br>
+ Repo sitting at ~300 stars, actively maintained. Best for scraping targets with light to medium protection where free proxy pools work.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 pip install swiftshadow | github.com/Aahaan-k/swiftshadow</div>
+ </div>
 
-  <div class="card" style="border:1px solid var(--b2)">
-    <div class="cbar" style="background:var(--pink,#ff6baa)"></div>
-    <div class="ctag">André Lindenberg · Agents, Graphs, Ontologies</div>
-    <div class="cname">CocoIndex: Keep Your LLM's Context Fresh Without Stale Batches</div>
-    <div class="cbody">
-      Your agents deserve fresh context. CocoIndex turns codebases, PDFs, Slack inboxes, and videos into a continuously updated index your LLM can actually reason over — no stale nightly batches, no context gap.<br><br>
-      Python on a Rust delta engine: edit a chunker or swap embedding models, only the affected rows re-run. Pgvector, LanceDB, Neo4j as targets. Byte-level lineage per row. Production AI agent ready in 10 minutes.<br><br>
-      Why this matters for scrapers building RAG pipelines: most scraped data goes stale within days. CocoIndex keeps the downstream vector store incrementally updated as new data is scraped — so your agent always reasons on current information.<br><br>
-      <strong>GitHub Trending: #1 Repository of the Day</strong> when posted. 7K+ stars.
-    </div>
-    <div style="margin-top:12px;padding:9px 12px;background:rgba(255,107,170,.1);border-radius:4px;font-family:var(--mono);font-size:10px;color:#ff6baa">💡 github.com/cocoindex-io/cocoindex  |  Incremental RAG context for LLM agents</div>
-  </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--pink,#ff6baa)"></div>
+ <div class="ctag">CocoIndex</div>
+ <div class="cname">CocoIndex: Keep Your LLM's Context Fresh Without Stale Batches</div>
+ <div class="cbody">
+ Your agents deserve fresh context. CocoIndex turns codebases, PDFs, Slack inboxes, and videos into a continuously updated index your LLM can actually reason over — no stale nightly batches, no context gap.<br><br>
+ Python on a Rust delta engine: edit a chunker or swap embedding models, only the affected rows re-run. Pgvector, LanceDB, Neo4j as targets. Byte-level lineage per row. Production AI agent ready in 10 minutes.<br><br>
+ Why this matters for scrapers building RAG pipelines: most scraped data goes stale within days. CocoIndex keeps the downstream vector store incrementally updated as new data is scraped — so your agent always reasons on current information.<br><br>
+ <strong>GitHub Trending: #1 Repository of the Day</strong> when posted. 7K+ stars.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:rgba(255,107,170,.1);border-radius:4px;font-family:var(--mono);font-size:10px;color:#ff6baa">💡 github.com/cocoindex-io/cocoindex | Incremental RAG context for LLM agents</div>
+ </div>
 
 
 
-  <div class="cards c2 rv" style="margin-top:8px">
+ <div class="cards c3 rv" style="margin-top:8px">
 
-    <div class="card" style="border:1px solid var(--b2)">
-      <div class="cbar" style="background:var(--grn)"></div>
-      <div class="ctag">Awais Ahmed Sheikh · Founder, SourceLogs</div>
-      <div class="cname">Skip the HTML. Hit the API. 50× Faster.</div>
-      <div class="cbody">
-        The biggest speedup in scraping comes from asking a better question. Before you reach for Playwright, before you even reach for requests + parsel, open DevTools and ask: <strong>where is the data actually coming from?</strong><br><br>
-        Half the time on modern sites, the answer is that the page is calling its own JSON API in the background. Skip the HTML entirely. Hit the endpoint directly:<br><br>
-        → <strong>50× faster</strong> — no browser launch, no DOM parsing<br>
-        → <strong>100× less memory</strong> — one HTTP call, one JSON payload<br>
-        → <strong>Cleaner data</strong> — structured JSON instead of scraped HTML<br>
-        → <strong>0 browsers launched</strong> — no Playwright, no Puppeteer<br><br>
-        Part 3 of his Web Scraping 101 series covers: how to find hidden APIs, what to copy from the request, how to handle auth and pagination, and when to give up and go back to Playwright.
-      </div>
-      <div style="margin-top:12px;padding:9px 12px;background:var(--gl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--grn)">💡 Rule: before writing any code, open DevTools Network tab and look for XHR/Fetch calls</div>
-    </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--grn)"></div>
+ <div class="ctag">SourceLogs</div>
+ <div class="cname">Skip the HTML. Hit the API. 50× Faster.</div>
+ <div class="cbody">
+ The biggest speedup in scraping comes from asking a better question. Before you reach for Playwright, before you even reach for requests + parsel, open DevTools and ask: <strong>where is the data actually coming from?</strong><br><br>
+ Half the time on modern sites, the answer is that the page is calling its own JSON API in the background. Skip the HTML entirely. Hit the endpoint directly:<br><br>
+ → <strong>50× faster</strong> — no browser launch, no DOM parsing<br>
+ → <strong>100× less memory</strong> — one HTTP call, one JSON payload<br>
+ → <strong>Cleaner data</strong> — structured JSON instead of scraped HTML<br>
+ → <strong>0 browsers launched</strong> — no Playwright, no Puppeteer<br><br>
+ Part 3 of his Web Scraping 101 series covers: how to find hidden APIs, what to copy from the request, how to handle auth and pagination, and when to give up and go back to Playwright.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--gl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--grn)">💡 Rule: before writing any code, open DevTools Network tab and look for XHR/Fetch calls</div>
+ </div>
 
-    <div class="card" style="border:1px solid var(--b2)">
-      <div class="cbar" style="background:var(--blu)"></div>
-      <div class="ctag">Jose Pena · CEO, Proxiware</div>
-      <div class="cname">Scrapling Hit 200K Views — Here's Why It Matters</div>
-      <div class="cbody">
-        Scrapling hit 200,000 views on X this week. It handles Cloudflare bypass, adaptive selectors, and fingerprint impersonation in a clean Python API. One of the top replies: <em>"zero bot detection is gonna last until Cloudflare patches it in 3 weeks."</em><br><br>
-        He's probably right. Not because Scrapling is bad. Because that's how this works — <strong>detection vendors update, libraries that bypass them stop working, new libraries ship. The cycle repeats every few months.</strong><br><br>
-        What doesn't get deprecated on that timeline is your <strong>network infrastructure</strong>. A clean proxy setup with the right IP types doesn't stop working because someone pushed an update. The network layer is slower moving than the software layer — and that's actually an advantage.<br><br>
-        Most scraping teams evaluate their library stack constantly and almost never look at their proxy setup until something breaks. The library gets swapped. The routing stays the same. Worth flipping that ratio.
-      </div>
-      <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Invest more in your network layer than your library layer — it depreciates slower</div>
-    </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--blu)"></div>
+ <div class="ctag">Proxiware</div>
+ <div class="cname">Scrapling Hit 200K Views — Here's Why It Matters</div>
+ <div class="cbody">
+ Scrapling hit 200,000 views on X this week. It handles Cloudflare bypass, adaptive selectors, and fingerprint impersonation in a clean Python API. One of the top replies: <em>"zero bot detection is gonna last until Cloudflare patches it in 3 weeks."</em><br><br>
+ He's probably right. Not because Scrapling is bad. Because that's how this works — <strong>detection vendors update, libraries that bypass them stop working, new libraries ship. The cycle repeats every few months.</strong><br><br>
+ What doesn't get deprecated on that timeline is your <strong>network infrastructure</strong>. A clean proxy setup with the right IP types doesn't stop working because someone pushed an update. The network layer is slower moving than the software layer — and that's actually an advantage.<br><br>
+ Most scraping teams evaluate their library stack constantly and almost never look at their proxy setup until something breaks. The library gets swapped. The routing stays the same. Worth flipping that ratio.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Invest more in your network layer than your library layer — it depreciates slower</div>
+ </div>
 
-    <div class="card" style="border:1px solid var(--b2)">
-      <div class="cbar" style="background:var(--y)"></div>
-      <div class="ctag">M. Shah Bahram Sipra · Web Scraping Expert</div>
-      <div class="cname">Unpopular Opinion: Web Scraping Tutorials Teach the Wrong Things First</div>
-      <div class="cbody">
-        Most web scraping tutorials teach the wrong things first. They're not useless — but they often start with BeautifulSoup on a clean, static HTML page. That's not what real-world scraping looks like.<br><br>
-        In reality, you're dealing with: JavaScript-rendered content, rate limits and blocking, sessions and headers and cookies, pagination and APIs and dynamic loading.<br><br>
-        <strong>3 things worth learning earlier:</strong><br>
-        <strong>1. How websites actually load data</strong> — understanding request/response cycles and using browser DevTools would have saved weeks<br>
-        <strong>2. How to read network requests (XHR/APIs)</strong> — many sites don't need scraping, they need the right API call<br>
-        <strong>3. Respecting limits</strong> — robots.txt, delays, blocking. Scraping isn't just extraction. It's about doing it responsibly and sustainably.<br><br>
-        Beginner roadmap: DevTools → Network tab → understand data flow → learn to replicate requests → then Scrapy for structure → then focus on syntax and optimisation. Tools are easy to learn. <strong>Understanding how the web works is the real skill.</strong>
-      </div>
-      <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 The right learning order: DevTools → XHR replication → Scrapy → anti-bot techniques</div>
-    </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--y)"></div>
+ <div class="ctag">Web Scraping Expert</div>
+ <div class="cname">Unpopular Opinion: Web Scraping Tutorials Teach the Wrong Things First</div>
+ <div class="cbody">
+ Most web scraping tutorials teach the wrong things first. They're not useless — but they often start with BeautifulSoup on a clean, static HTML page. That's not what real-world scraping looks like.<br><br>
+ In reality, you're dealing with: JavaScript-rendered content, rate limits and blocking, sessions and headers and cookies, pagination and APIs and dynamic loading.<br><br>
+ <strong>3 things worth learning earlier:</strong><br>
+ <strong>1. How websites actually load data</strong> — understanding request/response cycles and using browser DevTools would have saved weeks<br>
+ <strong>2. How to read network requests (XHR/APIs)</strong> — many sites don't need scraping, they need the right API call<br>
+ <strong>3. Respecting limits</strong> — robots.txt, delays, blocking. Scraping isn't just extraction. It's about doing it responsibly and sustainably.<br><br>
+ Beginner roadmap: DevTools → Network tab → understand data flow → learn to replicate requests → then Scrapy for structure → then focus on syntax and optimisation. Tools are easy to learn. <strong>Understanding how the web works is the real skill.</strong>
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 The right learning order: DevTools → XHR replication → Scrapy → anti-bot techniques</div>
+ </div>
 
-    <div class="card" style="border:1px solid var(--b2)">
-      <div class="cbar" style="background:var(--orn)"></div>
-      <div class="ctag">Zyte · via Pierluigi Vinciguerra</div>
-      <div class="cname">The ESP32 Microcontroller That Scrapes Weather Data</div>
-      <div class="cbody">
-        A tiny microcontroller scraping live weather data via the Zyte API — built with an ESP8266/ESP32 and Arduino. The device calls the Zyte web scraping API, gets back structured weather data, and displays it on a small TFT screen.<br><br>
-        Why this matters: it demonstrates that <strong>the scraping abstraction layer has become so clean</strong> that resource-constrained devices with no Python runtime can consume web data. The Zyte API handles all the heavy lifting — TLS, JavaScript rendering, anti-bot — and the microcontroller just makes a simple HTTP request and parses JSON.<br><br>
-        This is what the "scraping as infrastructure" vision looks like in practice. Not just for big data pipelines — for any device, any context, any scale.
-      </div>
-      <div style="margin-top:12px;padding:9px 12px;background:var(--ol);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--orn)">💡 Scraping APIs have become clean enough for microcontrollers — #esp8266 #esp32 #arduino</div>
-    </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--orn)"></div>
+ <div class="ctag">Zyte</div>
+ <div class="cname">The ESP32 Microcontroller That Scrapes Weather Data</div>
+ <div class="cbody">
+ A tiny microcontroller scraping live weather data via the Zyte API — built with an ESP8266/ESP32 and Arduino. The device calls the Zyte web scraping API, gets back structured weather data, and displays it on a small TFT screen.<br><br>
+ Why this matters: it demonstrates that <strong>the scraping abstraction layer has become so clean</strong> that resource-constrained devices with no Python runtime can consume web data. The Zyte API handles all the heavy lifting — TLS, JavaScript rendering, anti-bot — and the microcontroller just makes a simple HTTP request and parses JSON.<br><br>
+ This is what the "scraping as infrastructure" vision looks like in practice. Not just for big data pipelines — for any device, any context, any scale.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--ol);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--orn)">💡 Scraping APIs have become clean enough for microcontrollers — #esp8266 #esp32 #arduino</div>
+ </div>
 
-    <div class="card" style="border:1px solid var(--b2)">
-      <div class="cbar" style="background:var(--red)"></div>
-      <div class="ctag">Zain Asif Satti · Data Engineer | AI & ML</div>
-      <div class="cname">Your Scraper Isn't Getting Blocked Because of Your Code. It's Your Behaviour.</div>
-      <div class="cbody">
-        Your scraper worked fine yesterday. Today it's returning empty pages. You didn't change a single line of code. The site did.<br><br>
-        <strong>What actually gets you blocked — and how to stop it:</strong><br><br>
-        → <strong>Sending identical headers every request</strong> — browsers rotate headers naturally. Your scraper doesn't. Sites fingerprint this. Rotate User-Agent strings and set realistic Accept-Language, Referer, and Accept headers on every request.<br>
-        → <strong>Making requests at machine speed</strong> — 500ms between every request is not human behaviour. Add randomised delays: <code>sleep(random.uniform(1.8, 4.3))</code><br>
-        → <strong>Ignoring session state</strong> — real users have cookies, session tokens, browsing history. Use <code>requests.Session()</code> and let it accumulate cookies naturally.<br>
-        → <strong>Hitting the same IP 400 times in 10 minutes</strong> — use residential proxies, not datacenter. Pre-listed and blocked.<br>
-        → <strong>Scraping rendered HTML when the data is in the API</strong> — open DevTools before you write a single line.<br><br>
-        The rule: the closer your scraper behaves to a real browser session, the longer it runs undetected.
-      </div>
-      <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 sleep(random.uniform(1.8, 4.3)) beats sleep(2) every time — vary your timing</div>
-    </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--red)"></div>
+ <div class="ctag">Data Engineer</div>
+ <div class="cname">Your Scraper Isn't Getting Blocked Because of Your Code. It's Your Behaviour.</div>
+ <div class="cbody">
+ Your scraper worked fine yesterday. Today it's returning empty pages. You didn't change a single line of code. The site did.<br><br>
+ <strong>What actually gets you blocked — and how to stop it:</strong><br><br>
+ → <strong>Sending identical headers every request</strong> — browsers rotate headers naturally. Your scraper doesn't. Sites fingerprint this. Rotate User-Agent strings and set realistic Accept-Language, Referer, and Accept headers on every request.<br>
+ → <strong>Making requests at machine speed</strong> — 500ms between every request is not human behaviour. Add randomised delays: <code>sleep(random.uniform(1.8, 4.3))</code><br>
+ → <strong>Ignoring session state</strong> — real users have cookies, session tokens, browsing history. Use <code>requests.Session()</code> and let it accumulate cookies naturally.<br>
+ → <strong>Hitting the same IP 400 times in 10 minutes</strong> — use residential proxies, not datacenter. Pre-listed and blocked.<br>
+ → <strong>Scraping rendered HTML when the data is in the API</strong> — open DevTools before you write a single line.<br><br>
+ The rule: the closer your scraper behaves to a real browser session, the longer it runs undetected.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 sleep(random.uniform(1.8, 4.3)) beats sleep(2) every time — vary your timing</div>
+ </div>
 
-    <div class="card" style="border:1px solid var(--b2)">
-      <div class="cbar" style="background:var(--pur)"></div>
-      <div class="ctag">Abdullah Chaudhary · Web Scraping & Data Engineer</div>
-      <div class="cname">Understanding. Not Tools. — The Anti-Bot Mindset Shift</div>
-      <div class="cbody">
-        The best anti-bot tool isn't a library. It's not curl_cffi. It's not Playwright. It's not a $300/month proxy plan. <strong>It's understanding how detection actually works.</strong><br><br>
-        Every scraper that consistently bypasses Cloudflare isn't running special software — they're running the right mental model. They know which signals matter. They know which ones don't. They know which signals they're leaking without realising it.<br><br>
-        The engineer who understands why TLS fingerprinting exists will always beat the one who googled "how to bypass Cloudflare" and followed the top result.<br><br>
-        <strong>Tools change. Detection evolves. Understanding is what transfers.</strong><br><br>
-        Built 300+ scrapers. The difference between the ones that fail and the ones that run for 18 months isn't the library used. It's whether you understood the game you were playing.
-      </div>
-      <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 "The library gets swapped. The routing stays the same." — Understanding > Tools</div>
-    </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--pur)"></div>
+ <div class="ctag">Web Scraping Engineer</div>
+ <div class="cname">Understanding. Not Tools. — The Anti-Bot Mindset Shift</div>
+ <div class="cbody">
+ The best anti-bot tool isn't a library. It's not curl_cffi. It's not Playwright. It's not a $300/month proxy plan. <strong>It's understanding how detection actually works.</strong><br><br>
+ Every scraper that consistently bypasses Cloudflare isn't running special software — they're running the right mental model. They know which signals matter. They know which ones don't. They know which signals they're leaking without realising it.<br><br>
+ The engineer who understands why TLS fingerprinting exists will always beat the one who googled "how to bypass Cloudflare" and followed the top result.<br><br>
+ <strong>Tools change. Detection evolves. Understanding is what transfers.</strong><br><br>
+ Built 300+ scrapers. The difference between the ones that fail and the ones that run for 18 months isn't the library used. It's whether you understood the game you were playing.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 "The library gets swapped. The routing stays the same." — Understanding > Tools</div>
+ </div>
 
-    <div class="card" style="border:1px solid var(--b2)">
-      <div class="cbar" style="background:var(--y)"></div>
-      <div class="ctag">AI Consensus · ChatGPT + Perplexity + Gemini + Google</div>
-      <div class="cname">Top 10 Scraping APIs According to Every Major AI — 2026</div>
-      <div class="cbody">
-        Queried ChatGPT, Perplexity, Gemini, and Google "best scraping API" from a San Francisco IP using Massive Web Render. AI consensus ranking:<br><br>
-        <strong>1. Bright Data</strong> · 2. Zyte · 3. ScrapingBee · 4. Firecrawl · 5. Scrape.do · 6. ScraperAPI · 7. Apify · 8. Scrapingdog · 9. Oxylabs.io · 10. Scrapfly<br><br>
-        The whole report took 90 seconds and cost less than a dollar. Built using the <code>/ai</code> endpoint which queries all four AI systems programmatically. The <code>/search</code> endpoint pulls Google including AI Overviews — geo-targeted to any city in 195+ countries.<br><br>
-        <strong>The insight:</strong> half of B2B buyers start research in an AI chatbot instead of Google. If you're not in this consideration set, you don't exist for those buyers. Your buyers are seeing this exact list right now.
-      </div>
-      <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 AI search visibility is now a real SEO channel — Bright Data #1 across all four models</div>
-    </div>
+ <div class="card" style="border:1px solid var(--b2)">
+ <div class="cbar" style="background:var(--y)"></div>
+ <div class="ctag">AI Consensus · 2026</div>
+ <div class="cname">Top 10 Scraping APIs According to Every Major AI — 2026</div>
+ <div class="cbody">
+ Queried ChatGPT, Perplexity, Gemini, and Google "best scraping API" from a San Francisco IP using Massive Web Render. AI consensus ranking:<br><br>
+ <strong>1. Bright Data</strong> · 2. Zyte · 3. ScrapingBee · 4. Firecrawl · 5. Scrape.do · 6. ScraperAPI · 7. Apify · 8. Scrapingdog · 9. Oxylabs.io · 10. Scrapfly<br><br>
+ The whole report took 90 seconds and cost less than a dollar. Built using the <code>/ai</code> endpoint which queries all four AI systems programmatically. The <code>/search</code> endpoint pulls Google including AI Overviews — geo-targeted to any city in 195+ countries.<br><br>
+ <strong>The insight:</strong> half of B2B buyers start research in an AI chatbot instead of Google. If you're not in this consideration set, you don't exist for those buyers. Your buyers are seeing this exact list right now.
+ </div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 AI search visibility is now a real SEO channel — Bright Data #1 across all four models</div>
+ </div>
 
-  </div>
+ </div>
 </div>
 </section>
 
