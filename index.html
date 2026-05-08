@@ -2939,9 +2939,51 @@ html { scroll-behavior: smooth; }
     </div>
   </td>
 </tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('Selenoid')"><td>Selenoid <span class="lib-row-badge lib-http-b">⚡</span></td><td>Docker · Headless</td><td>Runs multiple headless browsers in Docker containers for parallel execution. Low resource per instance. Good for distributed scraping requiring many simultaneous browser sessions. <code>docker pull aerokube/selenoid</code></td><td><a href="https://github.com/aerokube/selenoid" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('noble-tls')"><td>noble-tls <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · TLS stealth</td><td>Provides stealth TLS handshakes that emulate browser-like TLS negotiations. Bypasses JA3/JA4 fingerprinting with minimal setup. Useful for high-security sites where curl_cffi is overkill.</td><td><a href="https://github.com/bycloudai/noble-tls" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('hrequests')"><td>hrequests <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · Header stealth</td><td>Mimics browser headers, cookies and session handling to bypass header-based bot detection. Drop-in replacement for requests with stealth baked in. Good for API endpoint scraping with realistic headers.</td><td><a href="https://github.com/daijro/hrequests" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Selenoid')"><td><a href="https://github.com/aerokube/selenoid" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Selenoid</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Go (Docker)</span></td><td><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:11px">Browser-as-a-service</span></td><td>Medium targets</td><td><span class="dn"></span></td><td>2.6k</td></tr>
+<tr id="detail-Selenoid" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Docker containers running headless Chrome/Firefox in parallel — Aerokube's Go-based Selenium grid replacement.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Run dozens of browsers in parallel from one host</li><li>Lower memory than Selenium Grid</li><li>Built-in video recording per session</li><li>Drop-in replacement for Selenium Grid</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Browsers still detectable as headless without stealth patches</li><li>Older project, slower release cadence</li><li>Requires Docker infrastructure</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('noble_tls')"><td><a href="https://github.com/Vinyzu/noble-tls" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">noble-tls</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dy"></span> <span style="font-size:14px">Chrome JA3/JA4</span></td><td>Cloudflare, DataDome</td><td><span class="dn"></span></td><td>—</td></tr>
+<tr id="detail-noble_tls" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Python port of uTLS via custom TLS handshake stack — emits browser-matching ClientHello.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Bypasses JA3/JA4 fingerprinting</li><li>Pure Python — no C compilation</li><li>Lighter than curl_cffi for simple cases</li><li>Easy install via pip</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Smaller community than curl_cffi</li><li>Fewer browser impersonation profiles</li><li>Less battle-tested in production</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('hrequests')"><td><a href="https://github.com/daijro/hrequests" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">hrequests</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Browser-grade TLS</span></td><td>DataDome, Cloudflare</td><td><span class="dn"></span></td><td>900</td></tr>
+<tr id="detail-hrequests" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Drop-in requests replacement with TLS impersonation, header order matching, and optional Playwright browser mode.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>requests-compatible API with stealth built in</li><li>Header order mimics real Chrome</li><li>Optional browser mode for JS rendering</li><li>Built-in async support</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Smaller ecosystem than curl_cffi</li><li>Fewer impersonate profiles</li><li>Newer project — some edge cases</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
 <tr class="lib-detail-row" id="detail-hrequests">
   <td colspan="8">
     <div class="lib-detail-inner">
@@ -2956,7 +2998,21 @@ html { scroll-behavior: smooth; }
     </div>
   </td>
 </tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('crawlee-python')"><td>crawlee-python <span class="lib-row-badge lib-browser-b">🌐</span></td><td>Hybrid · HTTP + Browser</td><td>Python port of Apify's Crawlee. Offers flexibility with both HTTP clients and headless browsers in one framework. Handles retries, proxy rotation, and storage out of the box. Good for mixed crawling tasks.</td><td><a href="https://github.com/apify/crawlee-python" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('crawlee_python')"><td><a href="https://github.com/apify/crawlee-python" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">crawlee-python</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Via curl_cffi backend</span></td><td>Most targets</td><td><span class="dn"></span></td><td>6.2k</td></tr>
+<tr id="detail-crawlee_python" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-browser-badge">🌐 Browser</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Python port of Apify Crawlee — wraps curl_cffi for HTTP and Playwright for browser modes in a unified framework.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Mix HTTP and browser workers in one crawler</li><li>Auto-scaling and proxy rotation built in</li><li>Storage abstraction for results</li><li>Strong production patterns from Apify</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Larger than plain Scrapy</li><li>Newer than Node.js Crawlee — some features lag</li><li>Opinionated framework</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
 <tr class="lib-detail-row" id="detail-crawlee-python">
   <td colspan="8">
     <div class="lib-detail-inner">
@@ -2971,9 +3027,51 @@ html { scroll-behavior: smooth; }
     </div>
   </td>
 </tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('estela')"><td>estela <span class="lib-row-badge lib-http-b">⚡</span></td><td>Cluster · Scrapy scale</td><td>Elastic web scraping cluster built on Docker and Kubernetes. Orchestrates Scrapy tasks across machines, handles distribution, monitoring and scaling. Good when you need Scrapy at cloud scale without building infra from scratch.</td><td><a href="https://github.com/scrapy-plugins/estela" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('fake-useragent')"><td>fake-useragent <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · User-Agent</td><td>Generates realistic User-Agent strings from a database of real browsers. Rotates UA per request to avoid detection. <code>pip install fake-useragent</code> — <code>from fake_useragent import UserAgent; ua = UserAgent(); headers = {"User-Agent": ua.random}</code></td><td><a href="https://github.com/fake-useragent/fake-useragent" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('grequests')"><td>grequests <span class="lib-row-badge lib-http-b">⚡</span></td><td>HTTP · Async</td><td>Combines requests with gevent for concurrent HTTP requests. Simple API for firing dozens of requests in parallel without asyncio boilerplate. Good for bulk API scraping where you just need speed.</td><td><a href="https://github.com/spyoungtech/grequests" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('estela')"><td><a href="https://github.com/bitmakerla/estela" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">estela</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python (K8s)</span></td><td><span class="dy"></span></td><td><span class="dn"></span> <span style="font-size:11px">Spider-dependent</span></td><td>Distributed Scrapy</td><td><span class="dn"></span></td><td>90</td></tr>
+<tr id="detail-estela" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Kubernetes orchestrator for Scrapy — schedules and runs spiders as K8s jobs with auto-scaling.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Open source alternative to Zyte Cloud</li><li>Elastic scaling on Kubernetes</li><li>Built-in monitoring and stats UI</li><li>Multi-tenant by design</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Requires Kubernetes infrastructure</li><li>Heavyweight for small projects</li><li>Smaller community than Scrapyd</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('fake_useragent')"><td><a href="https://github.com/fake-useragent/fake-useragent" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">fake-useragent</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">UA strings only</span></td><td>Lightweight only</td><td><span class="dn"></span></td><td>3.8k</td></tr>
+<tr id="detail-fake_useragent" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Curated database of real-world User-Agent strings, sampled from browser telemetry sources.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Realistic UA strings ready out of the box</li><li>Filter by browser family or OS</li><li>Updated database</li><li>Tiny dependency</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>UA alone is trivially detectable in 2026</li><li>Not enough for any modern anti-bot</li><li>Database can become stale</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('grequests')"><td><a href="https://github.com/spyoungtech/grequests" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">grequests</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lh">HTTP</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">requests + gevent</span></td><td>Unprotected APIs</td><td><span class="dn"></span></td><td>4.4k</td></tr>
+<tr id="detail-grequests" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> gevent-monkey-patched requests — fires hundreds of HTTP calls in parallel via greenlets.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Drop-in async for requests users</li><li>Simpler than asyncio for bulk fetches</li><li>Battle-tested gevent under the hood</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Monkey-patching can conflict with other libs</li><li>No HTTP/2 support</li><li>Newer code should use httpx instead</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
 <tr class="lib-detail-row" id="detail-grequests">
   <td colspan="8">
     <div class="lib-detail-inner">
@@ -2988,7 +3086,21 @@ html { scroll-behavior: smooth; }
     </div>
   </td>
 </tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('Scrapoxy')"><td>Scrapoxy <span class="lib-row-badge lib-http-b">⚡</span></td><td>Proxy · Manager</td><td>Open-source proxy manager that pools and rotates proxies across cloud providers (AWS, Azure, GCP). Routes requests through different IPs automatically. Self-hosted alternative to commercial proxy managers. <a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank">GitHub</a></td><td><a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank" class="lyr-link">GitHub ↗</a></td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('Scrapoxy')"><td><a href="https://github.com/fabienvauchelles/scrapoxy" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapoxy</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node.js</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">Proxy manager</span></td><td>Self-hosted rotation</td><td><span class="dn"></span></td><td>2.1k</td></tr>
+<tr id="detail-Scrapoxy" class="lib-detail-row">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Self-hosted proxy pool manager — provisions proxies on AWS, Azure, GCP and rotates IPs automatically.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Free open-source alternative to Bright Data's proxy manager</li><li>Auto-provision and tear down cloud IPs</li><li>Ban detection and auto-rotation built in</li><li>Multi-tenant</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Cloud provider costs add up at scale</li><li>Self-hosting infrastructure complexity</li><li>Cloud IPs flagged faster than residential</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
 </tbody></table>
 <div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:6px">
   <span style="margin-right:10px"><span class="dy"></span> Yes</span>
