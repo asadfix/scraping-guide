@@ -1326,6 +1326,52 @@ html { scroll-behavior: smooth; }
   .outro-body{font-size:14px}
 }
 
+
+/* ── ANTI-BOT compact cards (Forter, Riskified, Imperva, AWS WAF) ── */
+.abc:has(.ab-head){
+  display:block !important;
+  padding:18px 20px !important;
+  margin-bottom:8px !important;
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--b1);
+  border-radius:8px;
+}
+.abc:has(.ab-head) .ab-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+  padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.05);
+}
+.abc:has(.ab-head) .ab-dot{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;
+  box-shadow:0 0 10px currentColor;
+}
+.abc:has(.ab-head) .ab-name{
+  font-size:18px;font-weight:700;color:var(--t1);
+  letter-spacing:-.01em;
+}
+.abc:has(.ab-head) .ab-tag{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--t3);
+  padding:3px 8px;border:1px solid var(--b2);border-radius:3px;
+  margin-left:auto;
+}
+.abc:has(.ab-head) .abd{
+  font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px;
+  padding:0;border:none;background:none;
+}
+.abc:has(.ab-head) .abd strong{color:var(--t1)}
+.abc:has(.ab-head) .ab-pills{display:flex;flex-wrap:wrap;gap:6px}
+.abc:has(.ab-head) .ab-pills .absy{
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;
+  padding:3px 8px;background:rgba(245,197,24,.06);
+  border:1px solid rgba(245,197,24,.15);border-radius:3px;
+  color:rgba(245,197,24,.7);
+}
+@media(max-width:768px){
+  .abc:has(.ab-head) .ab-head{flex-wrap:wrap}
+  .abc:has(.ab-head) .ab-tag{margin-left:0;margin-top:4px;width:100%;text-align:center}
+  .abc:has(.ab-head) .ab-name{font-size:16px}
+}
+
 </style>
 </head>
 <body>
@@ -2004,6 +2050,11 @@ html { scroll-behavior: smooth; }
     <div class="abst"><div class="abstl">VM type</div><div class="abstv">Custom</div><div class="absts">Proprietary bytecode</div></div>
     <div class="abst"><div class="abstl">DIY viability</div><div class="abstv">None</div><div class="absts">Use managed API</div></div>
   </div>
+  
+  
+  
+  
+</div>
   <div class="abc">
     <div class="ab-head">
       <div class="ab-dot" style="background:#e06b6b"></div>
@@ -2040,7 +2091,7 @@ html { scroll-behavior: smooth; }
     <div class="abd">Amazon's managed WAF with Bot Control add-on. Three protection levels: Common (signature-based), Targeted (behaviour + JS challenge), Custom rules. Used by AWS-hosted apps. <strong>Bypass:</strong> rotate residential IPs (Common tier blocks AWS IPs themselves), browser automation for Targeted tier, request rate ≤ 5/sec to avoid trigger thresholds.</div>
     <div class="ab-pills"><span class="absy">AWS-native</span><span class="absy">Bot Control</span><span class="absy">CAPTCHA</span></div>
   </div>
-</div>
+
 </div>
 
 <h3 class="rh rv">Quick identification reference</h3>
