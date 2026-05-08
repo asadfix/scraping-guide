@@ -46,7 +46,7 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
 }
 .ni{
   max-width:100%;margin:0 auto;
-  height:var(--nh);padding:0 20px;
+  height:var(--nh);padding:0 80px 0 16px;
   display:flex;align-items:center;gap:0;
 }
 .nb{
@@ -58,22 +58,22 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
   width:8px;height:8px;border-radius:50%;background:var(--y);
   box-shadow:0 0 8px var(--y),0 0 16px rgba(245,197,24,.3);flex-shrink:0;
 }
-.nav-title{font-size:12px;font-weight:700;color:var(--t1);letter-spacing:-.01em;white-space:nowrap}
+.nav-title{font-size:14px;font-weight:700;color:var(--t1);letter-spacing:-.01em;white-space:nowrap}
 .nav-badge{
   font-family:var(--mono);font-size:9px;background:var(--s3);color:var(--t3);
   padding:2px 7px;border-radius:3px;border:1px solid var(--b2);border-top:2px solid rgba(245,197,24,.35);letter-spacing:.06em;white-space:nowrap;
 }
 /* scrollable nav links */
 .nls{
-  display:flex;flex:1;flex-wrap:nowrap;overflow-x:visible;gap:0;
-  padding-left:4px;
+  display:flex;flex:1;flex-wrap:nowrap;overflow-x:visible;
+  justify-content:space-between;padding:0 4px;
 }
 .nls::-webkit-scrollbar{display:none}
 .nl{
-  font-size:11px;font-weight:500;color:var(--t3);text-decoration:none;
-  padding:0 9px;height:var(--nh);display:flex;align-items:center;
+  font-size:12px;font-weight:500;color:var(--t3);text-decoration:none;
+  padding:0 4px;height:var(--nh);display:flex;align-items:center;
   border-bottom:2px solid transparent;transition:all .15s;
-  white-space:nowrap;flex-shrink:0;letter-spacing:.01em;text-transform:uppercase;
+  white-space:nowrap;flex-shrink:0;letter-spacing:0;text-transform:uppercase;
 }
 .nl:hover{color:var(--t2);border-bottom-color:rgba(245,197,24,.3)}
 .nl.on{color:var(--y);border-bottom-color:var(--y);font-weight:700}
