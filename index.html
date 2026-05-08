@@ -1159,6 +1159,66 @@ html { scroll-behavior: smooth; }
   .wapp-tip-card{position:static}
 }
 
+
+/* ── LIBRARY TABLE EXPAND ─────────────────────────────────── */
+.lyr-expandable{cursor:pointer;transition:background .12s}
+.lyr-expandable:hover{background:rgba(245,197,24,.04) !important}
+.lyr-expandable td:first-child::after{
+  content:" ↓";font-size:9px;color:var(--t3);margin-left:4px;
+  transition:transform .2s;display:inline-block;
+}
+.lyr-expandable.open td:first-child::after{content:" ↑";color:var(--y)}
+.lyr-detail{display:none;background:rgba(0,0,0,.25)}
+.lyr-detail.open{display:table-row}
+.lyr-detail-inner{
+  padding:16px 20px;
+  display:grid;grid-template-columns:180px 1fr 1fr 1fr;
+  gap:12px;align-items:start;
+}
+.lyr-engine-box{
+  padding:10px 12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:6px;
+}
+.lyr-engine-label{
+  font-family:var(--mono);font-size:8px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--t3);margin-bottom:6px;
+}
+.lyr-engine-val{font-size:11px;color:var(--t2);line-height:1.5}
+.lyr-browser-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.08em;
+  padding:3px 8px;border-radius:3px;margin-top:8px;font-weight:700;
+}
+.lyr-browser-badge.yes{
+  background:rgba(91,156,221,.1);border:1px solid rgba(91,156,221,.25);color:rgba(91,156,221,.9);
+}
+.lyr-browser-badge.no{
+  background:rgba(72,187,120,.08);border:1px solid rgba(72,187,120,.2);color:rgba(72,187,120,.8);
+}
+.lyr-pc-col{padding:10px 12px;border-radius:6px;border:1px solid var(--b1)}
+.lyr-pc-col.pros{border-left:2px solid rgba(72,187,120,.4);background:rgba(72,187,120,.04)}
+.lyr-pc-col.cons{border-left:2px solid rgba(224,71,71,.4);background:rgba(224,71,71,.04)}
+.lyr-pc-head{
+  font-family:var(--mono);font-size:8px;letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:6px;font-weight:700;
+}
+.pros .lyr-pc-head{color:rgba(72,187,120,.8)}
+.cons .lyr-pc-head{color:rgba(224,71,71,.8)}
+.lyr-pc-list{margin:0;padding-left:12px;list-style:disc}
+.lyr-pc-list li{font-size:11px;color:var(--t2);line-height:1.6;margin-bottom:3px}
+
+/* Mobile: stack vertically */
+@media(max-width:768px){
+  .lyr-detail-inner{grid-template-columns:1fr 1fr;gap:8px}
+  .lyr-engine-box{grid-column:span 2}
+}
+@media(max-width:500px){
+  .lyr-detail-inner{grid-template-columns:1fr}
+  .lyr-engine-box{grid-column:span 1}
+}
+
 </style>
 </head>
 <body>
@@ -5057,6 +5117,69 @@ archPanels.forEach((panel, i) => {
 // Passive scroll listeners for perf
 window.addEventListener('scroll', () => {}, { passive: true });
 window.addEventListener('touchstart', () => {}, { passive: true });
+
+
+// Library table expand
+const LIB_DETAILS = {"curl_cffi": {"engine": "libcurl with BoringSSL patches", "browser": false, "pros": ["Exact Chrome/Firefox TLS fingerprint via impersonate param", "HTTP/2 SETTINGS frames match real browsers", "Minimal memory — no browser process", "Drop-in requests replacement", "10–50× faster than browser automation"], "cons": ["No JavaScript execution", "No DOM interaction", "Fails if site requires browser-level fingerprint checks", "Requires correct impersonate string per target"]}, "Scrapling": {"engine": "curl_cffi + Camoufox under the hood", "browser": false, "pros": ["Combines HTTP stealth with optional browser mode", "StealthyFetcher solves Cloudflare Turnstile", "Smart CSS selector auto-healing", "v0.4 async spider with pause/resume", "Active development, responsive maintainer"], "cons": ["Heavier than plain curl_cffi", "Browser mode still needs Camoufox installed", "Relatively new — some edge cases undocumented"]}, "Camoufox": {"engine": "Patched Firefox binary (C++) via Juggler protocol", "browser": true, "pros": ["100% Cloudflare pass rate (Mar 2026 benchmark)", "C++ binary patches — undetectable via JS", "geoip=True aligns all 5 identity vectors automatically", "Anti-detection at OS level not just JS level", "Passes Akamai extension probes"], "cons": ["Full browser memory (~200MB per instance)", "Firefox only — some Chrome-specific sites may differ", "Slower startup than HTTP clients", "ARM support limited"]}, "CloakBrowser": {"engine": "Patched Chromium with 49 C++ patches", "browser": true, "pros": ["49 binary-level patches — deepest Chromium stealth available", "reCAPTCHA v3 score of 0.9", "Passes Akamai 60-extension probe check", "Real device fingerprint database"], "cons": ["Commercial — not free", "Windows-only", "Less open-source transparency than Camoufox", "Heavier resource usage"]}, "PatchRight": {"engine": "Patches Playwright Python source files at install time", "browser": true, "pros": ["No binary patches needed — patches Playwright JS", "Bypasses Kasada (rare among open-source tools)", "Drop-in Playwright replacement", "Cross-platform"], "cons": ["Depends on Playwright internals — breaks on Playwright updates", "Less stealth than C++ binary patches", "JS-level only — detectable by advanced fingerprinters"]}, "Playwright": {"engine": "CDP (Chrome DevTools Protocol) over WebSocket", "browser": true, "pros": ["Gold standard for browser automation", "68K GitHub stars, massive ecosystem", "Cross-browser: Chrome, Firefox, Safari", "Excellent async support", "Built-in network interception"], "cons": ["navigator.webdriver=true by default — trivially detected", "CDP signature detectable by Akamai/DataDome", "Needs stealth patches for anti-bot targets", "High memory per browser instance"]}, "Puppeteer": {"engine": "CDP (Chrome DevTools Protocol) — Node.js", "browser": true, "pros": ["89K GitHub stars — the original headless browser", "Excellent Chrome API coverage", "Large community, tons of examples", "Good for screenshot/PDF generation"], "cons": ["Node.js only", "CDP detectable — needs puppeteer-extra-plugin-stealth", "Chrome/Chromium only", "WebDriver flag issues similar to Playwright"]}, "Selenium": {"engine": "WebDriver protocol (W3C standard)", "browser": true, "pros": ["Widest browser support", "Mature ecosystem", "Multi-language support", "WebDriver Bidi emerging"], "cons": ["navigator.webdriver=true is a dead giveaway", "WebDriver protocol is the original anti-bot fingerprint target", "Slowest of all browser automation options", "Not recommended for anti-bot targets without UC mode"]}, "SeleniumBase UC": {"engine": "Selenium + undetected-chromedriver patches", "browser": true, "pros": ["Removes webdriver flag reliably", "Built-in CAPTCHA solving helpers", "Adds human-like delays automatically", "Active maintenance"], "cons": ["Still limited against JA4/TLS fingerprinting", "Chrome-only in UC mode", "Heavier than plain Selenium"]}, "nodriver": {"engine": "CDP direct — no Selenium/WebDriver layer", "browser": true, "pros": ["No WebDriver flag — connects via CDP directly", "Lighter than Selenium", "Python async native", "Passes basic bot checks"], "cons": ["Less mature than Playwright", "Smaller community", "Not as stealthy as C++ binary patches"]}, "undetected-chromedriver": {"engine": "Patched ChromeDriver binary", "browser": true, "pros": ["Removes webdriver flag from Chrome", "Easy drop-in for Selenium users", "Large user base"], "cons": ["Binary patches can lag behind Chrome releases", "Still detectable by JA4 and canvas fingerprinting", "Maintenance sometimes lags behind Chrome updates"]}, "Botasaurus": {"engine": "Playwright + human behaviour simulation layer", "browser": true, "pros": ["Built-in Gaussian mouse movement (physically realistic)", "Anti-block framework with proxy rotation", "Works against DataDome behavioural checks", "Simple decorator API"], "cons": ["Opinionated framework — harder to customise", "Heavier than raw Playwright", "Less granular control over individual signals"]}, "Scrapy": {"engine": "Twisted async networking (Python)", "browser": false, "pros": ["52K stars — battle-tested production framework", "Middleware system for easy anti-bot integration", "scrapy-redis for distributed crawling", "Excellent pipeline and item architecture"], "cons": ["No JavaScript rendering by default", "Needs curl_cffi or Camoufox middleware for TLS/browser stealth", "Twisted event loop can conflict with async libraries"]}, "Crawl4AI": {"engine": "Playwright + LLM extraction pipeline", "browser": true, "pros": ["60K stars — fastest growing AI scraping tool", "Local LLM support (no API cost)", "BM25 content filtering", "Adaptive crawling", "Free MIT licence"], "cons": ["Full browser overhead", "LLM extraction adds latency", "Less control over individual request signals"]}, "Firecrawl": {"engine": "Headless browser + FIRE-1 extraction model", "browser": true, "pros": ["111K stars — most starred scraping tool 2025", "Converts pages to clean Markdown for LLMs", "MCP server for Claude/Cursor integration", "67% token reduction vs raw HTML"], "cons": ["Managed service — cost at scale", "Less control over raw requests", "Rate limits on free tier"]}, "httpx": {"engine": "Python httpcore with HTTP/2 support", "browser": false, "pros": ["Async native", "HTTP/2 support built in", "Cleaner API than requests", "Connection pooling"], "cons": ["Default TLS fingerprint is detectable", "No TLS impersonation built in", "Need curl_cffi for anti-bot targets"]}, "requests": {"engine": "urllib3 HTTP library", "browser": false, "pros": ["Simplest API", "Widest ecosystem compatibility", "50K+ stars", "Universal starting point"], "cons": ["Unique TLS fingerprint trivially fingerprinted", "HTTP/1.1 only", "Synchronous only", "Immediately detected by JA4 on most anti-bot protected sites"]}};
+
+function initLibTable() {
+  const table = document.querySelector('#libs table');
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  if (!tbody) return;
+  const rows = [...tbody.querySelectorAll('tr:not(.lyr-detail)')];
+
+  rows.forEach(row => {
+    // Get library name (first cell text, strip HTML)
+    const nameCell = row.querySelector('td:first-child');
+    if (!nameCell) return;
+    const name = nameCell.textContent.replace(/[⭐↓↑]/g,'').trim();
+    const data = LIB_DETAILS[name];
+    if (!data) return;
+
+    row.classList.add('lyr-expandable');
+
+    // Create detail row
+    const detailRow = document.createElement('tr');
+    detailRow.className = 'lyr-detail';
+    const colspan = row.querySelectorAll('td').length;
+
+    const browserBadge = data.browser
+      ? '<span class="lyr-browser-badge yes">🌐 Browser-based</span>'
+      : '<span class="lyr-browser-badge no">⚡ HTTP-based (no browser)</span>';
+
+    const prosHtml = data.pros.map(p => `<li>${p}</li>`).join('');
+    const consHtml = data.cons.map(c => `<li>${c}</li>`).join('');
+
+    detailRow.innerHTML = `<td colspan="${colspan}" style="padding:0;border-top:none">
+      <div class="lyr-detail-inner">
+        <div class="lyr-engine-box">
+          <div class="lyr-engine-label">Under the hood</div>
+          <div class="lyr-engine-val">${data.engine}</div>
+          ${browserBadge}
+        </div>
+        <div class="lyr-pc-col pros">
+          <div class="lyr-pc-head">✓ Pros</div>
+          <ul class="lyr-pc-list">${prosHtml}</ul>
+        </div>
+        <div class="lyr-pc-col cons">
+          <div class="lyr-pc-head">✗ Cons</div>
+          <ul class="lyr-pc-list">${consHtml}</ul>
+        </div>
+      </div>
+    </td>`;
+
+    row.insertAdjacentElement('afterend', detailRow);
+
+    row.addEventListener('click', () => {
+      const isOpen = row.classList.contains('open');
+      row.classList.toggle('open', !isOpen);
+      detailRow.classList.toggle('open', !isOpen);
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initLibTable);
 
 </script>
 </body></html>
