@@ -2134,6 +2134,77 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 </div>
 </footer>
 <script>
+const KNOWLEDGE_BASE = `
+DETECTION LAYERS:
+Layer 1 TLS/JA4+: JA4+ fingerprints TLS ClientHello by sorting extensions, removing GREASE, hashing cipher suites+ALPN. Cloudflare uses Rust crate at edge, Akamai uses EdgeWorker. HTTP/2 SETTINGS frames also fingerprinted. curl_cffi impersonate=chrome124 fixes this.
+Layer 2 JS Fingerprinting: Canvas 2D hash (GPU-dependent pixel output), WebGL renderer+vendor string, AudioContext floating-point output, Function.prototype.toString() exposes JS patches, navigator.webdriver=true for Selenium. C++ binary patches (Camoufox, CloakBrowser) are the 2026 baseline.
+Layer 3 Network Identity: IP ASN (datacenter=flagged), WebRTC ICE candidates leak real IP, DNS resolver location vs proxy mismatch. All 5 vectors must agree: IP country, WebRTC, DNS, timezone, Accept-Language. Camoufox geoip=True fixes all 5.
+Layer 4 Behavioural ML: Mouse movement Bezier curves with Gaussian noise, scroll velocity, inter-keystroke timing, session dwell time. DataDome 35-signal behavioural model. Botasaurus provides Gaussian mouse simulation.
+
+ANTI-BOT SYSTEMS:
+Akamai: sensor.js 512KB obfuscated, 60 chrome-extension probes, multi-request trust scoring, JA4+ at EdgeWorker. Bypass: curl_cffi + CloakBrowser + real extensions + ISP proxy + homepage warmup. Signals: _abck, bm_sz cookies.
+Cloudflare: JA4 in Rust crate at CDN edge, ML score 1-99, Turnstile 79-parameter POST (Canvas hash, SHA-256 PoW, TEA crypto). Bypass: Camoufox 100% pass rate Mar 2026, StealthyFetcher for Turnstile. Signals: cf_clearance, __cf_bm.
+DataDome: 85000 per-site ML models, WASM boring_challenge (Rust, cannot emulate), runs at app server not CDN, 2ms response. Bypass: curl_cffi+residential confirmed bypass, mobile carrier IP highest trust. Signals: datadome cookie.
+PerimeterX/HUMAN: 29650+ sites, 15 trillion weekly verifications, 5-vector score (TLS+IP+HTTP+JS+Behaviour). Bypass: Camoufox+residential, fresh fingerprint per session. Signals: _px3, _pxde.
+Kasada: Gatekeeper proxy, polymorphic ips.js PoW, silent 403, playwright-stealth fingerprinted via toString(). Bypass: PatchRight, SeleniumBase UC, residential proxy essential. Signals: x-kpsdk-ct.
+F5 Shape: custom JS VM, minute expiry. Bypass: managed API only - Bright Data 98.44% success, Zyte 93.14%.
+
+LIBRARIES:
+curl_cffi: TLS impersonation, impersonate=chrome124 emits Chrome JA4+. pip install curl_cffi. github.com/lexiforest/curl_cffi. Confirmed DataDome bypass.
+Scrapling: Adaptive scraping framework, 38K stars, StealthyFetcher solves Cloudflare Turnstile. v0.4 adds async spider, proxy rotation, checkpoint resume. github.com/D4Vinci/Scrapling.
+Camoufox: C++ Firefox using Juggler protocol below CDP, 100% Cloudflare pass rate Mar 2026. geoip=True aligns all 5 identity vectors. github.com/daijro/camoufox.
+CloakBrowser: 49 C++ binary patches, reCAPTCHA v3 score 0.9, passes Akamai extension probes.
+PatchRight: Patches Playwright Python source, no JS signatures, Kasada bypass. github.com/Kaliiiiiiiiii-Vinyzu/patchright.
+Playwright: 68K stars, CDP-based, cross-browser. github.com/microsoft/playwright.
+Puppeteer: 89K stars, Node.js CDP. github.com/puppeteer/puppeteer.
+Selenium: webdriver=true flag detectable. github.com/SeleniumHQ/selenium.
+SeleniumBase: UC mode removes webdriver flag. github.com/seleniumbase/SeleniumBase.
+Scrapy: 52K stars, production framework, ecosystem: Scrapyd, scrapy-redis, scrapy-cluster. github.com/scrapy/scrapy.
+Firecrawl: 111K stars, URL to Markdown/JSON, FIRE-1 agent, MCP server. github.com/mendableai/firecrawl.
+Crawl4AI: 60K stars, local LLM support, MIT free. github.com/unclecode/crawl4ai.
+Bright Data: 98.44% success rate, 72M+ IPs, best for F5 Shape.
+Zyte: 93.14% success, #1 Proxyway 2025.
+SwiftShadow: Free proxy rotation, 2 lines of code, github.com/Aahaan-k/swiftshadow.
+
+DECISION FLOW:
+Step 1 Mobile API: HTTPToolkit/Frida intercepts HTTPS from apps - same backend with weaker anti-bot.
+Step 2 XHR Endpoint: Chrome DevTools Network tab - find the JSON API the SPA calls, 50x faster.
+Step 3 __NEXT_DATA__: Next.js embeds full state in page - no requests needed, just parse HTML.
+Step 4 HTTP Scraping: curl_cffi + Scrapy + residential proxy.
+Step 5 C++ Browser: Camoufox or CloakBrowser - never JS-level patches.
+Step 6 Managed API: F5 Shape only - Bright Data or Zyte.
+
+PROXIES:
+Datacenter proxies: Very low trust, instantly flagged by DataDome and PerimeterX.
+Residential proxies: High trust, confirmed DataDome bypass on real targets.
+Mobile 4G (T-Mobile, Vodafone): Highest trust, hardest to flag, most expensive.
+ISP Static proxies: High trust, good for Akamai, trust accumulates so never rotate mid-session.
+WebRTC leak: Must disable or align WebRTC IP with proxy. Test at browserleaks.com/webrtc.
+
+AI SCRAPING:
+Firecrawl: URL to Markdown, 67% fewer tokens than raw HTML, MCP server for Claude/Cursor integration.
+Crawl4AI: Self-hosted, local LLM, BM25 filter, adaptive crawling, free MIT license.
+ScrapeGraphAI: Natural language prompts build graph extraction pipeline.
+Jina Reader: r.jina.ai/{url} - simplest LLM scraping, no SDK needed.
+Steel: Self-hosted browser API, MCP server, for AI agents.
+
+TESTING TOOLS:
+BrowserLeaks: browserleaks.com - gold standard fingerprint testing, Canvas, WebGL, TLS, WebRTC, HTTP/2.
+BrowserLeaks TLS: browserleaks.com/tls - generates JA3 and JA4 hashes for your client.
+BrowserLeaks WebRTC: browserleaks.com/webrtc - check if proxy is leaking real IP.
+TLS JSON API: tls.browserleaks.com/json - call from code to compare scraper vs Chrome JA4.
+BrowserScan: browserscan.net - quick pass/fail automation detection check.
+Cover Your Tracks: coveryourtracks.eff.org - EFF tool, fingerprint uniqueness score.
+Pixelscan: pixelscan.net - bot detection simulation.
+CreepJS: abrahamjuliot.github.io/creepjs - advanced behavioral signal analysis.
+
+COMMUNITY:
+The Web Scraping Club newsletter: substack.thewebscraping.club by Pierluigi Vinciguerra.
+Scraping Wiki: github.com/TheWebScrapingClub/scraping-wiki - 64 pages, 300+ articles indexed.
+Discord: Web Scraping Club, Oxylabs, Extract Data Community, Scrapy Official.
+Reddit: r/webscraping, r/scrapy, r/WebScrapingInsider.
+`;
+
 
 // Author card stats animate in on scroll
 const acObs = new IntersectionObserver(entries => {
@@ -2206,76 +2277,6 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 
 
 
-const KNOWLEDGE_BASE = `
-DETECTION LAYERS:
-Layer 1 TLS/JA4+: JA4+ fingerprints TLS ClientHello by sorting extensions, removing GREASE, hashing cipher suites+ALPN. Cloudflare uses Rust crate at edge, Akamai uses EdgeWorker. HTTP/2 SETTINGS frames also fingerprinted. curl_cffi impersonate=chrome124 fixes this.
-Layer 2 JS Fingerprinting: Canvas 2D hash (GPU-dependent pixel output), WebGL renderer+vendor string, AudioContext floating-point output, Function.prototype.toString() exposes JS patches, navigator.webdriver=true for Selenium. C++ binary patches (Camoufox, CloakBrowser) are the 2026 baseline.
-Layer 3 Network Identity: IP ASN (datacenter=flagged), WebRTC ICE candidates leak real IP, DNS resolver location vs proxy mismatch. All 5 vectors must agree: IP country, WebRTC, DNS, timezone, Accept-Language. Camoufox geoip=True fixes all 5.
-Layer 4 Behavioural ML: Mouse movement Bezier curves with Gaussian noise, scroll velocity, inter-keystroke timing, session dwell time. DataDome 35-signal behavioural model. Botasaurus provides Gaussian mouse simulation.
-
-ANTI-BOT SYSTEMS:
-Akamai: sensor.js 512KB obfuscated, 60 chrome-extension probes, multi-request trust scoring, JA4+ at EdgeWorker. Bypass: curl_cffi + CloakBrowser + real extensions + ISP proxy + homepage warmup. Signals: _abck, bm_sz cookies.
-Cloudflare: JA4 in Rust crate at CDN edge, ML score 1-99, Turnstile 79-parameter POST (Canvas hash, SHA-256 PoW, TEA crypto). Bypass: Camoufox 100% pass rate Mar 2026, StealthyFetcher for Turnstile. Signals: cf_clearance, __cf_bm.
-DataDome: 85000 per-site ML models, WASM boring_challenge (Rust, cannot emulate), runs at app server not CDN, 2ms response. Bypass: curl_cffi+residential confirmed bypass, mobile carrier IP highest trust. Signals: datadome cookie.
-PerimeterX/HUMAN: 29650+ sites, 15 trillion weekly verifications, 5-vector score (TLS+IP+HTTP+JS+Behaviour). Bypass: Camoufox+residential, fresh fingerprint per session. Signals: _px3, _pxde.
-Kasada: Gatekeeper proxy, polymorphic ips.js PoW, silent 403, playwright-stealth fingerprinted via toString(). Bypass: PatchRight, SeleniumBase UC, residential proxy essential. Signals: x-kpsdk-ct.
-F5 Shape: custom JS VM, minute expiry. Bypass: managed API only - Bright Data 98.44% success, Zyte 93.14%.
-
-LIBRARIES:
-curl_cffi: TLS impersonation, impersonate=chrome124 emits Chrome JA4+. pip install curl_cffi. github.com/lexiforest/curl_cffi. Confirmed DataDome bypass.
-Scrapling: Adaptive scraping framework, 38K stars, StealthyFetcher solves Cloudflare Turnstile. v0.4 adds async spider, proxy rotation, checkpoint resume. github.com/D4Vinci/Scrapling.
-Camoufox: C++ Firefox using Juggler protocol below CDP, 100% Cloudflare pass rate Mar 2026. geoip=True aligns all 5 identity vectors. github.com/daijro/camoufox.
-CloakBrowser: 49 C++ binary patches, reCAPTCHA v3 score 0.9, passes Akamai extension probes.
-PatchRight: Patches Playwright Python source, no JS signatures, Kasada bypass. github.com/Kaliiiiiiiiii-Vinyzu/patchright.
-Playwright: 68K stars, CDP-based, cross-browser. github.com/microsoft/playwright.
-Puppeteer: 89K stars, Node.js CDP. github.com/puppeteer/puppeteer.
-Selenium: webdriver=true flag detectable. github.com/SeleniumHQ/selenium.
-SeleniumBase: UC mode removes webdriver flag. github.com/seleniumbase/SeleniumBase.
-Scrapy: 52K stars, production framework, ecosystem: Scrapyd, scrapy-redis, scrapy-cluster. github.com/scrapy/scrapy.
-Firecrawl: 111K stars, URL to Markdown/JSON, FIRE-1 agent, MCP server. github.com/mendableai/firecrawl.
-Crawl4AI: 60K stars, local LLM support, MIT free. github.com/unclecode/crawl4ai.
-Bright Data: 98.44% success rate, 72M+ IPs, best for F5 Shape.
-Zyte: 93.14% success, #1 Proxyway 2025.
-SwiftShadow: Free proxy rotation, 2 lines of code, github.com/Aahaan-k/swiftshadow.
-
-DECISION FLOW:
-Step 1 Mobile API: HTTPToolkit/Frida intercepts HTTPS from apps - same backend with weaker anti-bot.
-Step 2 XHR Endpoint: Chrome DevTools Network tab - find the JSON API the SPA calls, 50x faster.
-Step 3 __NEXT_DATA__: Next.js embeds full state in page - no requests needed, just parse HTML.
-Step 4 HTTP Scraping: curl_cffi + Scrapy + residential proxy.
-Step 5 C++ Browser: Camoufox or CloakBrowser - never JS-level patches.
-Step 6 Managed API: F5 Shape only - Bright Data or Zyte.
-
-PROXIES:
-Datacenter proxies: Very low trust, instantly flagged by DataDome and PerimeterX.
-Residential proxies: High trust, confirmed DataDome bypass on real targets.
-Mobile 4G (T-Mobile, Vodafone): Highest trust, hardest to flag, most expensive.
-ISP Static proxies: High trust, good for Akamai, trust accumulates so never rotate mid-session.
-WebRTC leak: Must disable or align WebRTC IP with proxy. Test at browserleaks.com/webrtc.
-
-AI SCRAPING:
-Firecrawl: URL to Markdown, 67% fewer tokens than raw HTML, MCP server for Claude/Cursor integration.
-Crawl4AI: Self-hosted, local LLM, BM25 filter, adaptive crawling, free MIT license.
-ScrapeGraphAI: Natural language prompts build graph extraction pipeline.
-Jina Reader: r.jina.ai/{url} - simplest LLM scraping, no SDK needed.
-Steel: Self-hosted browser API, MCP server, for AI agents.
-
-TESTING TOOLS:
-BrowserLeaks: browserleaks.com - gold standard fingerprint testing, Canvas, WebGL, TLS, WebRTC, HTTP/2.
-BrowserLeaks TLS: browserleaks.com/tls - generates JA3 and JA4 hashes for your client.
-BrowserLeaks WebRTC: browserleaks.com/webrtc - check if proxy is leaking real IP.
-TLS JSON API: tls.browserleaks.com/json - call from code to compare scraper vs Chrome JA4.
-BrowserScan: browserscan.net - quick pass/fail automation detection check.
-Cover Your Tracks: coveryourtracks.eff.org - EFF tool, fingerprint uniqueness score.
-Pixelscan: pixelscan.net - bot detection simulation.
-CreepJS: abrahamjuliot.github.io/creepjs - advanced behavioral signal analysis.
-
-COMMUNITY:
-The Web Scraping Club newsletter: substack.thewebscraping.club by Pierluigi Vinciguerra.
-Scraping Wiki: github.com/TheWebScrapingClub/scraping-wiki - 64 pages, 300+ articles indexed.
-Discord: Web Scraping Club, Oxylabs, Extract Data Community, Scrapy Official.
-Reddit: r/webscraping, r/scrapy, r/WebScrapingInsider.
-`;
 
 // ══════════════════════════════════════════════════════════════
 // ScrapeIQ — Local Knowledge Engine v2
@@ -2339,7 +2340,7 @@ function buildPageKB() {
   });
 
   // Also add hardcoded KB entries as structured chunks
-  KNOWLEDGE_BASE.split('\n\n').forEach(block => {
+  (typeof KNOWLEDGE_BASE !== 'undefined' ? KNOWLEDGE_BASE : '').split('\n\n').forEach(block => {
     if (block.trim().length > 40) {
       const lines = block.trim().split('\n');
       const title = lines[0].replace(/:$/, '');
