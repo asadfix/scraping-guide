@@ -1632,6 +1632,23 @@ html { scroll-behavior: smooth; }
 </div>
 </div>
 
+
+<h3 class="rh rv">Layer 3.5, DOM Honeypots: The Trap Doesn't Care About Your Fingerprint</h3>
+<div class="cards c2 rv" style="margin-bottom:24px">
+  <div class="card" style="border-color:rgba(255,140,0,.3)">
+    <div class="cbar" style="background:#ff8c00"></div>
+    <div class="ctag">Hidden DOM elements</div>
+    <div class="cname">Honeypot Fields and Links</div>
+    <div class="cbody">Invisible form fields and hidden links that humans never see but bots fill in or click. Triggered = bot detected = IP banned. Common patterns: <code>display:none</code>, <code>visibility:hidden</code>, <code>opacity:0</code>, zero-dimension elements, off-screen positioning, fields with <code>tabindex="-1"</code>, or links placed <em>after</em> the closing <code>&lt;/body&gt;</code> tag.</div>
+  </div>
+  <div class="card" style="border-color:rgba(255,140,0,.3)">
+    <div class="cbar" style="background:#ff8c00"></div>
+    <div class="ctag">Data poisoning</div>
+    <div class="cname">Fake Data Served to Suspected Bots</div>
+    <div class="cbody">More dangerous than blocking — sites detect a scraper and silently serve <strong>different prices, fake reviews, wrong stock counts</strong>. You think you're scraping successfully but your dataset is corrupted. <strong>Defence:</strong> compare scrapes from 2+ different IP profiles for the same URL. Mismatched data = poisoning. Always check element visibility (<code>getBoundingClientRect()</code>) before interacting.</div>
+  </div>
+</div>
+
 <h3 class="rh rv">Layer 4, Behavioural ML: You Can't Fake Being Human</h3>
 <div class="cards c2 rv">
 <div class="card">
@@ -1697,7 +1714,7 @@ html { scroll-behavior: smooth; }
         <div class="wapp-cookie"><code>dd_cookie_test</code><span class="wapp-vendor" style="color:#60a5fa">DataDome</span></div>
         <div class="wapp-cookie"><code>bm_sz</code><span class="wapp-vendor" style="color:#e05252">Akamai</span></div>
       </div>
-      <p class="wapp-method-body" style="margin-top:8px">Open DevTools → Application → Cookies. Match any cookie name to identify the vendor. Multiple vendors can run on the same site.</p>
+      <p class="wapp-method-body" style="margin-top:8px">Open DevTools → Application → Cookies. Match any cookie name to identify the vendor. Multiple vendors can run on the same site. For CLI scanning at scale: <code>wafw00f https://target.com</code> identifies WAF + anti-bot vendor in one command.</p>
     </div>
 
     <div class="wapp-method">
@@ -1730,7 +1747,9 @@ html { scroll-behavior: smooth; }
           <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Also useful</div>
           <a href="https://www.wappalyzer.com" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block;margin-bottom:4px">wappalyzer.com ↗</a>
           <a href="https://builtwith.com" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block;margin-bottom:4px">builtwith.com ↗</a>
-          <a href="https://www.whatcms.org" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block">whatcms.org ↗</a>
+          <a href="https://www.whatcms.org" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block;margin-bottom:4px">whatcms.org ↗</a>
+          <a href="https://github.com/EnableSecurity/wafw00f" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block;margin-bottom:4px">wafw00f (CLI) ↗</a>
+          <a href="https://github.com/Ekultek/WhatWaf" target="_blank" style="font-family:var(--mono);font-size:10px;color:var(--y);display:block">WhatWaf (CLI) ↗</a>
         </div>
       </div>
     </div>
@@ -1941,6 +1960,24 @@ html { scroll-behavior: smooth; }
     </div>
     <div class="abd">Monitors shopping and payment behaviour alongside device fingerprinting. Flags anomalies in purchase flow, typing patterns, and system details. <strong>Bypass:</strong> Playwright Stealth with realistic interaction replay, residential proxies, maintain full session cookies across the purchase flow.</div>
     <div class="ab-pills"><span class="absy">Behavioural</span><span class="absy">Device FP</span><span class="absy">Payment flows</span></div>
+  </div>
+  <div class="abc">
+    <div class="ab-head">
+      <div class="ab-dot" style="background:#0099cc"></div>
+      <div class="ab-name">Imperva Incapsula</div>
+      <div class="ab-tag">WAF · IP reputation · JS challenges</div>
+    </div>
+    <div class="abd">Enterprise WAF used by Fortune 500 financial and government sites. Focuses on <strong>IP reputation databases</strong> + JavaScript challenges + behavioural analysis. Less aggressive than DataDome on TLS but harsh on flagged IPs. <strong>Bypass:</strong> residential proxies (datacenter IPs nuked instantly), Camoufox or fortified browser, slow request pacing.</div>
+    <div class="ab-pills"><span class="absy">IP reputation</span><span class="absy">JS challenge</span><span class="absy">Enterprise/finance</span></div>
+  </div>
+  <div class="abc">
+    <div class="ab-head">
+      <div class="ab-dot" style="background:#ff9900"></div>
+      <div class="ab-name">AWS WAF</div>
+      <div class="ab-tag">Cloud-native · Bot Control · Captcha</div>
+    </div>
+    <div class="abd">Amazon's managed WAF with Bot Control add-on. Three protection levels: Common (signature-based), Targeted (behaviour + JS challenge), Custom rules. Used by AWS-hosted apps. <strong>Bypass:</strong> rotate residential IPs (Common tier blocks AWS IPs themselves), browser automation for Targeted tier, request rate ≤ 5/sec to avoid trigger thresholds.</div>
+    <div class="ab-pills"><span class="absy">AWS-native</span><span class="absy">Bot Control</span><span class="absy">CAPTCHA</span></div>
   </div>
 </div>
 </div>
@@ -3441,6 +3478,12 @@ html { scroll-behavior: smooth; }
     <div class="pttag">AI agent · LLM-controlled browser</div>
     <div class="ptbody">Open-source library that lets LLMs control a real browser. The AI agent navigates, clicks, fills forms and extracts data from instructions in natural language. 81% success rate on anti-bot benchmarks. <a href="https://github.com/browser-use/browser-use" target="_blank" style="color:var(--y)">GitHub ↗</a></div>
     <a href="https://browser-use.com" target="_blank" class="pt-link">browser-use.com ↗</a>
+  </div>
+  <div class="ptcard" style="border-color:rgba(167,139,250,.4)">
+    <div class="ptname">Stagehand <span style="font-family:var(--mono);font-size:9px;color:rgba(167,139,250,.7);letter-spacing:.06em;font-weight:400;margin-left:6px">v3 · OCT 2025</span></div>
+    <div class="pttag">AI Browser SDK · Browserbase · Open source</div>
+    <div class="ptbody"><strong>Browserbase's AI browser automation framework.</strong> Four primitives: <code>act()</code>, <code>extract()</code>, <code>observe()</code>, <code>agent()</code>. Write browser flows in plain English ("click submit button") that survive page redesigns via runtime LLM resolution. Built on CDP, supports OpenAI/Anthropic/Gemini. <strong>65% Mind2Web benchmark.</strong> Self-healing + auto-caching. TypeScript and Python.</div>
+    <a href="https://www.browserbase.com/stagehand" target="_blank" class="pt-link">browserbase.com/stagehand ↗</a>
   </div>
 
   <div class="ptcard" style="border-color:rgba(251,191,36,.3)">
