@@ -3501,40 +3501,44 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 // ══════════════════════════════════════════════════════════════
 
 const GEMINI_KEY = 'AIzaSyD7RVCSnzJQsVxZi94n6Fvxrj7FgarffZE';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${GEMINI_KEY}`;
 
-// Extract all meaningful text from the page
-function extractPageContext() {
-  const sections = [];
+// Build context: use knowledge base + targeted section snippets for the question
+function extractPageContext(question) {
+  const q = (question || '').toLowerCase();
+  const snippets = [];
 
-  document.querySelectorAll('section[id]').forEach(sec => {
-    const id = sec.id;
-    const heading = sec.querySelector('h2, h3')?.innerText?.trim() || '';
-    
-    // Get all text content from cards, paragraphs, code, lists
-    const textNodes = [];
-    sec.querySelectorAll('p, .cbody, .abd, .dsb, .lyrb, .ait2b, .ic-body, .ic-detail, .ic-title, .ic-insight, .apc-list, .apc-text, .astack-item, .arch-desc, code, li, .bitem, .ib').forEach(el => {
-      const t = el.innerText?.trim();
-      if (t && t.length > 15) textNodes.push(t);
-    });
+  // Always include core KB (most important, compact)
+  snippets.push(KNOWLEDGE_BASE.trim());
 
-    // Also headings within section
-    sec.querySelectorAll('h3, h4, .cname, .abn, .dst, .ait2n').forEach(el => {
-      const t = el.innerText?.trim();
-      if (t) textNodes.push(t);
-    });
+  // Add targeted section text based on keywords in question (max 2 sections)
+  const sectionMap = {
+    'akamai': 'antibots', 'cloudflare': 'antibots', 'datadome': 'antibots',
+    'kasada': 'antibots', 'perimeter': 'antibots', 'f5': 'antibots',
+    'library': 'libs', 'scrapy': 'libs', 'playwright': 'libs', 'curl': 'libs',
+    'proxy': 'proxies', 'residential': 'proxies', 'ip': 'proxies',
+    'architecture': 'arch', 'pipeline': 'arch', 'aws': 'arch', 'azure': 'arch',
+    'ai': 'ai', 'llm': 'ai', 'rag': 'ai', 'firecrawl': 'ai',
+    'detect': 'detect', 'ja4': 'detect', 'tls': 'detect', 'fingerprint': 'detect',
+    'flow': 'flow', 'decision': 'flow', 'playbook': 'play',
+    'test': 'tools', 'browserleaks': 'tools',
+  };
 
-    if (textNodes.length > 0) {
-      sections.push(`=== SECTION: ${heading || id.toUpperCase()} ===\n${textNodes.join('\n')}`);
+  const added = new Set();
+  for (const [kw, secId] of Object.entries(sectionMap)) {
+    if (q.includes(kw) && !added.has(secId)) {
+      const sec = document.getElementById(secId);
+      if (sec) {
+        const text = sec.innerText.replace(/\s+/g, ' ').trim().slice(0, 2000);
+        if (text) snippets.push(`=== ${secId.toUpperCase()} ===\n${text}`);
+        added.add(secId);
+        if (added.size >= 2) break;
+      }
     }
-  });
+  }
 
-  // Add the hardcoded knowledge base
-  sections.push(`=== KNOWLEDGE BASE ===\n${KNOWLEDGE_BASE}`);
-
-  // Limit total context to ~28000 chars (well within Gemini 1.5 Flash's window)
-  const full = sections.join('\n\n');
-  return full.length > 28000 ? full.slice(0, 28000) : full;
+  const full = snippets.join('\n\n');
+  return full.length > 6000 ? full.slice(0, 6000) : full;
 }
 
 // Send message to Gemini with full page context
@@ -3564,7 +3568,7 @@ async function sendMsg() {
   msgs.scrollTop = msgs.scrollHeight;
 
   try {
-    const pageContext = extractPageContext();
+    const pageContext = extractPageContext(text);
 
     const systemInstruction = `You are ScrapeIQ, a smart assistant embedded in Asad's Guide to Web Scraping 2026.
 
