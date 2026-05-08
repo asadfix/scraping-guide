@@ -448,7 +448,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px rgba(245,197,24,.08);
 }
 #llmp.open{display:flex}
-.llmh{background:var(--s2);padding:13px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between}
+.llmh{background:linear-gradient(90deg,rgba(245,197,24,.08),var(--s2));padding:13px 16px;border-bottom:1px solid rgba(245,197,24,.15);display:flex;align-items:center;justify-content:space-between}
 .llmhl{display:flex;align-items:center;gap:9px}
 .llmdot{width:8px;height:8px;border-radius:50%;background:var(--y);box-shadow:0 0 8px var(--y);animation:ydot 2s ease infinite}
 @keyframes ydot{0%,100%{opacity:1}50%{opacity:.4}}
@@ -590,11 +590,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 </head>
 <body>
 <!-- AI TOGGLE BANNER -->
-<div id="ai-banner" style="background:rgba(245,197,24,.08);border-bottom:1px solid rgba(245,197,24,.2);padding:0;position:relative;z-index:200">
+<div id="ai-banner" style="background:linear-gradient(90deg,rgba(245,197,24,.18),rgba(245,197,24,.08));border-bottom:2px solid rgba(245,197,24,.5);padding:0;position:relative;z-index:200">
   <div style="max-width:var(--w);margin:0 auto;padding:8px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-  <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t2)">
-    <span style="font-size:16px">🤖</span>
-    <span>AI Scraping Assistant available — powered by Claude. Ask any question about anti-bot bypass, libraries, or techniques.</span>
+  <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--t1)">
+    <span style="font-size:18px">⚡</span>
+    <span>AI Scraping Assistant available. Ask any question about anti-bot bypass, libraries, or techniques.</span>
   </div>
   <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
     <button onclick="toggleLLM()" style="background:var(--y);border:none;color:#0a0a0a;font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 14px;border-radius:4px;cursor:pointer;letter-spacing:.06em;white-space:nowrap">Ask Claude</button>
@@ -631,12 +631,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <div class="hero-kicker">7 years. 5+ companies. Real production scrapers.</div>
+    <div class="hero-kicker">Started 2018. Still going.</div>
     <h1 class="hero-h">
-      Everything I learned<br>about scraping the<br>
-      <em>real web.</em>
+      Scrape anything.<br><em>Beat every wall.</em>
     </h1>
-    <p class="hero-desc">Seven years. Five companies. Millions of data points scraped from some of the most aggressively protected sites on the web. This is not a tutorial — it is every pattern, bypass, failure, and hard-won technique I collected along the way.</p>
+    <p class="hero-desc">I started scraping in 2018. Since then I have worked across five companies, built hundreds of production spiders, and fought every major anti-bot system that exists. This guide is everything that actually worked.</p>
     <div class="hero-chips">
       <span class="hero-chip">JA4+ TLS</span>
       <span class="hero-chip">Akamai bypass</span>
@@ -674,13 +673,19 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
       </div>
       <div class="ac-name"><strong>Asad Ikram</strong><br>Scraping engineer</div>
       <p class="ac-bio">
-        <strong>Chevening Scholar 2024/25</strong>, MSc Data Analytics (Distinction), Data Engineer at M+C Saatchi Fluency, co-founder of ArtemisAI Ltd.<br><br>
-        Seven years building scrapers across 5+ companies — from startups to enterprise. 500+ production spiders, 50M+ data points, anti-bot bypasses across Akamai, DataDome, Cloudflare and more. This guide is everything that actually worked — not what the docs say.
+        I started scraping the web in <strong>2018</strong>. Since then I have built production scrapers across five companies, from small startups to enterprise teams. Chevening Scholar 2024/25, MSc Data Analytics with Distinction. Currently Data Engineer at M+C Saatchi Fluency and co-founder of ArtemisAI Ltd.<br><br>
+        500+ spiders shipped. 50M+ data points extracted. Every major anti-bot system bypassed. This guide collects everything I learned the hard way.
       </p>
-      <a href="https://asad-ikram-mc.github.io/portfolio" target="_blank" class="ac-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        View portfolio
-      </a>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="https://asad-ikram-mc.github.io/portfolio" target="_blank" class="ac-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Portfolio
+        </a>
+        <a href="https://www.linkedin.com/in/asad-ikram/" target="_blank" class="ac-btn" style="background:transparent;border:1px solid rgba(245,197,24,.4);color:var(--y)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
     </div>
     <div class="ac-right">
       <div class="ac-stat" data-delay="0">
@@ -710,7 +715,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <p class="ss">Walk steps in order. Stop at the first win. Complexity and cost increase right. Most production scraping is solved at steps 1–3.</p>
 
 <div class="fdwrap rv">
-  <div class="fdtop">Asad's Priority Order — start left, move right only when needed</div>
+  <div class="fdtop">Asad's Priority Order, start left, move right only when needed</div>
   <div class="fdrow">
     <div class="fds fd1">
       <div class="fdsn">Step 1</div>
@@ -739,10 +744,10 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   </div>
 </div>
 
-<div class="ib warn rv"><strong>Rule #1 — Asad's priority:</strong> Never start at Step 5. The mobile app often hits the same backend with zero anti-bot. Confirmed on a major retailer — a direct GraphQL endpoint bypassed all HTML anti-bot protection entirely. Find the API first, always.</div>
+<div class="ib warn rv"><strong>Rule #1, Asad's priority:</strong> Never start at Step 5. The mobile app often hits the same backend with zero anti-bot. Confirmed on a major retailer, a direct GraphQL endpoint bypassed all HTML anti-bot protection entirely. Find the API first, always.</div>
 
 <div class="ib tip rv" style="margin-top:24px">
-<strong>Before we go deeper:</strong> The flow above tells you <em>what order</em> to try things. But to understand <em>why</em> those steps exist in that order — and what happens when you skip one — you need to understand how detection actually works. The next section breaks down every signal anti-bots collect, starting at the TCP handshake.
+<strong>Before we go deeper:</strong> The flow above tells you <em>what order</em> to try things. But to understand <em>why</em> those steps exist in that order, and what happens when you skip one, you need to understand how detection actually works. The next section breaks down every signal anti-bots collect, starting at the TCP handshake.
 </div>
 </section>
 
@@ -750,27 +755,27 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
-  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">The six steps above tell you <em style="color:rgba(245,197,24,.8)">what order to try</em>. But to know which step to stop at — and why skipping ahead costs you days — you first need to understand how the detection actually works. Let's go deeper.</p>
+  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">The six steps above tell you <em style="color:rgba(245,197,24,.8)">what order to try</em>. But to know which step to stop at, and why skipping ahead costs you days, you first need to understand how the detection actually works. Let's go deeper.</p>
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:20px auto 0"></div>
 </div>
 <!-- ═══ 02 DETECTION ═══ -->
 <section class="sec" id="detect">
 <div class="sk"><span class="sn">02</span> The anatomy of detection</div>
 <h2 class="sh">Before you send a single byte,<br><em>you've already been judged.</em></h2>
-<p class="ss">The moment your scraper opens a TCP connection to a CDN, a fingerprinting pipeline triggers. By the time your HTTP request body arrives, four independent scoring systems have already assigned you a trust score. Here's exactly what each one measures — and why defeating just one is never enough.</p>
+<p class="ss">The moment your scraper opens a TCP connection to a CDN, a fingerprinting pipeline triggers. By the time your HTTP request body arrives, four independent scoring systems have already assigned you a trust score. Here's exactly what each one measures, and why defeating just one is never enough.</p>
 
 <div class="ib warn rv">
-<strong>The fundamental insight:</strong> Anti-bots don't make binary decisions. They assign a continuous trust score across all four layers simultaneously. A perfect TLS fingerprint with a datacenter IP and machine-like mouse movement still fails — just at a different layer. The only winning strategy is addressing all four at once.
+<strong>The fundamental insight:</strong> Anti-bots don't make binary decisions. They assign a continuous trust score across all four layers simultaneously. A perfect TLS fingerprint with a datacenter IP and machine-like mouse movement still fails, just at a different layer. The only winning strategy is addressing all four at once.
 </div>
 
-<h3 class="rh rv">Layer 1 — TLS Fingerprinting: The Handshake That Betrays You</h3>
+<h3 class="rh rv">Layer 1, TLS Fingerprinting: The Handshake That Betrays You</h3>
 <p class="ss rv">This fires before a single HTTP byte is exchanged. Understanding it is non-negotiable.</p>
 
 <div class="cards c2 rv">
 <div class="card">
   <div class="cbar" style="background:var(--red)"></div>
   <div class="ctag">Origin 2017 · Salesforce Research</div>
-  <div class="cname">JA3 — The First Fingerprint</div>
+  <div class="cname">JA3, The First Fingerprint</div>
   <div class="cbody">
     When any HTTPS client connects, it sends a <strong>TLS ClientHello</strong> message. JA3 extracts five fields from it and MD5-hashes the combination:<br><br>
     <code>TLS Version</code> + <code>Cipher Suites</code> + <code>Extensions</code> + <code>Elliptic Curves</code> + <code>Curve Formats</code><br><br>
@@ -781,11 +786,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <div class="card">
   <div class="cbar" style="background:var(--y)"></div>
   <div class="ctag">2023 · FoxIO · Replaces JA3</div>
-  <div class="cname">JA4+ — The Unbreakable Standard</div>
+  <div class="cname">JA4+, The Unbreakable Standard</div>
   <div class="cbody">
     JA4 was engineered specifically to survive Chrome's randomisation. Instead of hashing raw extension order, it <strong>sorts extensions alphabetically</strong> and <strong>removes GREASE values</strong> before hashing. The result is stable regardless of Chrome's ordering.<br><br>
     <strong>JA4 format:</strong> <code>t13d1516h2_8daaf6152771_b0da82dd1658</code><br>
-    — <code>t13</code> = TLS 1.3, <code>d</code> = DTLS, <code>1516</code> = cipher count+length hash, <code>h2</code> = ALPN (HTTP/2), remainder = extension hash<br><br>
+   , <code>t13</code> = TLS 1.3, <code>d</code> = DTLS, <code>1516</code> = cipher count+length hash, <code>h2</code> = ALPN (HTTP/2), remainder = extension hash<br><br>
     <strong>JA4+ extends this</strong> with: JA4H (HTTP header fingerprint), JA4X (X.509 certificate), JA4SSH (SSH handshake), JA4T (TCP window + options). Cloudflare deployed it in a <strong>Rust crate at CDN edge</strong>. Akamai in an <strong>EdgeWorker</strong>. Both fire before your request reaches origin.
   </div>
 </div>
@@ -796,7 +801,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="cbody">
     Even with a perfect JA4 hash, HTTP/2 itself leaks your client identity. The <strong>SETTINGS frame</strong> that every HTTP/2 client sends at connection start has parameters that vary by implementation:<br><br>
     <code>HEADER_TABLE_SIZE</code>, <code>MAX_CONCURRENT_STREAMS</code>, <code>INITIAL_WINDOW_SIZE</code>, <code>MAX_FRAME_SIZE</code>, <code>MAX_HEADER_LIST_SIZE</code><br><br>
-    Chrome's exact values are documented. Python's <code>httpx</code> sends different values. curl sends different values. The ordering of these settings, the window update frame sizes, and the HPACK compression decisions all create a secondary fingerprint that <strong>cannot be spoofed without rewriting the HTTP/2 client</strong> — which is exactly what curl_cffi does.
+    Chrome's exact values are documented. Python's <code>httpx</code> sends different values. curl sends different values. The ordering of these settings, the window update frame sizes, and the HPACK compression decisions all create a secondary fingerprint that <strong>cannot be spoofed without rewriting the HTTP/2 client</strong>, which is exactly what curl_cffi does.
   </div>
 </div>
 <div class="card">
@@ -813,7 +818,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 
 <button class="tog rv" onclick="tog(this,'tls-code')">
   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-  Show code — compare your JA4 fingerprint
+  Show code, compare your JA4 fingerprint
 </button>
 <div class="coll" id="tls-code">
 <div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
@@ -821,25 +826,25 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <span class="kw">import</span> <span class="df">requests</span>
 <span class="kw">from</span> <span class="df">curl_cffi</span> <span class="kw">import</span> <span class="df">requests</span> <span class="kw">as</span> <span class="df">cffi</span>
 
-<span class="cm"># ❌ requests — exposes Python/urllib3 JA4, blocked immediately</span>
+<span class="cm"># ❌ requests, exposes Python/urllib3 JA4, blocked immediately</span>
 <span class="df">r1</span> <span class="py">=</span> <span class="df">requests</span><span class="py">.</span><span class="fn">get</span><span class="py">(</span><span class="st">"https://tls.browserleaks.com/json"</span><span class="py">)</span>
 <span class="fn">print</span><span class="py">(</span><span class="df">r1</span><span class="py">.</span><span class="fn">json</span><span class="py">()[</span><span class="st">"ja4"</span><span class="py">])</span>
-<span class="cm"># → t13d1516h2_8daaf6152771_b0da82dd1658  (Python fingerprint — catalogued, blocked)</span>
+<span class="cm"># → t13d1516h2_8daaf6152771_b0da82dd1658  (Python fingerprint, catalogued, blocked)</span>
 
-<span class="cm"># ✓ curl_cffi — emits Chrome 124's exact JA4 hash, HTTP/2 frames, cipher order</span>
+<span class="cm"># ✓ curl_cffi, emits Chrome 124's exact JA4 hash, HTTP/2 frames, cipher order</span>
 <span class="df">r2</span> <span class="py">=</span> <span class="df">cffi</span><span class="py">.</span><span class="fn">get</span><span class="py">(</span>
     <span class="st">"https://tls.browserleaks.com/json"</span><span class="py">,</span>
     <span class="at">impersonate</span><span class="py">=</span><span class="st">"chrome124"</span>  <span class="cm"># also: chrome110, chrome107, safari17</span>
 <span class="py">)</span>
 <span class="fn">print</span><span class="py">(</span><span class="df">r2</span><span class="py">.</span><span class="fn">json</span><span class="py">()[</span><span class="st">"ja4"</span><span class="py">])</span>
-<span class="cm"># → t13d1517h2_c4b4b4b4b4b4_aaaaaaaaaa   (Chrome 124 fingerprint — passes)</span>
+<span class="cm"># → t13d1517h2_c4b4b4b4b4b4_aaaaaaaaaa   (Chrome 124 fingerprint, passes)</span>
 
 <span class="cm"># Also check HTTP/2 fingerprint</span>
 <span class="fn">print</span><span class="py">(</span><span class="df">r2</span><span class="py">.</span><span class="fn">json</span><span class="py">()[</span><span class="st">"http2"</span><span class="py">])</span>  <span class="cm"># Chrome's exact SETTINGS frame values</span></pre>
 </div>
 </div>
 
-<h3 class="rh rv">Layer 2 — JavaScript Fingerprinting: The Page That Interrogates You</h3>
+<h3 class="rh rv">Layer 2, JavaScript Fingerprinting: The Page That Interrogates You</h3>
 <p class="ss rv" style="margin-bottom:24px">Once your TLS passes, the page loads its anti-bot script. This is a 500KB+ obfuscated interrogation that runs dozens of tests in parallel.</p>
 
 <div class="cards c2 rv">
@@ -849,11 +854,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="cname">Canvas + WebGL Fingerprinting</div>
   <div class="cbody">
     The page draws invisible shapes, gradients, and text using <code>canvas.getContext('2d')</code> then calls <code>canvas.toDataURL()</code>. The exact pixel output varies by:<br><br>
-    — GPU manufacturer and model (NVIDIA vs AMD vs Intel)<br>
-    — Driver version and sub-pixel rendering<br>
-    — OS-level font rendering (Windows ClearType vs macOS CoreText)<br>
-    — Canvas size and DPI scaling<br><br>
-    A headless Chromium with no GPU produces a <strong>software-rendered canvas</strong> with a known hash. Botaaurus and CloakBrowser spoof this at the C++ level by injecting slight noise into the pixel values before <code>toDataURL()</code> returns — enough to vary the hash while remaining visually identical.
+   , GPU manufacturer and model (NVIDIA vs AMD vs Intel)<br>
+   , Driver version and sub-pixel rendering<br>
+   , OS-level font rendering (Windows ClearType vs macOS CoreText)<br>
+   , Canvas size and DPI scaling<br><br>
+    A headless Chromium with no GPU produces a <strong>software-rendered canvas</strong> with a known hash. Botaaurus and CloakBrowser spoof this at the C++ level by injecting slight noise into the pixel values before <code>toDataURL()</code> returns, enough to vary the hash while remaining visually identical.
   </div>
 </div>
 <div class="card">
@@ -862,7 +867,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="cname">WebGL Fingerprinting</div>
   <div class="cbody">
     WebGL exposes the GPU through <code>gl.getParameter(gl.RENDERER)</code> and <code>gl.getParameter(gl.VENDOR)</code>. Real Chrome returns something like <code>ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0)</code>.<br><br>
-    Headless Chrome returns a generic string or crashes on WebGL entirely. Anti-bots cross-reference: if WebGL says "Intel UHD 620" but Canvas hash shows software rendering, that's a contradiction — you're flagged.<br><br>
+    Headless Chrome returns a generic string or crashes on WebGL entirely. Anti-bots cross-reference: if WebGL says "Intel UHD 620" but Canvas hash shows software rendering, that's a contradiction, you're flagged.<br><br>
     <strong>WebGL extensions list</strong> is also fingerprinted. Real GPUs expose 30–40 extensions. Software renderers expose a different subset. The exact combination is GPU-specific and stable across sessions.
   </div>
 </div>
@@ -872,9 +877,9 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="cname">AudioContext Fingerprinting</div>
   <div class="cbody">
     The page creates an <code>AudioContext</code>, generates a sine wave through an <code>OscillatorNode</code>, runs it through a <code>DynamicsCompressorNode</code>, and reads the output buffer values. The floating-point output depends on:<br><br>
-    — CPU architecture (x86 vs ARM floating-point precision)<br>
-    — Operating system audio stack<br>
-    — Audio driver implementation<br><br>
+   , CPU architecture (x86 vs ARM floating-point precision)<br>
+   , Operating system audio stack<br>
+   , Audio driver implementation<br><br>
     Headless environments often return <code>0.0</code> across the buffer (no audio context), or a software-emulated value that differs from hardware. CloakBrowser patches this at the <strong>Chromium C++ audio rendering layer</strong>.
   </div>
 </div>
@@ -884,8 +889,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="cname">Function.toString() Detection</div>
   <div class="cbody">
     This is why playwright-stealth fails against Kasada in 2026.<br><br>
-    When JS patches a native function — for example, <code class="tip" data-tip="A JavaScript property set to true by WebDriver/Selenium. Every anti-bot checks this first. SeleniumBase UC mode and Selenium-Driverless remove it.">navigator.webdriver</code> — it replaces the getter with a custom function. Calling <code>Function.prototype.toString.call(getter)</code> on the patched function returns <code>function () { [custom code] }</code> instead of <code>function () { [native code] }</code>.<br><br>
-    Kasada specifically tests dozens of native functions this way. playwright-stealth patches them in JavaScript — so toString() reveals the patch. <strong>PatchRight fixes this at the Python source level</strong>, before Chrome even starts. There's no JS to inspect.
+    When JS patches a native function, for example, <code class="tip" data-tip="A JavaScript property set to true by WebDriver/Selenium. Every anti-bot checks this first. SeleniumBase UC mode and Selenium-Driverless remove it.">navigator.webdriver</code>, it replaces the getter with a custom function. Calling <code>Function.prototype.toString.call(getter)</code> on the patched function returns <code>function () { [custom code] }</code> instead of <code>function () { [native code] }</code>.<br><br>
+    Kasada specifically tests dozens of native functions this way. playwright-stealth patches them in JavaScript, so toString() reveals the patch. <strong>PatchRight fixes this at the Python source level</strong>, before Chrome even starts. There's no JS to inspect.
   </div>
 </div>
 </div>
@@ -897,7 +902,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="cname">Chrome Extension Probing (Akamai)</div>
   <div class="cbody">
     Akamai's sensor.js fetches 60 known Chrome extension resource URLs using <code>fetch('chrome-extension://[id]/manifest.json')</code>. Real Chrome browsers have at least a few extensions installed (ad blockers, password managers, etc.).<br><br>
-    A headless browser returns <code>net::ERR_FAILED</code> on all 60 requests simultaneously — a statistically impossible result for a real user. The extension IDs probed include:<br><br>
+    A headless browser returns <code>net::ERR_FAILED</code> on all 60 requests simultaneously, a statistically impossible result for a real user. The extension IDs probed include:<br><br>
     <code>cjpalhdlnbpafiamejdnhcphjbkeiagm</code> (uBlock Origin)<br>
     <code>hdokiejnpimakedhajhdlcegeplioahd</code> (LastPass)<br>
     <code>nngceckbapebfimnlniiiahkandclblb</code> (Bitwarden)<br><br>
@@ -914,18 +919,18 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     <strong>Execution context:</strong> <code>window.cdc_adoQpoasnfa76pfcZLmcfl_Array</code> and similar artifacts left by ChromeDriver are checked.<br>
     <strong>Permission API:</strong> Real Chrome returns realistic permission states. ChromeDriver returns defaults inconsistent with a "normal" browser.<br>
     <strong>Plugins:</strong> Headless Chrome has zero plugins. Real Chrome always has at least the PDF viewer plugin.<br><br>
-    <strong>Camoufox's solution:</strong> Uses Mozilla's Juggler protocol, which sits below CDP entirely — none of these artifacts exist.
+    <strong>Camoufox's solution:</strong> Uses Mozilla's Juggler protocol, which sits below CDP entirely, none of these artifacts exist.
   </div>
 </div>
 </div>
 
-<h3 class="rh rv">Layer 3 — Network Identity: The Five Vectors That Must Agree</h3>
+<h3 class="rh rv">Layer 3, Network Identity: The Five Vectors That Must Agree</h3>
 <div class="cards c3 rv">
 <div class="card">
   <div class="cbar" style="background:var(--blu)"></div>
   <div class="ctag">Primary signal</div>
   <div class="cname">IP Reputation & ASN</div>
-  <div class="cbody">Anti-bots check your IP against ASN databases. AWS (AS16509), GCP (AS15169), Azure (AS8075) are immediately flagged. DigitalOcean, Linode, Vultr — all known. Even residential proxy networks from DataCenter IPs in the 24.105.x.x range are flagged if the ASN is a known proxy provider. <strong>Genuine ISP residential or 4G carrier IPs are the only reliably clean option.</strong></div>
+  <div class="cbody">Anti-bots check your IP against ASN databases. AWS (AS16509), GCP (AS15169), Azure (AS8075) are immediately flagged. DigitalOcean, Linode, Vultr, all known. Even residential proxy networks from DataCenter IPs in the 24.105.x.x range are flagged if the ASN is a known proxy provider. <strong>Genuine ISP residential or 4G carrier IPs are the only reliably clean option.</strong></div>
 </div>
 <div class="card">
   <div class="cbar" style="background:var(--orn)"></div>
@@ -937,11 +942,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="cbar" style="background:var(--y)"></div>
   <div class="ctag">All five must agree</div>
   <div class="cname">The Coherence Test</div>
-  <div class="cbody">Anti-bots run a coherence check across: <code>IP country</code>, <code>timezone</code>, <code>Accept-Language</code>, <code>WebRTC candidate</code>, <code>DNS resolver location</code>. A US proxy with <code>Accept-Language: ur-PK</code> fails immediately. All five must tell a consistent geographic story. This is why setting <code>geoip=True</code> in Camoufox is critical — it auto-configures all five to match the proxy's exit country.</div>
+  <div class="cbody">Anti-bots run a coherence check across: <code>IP country</code>, <code>timezone</code>, <code>Accept-Language</code>, <code>WebRTC candidate</code>, <code>DNS resolver location</code>. A US proxy with <code>Accept-Language: ur-PK</code> fails immediately. All five must tell a consistent geographic story. This is why setting <code>geoip=True</code> in Camoufox is critical, it auto-configures all five to match the proxy's exit country.</div>
 </div>
 </div>
 
-<h3 class="rh rv">Layer 4 — Behavioural ML: You Can't Fake Being Human</h3>
+<h3 class="rh rv">Layer 4, Behavioural ML: You Can't Fake Being Human</h3>
 <div class="cards c2 rv">
 <div class="card">
   <div class="cbar" style="background:var(--pur)"></div>
@@ -958,21 +963,21 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 </div>
 
 <div class="ib tip rv" style="margin-top:32px">
-<strong>The story so far:</strong> You now understand the full detection stack — TLS fingerprints at the network layer, JS interrogation in the browser, IP reputation checks per request, and ML behavioural analysis across the session. The next sections show you exactly which anti-bot vendors use which combination of these layers, and the specific bypass strategies for each.
+<strong>The story so far:</strong> You now understand the full detection stack, TLS fingerprints at the network layer, JS interrogation in the browser, IP reputation checks per request, and ML behavioural analysis across the session. The next sections show you exactly which anti-bot vendors use which combination of these layers, and the specific bypass strategies for each.
 </div>
 </section>
 
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
-  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Now you know the four detection layers. Every vendor below is just a different weighting of those same four signals — some prioritise TLS, others behaviour, others network identity. Knowing the layer tells you which tool to pick. Here are the six walls.</p>
+  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Now you know the four detection layers. Every vendor below is just a different weighting of those same four signals, some prioritise TLS, others behaviour, others network identity. Knowing the layer tells you which tool to pick. Here are the six walls.</p>
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:20px auto 0"></div>
 </div>
 <!-- ═══ 03 ANTI-BOTS ═══ -->
 <section class="sec" id="antibots">
 <div class="sk"><span class="sn">03</span> The vendors</div>
 <h2 class="sh">Six companies built the walls.<br><em>Here's every key.</em></h2>
-<p class="ss">Each vendor applies the detection layers differently — different weights, different signals, different architectures. What bypasses Cloudflare has zero effect on Kasada. You need to know exactly which wall you're facing before you choose a tool.</p>
+<p class="ss">Each vendor applies the detection layers differently, different weights, different signals, different architectures. What bypasses Cloudflare has zero effect on Kasada. You need to know exactly which wall you're facing before you choose a tool.</p>
 
 <div class="ib warn rv">
 <strong>How to identify your target:</strong> Before choosing any bypass strategy, run Wappalyzer on the target URL. Check response cookies (<code>_abck</code>=Akamai, <code>cf_clearance</code>=Cloudflare, <code>datadome</code>=DataDome, <code>_px3</code>=PerimeterX, <code>x-kpsdk-ct</code>=Kasada, <code>reese84</code>=F5 Shape). Wrong strategy on the wrong vendor wastes hours.
@@ -984,8 +989,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="abstr" style="background:var(--red)"></div>
   <div class="abl">
     <div class="absy">01/06 · Airlines · Banks · ~30% Fortune 500</div>
-    <div class="abn" style="color:var(--red)">Akamai</div>
-    <div class="abd">Bot Manager v3+ injects <strong>sensor.js (~512KB, fully obfuscated)</strong> into every protected page. Unlike Cloudflare which checks at CDN edge, Akamai runs its full fingerprint suite <em>inside your browser</em> via this script. It collects 500+ signals over multiple requests — trust accumulates across the session, not just on the first hit. The critical 2026 signal: <strong>60 chrome-extension:// URL probes</strong>. Zero passing = instant bot score regardless of all other signals. JA4+ is checked at EdgeWorker before HTML is served.</div>
+    <div class="abn" style="color:var(--red)"><a href="https://www.akamai.com/products/bot-manager" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">Akamai</a></div>
+    <div class="abd">Bot Manager v3+ injects <strong>sensor.js (~512KB, fully obfuscated)</strong> into every protected page. Unlike Cloudflare which checks at CDN edge, Akamai runs its full fingerprint suite <em>inside your browser</em> via this script. It collects 500+ signals over multiple requests, trust accumulates across the session, not just on the first hit. The critical 2026 signal: <strong>60 chrome-extension:// URL probes</strong>. Zero passing = instant bot score regardless of all other signals. JA4+ is checked at EdgeWorker before HTML is served.</div>
     <div class="absigs">
       <span class="sig" style="border-color:rgba(224,85,85,.4);color:var(--red)">_abck cookie</span>
       <span class="sig" style="border-color:rgba(224,85,85,.4);color:var(--red)">bm_sz</span>
@@ -996,11 +1001,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   </div>
   <div class="abr">
     <div class="abbt">Bypass strategy</div>
-    <div class="bitem"><strong>Step 1:</strong> Check for GraphQL/XHR API first — a direct endpoint bypasses HTML anti-bot entirely</div>
+    <div class="bitem"><strong>Step 1:</strong> Check for GraphQL/XHR API first, a direct endpoint bypasses HTML anti-bot entirely</div>
     <div class="bitem"><code>curl_cffi impersonate="chrome124"</code> handles TLS + HTTP/2 layer</div>
     <div class="bitem">CloakBrowser with 49 C++ patches handles sensor.js interrogation</div>
     <div class="bitem">Load Bitwarden + 1Password extensions to pass 60 extension probes</div>
-    <div class="bitem">ISP/static residential proxy — never rotate mid-session (trust accumulates)</div>
+    <div class="bitem">ISP/static residential proxy, never rotate mid-session (trust accumulates)</div>
     <div class="bitem">Homepage warm-up → 2–3s human dwell → scroll → navigate to target</div>
   </div>
   <div class="abstats">
@@ -1016,8 +1021,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="abstr" style="background:var(--orn)"></div>
   <div class="abl">
     <div class="absy">02/06 · 20% of all internet traffic · 200+ countries</div>
-    <div class="abn" style="color:var(--orn)">Cloudflare</div>
-    <div class="abd">Cloudflare's uniqueness is <strong>infrastructure-level deployment</strong>. JA4 is computed in a Rust crate running on every Cloudflare edge node — your request is fingerprinted before it reaches any application server. The ML bot score (1–99) is trained on Cloudflare's view of 20% of all internet traffic, giving it an unmatched baseline for what "real" browsers look like. Turnstile (their CAPTCHA replacement) submits a <strong>79-parameter POST</strong> including Canvas hash, font measurements, SHA-256 proof-of-work, and TEA-encrypted timing data.</div>
+    <div class="abn" style="color:var(--orn)"><a href="https://www.cloudflare.com/products/bot-management/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">Cloudflare</a></div>
+    <div class="abd">Cloudflare's uniqueness is <strong>infrastructure-level deployment</strong>. JA4 is computed in a Rust crate running on every Cloudflare edge node, your request is fingerprinted before it reaches any application server. The ML bot score (1–99) is trained on Cloudflare's view of 20% of all internet traffic, giving it an unmatched baseline for what "real" browsers look like. Turnstile (their CAPTCHA replacement) submits a <strong>79-parameter POST</strong> including Canvas hash, font measurements, SHA-256 proof-of-work, and TEA-encrypted timing data.</div>
     <div class="absigs">
       <span class="sig" style="border-color:rgba(224,123,48,.4);color:var(--orn)">cf_clearance</span>
       <span class="sig" style="border-color:rgba(224,123,48,.4);color:var(--orn)">__cf_bm</span>
@@ -1028,11 +1033,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   </div>
   <div class="abr">
     <div class="abbt">Bypass strategy</div>
-    <div class="bitem"><strong>Origin IP bypass:</strong> check SecurityTrails DNS history — many sites had Cloudflare added later, origin IP is in old A records</div>
-    <div class="bitem">Camoufox with <code>geoip=True</code> — <strong>100% pass rate</strong> Mar 2026 on Instagram, Reddit, X, LinkedIn</div>
+    <div class="bitem"><strong>Origin IP bypass:</strong> check SecurityTrails DNS history, many sites had Cloudflare added later, origin IP is in old A records</div>
+    <div class="bitem">Camoufox with <code>geoip=True</code>, <strong>100% pass rate</strong> Mar 2026 on Instagram, Reddit, X, LinkedIn</div>
     <div class="bitem">Scrapling's <code>StealthyFetcher</code> solves Turnstile natively and automatically</div>
     <div class="bitem">Turnstile HTTP bypass possible: solve the PoW + Canvas hash without a browser in ~0.27s</div>
-    <div class="bitem">Camoufox uses Juggler (not CDP) — zero CDP timing artifacts that Cloudflare's ML scores heavily</div>
+    <div class="bitem">Camoufox uses Juggler (not CDP), zero CDP timing artifacts that Cloudflare's ML scores heavily</div>
   </div>
   <div class="abstats">
     <div class="abst"><div class="abstl">Web coverage</div><div class="abstv">20%</div><div class="absts">All internet traffic</div></div>
@@ -1047,8 +1052,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="abstr" style="background:var(--blu)"></div>
   <div class="abl">
     <div class="absy">03/06 · 5 trillion signals/day · 1,200+ clients</div>
-    <div class="abn" style="color:var(--blu)">DataDome</div>
-    <div class="abd">DataDome's architecture is fundamentally different from the others: it deploys <strong>85,000 separate ML models</strong> — one per protected site. There is no universal bypass. What works on Grainger.com may not work on Le Monde. It runs at the application server level (not CDN), so origin IP bypass is impossible. The WASM <code class="tip" data-tip="DataDome&#39;s WASM challenge — a Rust-compiled state machine that cannot be emulated. Requires actual browser execution to produce a valid solve token.">boring_challenge</code> is a Rust-compiled state machine that <strong>cannot be emulated</strong> — it requires actual browser execution to produce valid tokens. IP reputation alone accounts for 25–30% of the total trust score.</div>
+    <div class="abn" style="color:var(--blu)"><a href="https://datadome.co" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">DataDome</a></div>
+    <div class="abd">DataDome's architecture is fundamentally different from the others: it deploys <strong>85,000 separate ML models</strong>, one per protected site. There is no universal bypass. What works on Grainger.com may not work on Le Monde. It runs at the application server level (not CDN), so origin IP bypass is impossible. The WASM <code class="tip" data-tip="DataDome&#39;s WASM challenge, a Rust-compiled state machine that cannot be emulated. Requires actual browser execution to produce a valid solve token.">boring_challenge</code> is a Rust-compiled state machine that <strong>cannot be emulated</strong>, it requires actual browser execution to produce valid tokens. IP reputation alone accounts for 25–30% of the total trust score.</div>
     <div class="absigs">
       <span class="sig" style="border-color:rgba(91,156,221,.4);color:var(--blu)">datadome cookie</span>
       <span class="sig" style="border-color:rgba(91,156,221,.4);color:var(--blu)">WASM boring_challenge</span>
@@ -1058,11 +1063,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     </div>
   </div>
   <div class="abr">
-    <div class="abbt">Confirmed bypass — Grainger.com ✓</div>
-    <div class="bitem"><strong>Always try first:</strong> find <code>__NEXT_DATA__</code> in HTML source — Grainger had 110KB of product data in it, bypassing DataDome entirely</div>
+    <div class="abbt">Confirmed bypass, Grainger.com ✓</div>
+    <div class="bitem"><strong>Always try first:</strong> find <code>__NEXT_DATA__</code> in HTML source, Grainger had 110KB of product data in it, bypassing DataDome entirely</div>
     <div class="bitem"><code>curl_cffi chrome124</code> + residential proxy → confirmed 200 OK (Grainger.com)</div>
-    <div class="bitem">Mobile carrier IP (T-Mobile, Vodafone 4G) — highest trust score, hardest to flag</div>
-    <div class="bitem">Camoufox + <code>geoip=True</code> — aligns all 5 identity vectors with proxy exit country</div>
+    <div class="bitem">Mobile carrier IP (T-Mobile, Vodafone 4G), highest trust score, hardest to flag</div>
+    <div class="bitem">Camoufox + <code>geoip=True</code>, aligns all 5 identity vectors with proxy exit country</div>
     <div class="bitem">2ms real-time response means every request is independently scored</div>
   </div>
   <div class="abstats">
@@ -1078,8 +1083,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="abstr" style="background:var(--pur)"></div>
   <div class="abl">
     <div class="absy">04/06 · HUMAN Security · 3 billion devices</div>
-    <div class="abn" style="color:var(--pur)">PerimeterX</div>
-    <div class="abd">After merging with HUMAN Security, PerimeterX gained the most powerful <strong>network effect</strong> in anti-bot. It verifies 15 trillion interactions per week across 3 billion devices. The critical risk: <strong>get detected on any one of 29,650+ protected sites and your fingerprint is flagged across the entire network</strong>. Nike, Walmart, Zillow, StubHub all share reputation data. Its 5-vector unified score (TLS + IP + HTTP headers + JS fingerprint + Behaviour) requires all five to pass simultaneously — fixing only one vector has zero effect.</div>
+    <div class="abn" style="color:var(--pur)"><a href="https://www.humansecurity.com/products/human-bot-defender" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">PerimeterX</a></div>
+    <div class="abd">After merging with HUMAN Security, PerimeterX gained the most powerful <strong>network effect</strong> in anti-bot. It verifies 15 trillion interactions per week across 3 billion devices. The critical risk: <strong>get detected on any one of 29,650+ protected sites and your fingerprint is flagged across the entire network</strong>. Nike, Walmart, Zillow, StubHub all share reputation data. Its 5-vector unified score (TLS + IP + HTTP headers + JS fingerprint + Behaviour) requires all five to pass simultaneously, fixing only one vector has zero effect.</div>
     <div class="absigs">
       <span class="sig" style="border-color:rgba(155,114,207,.4);color:var(--pur)">_px3 cookie</span>
       <span class="sig" style="border-color:rgba(155,114,207,.4);color:var(--pur)">_pxde cookie</span>
@@ -1090,11 +1095,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   </div>
   <div class="abr">
     <div class="abbt">Bypass strategy</div>
-    <div class="bitem"><strong>All 5 vectors must pass simultaneously</strong> — Camoufox + residential proxy addresses all of them</div>
-    <div class="bitem">Generate a fresh fingerprint per session — never reuse fingerprints across different target domains</div>
+    <div class="bitem"><strong>All 5 vectors must pass simultaneously</strong>, Camoufox + residential proxy addresses all of them</div>
+    <div class="bitem">Generate a fresh fingerprint per session, never reuse fingerprints across different target domains</div>
     <div class="bitem">SeleniumWire can intercept the <code>_px3</code> token generation flow for token replay</div>
     <div class="bitem">Scrapfly's ASP flag handles all 5 layers automatically at managed API level</div>
-    <div class="bitem">Never use burned IPs — the network effect means cross-site reputation</div>
+    <div class="bitem">Never use burned IPs, the network effect means cross-site reputation</div>
   </div>
   <div class="abstats">
     <div class="abst"><div class="abstl">Sites</div><div class="abstv">29,650+</div><div class="absts">Nike, Walmart, Zillow</div></div>
@@ -1109,8 +1114,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="abstr" style="background:var(--y)"></div>
   <div class="abl">
     <div class="absy">05/06 · No CAPTCHA · Gatekeeper proxy architecture</div>
-    <div class="abn" style="color:var(--y)">Kasada</div>
-    <div class="abd">Kasada operates as a <strong>gatekeeper proxy</strong> — every request flows through it before reaching origin. Its JavaScript (<code>ips.js</code>, renamed polymorphically each deployment) issues <strong>proof-of-work challenges</strong> that require real CPU cycles and browser APIs to solve. There are no CAPTCHAs — failures are silent 403s or 429s with no explanation. The critical 2026 fact: <strong>Kasada specifically fingerprints playwright-stealth</strong> by calling <code>Function.prototype.toString()</code> on patched native functions. The patch signatures are catalogued.</div>
+    <div class="abn" style="color:var(--y)"><a href="https://www.kasada.io" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">Kasada</a></div>
+    <div class="abd">Kasada operates as a <strong>gatekeeper proxy</strong>, every request flows through it before reaching origin. Its JavaScript (<code>ips.js</code>, renamed polymorphically each deployment) issues <strong>proof-of-work challenges</strong> that require real CPU cycles and browser APIs to solve. There are no CAPTCHAs, failures are silent 403s or 429s with no explanation. The critical 2026 fact: <strong>Kasada specifically fingerprints playwright-stealth</strong> by calling <code>Function.prototype.toString()</code> on patched native functions. The patch signatures are catalogued.</div>
     <div class="absigs">
       <span class="sig" style="border-color:rgba(245,197,24,.4);color:var(--y)">x-kpsdk-ct</span>
       <span class="sig" style="border-color:rgba(245,197,24,.4);color:var(--y)">x-kpsdk-cd</span>
@@ -1121,11 +1126,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   </div>
   <div class="abr">
     <div class="abbt">Bypass strategy</div>
-    <div class="bitem"><strong>Never use playwright-stealth</strong> — Kasada has its toString() signatures catalogued and blocks it outright</div>
-    <div class="bitem">PatchRight patches at Python source level — nothing in the JS runtime to inspect via toString()</div>
-    <div class="bitem">SeleniumBase UC mode — removes webdriver flag and auto-handles PoW challenges</div>
-    <div class="bitem">Residential proxy essential — datacenter IPs receive near-zero trust regardless of browser</div>
-    <div class="bitem">PoW tokens are single-use — never replay, always generate fresh per request</div>
+    <div class="bitem"><strong>Never use playwright-stealth</strong>, Kasada has its toString() signatures catalogued and blocks it outright</div>
+    <div class="bitem">PatchRight patches at Python source level, nothing in the JS runtime to inspect via toString()</div>
+    <div class="bitem">SeleniumBase UC mode, removes webdriver flag and auto-handles PoW challenges</div>
+    <div class="bitem">Residential proxy essential, datacenter IPs receive near-zero trust regardless of browser</div>
+    <div class="bitem">PoW tokens are single-use, never replay, always generate fresh per request</div>
   </div>
   <div class="abstats">
     <div class="abst"><div class="abstl">Block style</div><div class="abstv">Silent</div><div class="absts">403 no explanation</div></div>
@@ -1140,8 +1145,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div class="abstr" style="background:var(--grn)"></div>
   <div class="abl">
     <div class="absy">06/06 · $1 billion acquisition · Most sophisticated</div>
-    <div class="abn" style="color:var(--grn)">F5 Shape</div>
-    <div class="abd">F5 acquired Shape Security for <strong>$1 billion in 2020</strong> — and the price reflects what they built. Shape runs a <strong>custom JavaScript virtual machine</strong>. The bytecode that executes in the browser is not standard JavaScript — it's a proprietary instruction set that you cannot reverse-engineer with standard tooling. Session tokens expire in minutes. The challenge payload is re-generated with every rotation. For production scraping at scale, DIY bypass is economically irrational — the engineering cost of maintaining a bypass exceeds the cost of Bright Data's API within weeks.</div>
+    <div class="abn" style="color:var(--grn)"><a href="https://www.f5.com/products/security/shape-security" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">F5 Shape</a></div>
+    <div class="abd">F5 acquired Shape Security for <strong>$1 billion in 2020</strong>, and the price reflects what they built. Shape runs a <strong>custom JavaScript virtual machine</strong>. The bytecode that executes in the browser is not standard JavaScript, it's a proprietary instruction set that you cannot reverse-engineer with standard tooling. Session tokens expire in minutes. The challenge payload is re-generated with every rotation. For production scraping at scale, DIY bypass is economically irrational, the engineering cost of maintaining a bypass exceeds the cost of Bright Data's API within weeks.</div>
     <div class="absigs">
       <span class="sig" style="border-color:rgba(76,175,116,.4);color:var(--grn)">reese84 cookie</span>
       <span class="sig" style="border-color:rgba(76,175,116,.4);color:var(--grn)">TS cookie</span>
@@ -1152,11 +1157,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   </div>
   <div class="abr">
     <div class="abbt">Bypass strategy</div>
-    <div class="bitem"><strong>First:</strong> check if mobile app uses a weaker backend — Shape is often only on the web frontend</div>
+    <div class="bitem"><strong>First:</strong> check if mobile app uses a weaker backend, Shape is often only on the web frontend</div>
     <div class="bitem"><strong>Only reliable option at scale:</strong> Bright Data (98.44%) or Zyte (93.14%) managed APIs</div>
-    <div class="bitem">DIY reverse engineering: deobfuscate VM bytecode — takes weeks per rotation</div>
+    <div class="bitem">DIY reverse engineering: deobfuscate VM bytecode, takes weeks per rotation</div>
     <div class="bitem">Cost-justify: &gt;2 days/month of maintenance time → managed API is cheaper</div>
-    <div class="bitem">The custom VM produces tokens that can be replayed for a few minutes — session pooling can reduce API costs</div>
+    <div class="bitem">The custom VM produces tokens that can be replayed for a few minutes, session pooling can reduce API costs</div>
   </div>
   <div class="abstats">
     <div class="abst"><div class="abstl">Acquisition</div><div class="abstv">$1B</div><div class="absts">F5 Networks 2020</div></div>
@@ -1181,22 +1186,22 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 </table>
 
 <div class="ib tip rv">
-<strong>The through-line:</strong> Every anti-bot vendor is defending against the same thing — automated access that looks like a machine. The difference is which layer they weight most heavily. Akamai weights browser execution (sensor.js). Cloudflare weights TLS + global ML. DataDome weights per-site behaviour + IP. PerimeterX weights the network effect. Kasada weights PoW + JS integrity. F5 Shape weights token validity via a proprietary VM. The tools in the next section exist as direct countermeasures to each of these specific approaches.
+<strong>The through-line:</strong> Every anti-bot vendor is defending against the same thing, automated access that looks like a machine. The difference is which layer they weight most heavily. Akamai weights browser execution (sensor.js). Cloudflare weights TLS + global ML. DataDome weights per-site behaviour + IP. PerimeterX weights the network effect. Kasada weights PoW + JS integrity. F5 Shape weights token validity via a proprietary VM. The tools in the next section exist as direct countermeasures to each of these specific approaches.
 </div>
 </section>
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
-  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Six walls. Now the tools. Every library below exists as a direct response to one of those six systems — <em style="color:rgba(245,197,24,.8)">curl_cffi was built because JA4 broke Python's TLS. Camoufox because CDP leaks signal automation. PatchRight because Kasada fingerprints JS patches.</em> The arms race made this arsenal.</p>
+  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Six walls. Now the tools. Every library below exists as a direct response to one of those six systems, <em style="color:rgba(245,197,24,.8)">curl_cffi was built because JA4 broke Python's TLS. Camoufox because CDP leaks signal automation. PatchRight because Kasada fingerprints JS patches.</em> The arms race made this arsenal.</p>
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:20px auto 0"></div>
 </div>
 <!-- ═══ 04 LIBRARIES ═══ -->
 <section class="sec" id="libs">
 <div class="sk"><span class="sn">04</span> The arsenal</div>
 <h2 class="sh">Every tool built to fight<br><em>every wall we just described.</em></h2>
-<p class="ss">Now that you understand the detection stack and the six anti-bot vendors, every library below makes sense in context. curl_cffi exists because of JA4. Camoufox exists because of CDP leaks. PatchRight exists because of Kasada's toString() inspection. The arsenal wasn't built randomly — each tool is a direct countermeasure to a specific detection innovation.</p>
+<p class="ss">Now that you understand the detection stack and the six anti-bot vendors, every library below makes sense in context. curl_cffi exists because of JA4. Camoufox exists because of CDP leaks. PatchRight exists because of Kasada's toString() inspection. The arsenal wasn't built randomly, each tool is a direct countermeasure to a specific detection innovation.</p>
 
-<h3 class="rh rv">Master comparison table — all 60+ libraries & tools</h3>
+<h3 class="rh rv">Master comparison table, all 60+ libraries & tools</h3>
 <div class="lt-wrap rv"><table class="lt">
 <thead><tr>
   <th>Library</th><th>Type</th><th>Lang</th><th>JS render</th><th>TLS spoof</th><th>TLS detail</th><th>Anti-bot target</th><th>MCP</th><th>Stars</th>
@@ -1223,7 +1228,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <tr><td>undetected-chromedriver</td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Removes WD flag</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">5k</td></tr>
 <tr><td><a href="https://github.com/scrapy/scrapy" target="_blank" rel="noopener" style="color:var(--y);text-decoration:none;font-weight:700;border-bottom:1px solid rgba(245,197,24,.4);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='rgba(245,197,24,.4)'">⭐ Scrapy</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td style="text-align:center"><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:14px">Via curl_cffi mw</span></td><td style="font-size:13px">Medium (with middleware)</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">52k</td></tr>
   <div class="ib tip rv" style="margin-top:12px">
-    <strong>Scrapy ecosystem essentials:</strong> Beyond the core framework — <strong>Scrapyd</strong> for daemon deployment, <strong>scrapy-redis</strong> for distributed crawling, <strong>scrapy-cluster</strong> for enterprise scale, <strong>scrapy-poet</strong> for the Page Object pattern, <strong>scrapy-camoufox</strong> for Cloudflare bypass, <strong>scrapy-nodriver</strong> for CDP integration. Scrapy Cloud (Zyte's hosted solution) for production deployment without managing servers.
+    <strong>Scrapy ecosystem essentials:</strong> Beyond the core framework, <strong>Scrapyd</strong> for daemon deployment, <strong>scrapy-redis</strong> for distributed crawling, <strong>scrapy-cluster</strong> for enterprise scale, <strong>scrapy-poet</strong> for the Page Object pattern, <strong>scrapy-camoufox</strong> for Cloudflare bypass, <strong>scrapy-nodriver</strong> for CDP integration. Scrapy Cloud (Zyte's hosted solution) for production deployment without managing servers.
   </div>
 
 <tr><td><a href="https://github.com/apify/crawlee" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Crawlee</a></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Node/Py</span></td><td style="text-align:center"><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Playwright-based</span></td><td style="font-size:13px">Medium targets</td><td style="text-align:center"><span class="dn"></span></td><td style="font-family:var(--mono);font-size:12px;color:var(--yellow)">15k</td></tr>
@@ -1282,19 +1287,19 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <span><span class="lcat lm">Managed</span></span>  <span><span class="lcat lp">CAPTCHA</span></span>  <span><span class="lcat lb" style="margin-left:4px">Proxy</span></span>
 </div></div>
 
-<h3 class="rh rv">Browser engines — deep dive</h3>
-<div class="ib danger rv"><strong>Critical 2026 fact:</strong> CDP (Chrome DevTools Protocol) is itself detectable. <code>Runtime.enable</code> timing, execution context leaks, and binding exposure all signal automation. Camoufox uses Mozilla's Juggler protocol <em>below</em> CDP — no CDP leaks. playwright-stealth patches JS at runtime but <code>Function.toString()</code> exposes the patch.</div>
+<h3 class="rh rv">Browser engines, deep dive</h3>
+<div class="ib danger rv"><strong>Critical 2026 fact:</strong> CDP (Chrome DevTools Protocol) is itself detectable. <code>Runtime.enable</code> timing, execution context leaks, and binding exposure all signal automation. Camoufox uses Mozilla's Juggler protocol <em>below</em> CDP, no CDP leaks. playwright-stealth patches JS at runtime but <code>Function.toString()</code> exposes the patch.</div>
 
 <div class="cards c3 rv">
 <div class="card"><div class="cbar" style="background:var(--blue)"></div>
   <div class="ctag">Microsoft 2020</div><div class="cname">Playwright <span class="cstar" style="font-size:14px">★ 68k</span></div>
   <div class="csub">Chromium + Firefox + WebKit</div>
-  <div class="cbody">The 2026 standard framework. Powers Firecrawl, Crawl4AI, Browserbase. <strong>CDP is detectable</strong> — use C++ wrappers above Playwright. Auto-wait, network interception, multi-browser.<br><br><code>pip install playwright && playwright install</code></div>
+  <div class="cbody">The 2026 standard framework. Powers Firecrawl, Crawl4AI, Browserbase. <strong>CDP is detectable</strong>, use C++ wrappers above Playwright. Auto-wait, network interception, multi-browser.<br><br><code>pip install playwright && playwright install</code></div>
 </div>
 <div class="card"><div class="cbar" style="background:var(--green)"></div>
   <div class="ctag">C++ Firefox · Juggler</div><div class="cname">Camoufox <span class="cstar" style="font-size:14px">★ 100%</span></div>
   <div class="csub">Zero CDP exposure · geoip alignment</div>
-  <div class="cbody">Mozilla Juggler <strong>below CDP level</strong> — zero CDP leaks. Near-zero fingerprint surface. <strong>100% pass rate</strong> Mar 2026 on Cloudflare, Instagram, Reddit, X. Note: Firefox ~3% market share.<br><br><code>from camoufox.sync_api import Firefox</code></div>
+  <div class="cbody">Mozilla Juggler <strong>below CDP level</strong>, zero CDP leaks. Near-zero fingerprint surface. <strong>100% pass rate</strong> Mar 2026 on Cloudflare, Instagram, Reddit, X. Note: Firefox ~3% market share.<br><br><code>from camoufox.sync_api import Firefox</code></div>
 </div>
 <div class="card"><div class="cbar" style="background:var(--red)"></div>
   <div class="ctag">Stealth Chromium</div><div class="cname">CloakBrowser</div>
@@ -1304,7 +1309,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <div class="card"><div class="cbar" style="background:var(--orange)"></div>
   <div class="ctag">Playwright source fork</div><div class="cname">PatchRight</div>
   <div class="csub">No JS signatures anywhere</div>
-  <div class="cbody">Patches Playwright Python source — not JS injection. <strong>Kasada fingerprints playwright-stealth</strong> via toString(). PatchRight leaves nothing in the runtime to inspect.<br><br><code>pip install patchright</code></div>
+  <div class="cbody">Patches Playwright Python source, not JS injection. <strong>Kasada fingerprints playwright-stealth</strong> via toString(). PatchRight leaves nothing in the runtime to inspect.<br><br><code>pip install patchright</code></div>
 </div>
 <div class="card"><div class="cbar" style="background:var(--purple)"></div>
   <div class="ctag">Google · Node.js</div><div class="cname">Puppeteer <span class="cstar" style="font-size:14px">★ 89k</span></div>
@@ -1313,7 +1318,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 </div>
 <div class="card"><div class="cbar" style="background:var(--yellow)"></div>
   <div class="ctag">Multi-language · WebDriver</div><div class="cname">Selenium <span class="cstar" style="font-size:14px">★ 29k</span></div>
-  <div class="csub">Legacy — navigator.webdriver=true</div>
+  <div class="csub">Legacy, navigator.webdriver=true</div>
   <div class="cbody"><code>navigator.webdriver=true</code> detectable in 2 JS lines. Use <strong>SeleniumBase UC mode</strong> to remove. Stock Selenium is dead against Akamai in 2026. Still valid for non-protected targets.</div>
 </div>
 <div class="card"><div class="cbar" style="background:var(--teal)"></div>
@@ -1335,7 +1340,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 
 <button class="tog rv" onclick="tog(this,'cam-c')">
   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-  Show code — Camoufox with geoip + proxy
+  Show code, Camoufox with geoip + proxy
 </button>
 <div class="coll" id="cam-c">
 <div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
@@ -1350,7 +1355,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     <span class="at">screen</span><span class="py">={</span><span class="st">"width"</span><span class="py">:</span> <span class="nb">1920</span><span class="py">,</span> <span class="st">"height"</span><span class="py">:</span> <span class="nb">1080</span><span class="py">}</span>
 <span class="py">)</span> <span class="kw">as</span> <span class="df">browser</span><span class="py">:</span>
     <span class="df">page</span> <span class="py">=</span> <span class="df">browser</span><span class="py">.</span><span class="fn">new_page</span><span class="py">()</span>
-    <span class="cm"># Warm up — never go directly to target URL</span>
+    <span class="cm"># Warm up, never go directly to target URL</span>
     <span class="df">page</span><span class="py">.</span><span class="fn">goto</span><span class="py">(</span><span class="st">"https://www.google.com"</span><span class="py">)</span>
     <span class="df">page</span><span class="py">.</span><span class="fn">wait_for_timeout</span><span class="py">(</span><span class="nb">2000</span><span class="py">)</span>
     <span class="df">page</span><span class="py">.</span><span class="fn">goto</span><span class="py">(</span><span class="st">"https://cloudflare-protected.com"</span><span class="py">)</span>
@@ -1361,7 +1366,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
-  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">The tools above solve the access problem. But once you have the raw HTML or JSON — you still need to extract meaning from it. That is where AI-native scraping changes everything. In 2026 the bottleneck is not access. It is the extraction layer.</p>
+  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">The tools above solve the access problem. But once you have the raw HTML or JSON, you still need to extract meaning from it. That is where AI-native scraping changes everything. In 2026 the bottleneck is not access. It is the extraction layer.</p>
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:20px auto 0"></div>
 </div>
 <!-- ═══ 05 AI SCRAPING ═══ -->
@@ -1373,32 +1378,32 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <div class="aiwrap rv">
   <div class="aik">2026 Market Shift</div>
   <div class="ait">Why AI scraping matters now</div>
-  <div class="aib">Firecrawl's markdown output uses <strong>67% fewer tokens</strong> than raw HTML — compounds significantly at thousands of pages for RAG pipelines. AI web scraping market: <strong>$7.5B → $38B by 2034</strong> (CAGR 19.93%). LangChain, LlamaIndex, and CrewAI all have native integrations. Claude and Cursor can scrape the web via MCP tools with zero code.</div>
+  <div class="aib">Firecrawl's markdown output uses <strong>67% fewer tokens</strong> than raw HTML, compounds significantly at thousands of pages for RAG pipelines. AI web scraping market: <strong>$7.5B → $38B by 2034</strong> (CAGR 19.93%). LangChain, LlamaIndex, and CrewAI all have native integrations. Claude and Cursor can scrape the web via MCP tools with zero code.</div>
 </div>
 
 <div class="aitools rv">
 <div class="ait2" style="border-color:var(--teal)">
   <div class="ait2n">Firecrawl <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 111k</span></div>
   <div class="ait2t">Managed · Self-hostable · FIRE-1 · MCP</div>
-  <div class="ait2b">Send URL → clean Markdown/JSON. No selectors. <strong>MCP server</strong> — Claude scrapes via natural language. FIRE-1 agent autonomously navigates. <code>/interact</code> endpoint clicks, fills forms, extracts behind dynamic content. SAP, Zapier, Deloitte.<br><br><code>app.scrape(url)</code> | <code>app.crawl(site)</code> | <code>app.search("query")</code></div>
+  <div class="ait2b">Send URL → clean Markdown/JSON. No selectors. <strong>MCP server</strong>, Claude scrapes via natural language. FIRE-1 agent autonomously navigates. <code>/interact</code> endpoint clicks, fills forms, extracts behind dynamic content. SAP, Zapier, Deloitte.<br><br><code>app.scrape(url)</code> | <code>app.crawl(site)</code> | <code>app.search("query")</code></div>
   <div class="ait2s">✓ LangChain + LlamaIndex native · 500 free/mo</div>
 </div>
 <div class="ait2" style="border-color:var(--blue)">
   <div class="ait2n">Crawl4AI <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 60k</span></div>
   <div class="ait2t">Open-source · Local LLM · Full control · MIT</div>
-  <div class="ait2b">"Scrapy for the LLM era." <strong>Runs on your infrastructure</strong> — data never leaves your servers. Adaptive crawling learns selectors over time. BM25 content filter. Plug in Ollama for local models or OpenAI/Deepseek.<br><br><code>result = await crawler.arun(url)</code></div>
+  <div class="ait2b">"Scrapy for the LLM era." <strong>Runs on your infrastructure</strong>, data never leaves your servers. Adaptive crawling learns selectors over time. BM25 content filter. Plug in Ollama for local models or OpenAI/Deepseek.<br><br><code>result = await crawler.arun(url)</code></div>
   <div class="ait2s">✓ Full data sovereignty, free, MIT license</div>
 </div>
 <div class="ait2" style="border-color:var(--pink)">
   <div class="ait2n">ScrapeGraphAI <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 18k</span></div>
   <div class="ait2t">NL prompts · Graph pipeline · Self-healing</div>
-  <div class="ait2b">Describe what you want — LLM builds and executes a graph-based extraction pipeline. <strong>Self-healing:</strong> site structure changes, re-describe and it adapts. No selectors ever written. Supports OpenAI, Claude, local.<br><br><code>SmartScraperGraph(prompt="...", source=url)</code></div>
+  <div class="ait2b">Describe what you want, LLM builds and executes a graph-based extraction pipeline. <strong>Self-healing:</strong> site structure changes, re-describe and it adapts. No selectors ever written. Supports OpenAI, Claude, local.<br><br><code>SmartScraperGraph(prompt="...", source=url)</code></div>
   <div class="ait2s">✓ Best for: schema-free exploration, prototyping</div>
 </div>
 <div class="ait2" style="border-color:var(--orn)">
   <div class="ait2n"><a href="https://github.com/webclaw/webclaw" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none">webclaw</a></div>
   <div class="ait2t">Rust · Chrome TLS · 10 MCP tools · 95.1% accuracy</div>
-  <div class="ait2b">Rust-native scraper built for AI agent integration. <strong>10 MCP tools</strong> — Claude and Cursor can call it directly via natural language. 95.1% success rate on bot-protected sites. Zero Python overhead — runs as subprocess or HTTP service. Chrome-level TLS fingerprinting baked in.<br><br><code>pip install webclaw</code></div>
+  <div class="ait2b">Rust-native scraper built for AI agent integration. <strong>10 MCP tools</strong>, Claude and Cursor can call it directly via natural language. 95.1% success rate on bot-protected sites. Zero Python overhead, runs as subprocess or HTTP service. Chrome-level TLS fingerprinting baked in.<br><br><code>pip install webclaw</code></div>
   <div class="ait2s">✓ Best for: AI agents needing high-performance scraping + MCP integration</div>
 </div>
 <div class="ait2" style="border-color:var(--purple)">
@@ -1410,20 +1415,20 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <div class="ait2" style="border-color:var(--green)">
   <div class="ait2n">Steel</div>
   <div class="ait2t">Open-source · Docker · MCP · AI agents</div>
-  <div class="ait2b">Self-hostable headless browser API for AI agents. <strong>MCP server</strong> — Claude controls browsers directly. Session persistence + CAPTCHA auto-solve. &lt;1s session start. LangChain/CrewAI integration.</div>
+  <div class="ait2b">Self-hostable headless browser API for AI agents. <strong>MCP server</strong>, Claude controls browsers directly. Session persistence + CAPTCHA auto-solve. &lt;1s session start. LangChain/CrewAI integration.</div>
   <div class="ait2s">✓ Best for: AI agents needing browser control</div>
 </div>
 <div class="ait2" style="border-color:var(--yellow)">
   <div class="ait2n">Browserbase</div>
   <div class="ait2t">Managed cloud · $300M valuation</div>
-  <div class="ait2b">50M sessions in 2025. Playwright/Puppeteer drop-in — <strong>one endpoint swap</strong>. Session recordings + CAPTCHA auto-solve. Used by AI agent frameworks as the browser layer. From $50/mo.</div>
+  <div class="ait2b">50M sessions in 2025. Playwright/Puppeteer drop-in, <strong>one endpoint swap</strong>. Session recordings + CAPTCHA auto-solve. Used by AI agent frameworks as the browser layer. From $50/mo.</div>
   <div class="ait2s">✓ Best for: AI agent infrastructure at scale</div>
 </div>
 </div>
 
 <button class="tog rv" onclick="tog(this,'ai-c')">
   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-  Show code — Crawl4AI + Pydantic schema extraction
+  Show code, Crawl4AI + Pydantic schema extraction
 </button>
 <div class="coll" id="ai-c">
 <div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
@@ -1432,7 +1437,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <span class="kw">from</span> <span class="df">crawl4ai.extraction_strategy</span> <span class="kw">import</span> <span class="df">LLMExtractionStrategy</span>
 <span class="kw">from</span> <span class="df">pydantic</span> <span class="kw">import</span> <span class="df">BaseModel</span>
 
-<span class="cm"># Define exactly what you want — LLM extracts it, no selectors needed</span>
+<span class="cm"># Define exactly what you want, LLM extracts it, no selectors needed</span>
 <span class="kw">class</span> <span class="fn">Product</span><span class="py">(</span><span class="df">BaseModel</span><span class="py">):</span>
     <span class="df">name</span><span class="py">:</span> <span class="df">str</span>
     <span class="df">price</span><span class="py">:</span> <span class="df">float</span>
@@ -1450,13 +1455,13 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
         <span class="df">result</span> <span class="py">=</span> <span class="kw">await</span> <span class="df">crawler</span><span class="py">.</span><span class="fn">arun</span><span class="py">(</span><span class="at">url</span><span class="py">=</span><span class="df">url</span><span class="py">,</span> <span class="at">extraction_strategy</span><span class="py">=</span><span class="df">strategy</span><span class="py">)</span>
         <span class="kw">import</span> <span class="df">json</span>
         <span class="kw">return</span> <span class="df">json</span><span class="py">.</span><span class="fn">loads</span><span class="py">(</span><span class="df">result</span><span class="py">.</span><span class="df">extracted_content</span><span class="py">)</span>
-<span class="cm"># F1 > 0.95 on well-structured pages — NEXT-EVAL benchmark 2025</span></pre></div>
+<span class="cm"># F1 > 0.95 on well-structured pages, NEXT-EVAL benchmark 2025</span></pre></div>
 </div>
 </section>
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
-  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">When DIY cost exceeds platform cost, these services handle the heavy lifting. Each solves a specific problem — choosing the right one depends on which wall you are facing and at what scale.</p>
+  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">When DIY cost exceeds platform cost, these services handle the heavy lifting. Each solves a specific problem, choosing the right one depends on which wall you are facing and at what scale.</p>
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:20px auto 0"></div>
 </div>
 <!-- ═══ 06 PLATFORMS ═══ -->
@@ -1481,13 +1486,13 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <div class="ptcard" style="border-color:var(--pink)">
   <div class="ptname">Firecrawl <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 111k</span></div>
   <div class="pttag">AI scraping · Self-hostable · MCP</div>
-  <div class="ptbody">URL → Markdown/JSON. No selectors. MCP server — Claude scrapes via natural language. LangChain + LlamaIndex native. Used by SAP, Zapier, Deloitte. 500 free/mo.</div>
+  <div class="ptbody">URL → Markdown/JSON. No selectors. MCP server, Claude scrapes via natural language. LangChain + LlamaIndex native. Used by SAP, Zapier, Deloitte. 500 free/mo.</div>
   <div class="ptstat">✓ Best for: RAG pipelines, AI agents</div>
 </div>
 <div class="ptcard" style="border-color:var(--green)">
   <div class="ptname">Crawl4AI <span style="font-family:var(--mono);font-size:11px;color:var(--yellow)">★ 60k</span></div>
   <div class="pttag">Open-source · Local LLM · Free</div>
-  <div class="ptbody">89.7% OOTB success rate. Runs on your infrastructure. Local LLM support (Ollama). MIT license. Adaptive crawling. Full data sovereignty — data never leaves your servers.</div>
+  <div class="ptbody">89.7% OOTB success rate. Runs on your infrastructure. Local LLM support (Ollama). MIT license. Adaptive crawling. Full data sovereignty, data never leaves your servers.</div>
   <div class="ptstat">✓ Best for: privacy, open-source, cost $0</div>
 </div>
 <div class="ptcard" style="border-color:var(--orange)">
@@ -1507,27 +1512,27 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
-  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Platforms sort out the browser and the fingerprint. But every request still needs an IP address — and the type of IP matters as much as any other signal in your stack.</p>
+  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Platforms sort out the browser and the fingerprint. But every request still needs an IP address, and the type of IP matters as much as any other signal in your stack.</p>
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:20px auto 0"></div>
 </div>
 <!-- ═══ 07 PROXIES ═══ -->
 <section class="sec" id="proxies">
 <div class="sk"><span class="sn">07</span> Proxy strategy</div>
 <h2 class="sh">IP type matters<br><em>more than provider</em></h2>
-<p class="ss">Rotating proxies is table stakes. The real variable is IP type — datacenter IPs score near-zero on DataDome and PerimeterX regardless of fingerprint quality.</p>
+<p class="ss">Rotating proxies is table stakes. The real variable is IP type, datacenter IPs score near-zero on DataDome and PerimeterX regardless of fingerprint quality.</p>
 
 <div class="pgrid rv">
 <div class="pg"><div class="pgt">Datacenter</div><div class="pgtr" style="color:var(--red)">Trust: Very Low</div>
   <div class="pgb">AWS/GCP/Azure ranges. Instantly flagged by DataDome and PerimeterX. Cheapest (~$0.01/GB). Use only on non-protected public data. Never for Akamai or PerimeterX targets.</div>
 </div>
 <div class="pg"><div class="pgt">Residential</div><div class="pgtr" style="color:var(--yellow)">Trust: High</div>
-  <div class="pgb">Real home ISP addresses. Passes most trust checks. Confirmed: curl_cffi + residential bypasses DataDome on Grainger.com. Rotate per session, not per request — mid-session rotation = Akamai block.</div>
+  <div class="pgb">Real home ISP addresses. Passes most trust checks. Confirmed: curl_cffi + residential bypasses DataDome on Grainger.com. Rotate per session, not per request, mid-session rotation = Akamai block.</div>
 </div>
 <div class="pg"><div class="pgt">Mobile / 4G</div><div class="pgtr" style="color:var(--green)">Trust: Highest</div>
-  <div class="pgb">T-Mobile, Vodafone, O2 carrier IPs. <strong>Highest trust score</strong> on DataDome and PerimeterX. Shared tower IPs — hard to flag. Mobile IPs get DataDome 200 OK where residential fails. ~$10–15/GB.</div>
+  <div class="pgb">T-Mobile, Vodafone, O2 carrier IPs. <strong>Highest trust score</strong> on DataDome and PerimeterX. Shared tower IPs, hard to flag. Mobile IPs get DataDome 200 OK where residential fails. ~$10–15/GB.</div>
 </div>
 <div class="pg"><div class="pgt">ISP / Static</div><div class="pgtr" style="color:var(--yellow)">Trust: High</div>
-  <div class="pgb">Static residential range. Akamai multi-request scoring rewards consistent IPs — trust accumulates from same ISP IP. Best for long sessions on Akamai sites. Never rotate mid-session.</div>
+  <div class="pgb">Static residential range. Akamai multi-request scoring rewards consistent IPs, trust accumulates from same ISP IP. Best for long sessions on Akamai sites. Never rotate mid-session.</div>
 </div>
 </div>
 
@@ -1536,7 +1541,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 
 <button class="tog rv" onclick="tog(this,'proxy-c')">
   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-  Show code — curl_cffi with proxy + retry
+  Show code, curl_cffi with proxy + retry
 </button>
 <div class="coll" id="proxy-c">
 <div class="cb"><div class="cbh"><span class="cbl">python</span><button class="cbc" onclick="cpc(this)">Copy</button></div>
@@ -1545,7 +1550,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 
 <span class="df">session</span> <span class="py">=</span> <span class="df">requests</span><span class="py">.</span><span class="fn">Session</span><span class="py">(</span><span class="at">impersonate</span><span class="py">=</span><span class="st">"chrome124"</span><span class="py">)</span>
 
-<span class="cm"># Crawlera/Zyte: BOTH keys use http:// — never https://</span>
+<span class="cm"># Crawlera/Zyte: BOTH keys use http://, never https://</span>
 <span class="df">PROXIES</span> <span class="py">= {</span>
     <span class="st">"http"</span><span class="py">:</span>  <span class="st">"http://apikey:@proxy.crawlera.com:8011"</span><span class="py">,</span>
     <span class="st">"https"</span><span class="py">:</span> <span class="st">"http://apikey:@proxy.crawlera.com:8011"</span><span class="py">,</span>  <span class="cm"># http:// not https://</span>
@@ -1591,7 +1596,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div>
     <div class="dsl">XHR reverse engineering</div>
     <div class="dst">Find the GraphQL or REST endpoint</div>
-    <div class="dsb">Chrome DevTools → Network → Fetch/XHR. <strong>Many SPAs load from one undocumented JSON endpoint</strong>. Confirmed in production — a direct GraphQL endpoint bypassed all Akamai HTML protection.</div>
+    <div class="dsb">Chrome DevTools → Network → Fetch/XHR. <strong>Many SPAs load from one undocumented JSON endpoint</strong>. Confirmed in production, a direct GraphQL endpoint bypassed all Akamai HTML protection.</div>
   </div>
   <div class="dstools"><div class="dstool">Chrome DevTools</div><div class="dstool">Burpsuite</div><div class="dstool">webclaw CLI</div></div>
 </div>
@@ -1600,7 +1605,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div>
     <div class="dsl">JSON in HTML · No requests needed</div>
     <div class="dst">Look for embedded state</div>
-    <div class="dsb">Next.js embeds full state in <code>__NEXT_DATA__</code>. React SPAs often have &gt;50KB script containing all data. <strong>Confirmed: Grainger.com (DataDome-protected)</strong> — 110KB JS state blob bypasses DataDome entirely because it's in initial HTML.</div>
+    <div class="dsb">Next.js embeds full state in <code>__NEXT_DATA__</code>. React SPAs often have &gt;50KB script containing all data. <strong>Confirmed: Grainger.com (DataDome-protected)</strong>, 110KB JS state blob bypasses DataDome entirely because it's in initial HTML.</div>
   </div>
   <div class="dstools"><div class="dstool">chompjs</div><div class="dstool">Parsel</div><div class="dstool">BeautifulSoup4</div></div>
 </div>
@@ -1618,7 +1623,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <div>
     <div class="dsl">Browser automation · C++ level only</div>
     <div class="dst">Camoufox or CloakBrowser</div>
-    <div class="dsb"><strong>JS injection patches leave signatures.</strong> Camoufox: 100% pass rate Mar 2026. CloakBrowser: 49 C++ patches, reCAPTCHA v3 score 0.9, Akamai extension probes pass. PatchRight for Kasada specifically — no JS signatures.</div>
+    <div class="dsb"><strong>JS injection patches leave signatures.</strong> Camoufox: 100% pass rate Mar 2026. CloakBrowser: 49 C++ patches, reCAPTCHA v3 score 0.9, Akamai extension probes pass. PatchRight for Kasada specifically, no JS signatures.</div>
   </div>
   <div class="dstools"><div class="dstool">Camoufox ★</div><div class="dstool">CloakBrowser</div><div class="dstool">PatchRight</div></div>
 </div>
@@ -1653,7 +1658,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <section class="sec" id="innovation">
 <div class="sk"><span class="sn">★</span> From the community</div>
 <h2 class="sh">What practitioners are<br><em>actually shipping in 2026</em></h2>
-<p class="ss">Fresh insights from engineers who live in production scrapers. These aren't blog posts — they're dispatches from the field, shared on LinkedIn by people actively solving these problems.</p>
+<p class="ss">Fresh insights from engineers who live in production scrapers. These aren't blog posts, they're dispatches from the field, shared on LinkedIn by people actively solving these problems.</p>
 
 <div class="cards c3 rv" style="margin-bottom:8px">
 
@@ -1662,7 +1667,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="ctag">Web Scraping Engineer</div>
  <div class="cname">Cloudflare Turnstile: Solved Without a Browser</div>
  <div class="cbody">
- Turnstile doesn't require browser automation. Reverse engineer the POST payload — it was built with 79 parameters covering Fingerprint (Canvas, WebGL), Timing, Browser Environment, and Interaction sequence with crypto hashes.<br><br>
+ Turnstile doesn't require browser automation. Reverse engineer the POST payload, it was built with 79 parameters covering Fingerprint (Canvas, WebGL), Timing, Browser Environment, and Interaction sequence with crypto hashes.<br><br>
  The flow in 4 steps:<br>
  <strong>1.</strong> Extract the Sitekey automatically from the page<br>
  <strong>2.</strong> Initiate the challenge request<br>
@@ -1670,7 +1675,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <strong>4.</strong> Generate cryptographic token → 95-char string, Format: Encrypted_Data-Timestamp-Version-Checksum<br><br>
  <strong>Result: Status 200, Callback Ready, completed in 0.27s.</strong> No Playwright. No browser. Pure HTTP. The token is valid and accepted by Turnstile-protected endpoints.
  </div>
- <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 Key insight: Turnstile's PoW is solvable in &lt;1s via HTTP — browser automation is overkill</div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 Key insight: Turnstile's PoW is solvable in &lt;1s via HTTP, browser automation is overkill</div>
  </div>
 
  <div class="card" style="border:1px solid var(--b2)">
@@ -1679,7 +1684,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="cname">Why "Just Get Better Proxies" Stopped Working</div>
  <div class="cbody">
  Rotating residential IPs and still getting blocked? The problem probably isn't your IP. It's your TLS handshake.<br><br>
- Modern detection systems don't just check where a request comes from — they check <strong>how it arrives</strong>. The cipher suite ordering, HTTPS extension sequence, GREASE values. Together these form a JA4 fingerprint that reveals exactly what client is making the request.<br><br>
+ Modern detection systems don't just check where a request comes from, they check <strong>how it arrives</strong>. The cipher suite ordering, HTTPS extension sequence, GREASE values. Together these form a JA4 fingerprint that reveals exactly what client is making the request.<br><br>
  A Python requests call looks different from Chrome at the handshake level. A headless browser looks different from a real one. Even with a clean residential IP, the fingerprint exposes you.<br><br>
  <strong>What actually works in 2026:</strong><br>
  → Clean residential or ISP IPs (IP reputation still matters, just isn't sufficient alone)<br>
@@ -1703,7 +1708,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <strong>Common mistake:</strong> "Just disable WebRTC." Now your browser is missing a feature most real users have.<br>
  <strong>Better approach:</strong> Align WebRTC IP with your proxy. Control ICE candidates. Match geo across DNS, TCP, TLS, WebRTC. Keep behaviour coherent across the entire session.
  </div>
- <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 Quick test: browserleaks.com/webrtc — check it before blaming your proxy</div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 Quick test: browserleaks.com/webrtc, check it before blaming your proxy</div>
  </div>
 
  <div class="card" style="border:1px solid var(--b2)">
@@ -1715,7 +1720,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <strong>Results:</strong> Browser Use Cloud hit 81% success. Browserbase came in at 42%.<br><br>
  The gap between providers at the top and bottom of the market is no longer marginal. In 2026, the difference between providers is the difference between a working pipeline and a broken one.<br><br>
  <strong>Key finding:</strong> The distinction between basic and interactive scraping matters more than ever. Basic scraping (fetching a URL, parsing HTML) is increasingly commoditised. The data worth having in 2026 sits behind login walls, search interfaces, and multi-step flows that require actual browser interaction.<br><br>
- <strong>On AI in the scraping stack:</strong> AI fits in at extraction, code generation, self-healing selectors — less about replacing the infrastructure layer, more about reducing the maintenance burden on top of it.
+ <strong>On AI in the scraping stack:</strong> AI fits in at extraction, code generation, self-healing selectors, less about replacing the infrastructure layer, more about reducing the maintenance burden on top of it.
  </div>
  <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Observer's Note: The 30-point spread in success rates between providers is no longer marginal</div>
  </div>
@@ -1725,13 +1730,13 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="ctag">Rayobyte</div>
  <div class="cname">Why rayobrowse Exists: Browsers as a Session Layer, Not a Product</div>
  <div class="cbody">
- A lot of scraping teams hit this point: HTTP is fast. Browsers are expensive. But modern sites don't care what's fast — they care how sessions are created.<br><br>
+ A lot of scraping teams hit this point: HTTP is fast. Browsers are expensive. But modern sites don't care what's fast, they care how sessions are created.<br><br>
  So you end up needing a browser anyway, even if it's just to generate cookies or warm sessions before switching back to HTTP.<br><br>
- That's why rayobrowse was built — not as a "browser scraping product" but as a <strong>browser layer you can plug into your existing pipeline</strong>:<br><br>
+ That's why rayobrowse was built, not as a "browser scraping product" but as a <strong>browser layer you can plug into your existing pipeline</strong>:<br><br>
  → Use it to generate sessions<br>
  → Use it for the hard parts (Akamai, Cloudflare challenges)<br>
  → Switch back to lightweight HTTP workers when you can<br><br>
- Self-hosted, Linux-native, Playwright-compatible. The architecture insight: browsers shouldn't replace your whole pipeline — they should be a targeted tool for the parts that actually need them.
+ Self-hosted, Linux-native, Playwright-compatible. The architecture insight: browsers shouldn't replace your whole pipeline, they should be a targeted tool for the parts that actually need them.
  </div>
  <div style="margin-top:12px;padding:9px 12px;background:var(--gl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--grn)">💡 Architecture: browser for session warmup → HTTP for bulk data collection</div>
  </div>
@@ -1753,7 +1758,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  → Block requests to specific domains with blocked_domains<br>
  → Automatic retries with proxy-aware error detection<br>
  → Response.follow() for easy link-following<br><br>
- Its parser <strong>learns from website changes</strong> and automatically relocates elements — handles Cloudflare Turnstile out of the box. All in a few lines of Python.
+ Its parser <strong>learns from website changes</strong> and automatically relocates elements, handles Cloudflare Turnstile out of the box. All in a few lines of Python.
  </div>
  <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 pip install scrapling --upgrade | Scrapy-like API with built-in Cloudflare + anti-bot handling</div>
  </div>
@@ -1763,12 +1768,12 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="ctag">Web Scraping Specialist</div>
  <div class="cname">SwiftShadow: The Quiet Proxy Library Saving Production Scrapers</div>
  <div class="cbody">
- For scrapers hitting "429 Too Many Requests" and IP blocks, SwiftShadow has been a quiet lifesaver. It's a lightweight Python library that grabs free proxies, validates them, rotates them automatically, and lets you filter by country or protocol — without watching your script die after 50 requests.<br><br>
+ For scrapers hitting "429 Too Many Requests" and IP blocks, SwiftShadow has been a quiet lifesaver. It's a lightweight Python library that grabs free proxies, validates them, rotates them automatically, and lets you filter by country or protocol, without watching your script die after 50 requests.<br><br>
  <code>from swiftshadow import QuickProxy<br>proxy = QuickProxy(countries=["FR", "DE"])<br>session.proxies = {"http": str(proxy), "https": str(proxy)}</code><br><br>
  What makes it stand out:<br>
  → Stupidly fast compared to heavier solutions<br>
  → Built-in caching = fewer unnecessary requests to proxy providers<br>
- → Super simple API — 2 lines to get going<br>
+ → Super simple API, 2 lines to get going<br>
  → Switches proxies automatically when one fails<br><br>
  Repo sitting at ~300 stars, actively maintained. Best for scraping targets with light to medium protection where free proxy pools work.
  </div>
@@ -1780,9 +1785,9 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="ctag">CocoIndex</div>
  <div class="cname">CocoIndex: Keep Your LLM's Context Fresh Without Stale Batches</div>
  <div class="cbody">
- Your agents deserve fresh context. CocoIndex turns codebases, PDFs, Slack inboxes, and videos into a continuously updated index your LLM can actually reason over — no stale nightly batches, no context gap.<br><br>
+ Your agents deserve fresh context. CocoIndex turns codebases, PDFs, Slack inboxes, and videos into a continuously updated index your LLM can actually reason over, no stale nightly batches, no context gap.<br><br>
  Python on a Rust delta engine: edit a chunker or swap embedding models, only the affected rows re-run. Pgvector, LanceDB, Neo4j as targets. Byte-level lineage per row. Production AI agent ready in 10 minutes.<br><br>
- Why this matters for scrapers building RAG pipelines: most scraped data goes stale within days. CocoIndex keeps the downstream vector store incrementally updated as new data is scraped — so your agent always reasons on current information.<br><br>
+ Why this matters for scrapers building RAG pipelines: most scraped data goes stale within days. CocoIndex keeps the downstream vector store incrementally updated as new data is scraped, so your agent always reasons on current information.<br><br>
  <strong>GitHub Trending: #1 Repository of the Day</strong> when posted. 7K+ stars.
  </div>
  <div style="margin-top:12px;padding:9px 12px;background:rgba(255,107,170,.1);border-radius:4px;font-family:var(--mono);font-size:10px;color:#ff6baa">💡 github.com/cocoindex-io/cocoindex | Incremental RAG context for LLM agents</div>
@@ -1799,10 +1804,10 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="cbody">
  The biggest speedup in scraping comes from asking a better question. Before you reach for Playwright, before you even reach for requests + parsel, open DevTools and ask: <strong>where is the data actually coming from?</strong><br><br>
  Half the time on modern sites, the answer is that the page is calling its own JSON API in the background. Skip the HTML entirely. Hit the endpoint directly:<br><br>
- → <strong>50× faster</strong> — no browser launch, no DOM parsing<br>
- → <strong>100× less memory</strong> — one HTTP call, one JSON payload<br>
- → <strong>Cleaner data</strong> — structured JSON instead of scraped HTML<br>
- → <strong>0 browsers launched</strong> — no Playwright, no Puppeteer<br><br>
+ → <strong>50× faster</strong>, no browser launch, no DOM parsing<br>
+ → <strong>100× less memory</strong>, one HTTP call, one JSON payload<br>
+ → <strong>Cleaner data</strong>, structured JSON instead of scraped HTML<br>
+ → <strong>0 browsers launched</strong>, no Playwright, no Puppeteer<br><br>
  Part 3 of his Web Scraping 101 series covers: how to find hidden APIs, what to copy from the request, how to handle auth and pagination, and when to give up and go back to Playwright.
  </div>
  <div style="margin-top:12px;padding:9px 12px;background:var(--gl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--grn)">💡 Rule: before writing any code, open DevTools Network tab and look for XHR/Fetch calls</div>
@@ -1811,14 +1816,14 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="card" style="border:1px solid var(--b2)">
  <div class="cbar" style="background:var(--blu)"></div>
  <div class="ctag">Proxiware</div>
- <div class="cname">Scrapling Hit 200K Views — Here's Why It Matters</div>
+ <div class="cname">Scrapling Hit 200K Views, Here's Why It Matters</div>
  <div class="cbody">
  Scrapling hit 200,000 views on X this week. It handles Cloudflare bypass, adaptive selectors, and fingerprint impersonation in a clean Python API. One of the top replies: <em>"zero bot detection is gonna last until Cloudflare patches it in 3 weeks."</em><br><br>
- He's probably right. Not because Scrapling is bad. Because that's how this works — <strong>detection vendors update, libraries that bypass them stop working, new libraries ship. The cycle repeats every few months.</strong><br><br>
- What doesn't get deprecated on that timeline is your <strong>network infrastructure</strong>. A clean proxy setup with the right IP types doesn't stop working because someone pushed an update. The network layer is slower moving than the software layer — and that's actually an advantage.<br><br>
+ He's probably right. Not because Scrapling is bad. Because that's how this works, <strong>detection vendors update, libraries that bypass them stop working, new libraries ship. The cycle repeats every few months.</strong><br><br>
+ What doesn't get deprecated on that timeline is your <strong>network infrastructure</strong>. A clean proxy setup with the right IP types doesn't stop working because someone pushed an update. The network layer is slower moving than the software layer, and that's actually an advantage.<br><br>
  Most scraping teams evaluate their library stack constantly and almost never look at their proxy setup until something breaks. The library gets swapped. The routing stays the same. Worth flipping that ratio.
  </div>
- <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Invest more in your network layer than your library layer — it depreciates slower</div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--bll);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--blu)">💡 Invest more in your network layer than your library layer, it depreciates slower</div>
  </div>
 
  <div class="card" style="border:1px solid var(--b2)">
@@ -1826,12 +1831,12 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="ctag">Web Scraping Expert</div>
  <div class="cname">Unpopular Opinion: Web Scraping Tutorials Teach the Wrong Things First</div>
  <div class="cbody">
- Most web scraping tutorials teach the wrong things first. They're not useless — but they often start with BeautifulSoup on a clean, static HTML page. That's not what real-world scraping looks like.<br><br>
+ Most web scraping tutorials teach the wrong things first. They're not useless, but they often start with BeautifulSoup on a clean, static HTML page. That's not what real-world scraping looks like.<br><br>
  In reality, you're dealing with: JavaScript-rendered content, rate limits and blocking, sessions and headers and cookies, pagination and APIs and dynamic loading.<br><br>
  <strong>3 things worth learning earlier:</strong><br>
- <strong>1. How websites actually load data</strong> — understanding request/response cycles and using browser DevTools would have saved weeks<br>
- <strong>2. How to read network requests (XHR/APIs)</strong> — many sites don't need scraping, they need the right API call<br>
- <strong>3. Respecting limits</strong> — robots.txt, delays, blocking. Scraping isn't just extraction. It's about doing it responsibly and sustainably.<br><br>
+ <strong>1. How websites actually load data</strong>, understanding request/response cycles and using browser DevTools would have saved weeks<br>
+ <strong>2. How to read network requests (XHR/APIs)</strong>, many sites don't need scraping, they need the right API call<br>
+ <strong>3. Respecting limits</strong>, robots.txt, delays, blocking. Scraping isn't just extraction. It's about doing it responsibly and sustainably.<br><br>
  Beginner roadmap: DevTools → Network tab → understand data flow → learn to replicate requests → then Scrapy for structure → then focus on syntax and optimisation. Tools are easy to learn. <strong>Understanding how the web works is the real skill.</strong>
  </div>
  <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 The right learning order: DevTools → XHR replication → Scrapy → anti-bot techniques</div>
@@ -1842,11 +1847,11 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="ctag">Zyte</div>
  <div class="cname">The ESP32 Microcontroller That Scrapes Weather Data</div>
  <div class="cbody">
- A tiny microcontroller scraping live weather data via the Zyte API — built with an ESP8266/ESP32 and Arduino. The device calls the Zyte web scraping API, gets back structured weather data, and displays it on a small TFT screen.<br><br>
- Why this matters: it demonstrates that <strong>the scraping abstraction layer has become so clean</strong> that resource-constrained devices with no Python runtime can consume web data. The Zyte API handles all the heavy lifting — TLS, JavaScript rendering, anti-bot — and the microcontroller just makes a simple HTTP request and parses JSON.<br><br>
- This is what the "scraping as infrastructure" vision looks like in practice. Not just for big data pipelines — for any device, any context, any scale.
+ A tiny microcontroller scraping live weather data via the Zyte API, built with an ESP8266/ESP32 and Arduino. The device calls the Zyte web scraping API, gets back structured weather data, and displays it on a small TFT screen.<br><br>
+ Why this matters: it demonstrates that <strong>the scraping abstraction layer has become so clean</strong> that resource-constrained devices with no Python runtime can consume web data. The Zyte API handles all the heavy lifting, TLS, JavaScript rendering, anti-bot, and the microcontroller just makes a simple HTTP request and parses JSON.<br><br>
+ This is what the "scraping as infrastructure" vision looks like in practice. Not just for big data pipelines, for any device, any context, any scale.
  </div>
- <div style="margin-top:12px;padding:9px 12px;background:var(--ol);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--orn)">💡 Scraping APIs have become clean enough for microcontrollers — #esp8266 #esp32 #arduino</div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--ol);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--orn)">💡 Scraping APIs have become clean enough for microcontrollers, #esp8266 #esp32 #arduino</div>
  </div>
 
  <div class="card" style="border:1px solid var(--b2)">
@@ -1855,42 +1860,42 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
  <div class="cname">Your Scraper Isn't Getting Blocked Because of Your Code. It's Your Behaviour.</div>
  <div class="cbody">
  Your scraper worked fine yesterday. Today it's returning empty pages. You didn't change a single line of code. The site did.<br><br>
- <strong>What actually gets you blocked — and how to stop it:</strong><br><br>
- → <strong>Sending identical headers every request</strong> — browsers rotate headers naturally. Your scraper doesn't. Sites fingerprint this. Rotate User-Agent strings and set realistic Accept-Language, Referer, and Accept headers on every request.<br>
- → <strong>Making requests at machine speed</strong> — 500ms between every request is not human behaviour. Add randomised delays: <code>sleep(random.uniform(1.8, 4.3))</code><br>
- → <strong>Ignoring session state</strong> — real users have cookies, session tokens, browsing history. Use <code>requests.Session()</code> and let it accumulate cookies naturally.<br>
- → <strong>Hitting the same IP 400 times in 10 minutes</strong> — use residential proxies, not datacenter. Pre-listed and blocked.<br>
- → <strong>Scraping rendered HTML when the data is in the API</strong> — open DevTools before you write a single line.<br><br>
+ <strong>What actually gets you blocked, and how to stop it:</strong><br><br>
+ → <strong>Sending identical headers every request</strong>, browsers rotate headers naturally. Your scraper doesn't. Sites fingerprint this. Rotate User-Agent strings and set realistic Accept-Language, Referer, and Accept headers on every request.<br>
+ → <strong>Making requests at machine speed</strong>, 500ms between every request is not human behaviour. Add randomised delays: <code>sleep(random.uniform(1.8, 4.3))</code><br>
+ → <strong>Ignoring session state</strong>, real users have cookies, session tokens, browsing history. Use <code>requests.Session()</code> and let it accumulate cookies naturally.<br>
+ → <strong>Hitting the same IP 400 times in 10 minutes</strong>, use residential proxies, not datacenter. Pre-listed and blocked.<br>
+ → <strong>Scraping rendered HTML when the data is in the API</strong>, open DevTools before you write a single line.<br><br>
  The rule: the closer your scraper behaves to a real browser session, the longer it runs undetected.
  </div>
- <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 sleep(random.uniform(1.8, 4.3)) beats sleep(2) every time — vary your timing</div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--rl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--red)">💡 sleep(random.uniform(1.8, 4.3)) beats sleep(2) every time, vary your timing</div>
  </div>
 
  <div class="card" style="border:1px solid var(--b2)">
  <div class="cbar" style="background:var(--pur)"></div>
  <div class="ctag">Web Scraping Engineer</div>
- <div class="cname">Understanding. Not Tools. — The Anti-Bot Mindset Shift</div>
+ <div class="cname">Understanding. Not Tools., The Anti-Bot Mindset Shift</div>
  <div class="cbody">
  The best anti-bot tool isn't a library. It's not curl_cffi. It's not Playwright. It's not a $300/month proxy plan. <strong>It's understanding how detection actually works.</strong><br><br>
- Every scraper that consistently bypasses Cloudflare isn't running special software — they're running the right mental model. They know which signals matter. They know which ones don't. They know which signals they're leaking without realising it.<br><br>
+ Every scraper that consistently bypasses Cloudflare isn't running special software, they're running the right mental model. They know which signals matter. They know which ones don't. They know which signals they're leaking without realising it.<br><br>
  The engineer who understands why TLS fingerprinting exists will always beat the one who googled "how to bypass Cloudflare" and followed the top result.<br><br>
  <strong>Tools change. Detection evolves. Understanding is what transfers.</strong><br><br>
  Built 300+ scrapers. The difference between the ones that fail and the ones that run for 18 months isn't the library used. It's whether you understood the game you were playing.
  </div>
- <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 "The library gets swapped. The routing stays the same." — Understanding > Tools</div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--pl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--pur)">💡 "The library gets swapped. The routing stays the same.", Understanding > Tools</div>
  </div>
 
  <div class="card" style="border:1px solid var(--b2)">
  <div class="cbar" style="background:var(--y)"></div>
  <div class="ctag">AI Consensus · 2026</div>
- <div class="cname">Top 10 Scraping APIs According to Every Major AI — 2026</div>
+ <div class="cname">Top 10 Scraping APIs According to Every Major AI, 2026</div>
  <div class="cbody">
  Queried ChatGPT, Perplexity, Gemini, and Google "best scraping API" from a San Francisco IP using Massive Web Render. AI consensus ranking:<br><br>
  <strong>1. Bright Data</strong> · 2. Zyte · 3. ScrapingBee · 4. Firecrawl · 5. Scrape.do · 6. ScraperAPI · 7. Apify · 8. Scrapingdog · 9. Oxylabs.io · 10. Scrapfly<br><br>
- The whole report took 90 seconds and cost less than a dollar. Built using the <code>/ai</code> endpoint which queries all four AI systems programmatically. The <code>/search</code> endpoint pulls Google including AI Overviews — geo-targeted to any city in 195+ countries.<br><br>
+ The whole report took 90 seconds and cost less than a dollar. Built using the <code>/ai</code> endpoint which queries all four AI systems programmatically. The <code>/search</code> endpoint pulls Google including AI Overviews, geo-targeted to any city in 195+ countries.<br><br>
  <strong>The insight:</strong> half of B2B buyers start research in an AI chatbot instead of Google. If you're not in this consideration set, you don't exist for those buyers. Your buyers are seeing this exact list right now.
  </div>
- <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 AI search visibility is now a real SEO channel — Bright Data #1 across all four models</div>
+ <div style="margin-top:12px;padding:9px 12px;background:var(--yl);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--y)">💡 AI search visibility is now a real SEO channel, Bright Data #1 across all four models</div>
  </div>
 
  </div>
@@ -1901,7 +1906,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <section class="sec" id="community">
 <div class="sk"><span class="sn">★</span> Community</div>
 <h2 class="sh">Where scrapers<br><em>talk to each other</em></h2>
-<p class="ss">The best scraping techniques rarely come from documentation — they come from people who've already hit the same wall you're hitting. These communities are where the real knowledge lives.</p>
+<p class="ss">The best scraping techniques rarely come from documentation, they come from people who've already hit the same wall you're hitting. These communities are where the real knowledge lives.</p>
 
 <h3 class="rh rv" style="margin-top:0">Discord servers</h3>
 <div class="cards c3 rv">
@@ -1920,7 +1925,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     <div class="ctag">Official · Experts on call</div>
     <div class="cname">Oxylabs</div>
     <div class="csub">discord.gg/oxylabs</div>
-    <div class="cbody">Live Q&As with Oxylabs in-house engineers. Webinars on proxies and anti-bot bypass. Exclusive discounts. Rapidly growing — technical conversations welcome.</div>
+    <div class="cbody">Live Q&As with Oxylabs in-house engineers. Webinars on proxies and anti-bot bypass. Exclusive discounts. Rapidly growing, technical conversations welcome.</div>
   </div>
   </a>
   <a href="https://discord.gg/extractdata" target="_blank" rel="noopener" style="text-decoration:none">
@@ -1969,7 +1974,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     <div class="ctag">Reddit · Largest</div>
     <div class="cname">r/webscraping</div>
     <div class="csub">General web scraping</div>
-    <div class="cbody">The largest web scraping subreddit. Questions, tutorials, tool recommendations. Good for beginners. Search before posting — most common questions have been answered.</div>
+    <div class="cbody">The largest web scraping subreddit. Questions, tutorials, tool recommendations. Good for beginners. Search before posting, most common questions have been answered.</div>
   </div>
   </a>
   <a href="https://reddit.com/r/scrapy" target="_blank" rel="noopener" style="text-decoration:none">
@@ -1978,7 +1983,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     <div class="ctag">Reddit · Framework specific</div>
     <div class="cname">r/scrapy</div>
     <div class="csub">Scrapy framework</div>
-    <div class="cbody">Scrapy-specific questions and discussions. Original creators active. Spiders, extensions, deployment, middleware — anything Scrapy. Code reviews welcomed by moderators.</div>
+    <div class="cbody">Scrapy-specific questions and discussions. Original creators active. Spiders, extensions, deployment, middleware, anything Scrapy. Code reviews welcomed by moderators.</div>
   </div>
   </a>
   <a href="https://reddit.com/r/WebScrapingInsider" target="_blank" rel="noopener" style="text-decoration:none">
@@ -2018,7 +2023,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     <div class="ctag">Annual benchmarks</div>
     <div class="cname">Proxyway</div>
     <div class="csub">Proxy & scraping API benchmarks</div>
-    <div class="cbody">Runs the definitive annual proxy and web scraping API benchmarks. Zyte #1 in 2025. Independent testing methodology — data used throughout this guide.</div>
+    <div class="cbody">Runs the definitive annual proxy and web scraping API benchmarks. Zyte #1 in 2025. Independent testing methodology, data used throughout this guide.</div>
   </div>
   </a>
 </div>
@@ -2031,7 +2036,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
       <div class="ctag">LLM-maintained · 64 pages</div>
       <div class="cname">The Scraping Wiki</div>
       <div class="csub">300+ articles indexed since 2022 · Obsidian vault</div>
-      <div class="cbody">Structured knowledge base covering anti-bot systems, scraping tools, browser fingerprinting, proxy infrastructure. Updated with every new article — the most comprehensive living reference in the scraping world.</div>
+      <div class="cbody">Structured knowledge base covering anti-bot systems, scraping tools, browser fingerprinting, proxy infrastructure. Updated with every new article, the most comprehensive living reference in the scraping world.</div>
     </div>
     </a>
     <a href="https://github.com/TheWebScrapingClub/webscraping-from-0-to-hero" target="_blank" rel="noopener" style="text-decoration:none">
@@ -2052,13 +2057,13 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <h2 class="sh">From IP bans<br><em>to transformer ML</em></h2>
 <p class="ss">Every bypass technique was born as a direct response to a specific detection innovation. The escalation explains why each tool exists.</p>
 <div class="tl rv">
-<div class="tli"><div class="tliy">2004</div><div class="tlit"><strong>Selenium born</strong> for QA testing. WebDriver protocol. Zero anti-bot thinking — scraping wasn't a threat concept yet.</div></div>
+<div class="tli"><div class="tliy">2004</div><div class="tlit"><strong>Selenium born</strong> for QA testing. WebDriver protocol. Zero anti-bot thinking, scraping wasn't a threat concept yet.</div></div>
 <div class="tli"><div class="tliy">2017</div><div class="tlit"><strong>Puppeteer launches.</strong> First CDP Chrome automation. Anti-bots respond with IP reputation + User-Agent checks. Defeated by: proxy rotation + fake UA strings.</div></div>
-<div class="tli"><div class="tliy">2018–2020</div><div class="tlit"><strong>JS fingerprinting era.</strong> Canvas hash, WebGL, <code>navigator.webdriver=true</code>. playwright-stealth emerges. Playwright 2020 — Microsoft, cross-browser. <strong>F5 acquires Shape Security for $1 billion.</strong></div></div>
+<div class="tli"><div class="tliy">2018–2020</div><div class="tlit"><strong>JS fingerprinting era.</strong> Canvas hash, WebGL, <code>navigator.webdriver=true</code>. playwright-stealth emerges. Playwright 2020, Microsoft, cross-browser. <strong>F5 acquires Shape Security for $1 billion.</strong></div></div>
 <div class="tli"><div class="tliy">2021–2022</div><div class="tlit"><strong>TLS fingerprinting mainstream.</strong> JA3 at CDN edges. Python httpx identified by hash. curl_cffi emerges. DataDome + Akamai add behavioural scoring. <strong>PerimeterX + HUMAN Security merge</strong>, creating 29,650-site network.</div></div>
-<div class="tli"><div class="tliy">2023–2024</div><div class="tlit"><strong>JA4+ standardisation.</strong> Cloudflare Rust crate. Chrome randomises extensions — breaks JA3. <strong>Camoufox and CloakBrowser emerge as first C++ binary solutions.</strong> DataDome WASM boring_challenge. Scrapling 38K stars.</div></div>
+<div class="tli"><div class="tliy">2023–2024</div><div class="tlit"><strong>JA4+ standardisation.</strong> Cloudflare Rust crate. Chrome randomises extensions, breaks JA3. <strong>Camoufox and CloakBrowser emerge as first C++ binary solutions.</strong> DataDome WASM boring_challenge. Scrapling 38K stars.</div></div>
 <div class="tli"><div class="tliy">2025</div><div class="tlit"><strong>ML + OS-level signals.</strong> HTTP/2 SETTINGS frames. TCP TTL. Transformer ML on micro-timing at &lt;1ms. DataDome 85K models. Browserbase $40M at $300M valuation. Firecrawl 60K stars. ScrapingBee acquired by Oxylabs.</div></div>
-<div class="tli"><div class="tliy">2026</div><div class="tlit"><strong>C++ binary patches are the baseline.</strong> JS injection obsolete — toString() exposes all patches. Camoufox 100% pass rate. Firecrawl 111K stars. webclaw Rust + 10 MCP tools. JA4+ universal. <strong>Market: $7.5B → $38B by 2034. The arms race is AI vs AI.</strong></div></div>
+<div class="tli"><div class="tliy">2026</div><div class="tlit"><strong>C++ binary patches are the baseline.</strong> JS injection obsolete, toString() exposes all patches. Camoufox 100% pass rate. Firecrawl 111K stars. webclaw Rust + 10 MCP tools. JA4+ universal. <strong>Market: $7.5B → $38B by 2034. The arms race is AI vs AI.</strong></div></div>
 </div>
 </section>
 
@@ -2070,23 +2075,23 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     <div class="llmh">
       <div style="display:flex;align-items:center">
         <span class="llmdot"></span>
-        <span class="llmtitle">Scraping AI</span>
+        <span class="llmtitle">ScrapeMind</span>
       </div>
       <div>
-        <div class="llmsub">Smart assistant · Based on this guide</div>
+        <div class="llmsub">Ask anything in this guide</div>
       </div>
       <button class="llmx" onclick="toggleLLM()">✕</button>
     </div>
     <div class="llmchips">
       <button class="llmchip" onclick="askQ('How do I bypass DataDome in 2026?')">Bypass DataDome</button>
-      <button class="llmchip" onclick="askQ('curl_cffi vs requests — when to use each?')">curl_cffi vs requests</button>
+      <button class="llmchip" onclick="askQ('curl_cffi vs requests, when to use each?')">curl_cffi vs requests</button>
       <button class="llmchip" onclick="askQ('Best browser for Cloudflare in 2026?')">Best for Cloudflare</button>
       <button class="llmchip" onclick="askQ('How does JA4 fingerprinting work?')">JA4 explained</button>
       <button class="llmchip" onclick="askQ('Proxy strategy: residential vs mobile vs datacenter?')">Proxy strategy</button>
       <button class="llmchip" onclick="askQ('How to use Camoufox with Scrapy?')">Camoufox + Scrapy</button>
     </div>
     <div class="llmmsgs" id="llmmsgs">
-      <div class="msg a">Ask me anything about web scraping — anti-bot bypass, library selection, proxy strategy, TLS fingerprinting, AI scraping, or production architecture. I have full context from this guide.</div>
+      <div class="msg a">Ask me anything about web scraping, anti-bot bypass, library selection, proxy strategy, TLS fingerprinting, AI scraping, or production architecture. I have full context from this guide.</div>
     </div>
     <div class="llminw">
       <textarea class="llmin" id="llmin" placeholder="Ask about any scraping technique..." rows="1" onkeydown="llmkey(event)" oninput="llmresize(this)"></textarea>
@@ -2272,115 +2277,7 @@ Reddit: r/webscraping, r/scrapy
 `;
 
 // Hover-highlight tooltip system
-let hoverTipEnabled = true;
-const HOVER_TERMS = {
-  'JA4': 'JA4+ fingerprints your TLS handshake at CDN edge before any HTTP is served. Ask the AI to explain more.',
-  'JA3': 'The original TLS fingerprint standard, broken by Chrome extension randomisation in 2022.',
-  'Camoufox': 'C++ Firefox browser with 100% Cloudflare pass rate (Mar 2026). Uses Juggler protocol below CDP level.',
-  'curl_cffi': 'TLS impersonation library — makes Python requests look like Chrome at the handshake level.',
-  'DataDome': '85,000 per-site ML models. Embedded at app server, not CDN. WASM boring_challenge.',
-  'Akamai': 'Injects 512KB sensor.js, probes 60 Chrome extensions. Multi-request trust scoring.',
-  'Cloudflare': 'JA4 in Rust at CDN edge. Turnstile with 79 parameters. ML score trained on 20% of internet.',
-  'PerimeterX': '29,650+ sites share reputation. 5-vector score — all five must pass simultaneously.',
-  'Kasada': 'Polymorphic PoW, silent 403s. playwright-stealth is fingerprinted via toString().',
-  'F5 Shape': 'Custom JS VM, $1B acquisition. Token expiry in minutes. Only managed APIs work.',
-  'Scrapy': '52K stars. Production-grade Python framework. Add scrapy-redis for distributed crawling.',
-  'Playwright': '68K stars. CDP-based — the protocol itself leaks automation. Use C++ wrappers above it.',
-  'Puppeteer': '89K stars. Node.js CDP automation. CDP fingerprint still detectable.',
-  'Selenium': 'navigator.webdriver=true — detectable in 2 lines of JS. Use SeleniumBase UC mode.',
-  'Scrapling': '38K stars. StealthyFetcher solves Cloudflare Turnstile. Parser adapts to site changes.',
-  'Firecrawl': '111K stars. URL → clean Markdown/JSON. MCP server lets Claude scrape directly.',
-  'Crawl4AI': '60K stars. Local LLM support, runs on your servers, MIT free.',
-  'residential proxy': 'High trust with anti-bots. Confirmed: bypasses DataDome on Grainger.com.',
-  'WebRTC': 'Can leak your real IP even through a proxy. Must align with proxy country for coherence.',
-  'sensor.js': 'Akamai\'s ~512KB obfuscated script that collects 500+ signals from your browser.',
-  'boring_challenge': 'DataDome\'s WASM Rust state machine — cannot be emulated, needs real browser.',
-  'Botasaurus': 'Generates realistic mouse movement curves using Gaussian physics.',
-  'CloakBrowser': '49 C++ patches to Chromium. reCAPTCHA v3 score 0.9. Passes Akamai extension probes.',
-  'PatchRight': 'Patches Playwright at Python source level — no JS signatures for Kasada to find.',
-};
-
-function setupHoverTips() {
-  const mainEl = document.querySelector('main');
-  if (!mainEl) return;
-  const walker = document.createTreeWalker(mainEl, NodeFilter.SHOW_TEXT);
-  const replacements = [];
-  while (walker.nextNode()) {
-    const node = walker.currentNode;
-    const parent = node.parentNode;
-    if (['SCRIPT','STYLE','CODE','PRE','A'].includes(parent.tagName)) continue;
-    let text = node.textContent;
-    let changed = false;
-    for (const [term, tip] of Object.entries(HOVER_TERMS)) {
-      const regex = new RegExp(`\\b${term.replace(/[+]/g,'\\+')}\\b`, 'g');
-      if (regex.test(text)) {
-        text = text.replace(regex, `<span class="htip" data-term="${term}" data-tip="${tip.replace(/"/g,"'")}">${term}</span>`);
-        changed = true;
-      }
-    }
-    if (changed) replacements.push([node, text]);
-  }
-  for (const [node, html] of replacements) {
-    const span = document.createElement('span');
-    span.innerHTML = html;
-    node.parentNode.replaceChild(span, node);
-  }
-
-  // Add hover tooltip behaviour
-  document.addEventListener('mouseover', e => {
-    if (!hoverTipEnabled) return;
-    const el = e.target.closest('.htip');
-    if (!el) return;
-    showHoverTip(el);
-  });
-  document.addEventListener('mouseout', e => {
-    if (!e.target.closest('.htip')) hideHoverTip();
-  });
-}
-
-let hoverTooltip = null;
-function showHoverTip(el) {
-  hideHoverTip();
-  const tip = el.getAttribute('data-tip');
-  const term = el.getAttribute('data-term');
-  hoverTooltip = document.createElement('div');
-  hoverTooltip.className = 'hover-tooltip';
-  hoverTooltip.innerHTML = `
-    <div class="ht-term">${term}</div>
-    <div class="ht-tip">${tip}</div>
-    <button class="ht-ask" onclick="askFromHover('${term}')">Ask AI to explain →</button>
-  `;
-  document.body.appendChild(hoverTooltip);
-  const rect = el.getBoundingClientRect();
-  const top = rect.bottom + window.scrollY + 8;
-  let left = rect.left + window.scrollX;
-  if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
-  hoverTooltip.style.cssText = `top:${top}px;left:${left}px`;
-}
-function hideHoverTip() {
-  if (hoverTooltip) { hoverTooltip.remove(); hoverTooltip = null; }
-}
-function askFromHover(term) {
-  hideHoverTip();
-  if (!llmOpen) toggleLLM();
-  const input = document.getElementById('llmin');
-  input.value = `Explain ${term} in detail`;
-  sendMsg();
-}
-
-// Override toggleTip to also toggle hover tips
-const _origToggleTip = window.toggleTip || function(){};
-window.toggleTip = function() {
-  tipOn = !tipOn;
-  hoverTipEnabled = tipOn;
-  document.getElementById('tip-toggle').classList.toggle('on', tipOn);
-  if (!tipOn) {
-    document.getElementById('ai-tip-bubble').classList.remove('show');
-    hideHoverTip();
-  }
-};
-
-// RAG-based answer function — chunks knowledge base for context
+// RAG-based answer function, chunks knowledge base for context
 function buildRAGContext(question) {
   const q = question.toLowerCase();
   const lines = KNOWLEDGE_BASE.split('\n').filter(l => l.trim());
@@ -2451,29 +2348,5 @@ Answer in under 150 words unless code is needed. Use **bold** for key terms, \`c
 }
 
 // Hover tip CSS is injected dynamically
-const htStyle = document.createElement('style');
-htStyle.textContent = `
-.htip{border-bottom:1px dashed rgba(245,197,24,.4);cursor:help;transition:border-color .15s}
-.htip:hover{border-bottom-color:var(--y);background:rgba(245,197,24,.06);border-radius:2px}
-.hover-tooltip{
-  position:absolute;z-index:600;
-  background:#18181f;border:1px solid rgba(245,197,24,.25);
-  border-radius:8px;padding:12px 14px;max-width:280px;
-  box-shadow:0 8px 32px rgba(0,0,0,.6);
-  animation:tippop .15s ease;
-}
-.ht-term{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--y);margin-bottom:5px}
-.ht-tip{font-size:12px;color:rgba(240,240,244,.7);line-height:1.55;margin-bottom:8px}
-.ht-ask{font-family:var(--mono);font-size:10px;color:var(--y);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);padding:4px 10px;border-radius:4px;cursor:pointer;transition:all .15s;letter-spacing:.04em}
-.ht-ask:hover{background:rgba(245,197,24,.2);border-color:var(--y)}
-`;
-document.head.appendChild(htStyle);
-
-// Init on load
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(setupHoverTips, 500);
-});
-
-
 </script>
 </body></html>
