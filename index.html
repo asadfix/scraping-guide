@@ -1556,8 +1556,6 @@ section[id], div[id^="self-heal"] {
 </div>
 </section>
 
-
-
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
   <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">The six steps above tell you <em style="color:rgba(245,197,24,.8)">what order to try</em>. But to know which step to stop at, and why skipping ahead costs you days, you first need to understand how the detection actually works. Let's go deeper.</p>
@@ -1788,7 +1786,6 @@ section[id], div[id^="self-heal"] {
 <strong>The story so far:</strong> You now understand the full detection stack, TLS fingerprints at the network layer, JS interrogation in the browser, IP reputation checks per request, and ML behavioural analysis across the session. The next sections show you exactly which anti-bot vendors use which combination of these layers, and the specific bypass strategies for each.
 </div>
 </section>
-
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
@@ -3777,8 +3774,6 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 </table>
 </section>
 
-
-
 <!-- ═══ INNOVATION ═══ -->
 <section class="sec" id="innovation">
 <div class="sk"><span class="sn">★</span> From the community</div>
@@ -5434,7 +5429,6 @@ data = resp.json()</code></pre></div>
 </div>
 </section>
 
-
 <!-- ═══ JARGON ═══ -->
 <section class="sec" id="jargon">
 <div class="sk"><span class="sn">★</span> Plain English</div>
@@ -5841,8 +5835,6 @@ data = resp.json()</code></pre></div>
 </div>
 </section>
 
-
-
 <!-- ═══ 09 TIMELINE ═══ -->
 <section class="sec" id="tl">
 <div class="sk"><span class="sn">09</span> The arms race</div>
@@ -5885,17 +5877,6 @@ data = resp.json()</code></pre></div>
       <a href="mailto:asad.ikram53@gmail.com" class="outro-link">Email ↗</a>
     </div>
   </div>
-</section>
-ation explains why each tool exists.</p>
-<div class="tl rv">
-<div class="tli"><div class="tliy">2004</div><div class="tlit"><strong>Selenium born</strong> for QA testing. WebDriver protocol. Zero anti-bot thinking, scraping wasn't a threat concept yet.</div></div>
-<div class="tli"><div class="tliy">2017</div><div class="tlit"><strong>Puppeteer launches.</strong> First CDP Chrome automation. Anti-bots respond with IP reputation + User-Agent checks. Defeated by: proxy rotation + fake UA strings.</div></div>
-<div class="tli"><div class="tliy">2018–2020</div><div class="tlit"><strong>JS fingerprinting era.</strong> Canvas hash, WebGL, <code>navigator.webdriver=true</code>. playwright-stealth emerges. Playwright 2020, Microsoft, cross-browser. <strong>F5 acquires Shape Security for $1 billion.</strong></div></div>
-<div class="tli"><div class="tliy">2021–2022</div><div class="tlit"><strong>TLS fingerprinting mainstream.</strong> JA3 at CDN edges. Python httpx identified by hash. curl_cffi emerges. DataDome + Akamai add behavioural scoring. <strong>PerimeterX + HUMAN Security merge</strong>creating 29,650-site network.</div></div>
-<div class="tli"><div class="tliy">2023–2024</div><div class="tlit"><strong>JA4+ standardisation.</strong> Cloudflare Rust crate. Chrome randomises extensions, breaks JA3. <strong>Camoufox and CloakBrowser emerge as first C++ binary solutions.</strong> DataDome WASM boring_challenge. Scrapling 38K stars.</div></div>
-<div class="tli"><div class="tliy">2025</div><div class="tlit"><strong>ML + OS-level signals.</strong> HTTP/2 SETTINGS frames. TCP TTL. Transformer ML on micro-timing at &lt;1ms. DataDome 85K models. Browserbase $40M at $300M valuation. Firecrawl 60K stars. ScrapingBee acquired by Oxylabs.</div></div>
-<div class="tli"><div class="tliy">2026</div><div class="tlit"><strong>C++ binary patches are the baseline.</strong> JS injection obsolete, toString() exposes all patches. Camoufox 100% pass rate. Firecrawl 111K stars. webclaw Rust + 10 MCP tools. JA4+ universal. <strong>Market: $7.5B → $38B by 2034. The arms race is AI vs AI.</strong></div></div>
-</div>
 </section>
 
 </main>
@@ -6499,8 +6480,26 @@ if (document.readyState === 'loading') {
   function smoothScrollTo(target) {
     if (!target) return;
     const navHeight = document.getElementById('nav')?.offsetHeight || 56;
-    const top = target.getBoundingClientRect().top + window.scrollY - navHeight - 12;
-    window.scrollTo({ top, behavior: 'smooth' });
+    
+    // Force-render content between current position and target
+    // so getBoundingClientRect returns stable values
+    const currentY = window.scrollY;
+    const targetY = target.getBoundingClientRect().top + window.scrollY - navHeight - 12;
+    
+    // First, instantly jump close (this triggers content-visibility rendering)
+    window.scrollTo({ top: targetY, behavior: 'instant' });
+    
+    // Then recalculate after layout settles, and smooth-correct
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const correctedY = target.getBoundingClientRect().top + window.scrollY - navHeight - 12;
+        if (Math.abs(correctedY - window.scrollY) > 2) {
+          window.scrollTo({ top: correctedY, behavior: 'instant' });
+        }
+        // Now do a tiny smooth scroll for visual polish
+        // Optional: skip the smooth animation entirely for accuracy
+      });
+    });
   }
   
   document.addEventListener('click', (e) => {
