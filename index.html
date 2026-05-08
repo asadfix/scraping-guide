@@ -2068,203 +2068,6 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   <button class="atab" onclick="showArch(8,this)">Microservices API</button>
 </div>
 
-<!-- ── AUTO-HEALER MINI SECTION ─────────────────────────────── -->
-<div class="autohealer-block">
-  <div class="ah-header">
-    <div class="ah-badge">✦ Pattern</div>
-    <h3 class="ah-title">Self-Healing Scraper<br><em>powered by Claude</em></h3>
-    <p class="ah-desc">Scrapy spiders break when sites change their HTML. Instead of manually fixing selectors, this architecture uses Claude to detect failures, analyse the new page structure, and write corrected selectors automatically — without human intervention.</p>
-  </div>
-
-  <div class="ah-diagram-wrap">
-    <svg viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
-      <defs>
-        <marker id="ahArr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.7)"/>
-        </marker>
-        <marker id="ahArrRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L8,3 z" fill="rgba(224,71,71,.7)"/>
-        </marker>
-        <marker id="ahArrGrn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L8,3 z" fill="rgba(72,187,120,.7)"/>
-        </marker>
-      </defs>
-
-      <!-- Spider runs -->
-      <g transform="translate(10,110)">
-        <rect width="90" height="62" rx="6" fill="rgba(245,197,24,.07)" stroke="rgba(245,197,24,.3)" stroke-width="1.5"/>
-        <text x="45" y="18" text-anchor="middle" fill="rgba(245,197,24,.8)" font-size="8" font-family="monospace" letter-spacing="1">SCRAPY SPIDER</text>
-        <text x="45" y="36" text-anchor="middle" fill="rgba(240,240,244,.8)" font-size="18">🕷️</text>
-        <text x="45" y="54" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">runs on schedule</text>
-      </g>
-      <line x1="100" y1="141" x2="128" y2="141" stroke="rgba(245,197,24,.4)" stroke-width="1.5" marker-end="url(#ahArr)"/>
-
-      <!-- Target site -->
-      <g transform="translate(130,110)">
-        <rect width="80" height="62" rx="6" fill="rgba(91,156,221,.07)" stroke="rgba(91,156,221,.25)" stroke-width="1"/>
-        <text x="40" y="18" text-anchor="middle" fill="rgba(91,156,221,.8)" font-size="8" font-family="monospace" letter-spacing="1">TARGET SITE</text>
-        <text x="40" y="36" text-anchor="middle" fill="rgba(240,240,244,.8)" font-size="18">🌐</text>
-        <text x="40" y="54" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">HTML changed</text>
-      </g>
-
-      <!-- success path -->
-      <line x1="210" y1="128" x2="248" y2="90" stroke="rgba(72,187,120,.4)" stroke-width="1.5" marker-end="url(#ahArrGrn)"/>
-      <text x="228" y="105" text-anchor="middle" fill="rgba(72,187,120,.5)" font-size="8" font-family="monospace">success</text>
-
-      <!-- Storage (success) -->
-      <g transform="translate(250,60)">
-        <rect width="80" height="48" rx="5" fill="rgba(72,187,120,.07)" stroke="rgba(72,187,120,.25)" stroke-width="1"/>
-        <text x="40" y="16" text-anchor="middle" fill="rgba(72,187,120,.7)" font-size="8" font-family="monospace">STORAGE</text>
-        <text x="40" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">📦 S3 / DB</text>
-        <text x="40" y="44" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">clean items</text>
-      </g>
-
-      <!-- failure path -->
-      <line x1="210" y1="155" x2="248" y2="185" stroke="rgba(224,71,71,.4)" stroke-width="1.5" marker-end="url(#ahArrRed)"/>
-      <text x="228" y="178" text-anchor="middle" fill="rgba(224,71,71,.5)" font-size="8" font-family="monospace">failure / empty</text>
-
-      <!-- Failure detector -->
-      <g transform="translate(250,185)">
-        <rect width="90" height="52" rx="5" fill="rgba(224,71,71,.07)" stroke="rgba(224,71,71,.25)" stroke-width="1.5"/>
-        <text x="45" y="16" text-anchor="middle" fill="rgba(224,71,71,.8)" font-size="8" font-family="monospace" letter-spacing="1">DETECTOR</text>
-        <text x="45" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">Item count check</text>
-        <text x="45" y="46" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">0 items = broken</text>
-      </g>
-      <line x1="340" y1="211" x2="378" y2="211" stroke="rgba(224,71,71,.4)" stroke-width="1.5" marker-end="url(#ahArrRed)"/>
-
-      <!-- Claude API -->
-      <g transform="translate(380,160)">
-        <rect width="120" height="105" rx="7" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.35)" stroke-width="2"/>
-        <text x="60" y="18" text-anchor="middle" fill="rgba(245,197,24,.9)" font-size="8" font-family="monospace" letter-spacing="1">CLAUDE API</text>
-        <!-- inner steps -->
-        <rect x="8" y="26" width="104" height="22" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.15)" stroke-width="1"/>
-        <text x="60" y="41" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">1. Fetch broken page HTML</text>
-        <rect x="8" y="54" width="104" height="22" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.15)" stroke-width="1"/>
-        <text x="60" y="69" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">2. Analyse new structure</text>
-        <rect x="8" y="82" width="104" height="16" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.15)" stroke-width="1"/>
-        <text x="60" y="93" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">3. Write new selectors</text>
-      </g>
-
-      <line x1="500" y1="211" x2="538" y2="211" stroke="rgba(245,197,24,.4)" stroke-width="1.5" marker-end="url(#ahArr)"/>
-
-      <!-- Selector updater -->
-      <g transform="translate(540,185)">
-        <rect width="95" height="52" rx="5" fill="rgba(147,112,219,.07)" stroke="rgba(147,112,219,.3)" stroke-width="1.5"/>
-        <text x="48" y="16" text-anchor="middle" fill="rgba(147,112,219,.8)" font-size="8" font-family="monospace" letter-spacing="1">UPDATER</text>
-        <text x="48" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">Patch spider config</text>
-        <text x="48" y="46" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">CSS / XPath / regex</text>
-      </g>
-
-      <!-- Loop back to spider -->
-      <line x1="635" y1="211" x2="680" y2="211" stroke="rgba(147,112,219,.35)" stroke-width="1.5" marker-end="url(#ahArr)"/>
-      <g transform="translate(682,185)">
-        <rect width="90" height="52" rx="5" fill="rgba(72,187,120,.07)" stroke="rgba(72,187,120,.25)" stroke-width="1.5"/>
-        <text x="45" y="16" text-anchor="middle" fill="rgba(72,187,120,.7)" font-size="8" font-family="monospace" letter-spacing="1">RETRY</text>
-        <text x="45" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">Re-run spider</text>
-        <text x="45" y="46" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">with new selectors</text>
-      </g>
-
-      <!-- Loop back arrow -->
-      <path d="M 727 185 Q 727 40 55 40 Q 10 40 10 110" stroke="rgba(72,187,120,.2)" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#ahArrGrn)"/>
-      <text x="390" y="30" text-anchor="middle" fill="rgba(72,187,120,.3)" font-size="8" font-family="monospace">auto-healed — spider runs again without human intervention</text>
-
-      <!-- Notification -->
-      <g transform="translate(682,100)">
-        <rect width="90" height="40" rx="5" fill="rgba(255,255,255,.02)" stroke="rgba(240,240,244,.1)" stroke-width="1"/>
-        <text x="45" y="16" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">NOTIFY</text>
-        <text x="45" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9">Slack / email</text>
-      </g>
-      <line x1="727" y1="185" x2="727" y2="140" stroke="rgba(240,240,244,.15)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#ahArr)"/>
-      <text x="756" y="165" text-anchor="middle" fill="rgba(240,240,244,.25)" font-size="8" font-family="monospace" transform="rotate(-90 756 165)">"healed" alert</text>
-    </svg>
-  </div>
-
-  <div class="ah-steps">
-    <div class="ah-step">
-      <div class="ah-step-n">1</div>
-      <div>
-        <div class="ah-step-title">Spider detects failure</div>
-        <div class="ah-step-body">Item count drops to zero or below threshold. A Scrapy extension hook fires immediately — no waiting for the next run.</div>
-      </div>
-    </div>
-    <div class="ah-step">
-      <div class="ah-step-n">2</div>
-      <div>
-        <div class="ah-step-title">Claude analyses the broken page</div>
-        <div class="ah-step-body">The full page HTML is sent to Claude with the old selectors and a prompt: <em>"The selectors below stopped working. Examine the HTML and write corrected CSS selectors for the same data fields."</em></div>
-      </div>
-    </div>
-    <div class="ah-step">
-      <div class="ah-step-n">3</div>
-      <div>
-        <div class="ah-step-title">New selectors written and applied</div>
-        <div class="ah-step-body">Claude returns structured JSON with corrected selectors. The updater patches the spider config or YAML file. No code deployment needed.</div>
-      </div>
-    </div>
-    <div class="ah-step">
-      <div class="ah-step-n">4</div>
-      <div>
-        <div class="ah-step-title">Spider retries and confirms</div>
-        <div class="ah-step-body">The spider re-runs with new selectors. If items come back — healed. A Slack notification logs what changed. If it fails again, escalates to human review.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ah-code">
-    <div class="ah-code-label">Claude prompt pattern</div>
-    <pre class="ah-pre"><code>You are a web scraping expert. A Scrapy spider broke because the site changed its HTML.
-
-Old selectors (no longer working):
-  title:  h1.product-title::text
-  price:  span.price-now::text
-  image:  img.main-image::attr(src)
-
-New page HTML (truncated):
-{{ page_html[:8000] }}
-
-Return ONLY valid JSON with corrected selectors:
-{"title": "...", "price": "...", "image": "..."}</code></pre>
-  </div>
-
-  <div class="ah-meta">
-    <div class="arch-pc">
-      <div class="arch-pc-col pros">
-        <div class="apc-head">✓ Why it works</div>
-        <ul class="apc-list">
-          <li>Claude reads raw HTML better than regex — handles minified, dynamic, and obfuscated markup</li>
-          <li>Zero downtime — spider heals mid-run, not on next deployment</li>
-          <li>Works across 50+ spiders from a single Claude integration</li>
-          <li>Selector changes are the most common spider failure — this covers 80% of breakages</li>
-        </ul>
-      </div>
-      <div class="arch-pc-col cons">
-        <div class="apc-head">⚙ Implementation notes</div>
-        <ul class="apc-list">
-          <li>Use <code>claude-haiku-3</code> for speed and cost — ~$0.0003 per heal</li>
-          <li>Cap page HTML at 8K chars before sending — beyond that Claude doesn't need more</li>
-          <li>Store selector history in a YAML file versioned in Git for auditability</li>
-          <li>Add a confidence check — if healed items look wrong, escalate to human</li>
-        </ul>
-      </div>
-      <div class="arch-pc-col scaleup">
-        <div class="apc-head">↑ Extend it</div>
-        <p class="apc-text">Add a second Claude call to validate the healed output against a schema. Use computer-use to handle JavaScript-rendered pages where HTML alone isn't enough. Log all heals to build a fine-tuning dataset.</p>
-      </div>
-    </div>
-    <div class="arch-tools" style="margin-top:10px">
-      <span class="atools-label">Stack</span>
-      <span class="arch-tool">Scrapy extension hook</span>
-      <span class="arch-tool">Claude API (Haiku)</span>
-      <span class="arch-tool">YAML selector store</span>
-      <span class="arch-tool">Slack webhook</span>
-      <span class="arch-tool">Anthropic SDK</span>
-    </div>
-  </div>
-</div>
-
-
-
-
 <!-- ── 0: Scrapyd Single Node ────────────────────────────────── -->
 <div class="arch-panel" id="arch-0">
 <p class="arch-desc">The simplest production setup. One server, Scrapyd managing spiders via JSON API, ScrapydWeb as UI. Good for &lt;50 spiders and teams without Kubernetes. Deploy with <code>scrapyd-deploy</code>, schedule via <code>/schedule.json</code>, monitor at port 6800.</p>
@@ -3408,6 +3211,201 @@ Return ONLY valid JSON with corrected selectors:
 </div>
 </div>
 
+
+
+<!-- ── AUTO-HEALER MINI SECTION ─────────────────────────────── -->
+<div class="autohealer-block">
+  <div class="ah-header">
+    <div class="ah-badge">✦ Pattern</div>
+    <h3 class="ah-title">Self-Healing Scraper<br><em>powered by Claude</em></h3>
+    <p class="ah-desc">Scrapy spiders break when sites change their HTML. Instead of manually fixing selectors, this architecture uses Claude to detect failures, analyse the new page structure, and write corrected selectors automatically — without human intervention.</p>
+  </div>
+
+  <div class="ah-diagram-wrap">
+    <svg viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+      <defs>
+        <marker id="ahArr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.7)"/>
+        </marker>
+        <marker id="ahArrRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="rgba(224,71,71,.7)"/>
+        </marker>
+        <marker id="ahArrGrn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="rgba(72,187,120,.7)"/>
+        </marker>
+      </defs>
+
+      <!-- Spider runs -->
+      <g transform="translate(10,110)">
+        <rect width="90" height="62" rx="6" fill="rgba(245,197,24,.07)" stroke="rgba(245,197,24,.3)" stroke-width="1.5"/>
+        <text x="45" y="18" text-anchor="middle" fill="rgba(245,197,24,.8)" font-size="8" font-family="monospace" letter-spacing="1">SCRAPY SPIDER</text>
+        <text x="45" y="36" text-anchor="middle" fill="rgba(240,240,244,.8)" font-size="18">🕷️</text>
+        <text x="45" y="54" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">runs on schedule</text>
+      </g>
+      <line x1="100" y1="141" x2="128" y2="141" stroke="rgba(245,197,24,.4)" stroke-width="1.5" marker-end="url(#ahArr)"/>
+
+      <!-- Target site -->
+      <g transform="translate(130,110)">
+        <rect width="80" height="62" rx="6" fill="rgba(91,156,221,.07)" stroke="rgba(91,156,221,.25)" stroke-width="1"/>
+        <text x="40" y="18" text-anchor="middle" fill="rgba(91,156,221,.8)" font-size="8" font-family="monospace" letter-spacing="1">TARGET SITE</text>
+        <text x="40" y="36" text-anchor="middle" fill="rgba(240,240,244,.8)" font-size="18">🌐</text>
+        <text x="40" y="54" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">HTML changed</text>
+      </g>
+
+      <!-- success path -->
+      <line x1="210" y1="128" x2="248" y2="90" stroke="rgba(72,187,120,.4)" stroke-width="1.5" marker-end="url(#ahArrGrn)"/>
+      <text x="228" y="105" text-anchor="middle" fill="rgba(72,187,120,.5)" font-size="8" font-family="monospace">success</text>
+
+      <!-- Storage (success) -->
+      <g transform="translate(250,60)">
+        <rect width="80" height="48" rx="5" fill="rgba(72,187,120,.07)" stroke="rgba(72,187,120,.25)" stroke-width="1"/>
+        <text x="40" y="16" text-anchor="middle" fill="rgba(72,187,120,.7)" font-size="8" font-family="monospace">STORAGE</text>
+        <text x="40" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">📦 S3 / DB</text>
+        <text x="40" y="44" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">clean items</text>
+      </g>
+
+      <!-- failure path -->
+      <line x1="210" y1="155" x2="248" y2="185" stroke="rgba(224,71,71,.4)" stroke-width="1.5" marker-end="url(#ahArrRed)"/>
+      <text x="228" y="178" text-anchor="middle" fill="rgba(224,71,71,.5)" font-size="8" font-family="monospace">failure / empty</text>
+
+      <!-- Failure detector -->
+      <g transform="translate(250,185)">
+        <rect width="90" height="52" rx="5" fill="rgba(224,71,71,.07)" stroke="rgba(224,71,71,.25)" stroke-width="1.5"/>
+        <text x="45" y="16" text-anchor="middle" fill="rgba(224,71,71,.8)" font-size="8" font-family="monospace" letter-spacing="1">DETECTOR</text>
+        <text x="45" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">Item count check</text>
+        <text x="45" y="46" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">0 items = broken</text>
+      </g>
+      <line x1="340" y1="211" x2="378" y2="211" stroke="rgba(224,71,71,.4)" stroke-width="1.5" marker-end="url(#ahArrRed)"/>
+
+      <!-- Claude API -->
+      <g transform="translate(380,160)">
+        <rect width="120" height="105" rx="7" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.35)" stroke-width="2"/>
+        <text x="60" y="18" text-anchor="middle" fill="rgba(245,197,24,.9)" font-size="8" font-family="monospace" letter-spacing="1">CLAUDE API</text>
+        <!-- inner steps -->
+        <rect x="8" y="26" width="104" height="22" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.15)" stroke-width="1"/>
+        <text x="60" y="41" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">1. Fetch broken page HTML</text>
+        <rect x="8" y="54" width="104" height="22" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.15)" stroke-width="1"/>
+        <text x="60" y="69" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">2. Analyse new structure</text>
+        <rect x="8" y="82" width="104" height="16" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.15)" stroke-width="1"/>
+        <text x="60" y="93" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">3. Write new selectors</text>
+      </g>
+
+      <line x1="500" y1="211" x2="538" y2="211" stroke="rgba(245,197,24,.4)" stroke-width="1.5" marker-end="url(#ahArr)"/>
+
+      <!-- Selector updater -->
+      <g transform="translate(540,185)">
+        <rect width="95" height="52" rx="5" fill="rgba(147,112,219,.07)" stroke="rgba(147,112,219,.3)" stroke-width="1.5"/>
+        <text x="48" y="16" text-anchor="middle" fill="rgba(147,112,219,.8)" font-size="8" font-family="monospace" letter-spacing="1">UPDATER</text>
+        <text x="48" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">Patch spider config</text>
+        <text x="48" y="46" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">CSS / XPath / regex</text>
+      </g>
+
+      <!-- Loop back to spider -->
+      <line x1="635" y1="211" x2="680" y2="211" stroke="rgba(147,112,219,.35)" stroke-width="1.5" marker-end="url(#ahArr)"/>
+      <g transform="translate(682,185)">
+        <rect width="90" height="52" rx="5" fill="rgba(72,187,120,.07)" stroke="rgba(72,187,120,.25)" stroke-width="1.5"/>
+        <text x="45" y="16" text-anchor="middle" fill="rgba(72,187,120,.7)" font-size="8" font-family="monospace" letter-spacing="1">RETRY</text>
+        <text x="45" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">Re-run spider</text>
+        <text x="45" y="46" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">with new selectors</text>
+      </g>
+
+      <!-- Loop back arrow -->
+      <path d="M 727 185 Q 727 40 55 40 Q 10 40 10 110" stroke="rgba(72,187,120,.2)" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#ahArrGrn)"/>
+      <text x="390" y="30" text-anchor="middle" fill="rgba(72,187,120,.3)" font-size="8" font-family="monospace">auto-healed — spider runs again without human intervention</text>
+
+      <!-- Notification -->
+      <g transform="translate(682,100)">
+        <rect width="90" height="40" rx="5" fill="rgba(255,255,255,.02)" stroke="rgba(240,240,244,.1)" stroke-width="1"/>
+        <text x="45" y="16" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">NOTIFY</text>
+        <text x="45" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9">Slack / email</text>
+      </g>
+      <line x1="727" y1="185" x2="727" y2="140" stroke="rgba(240,240,244,.15)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#ahArr)"/>
+      <text x="756" y="165" text-anchor="middle" fill="rgba(240,240,244,.25)" font-size="8" font-family="monospace" transform="rotate(-90 756 165)">"healed" alert</text>
+    </svg>
+  </div>
+
+  <div class="ah-steps">
+    <div class="ah-step">
+      <div class="ah-step-n">1</div>
+      <div>
+        <div class="ah-step-title">Spider detects failure</div>
+        <div class="ah-step-body">Item count drops to zero or below threshold. A Scrapy extension hook fires immediately — no waiting for the next run.</div>
+      </div>
+    </div>
+    <div class="ah-step">
+      <div class="ah-step-n">2</div>
+      <div>
+        <div class="ah-step-title">Claude analyses the broken page</div>
+        <div class="ah-step-body">The full page HTML is sent to Claude with the old selectors and a prompt: <em>"The selectors below stopped working. Examine the HTML and write corrected CSS selectors for the same data fields."</em></div>
+      </div>
+    </div>
+    <div class="ah-step">
+      <div class="ah-step-n">3</div>
+      <div>
+        <div class="ah-step-title">New selectors written and applied</div>
+        <div class="ah-step-body">Claude returns structured JSON with corrected selectors. The updater patches the spider config or YAML file. No code deployment needed.</div>
+      </div>
+    </div>
+    <div class="ah-step">
+      <div class="ah-step-n">4</div>
+      <div>
+        <div class="ah-step-title">Spider retries and confirms</div>
+        <div class="ah-step-body">The spider re-runs with new selectors. If items come back — healed. A Slack notification logs what changed. If it fails again, escalates to human review.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ah-code">
+    <div class="ah-code-label">Claude prompt pattern</div>
+    <pre class="ah-pre"><code>You are a web scraping expert. A Scrapy spider broke because the site changed its HTML.
+
+Old selectors (no longer working):
+  title:  h1.product-title::text
+  price:  span.price-now::text
+  image:  img.main-image::attr(src)
+
+New page HTML (truncated):
+{{ page_html[:8000] }}
+
+Return ONLY valid JSON with corrected selectors:
+{"title": "...", "price": "...", "image": "..."}</code></pre>
+  </div>
+
+  <div class="ah-meta">
+    <div class="arch-pc">
+      <div class="arch-pc-col pros">
+        <div class="apc-head">✓ Why it works</div>
+        <ul class="apc-list">
+          <li>Claude reads raw HTML better than regex — handles minified, dynamic, and obfuscated markup</li>
+          <li>Zero downtime — spider heals mid-run, not on next deployment</li>
+          <li>Works across 50+ spiders from a single Claude integration</li>
+          <li>Selector changes are the most common spider failure — this covers 80% of breakages</li>
+        </ul>
+      </div>
+      <div class="arch-pc-col cons">
+        <div class="apc-head">⚙ Implementation notes</div>
+        <ul class="apc-list">
+          <li>Use <code>claude-haiku-3</code> for speed and cost — ~$0.0003 per heal</li>
+          <li>Cap page HTML at 8K chars before sending — beyond that Claude doesn't need more</li>
+          <li>Store selector history in a YAML file versioned in Git for auditability</li>
+          <li>Add a confidence check — if healed items look wrong, escalate to human</li>
+        </ul>
+      </div>
+      <div class="arch-pc-col scaleup">
+        <div class="apc-head">↑ Extend it</div>
+        <p class="apc-text">Add a second Claude call to validate the healed output against a schema. Use computer-use to handle JavaScript-rendered pages where HTML alone isn't enough. Log all heals to build a fine-tuning dataset.</p>
+      </div>
+    </div>
+    <div class="arch-tools" style="margin-top:10px">
+      <span class="atools-label">Stack</span>
+      <span class="arch-tool">Scrapy extension hook</span>
+      <span class="arch-tool">Claude API (Haiku)</span>
+      <span class="arch-tool">YAML selector store</span>
+      <span class="arch-tool">Slack webhook</span>
+      <span class="arch-tool">Anthropic SDK</span>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ COMMUNITY ═══ -->
 <section class="sec" id="community">
