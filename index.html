@@ -616,6 +616,9 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   white-space:nowrap;letter-spacing:.04em;flex-shrink:0;
 }
 
+
+.c3 .card:last-child:nth-child(3n-1){grid-column:span 2}
+.c3 .card:last-child:nth-child(3n-2){grid-column:span 3}
 </style>
 </head>
 <body>
@@ -2240,129 +2243,246 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 
 
 
-// ── SCRAPEIQ LOCAL KNOWLEDGE ENGINE ────────────────────────────
-// Parses all visible text from the page to build a live knowledge base
-// then uses BM25-style scoring + structured matching to answer queries.
-// Zero API calls. Works for every visitor instantly.
 
-// ── 1. Build knowledge index from page content ──────────────────
-let pageKB = null;
+// ══════════════════════════════════════════════════════════════
+// ScrapeIQ — Local Knowledge Engine v2
+// TF-IDF scoring + synonym expansion + intent classification
+// + structured response templates. Zero API. Works offline.
+// ══════════════════════════════════════════════════════════════
 
-function buildPageKB() {
-  if (pageKB) return pageKB;
-  const sections = [];
-  document.querySelectorAll('.sec, section').forEach(sec => {
-    const id = sec.id || '';
-    const heading = sec.querySelector('h2,h3')?.innerText || '';
-    const paras = [...sec.querySelectorAll('p,.cbody,.abd,.dsb,.lyrb,.tlit,.aib')].map(el => el.innerText).join(' ');
-    const cards = [...sec.querySelectorAll('.card,.abc,.ds,.lyr')].map(el => el.innerText).join(' ');
-    const text = (heading + ' ' + paras + ' ' + cards).replace(/\s+/g,' ').trim();
-    if (text.length > 80) sections.push({ id, heading, text });
+// ── Synonym / alias expansion ──────────────────────────────────
+const SYNONYMS = {
+  'tls': ['ja4','ja3','fingerprint','cipher','handshake','clienthello','tls fingerprint'],
+  'ja4': ['tls fingerprint','cipher suite','clienthello','ja3','grease'],
+  'proxy': ['residential','datacenter','4g','mobile ip','isp proxy','ip rotation','proxies'],
+  'bypass': ['evade','avoid','get around','pass','solve','circumvent'],
+  'bot detection': ['anti-bot','antibot','bot protection','detection','waf'],
+  'javascript': ['js','browser fingerprint','canvas','webgl','navigator'],
+  'browser': ['playwright','puppeteer','selenium','camoufox','chromium','firefox','cdp'],
+  'scraping': ['crawling','extracting','scraper','spider','harvest'],
+  'blocked': ['403','429','captcha','challenge','denied','rate limit','blocked'],
+  'headers': ['user-agent','accept-language','referer','http headers','request headers'],
+};
+
+function expandQuery(q) {
+  const words = q.toLowerCase().split(/\s+/);
+  const expanded = new Set(words);
+  words.forEach(w => {
+    Object.entries(SYNONYMS).forEach(([key, vals]) => {
+      if (key.includes(w) || w.includes(key)) vals.forEach(v => v.split(' ').forEach(x => expanded.add(x)));
+      if (vals.some(v => v.includes(w))) { expanded.add(key); vals.forEach(v => v.split(' ').forEach(x => expanded.add(x))); }
+    });
   });
-  // Also embed the hardcoded knowledge base
-  const kbLines = KNOWLEDGE_BASE.split('\n').filter(l => l.trim().length > 30);
-  kbLines.forEach(line => sections.push({ id:'kb', heading:'', text: line }));
-  pageKB = sections;
-  return sections;
+  return [...expanded].filter(w => w.length > 2);
 }
 
-// ── 2. Score relevance ──────────────────────────────────────────
-function scoreChunk(chunk, words) {
-  const t = chunk.text.toLowerCase();
-  let score = 0;
-  words.forEach(w => {
-    if (w.length < 3) return;
-    const re = new RegExp(w.replace(/[+.]/g,'\\$&'), 'gi');
-    const matches = (t.match(re) || []).length;
-    score += matches * (w.length > 6 ? 2 : 1);
+// ── Page KB — scan live DOM ────────────────────────────────────
+let _pageKB = null;
+function buildPageKB() {
+  if (_pageKB) return _pageKB;
+  const chunks = [];
+
+  // Scan each section for structured content
+  document.querySelectorAll('section[id], .sec').forEach(sec => {
+    const secId = sec.id || '';
+    const h2 = sec.querySelector('h2')?.innerText?.trim() || '';
+    const h3s = [...sec.querySelectorAll('h3')].map(h => h.innerText.trim());
+
+    // Individual cards as separate chunks (more precise retrieval)
+    sec.querySelectorAll('.card, .abc, .ds, .lyr, .ait2, .ptcard').forEach(card => {
+      const title = card.querySelector('.cname, .abn, .dst, .lyrt, .ait2n, .ptname')?.innerText?.trim() || '';
+      const body = card.querySelector('.cbody, .abd, .dsb, .lyrb, .ait2b, .ptbody')?.innerText?.trim() || '';
+      const tag = card.querySelector('.ctag, .absy, .dsl, .lyrn, .ait2t, .pttag')?.innerText?.trim() || '';
+      if (title || body) {
+        chunks.push({ id: secId, title, body, tag, text: `${title} ${tag} ${body}`, weight: 2 });
+      }
+    });
+
+    // Full section text as fallback
+    const fullText = sec.innerText?.replace(/\s+/g,' ').trim().slice(0, 2000) || '';
+    if (fullText.length > 100) {
+      chunks.push({ id: secId, title: h2, body: fullText, tag: '', text: fullText, weight: 1 });
+    }
   });
-  // Boost if heading matches
-  if (chunk.heading && words.some(w => chunk.heading.toLowerCase().includes(w))) score += 5;
+
+  // Also add hardcoded KB entries as structured chunks
+  KNOWLEDGE_BASE.split('\n\n').forEach(block => {
+    if (block.trim().length > 40) {
+      const lines = block.trim().split('\n');
+      const title = lines[0].replace(/:$/, '');
+      const body = lines.slice(1).join(' ');
+      chunks.push({ id: 'kb', title, body, tag: '', text: block, weight: 1.5 });
+    }
+  });
+
+  _pageKB = chunks;
+  console.log(`ScrapeIQ: indexed ${chunks.length} chunks from page`);
+  return chunks;
+}
+
+// ── TF-IDF style scoring ───────────────────────────────────────
+function scoreChunk(chunk, queryWords, allChunks) {
+  const text = chunk.text.toLowerCase();
+  const titleLow = chunk.title.toLowerCase();
+  let score = 0;
+
+  queryWords.forEach(word => {
+    if (word.length < 3) return;
+    // Term frequency in this chunk
+    const re = new RegExp(word.replace(/[+.?*()]/g,'\\$&'), 'gi');
+    const tf = (text.match(re) || []).length;
+    if (tf === 0) return;
+    // Inverse document frequency (rarer = more valuable)
+    const df = allChunks.filter(c => c.text.toLowerCase().includes(word)).length;
+    const idf = Math.log((allChunks.length + 1) / (df + 1)) + 1;
+    // Title match bonus
+    const titleBonus = titleLow.includes(word) ? 4 : 0;
+    score += (tf * idf + titleBonus) * chunk.weight;
+  });
+
   return score;
 }
 
-// ── 3. Format answer from top chunks ───────────────────────────
-function buildAnswer(question, topChunks) {
-  const q = question.toLowerCase();
+// ── Intent classifier ──────────────────────────────────────────
+function classifyIntent(q) {
+  const ql = q.toLowerCase();
+  if (/how (do i|to|can i)/.test(ql)) return 'howto';
+  if (/what is|what are|explain|describe|tell me about/.test(ql)) return 'explain';
+  if (/best|recommend|should i use|which (tool|library|proxy|browser)/.test(ql)) return 'recommend';
+  if (/ vs | or |difference|compare/.test(ql)) return 'compare';
+  if (/why|reason|because/.test(ql)) return 'why';
+  if (/list|all|every|what tools|what libraries/.test(ql)) return 'list';
+  if (/bypass|evade|avoid|get around|pass|solve/.test(ql)) return 'bypass';
+  return 'general';
+}
 
-  // ── Detect question type ────────────────────────────────────
-  const isHow = q.startsWith('how');
-  const isWhat = q.startsWith('what');
-  const isWhich = q.startsWith('which') || q.includes('best') || q.includes('recommend');
-  const isBest = q.includes('best') || q.includes('should i use');
-  const isDiff = q.includes('vs') || q.includes('difference') || q.includes('compare');
-  const isWhy = q.startsWith('why');
-
-  // ── Extract most relevant sentences ─────────────────────────
-  const words = question.toLowerCase().split(/\s+/).filter(w => w.length > 2);
-  let sentences = [];
-  topChunks.forEach(chunk => {
-    const parts = chunk.text.split(/[.!?]/).filter(s => s.trim().length > 25);
-    parts.forEach(s => {
-      const score = words.filter(w => s.toLowerCase().includes(w)).length;
-      if (score > 0) sentences.push({ s: s.trim(), score });
+// ── Extract best sentences from top chunks ─────────────────────
+function extractSentences(chunks, queryWords, maxSentences) {
+  const seen = new Set();
+  const scored = [];
+  chunks.forEach(chunk => {
+    const sents = chunk.text.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 30);
+    sents.forEach(s => {
+      const key = s.trim().slice(0, 60);
+      if (seen.has(key)) return;
+      seen.add(key);
+      const matches = queryWords.filter(w => s.toLowerCase().includes(w)).length;
+      if (matches > 0) scored.push({ s: s.trim(), score: matches * chunk.weight });
     });
   });
-  sentences.sort((a,b) => b.score - a.score);
-  const best = [...new Set(sentences.map(s => s.s))].slice(0, 6);
+  scored.sort((a,b) => b.score - a.score);
+  return [...new Map(scored.map(x => [x.s.slice(0,50), x])).values()]
+    .slice(0, maxSentences)
+    .map(x => x.s);
+}
 
-  if (best.length === 0) {
-    return "I could not find a specific answer to that in this guide. Try searching for a related term like <code>Camoufox</code>, <code>JA4</code>, <code>DataDome</code>, or <code>curl_cffi</code>.";
-  }
+// ── Format with rich HTML ──────────────────────────────────────
+const TOOL_LINKS = {
+  'curl_cffi': 'https://github.com/lexiforest/curl_cffi',
+  'Camoufox': 'https://github.com/daijro/camoufox',
+  'Scrapling': 'https://github.com/D4Vinci/Scrapling',
+  'Scrapy': 'https://github.com/scrapy/scrapy',
+  'Playwright': 'https://github.com/microsoft/playwright',
+  'PatchRight': 'https://github.com/Kaliiiiiiiiii-Vinyzu/patchright',
+  'Firecrawl': 'https://github.com/mendableai/firecrawl',
+  'Crawl4AI': 'https://github.com/unclecode/crawl4ai',
+  'Bright Data': 'https://brightdata.com',
+  'Zyte': 'https://www.zyte.com',
+  'Akamai': 'https://www.akamai.com/products/bot-manager',
+  'Cloudflare': 'https://www.cloudflare.com/products/bot-management/',
+  'DataDome': 'https://datadome.co',
+  'Kasada': 'https://www.kasada.io',
+  'F5 Shape': 'https://www.f5.com/products/security/shape-security',
+  'BrowserLeaks': 'https://browserleaks.com',
+};
 
-  // ── Build structured response ────────────────────────────────
-  let out = '';
-
-  // Add a direct answer prefix based on question type
-  if (isBest || isWhich) {
-    const toolMatch = best[0].match(/\b(curl_cffi|Camoufox|CloakBrowser|PatchRight|Scrapy|Scrapling|Firecrawl|Crawl4AI|Bright Data|Zyte)\b/);
-    if (toolMatch) out += `<strong>${toolMatch[1]}</strong> is the recommended choice here.<br><br>`;
-  }
-  if (isWhy) out += 'Here is why:<br><br>';
-
-  // Format sentences
-  best.forEach((s, i) => {
-    // Bold tool names
-    let formatted = s
-      .replace(/\b(curl_cffi|Camoufox|CloakBrowser|PatchRight|Scrapling|Scrapy|Playwright|Puppeteer|Selenium|Firecrawl|Crawl4AI|Bright Data|Zyte|DataDome|Akamai|Cloudflare|PerimeterX|Kasada|F5 Shape|JA4|JA3|WebRTC)\b/g, '<strong>$1</strong>')
-      .replace(/`([^`]+)`/g, '<code>$1</code>');
-    if (i === 0) out += formatted + '.';
-    else out += ' ' + formatted + '.';
-  });
-
-  // Add relevant links if detectable
-  const linkMap = {
-    'Akamai': 'https://www.akamai.com/products/bot-manager',
-    'Cloudflare': 'https://www.cloudflare.com/products/bot-management/',
-    'DataDome': 'https://datadome.co',
-    'Kasada': 'https://www.kasada.io',
-    'F5 Shape': 'https://www.f5.com/products/security/shape-security',
-    'curl_cffi': 'https://github.com/lexiforest/curl_cffi',
-    'Camoufox': 'https://github.com/daijro/camoufox',
-    'Scrapling': 'https://github.com/D4Vinci/Scrapling',
-    'Scrapy': 'https://github.com/scrapy/scrapy',
-    'Firecrawl': 'https://github.com/mendableai/firecrawl',
-    'Crawl4AI': 'https://github.com/unclecode/crawl4ai',
-    'PatchRight': 'https://github.com/Kaliiiiiiiiii-Vinyzu/patchright',
-    'BrowserLeaks': 'https://browserleaks.com',
-  };
-  const linked = [];
-  Object.entries(linkMap).forEach(([name, url]) => {
-    if (out.includes(name) && !linked.includes(name)) {
-      linked.push(name);
-    }
-  });
-  if (linked.length > 0) {
-    out += '<br><br><span style="font-family:var(--mono);font-size:10px;color:var(--t3);letter-spacing:.06em;text-transform:uppercase">Relevant links:</span><br>';
-    linked.slice(0,3).forEach(name => {
-      out += `<a href="${linkMap[name]}" target="_blank" style="color:var(--y);font-size:12px;font-family:var(--mono)">${name} ↗</a>  `;
-    });
-  }
+function formatAnswer(raw, intent, queryWords) {
+  // Bold key tool/technique names
+  let out = raw
+    .replace(/\b(curl_cffi|Camoufox|CloakBrowser|PatchRight|Scrapling|Scrapy|Playwright|Puppeteer|Selenium|SeleniumBase|Firecrawl|Crawl4AI|ScrapeGraphAI|Bright Data|Zyte|DataDome|Akamai|Cloudflare|PerimeterX|Kasada|F5 Shape|JA4\+?|JA3|WebRTC|boring_challenge|sensor\.js|Botasaurus|webclaw|Scrapy|BrowserLeaks|CreepJS|Pixelscan)\b/g,
+       '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/([.!?])\s+/g, '$1 ');
 
   return out;
 }
 
-// ── 4. Main sendMsg ─────────────────────────────────────────────
+// ── Main response builder ──────────────────────────────────────
+function buildSmartAnswer(question, topChunks, intent, queryWords) {
+  const ql = question.toLowerCase();
+  let html_out = '';
+
+  // ── 1. BYPASS intent: structured steps ─────────────────────
+  if (intent === 'bypass') {
+    const antibot = ['akamai','cloudflare','datadome','perimeterx','kasada','f5 shape','f5','PerimeterX']
+      .find(a => ql.includes(a));
+    const sents = extractSentences(topChunks, queryWords, 4);
+    html_out = `<strong>Bypass strategy:</strong><br>`;
+    if (sents.length > 0) {
+      sents.forEach((s,i) => { html_out += `${i+1}. ${formatAnswer(s, intent, queryWords)}<br>`; });
+    } else {
+      html_out += formatAnswer(topChunks.map(c => c.body).join(' ').slice(0,400), intent, queryWords);
+    }
+  }
+
+  // ── 2. RECOMMEND/BEST intent: direct recommendation ────────
+  else if (intent === 'recommend') {
+    const toolMatch = topChunks[0]?.title || topChunks[0]?.text.match(/\b(curl_cffi|Camoufox|Scrapling|Scrapy|PatchRight|Firecrawl|Crawl4AI|Bright Data|Zyte)\b/)?.[0];
+    if (toolMatch) html_out = `<strong>${toolMatch}</strong> is the best choice here.<br><br>`;
+    const sents = extractSentences(topChunks, queryWords, 3);
+    html_out += sents.map(s => formatAnswer(s, intent, queryWords)).join(' ');
+  }
+
+  // ── 3. COMPARE intent: side-by-side ────────────────────────
+  else if (intent === 'compare') {
+    const vsMatch = question.match(/(\w[\w_\s]+?)\s+vs\s+([\w_\s]+)/i);
+    if (vsMatch) {
+      const [, a, b] = vsMatch;
+      const aChunks = topChunks.filter(c => c.text.toLowerCase().includes(a.toLowerCase().trim()));
+      const bChunks = topChunks.filter(c => c.text.toLowerCase().includes(b.toLowerCase().trim()));
+      if (aChunks[0] && bChunks[0]) {
+        html_out = `<strong>${a.trim()}:</strong> ${formatAnswer(extractSentences(aChunks, [a.toLowerCase().trim()], 2).join(' '), intent, queryWords)}<br><br>`;
+        html_out += `<strong>${b.trim()}:</strong> ${formatAnswer(extractSentences(bChunks, [b.toLowerCase().trim()], 2).join(' '), intent, queryWords)}`;
+      } else {
+        html_out = formatAnswer(extractSentences(topChunks, queryWords, 5).join(' '), intent, queryWords);
+      }
+    } else {
+      html_out = formatAnswer(extractSentences(topChunks, queryWords, 5).join(' '), intent, queryWords);
+    }
+  }
+
+  // ── 4. LIST intent ──────────────────────────────────────────
+  else if (intent === 'list') {
+    const items = topChunks.slice(0,6).map(c => c.title).filter(Boolean);
+    if (items.length > 0) {
+      html_out = '<strong>Relevant tools and concepts:</strong><br>';
+      items.forEach(item => { html_out += `• ${formatAnswer(item, intent, queryWords)}<br>`; });
+    } else {
+      html_out = formatAnswer(extractSentences(topChunks, queryWords, 4).join(' '), intent, queryWords);
+    }
+  }
+
+  // ── 5. EXPLAIN / HOW-TO / GENERAL ──────────────────────────
+  else {
+    const sents = extractSentences(topChunks, queryWords, 5);
+    html_out = formatAnswer(sents.join(' '), intent, queryWords);
+  }
+
+  // ── Add relevant links ──────────────────────────────────────
+  const linked = Object.keys(TOOL_LINKS).filter(name =>
+    html_out.includes(`<strong>${name}</strong>`) || html_out.includes(name)
+  ).slice(0, 3);
+  if (linked.length > 0) {
+    html_out += `<br><br><span style="font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)">See also</span><br>`;
+    linked.forEach(name => {
+      html_out += `<a href="${TOOL_LINKS[name]}" target="_blank" style="color:var(--y);font-family:var(--mono);font-size:11px;margin-right:12px">${name} ↗</a>`;
+    });
+  }
+
+  return html_out;
+}
+
+// ── sendMsg ────────────────────────────────────────────────────
 function sendMsg() {
   const inp = document.getElementById('llmin');
   const btn = document.getElementById('llmsend');
@@ -2377,36 +2497,45 @@ function sendMsg() {
   msgs.scrollTop = msgs.scrollHeight;
 
   const tm = document.createElement('div');
-  tm.className = 'msg a'; tm.innerHTML = '<em>Searching guide...</em>'; msgs.appendChild(tm);
+  tm.className = 'msg a';
+  tm.innerHTML = '<em style="color:var(--t3);font-size:11px">Searching guide...</em>';
+  msgs.appendChild(tm);
   msgs.scrollTop = msgs.scrollHeight;
 
-  // Small delay so UI updates first
   setTimeout(() => {
     try {
       const kb = buildPageKB();
-      const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 2);
-      const scored = kb.map(chunk => ({ chunk, score: scoreChunk(chunk, words) }))
-                       .filter(x => x.score > 0)
-                       .sort((a,b) => b.score - a.score)
-                       .slice(0, 10)
-                       .map(x => x.chunk);
+      const intent = classifyIntent(text);
+      const queryWords = expandQuery(text);
 
-      const answer = scored.length > 0
-        ? buildAnswer(text, scored)
-        : "I did not find a specific answer in this guide. Try asking about a specific tool like <code>Camoufox</code>, anti-bot like <code>DataDome</code>, or concept like <code>JA4</code>.";
+      // Score all chunks
+      const scored = kb
+        .map(chunk => ({ chunk, score: scoreChunk(chunk, queryWords, kb) }))
+        .filter(x => x.score > 0)
+        .sort((a,b) => b.score - a.score)
+        .slice(0, 12)
+        .map(x => x.chunk);
+
+      let answer;
+      if (scored.length === 0) {
+        answer = `I didn't find anything specific about that in this guide. Try asking about <code>JA4</code>, <code>Cloudflare bypass</code>, <code>curl_cffi</code>, or a specific library.`;
+      } else {
+        answer = buildSmartAnswer(text, scored, intent, queryWords);
+      }
+
+      if (!answer || answer.trim().length < 20) {
+        answer = `Found some related content but couldn't form a clean answer. Try rephrasing — for example: <em>"How do I bypass DataDome?"</em> or <em>"What is curl_cffi?"</em>`;
+      }
 
       tm.innerHTML = answer;
     } catch(e) {
-      tm.innerHTML = 'Something went wrong searching the guide.';
+      console.error('ScrapeIQ error:', e);
+      tm.innerHTML = 'Something went wrong. Try again.';
     }
     btn.disabled = false;
     msgs.scrollTop = msgs.scrollHeight;
-  }, 200);
+  }, 150);
 }
-
-// Hover tip CSS is injected dynamically
-
-
 
 // Fade banner logic
 function dismissBanner(){
