@@ -766,7 +766,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
       <a class="nl" href="#ai">AI Scraping</a>
       <a class="nl" href="#platforms">Platforms</a>
       <a class="nl" href="#proxies">Proxies</a>
-      <a class="nl" href="#play">Playbook</a><a class="nl" href="#arch">Architecture</a>
+      <a class="nl" href="#play">Playbook</a><a class="nl" href="#arch">Architecture</a><a class="nl" href="#self-heal">Self-Heal</a>
       <a class="nl" href="#innovation">Innovation</a><a class="nl" href="#tools">Testing</a><a class="nl" href="#community">Community</a><a class="nl" href="#tl">Timeline</a>
     </div>
   </div>
@@ -3280,6 +3280,201 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
     </a>
   </div>
 </section>
+
+<!-- ── SELF-HEALING SCRAPER ────────────────────────────────────── -->
+<section class="sec" id="self-heal" style="padding:64px 0 56px">
+<div class="sk"><span class="sn">★</span> Self-healing scrapers</div>
+<h2 class="sh">Auto-healing scrapers<br><em>using Claude as the brain</em></h2>
+<p class="ss">Scrapers break when sites change their HTML structure, add new anti-bots, or rotate selectors. Claude Computer Use can read the error, inspect the live page, rewrite the spider, and redeploy — all without a human in the loop.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px">
+  <div style="padding:20px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:8px;border-left:2px solid rgba(245,197,24,.4)">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--y);margin-bottom:10px">The problem</div>
+    <p style="font-size:13px;color:var(--t2);line-height:1.7;margin:0">A spider that worked yesterday returns empty data today. The site changed a CSS class, added a JavaScript render step, or rotated its anti-bot. Traditional scrapers need a human to notice, debug, and fix. Self-healing scrapers fix themselves.</p>
+  </div>
+  <div style="padding:20px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:8px;border-left:2px solid rgba(72,187,120,.4)">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(72,187,120,.8);margin-bottom:10px">The solution</div>
+    <p style="font-size:13px;color:var(--t2);line-height:1.7;margin:0">Claude has a set of <strong style="color:var(--t1)">computer use tools</strong> — bash, file read/write, str_replace — plus a skills knowledge base. When a spider fails, Claude reads the error, fetches the live page, compares old vs new structure, patches the selector, and runs a test crawl to verify.</p>
+  </div>
+</div>
+
+<!-- Flow diagram -->
+<div class="arch-diagram">
+<svg viewBox="0 0 920 380" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+  <defs>
+    <marker id="arrsh" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.7)"/>
+    </marker>
+    <marker id="arrsh-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(224,71,71,.7)"/>
+    </marker>
+    <marker id="arrsh-grn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(72,187,120,.7)"/>
+    </marker>
+  </defs>
+
+  <!-- Spider runs -->
+  <g transform="translate(20,150)">
+    <rect width="100" height="72" rx="7" fill="rgba(91,156,221,.07)" stroke="rgba(91,156,221,.3)" stroke-width="1.5"/>
+    <text x="50" y="20" text-anchor="middle" fill="rgba(91,156,221,.8)" font-size="9" font-family="monospace" letter-spacing="1">SPIDER</text>
+    <text x="50" y="40" text-anchor="middle" fill="rgba(240,240,244,.9)" font-size="20">🕷️</text>
+    <text x="50" y="62" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8" font-family="monospace">Scrapy / curl_cffi</text>
+  </g>
+
+  <!-- runs arrow -->
+  <line x1="120" y1="186" x2="148" y2="186" stroke="rgba(245,197,24,.5)" stroke-width="1.5" marker-end="url(#arrsh)"/>
+  <text x="134" y="178" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">runs</text>
+
+  <!-- Monitor -->
+  <g transform="translate(150,150)">
+    <rect width="110" height="72" rx="7" fill="rgba(255,255,255,.02)" stroke="rgba(240,240,244,.12)" stroke-width="1"/>
+    <text x="55" y="20" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace" letter-spacing="1">MONITOR</text>
+    <text x="55" y="40" text-anchor="middle" fill="rgba(240,240,244,.8)" font-size="14">📊</text>
+    <text x="55" y="58" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">CloudWatch / logs</text>
+    <text x="55" y="70" text-anchor="middle" fill="rgba(240,240,244,.3)" font-size="7" font-family="monospace">0 items = alert</text>
+  </g>
+
+  <!-- fail branch -->
+  <line x1="205" y1="150" x2="205" y2="108" stroke="rgba(224,71,71,.5)" stroke-width="1.5" marker-end="url(#arrsh-red)"/>
+  <text x="215" y="130" fill="rgba(224,71,71,.7)" font-size="8" font-family="monospace">FAIL</text>
+
+  <!-- success branch -->
+  <line x1="260" y1="186" x2="290" y2="186" stroke="rgba(72,187,120,.4)" stroke-width="1.5" marker-end="url(#arrsh-grn)"/>
+  <text x="275" y="178" text-anchor="middle" fill="rgba(72,187,120,.6)" font-size="8" font-family="monospace">OK</text>
+
+  <!-- Success: data store -->
+  <g transform="translate(292,158)">
+    <rect width="80" height="52" rx="5" fill="rgba(72,187,120,.06)" stroke="rgba(72,187,120,.2)" stroke-width="1"/>
+    <text x="40" y="18" text-anchor="middle" fill="rgba(72,187,120,.7)" font-size="8" font-family="monospace">SUCCESS</text>
+    <text x="40" y="36" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="12">🗄️</text>
+    <text x="40" y="50" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="7" font-family="monospace">data stored</text>
+  </g>
+
+  <!-- FAIL: trigger Claude -->
+  <g transform="translate(130,30)">
+    <rect width="160" height="68" rx="7" fill="rgba(224,71,71,.06)" stroke="rgba(224,71,71,.25)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="rgba(224,71,71,.8)" font-size="9" font-family="monospace" letter-spacing="1">FAILURE DETECTED</text>
+    <text x="80" y="36" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">0 items · timeout · HTTP 4xx</text>
+    <text x="80" y="52" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">error captured + page snapshot</text>
+    <text x="80" y="65" text-anchor="middle" fill="rgba(240,240,244,.3)" font-size="7" font-family="monospace">→ trigger Claude agent</text>
+  </g>
+
+  <!-- Arrow to Claude -->
+  <line x1="290" y1="64" x2="378" y2="80" stroke="rgba(245,197,24,.5)" stroke-width="1.5" marker-end="url(#arrsh)"/>
+  <text x="334" y="68" text-anchor="middle" fill="rgba(245,197,24,.6)" font-size="8" font-family="monospace">invoke</text>
+
+  <!-- Claude Agent box — main component -->
+  <rect x="380" y="40" width="260" height="290" rx="10" fill="rgba(245,197,24,.03)" stroke="rgba(245,197,24,.3)" stroke-width="2"/>
+  <text x="510" y="60" text-anchor="middle" fill="rgba(245,197,24,.9)" font-size="10" font-family="monospace" letter-spacing="2">CLAUDE AGENT</text>
+
+  <!-- Step 1: Read error -->
+  <g transform="translate(395,70)">
+    <rect width="230" height="38" rx="5" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+    <text x="12" y="16" fill="rgba(245,197,24,.6)" font-size="9" font-family="monospace">① bash_tool</text>
+    <text x="12" y="30" fill="rgba(240,240,244,.6)" font-size="9">Read error logs + last spider output</text>
+  </g>
+
+  <!-- Step 2: Fetch live page -->
+  <g transform="translate(395,118)">
+    <rect width="230" height="38" rx="5" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+    <text x="12" y="16" fill="rgba(245,197,24,.6)" font-size="9" font-family="monospace">② bash_tool</text>
+    <text x="12" y="30" fill="rgba(240,240,244,.6)" font-size="9">Fetch live page HTML with curl_cffi</text>
+  </g>
+
+  <!-- Step 3: Read skills -->
+  <g transform="translate(395,166)">
+    <rect width="230" height="38" rx="5" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+    <text x="12" y="16" fill="rgba(245,197,24,.6)" font-size="9" font-family="monospace">③ view tool</text>
+    <text x="12" y="30" fill="rgba(240,240,244,.6)" font-size="9">Read SKILL.md — scraping patterns KB</text>
+  </g>
+
+  <!-- Step 4: Diff + diagnose -->
+  <g transform="translate(395,214)">
+    <rect width="230" height="38" rx="5" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+    <text x="12" y="16" fill="rgba(245,197,24,.6)" font-size="9" font-family="monospace">④ reasoning</text>
+    <text x="12" y="30" fill="rgba(240,240,244,.6)" font-size="9">Diff old vs new structure, find cause</text>
+  </g>
+
+  <!-- Step 5: Patch -->
+  <g transform="translate(395,262)">
+    <rect width="230" height="38" rx="5" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+    <text x="12" y="16" fill="rgba(245,197,24,.6)" font-size="9" font-family="monospace">⑤ str_replace</text>
+    <text x="12" y="30" fill="rgba(240,240,244,.6)" font-size="9">Patch spider selector / bypass / headers</text>
+  </g>
+
+  <!-- Step 6: Test run -->
+  <g transform="translate(395,310)">
+    <rect width="230" height="16" rx="4" fill="rgba(72,187,120,.05)" stroke="rgba(72,187,120,.2)" stroke-width="1"/>
+    <text x="115" y="12" text-anchor="middle" fill="rgba(72,187,120,.7)" font-size="8" font-family="monospace">⑥ bash_tool → test crawl → verify items &gt; 0</text>
+  </g>
+
+  <!-- Connecting dots inside Claude box -->
+  <line x1="510" y1="108" x2="510" y2="118" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+  <line x1="510" y1="156" x2="510" y2="166" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+  <line x1="510" y1="204" x2="510" y2="214" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+  <line x1="510" y1="252" x2="510" y2="262" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+  <line x1="510" y1="300" x2="510" y2="310" stroke="rgba(245,197,24,.2)" stroke-width="1"/>
+
+  <!-- skills.md badge -->
+  <g transform="translate(650,160)">
+    <rect width="95" height="60" rx="6" fill="rgba(147,112,219,.07)" stroke="rgba(147,112,219,.25)" stroke-width="1"/>
+    <text x="48" y="16" text-anchor="middle" fill="rgba(147,112,219,.8)" font-size="8" font-family="monospace" letter-spacing="1">SKILLS.MD</text>
+    <text x="48" y="32" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">anti-bot patterns</text>
+    <text x="48" y="45" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">selector fixes</text>
+    <text x="48" y="57" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="7" font-family="monospace">bypass recipes</text>
+  </g>
+  <line x1="650" y1="190" x2="625" y2="190" stroke="rgba(147,112,219,.3)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrsh)"/>
+
+  <!-- Arrow out of Claude: redeploy -->
+  <line x1="640" y1="326" x2="760" y2="326" stroke="rgba(72,187,120,.5)" stroke-width="1.5" marker-end="url(#arrsh-grn)"/>
+  <text x="700" y="318" text-anchor="middle" fill="rgba(72,187,120,.6)" font-size="8" font-family="monospace">patch verified</text>
+
+  <!-- Redeploy -->
+  <g transform="translate(762,300)">
+    <rect width="100" height="52" rx="6" fill="rgba(72,187,120,.07)" stroke="rgba(72,187,120,.3)" stroke-width="1.5"/>
+    <text x="50" y="17" text-anchor="middle" fill="rgba(72,187,120,.8)" font-size="8" font-family="monospace" letter-spacing="1">REDEPLOY</text>
+    <text x="50" y="33" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9">git commit</text>
+    <text x="50" y="46" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">CI/CD push</text>
+  </g>
+
+  <!-- Loop back to spider -->
+  <line x1="762" y1="326" x2="70" y2="326" stroke="rgba(72,187,120,.2)" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="70" y1="326" x2="70" y2="222" stroke="rgba(72,187,120,.2)" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrsh-grn)"/>
+  <text x="416" y="340" text-anchor="middle" fill="rgba(240,240,244,.2)" font-size="8" font-family="monospace">spider resumes automatically</text>
+
+  <!-- Notify -->
+  <g transform="translate(762,220)">
+    <rect width="100" height="52" rx="6" fill="rgba(255,255,255,.02)" stroke="rgba(240,240,244,.1)" stroke-width="1"/>
+    <text x="50" y="17" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace" letter-spacing="1">NOTIFY</text>
+    <text x="50" y="33" text-anchor="middle" fill="rgba(240,240,244,.6)" font-size="9">Slack / email</text>
+    <text x="50" y="46" text-anchor="middle" fill="rgba(240,240,244,.35)" font-size="8" font-family="monospace">what was fixed</text>
+  </g>
+  <line x1="640" y1="220" x2="762" y2="246" stroke="rgba(240,240,244,.15)" stroke-width="1" marker-end="url(#arrsh)"/>
+</svg>
+</div>
+
+<!-- How it works steps -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px">
+  <div style="padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:7px">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--y);margin-bottom:8px">DETECTION</div>
+    <p style="font-size:12px;color:var(--t2);line-height:1.65;margin:0">Monitor checks item count after every run. Zero items, timeout, or HTTP 4xx triggers the healing loop. CloudWatch alarm or a simple Lambda cron handles this.</p>
+  </div>
+  <div style="padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:7px">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--y);margin-bottom:8px">CLAUDE TOOLS</div>
+    <p style="font-size:12px;color:var(--t2);line-height:1.65;margin:0"><code>bash_tool</code> runs shell commands. <code>view</code> reads files. <code>str_replace</code> patches them. Claude reads <code>SKILL.md</code> — a knowledge base of scraping patterns, bypass techniques and selector recipes — before deciding the fix.</p>
+  </div>
+  <div style="padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:7px">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--y);margin-bottom:8px">VERIFY + DEPLOY</div>
+    <p style="font-size:12px;color:var(--t2);line-height:1.65;margin:0">Claude runs a test crawl after patching. Only if items &gt; 0 does it commit and push. Failed patches loop back to re-diagnose. A Slack message explains exactly what broke and what was changed.</p>
+  </div>
+</div>
+
+<div style="margin-top:16px;padding:14px 18px;background:rgba(245,197,24,.05);border:1px solid rgba(245,197,24,.15);border-radius:7px;font-size:13px;color:var(--t2);line-height:1.7">
+  <strong style="color:var(--t1)">What goes in SKILL.md:</strong> anti-bot bypass recipes (Cloudflare → Camoufox, DataDome → curl_cffi + residential), common selector patterns for major site frameworks (Next.js, Nuxt, Django), how to detect and extract <code>__NEXT_DATA__</code>, XHR endpoint patterns, proxy rotation config. Claude reads this before every fix attempt — it is the institutional knowledge your team would otherwise lose when people leave.
+</div>
+</section>
+
+
 
 <!-- ═══ 09 TIMELINE ═══ -->
 <section class="sec" id="tl">
