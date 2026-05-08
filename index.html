@@ -61,7 +61,7 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
 .nav-title{font-size:14px;font-weight:700;color:var(--t1);letter-spacing:-.01em;white-space:nowrap}
 .nav-badge{
   font-family:var(--mono);font-size:9px;background:var(--s3);color:var(--t3);
-  padding:2px 7px;border-radius:3px;border:1px solid var(--b2);letter-spacing:.06em;white-space:nowrap;
+  padding:2px 7px;border-radius:3px;border:1px solid var(--b2);border-top:2px solid rgba(245,197,24,.35);letter-spacing:.06em;white-space:nowrap;
 }
 /* scrollable nav links */
 .nls{
@@ -631,16 +631,13 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 .innov-scroll::-webkit-scrollbar-thumb{background:rgba(245,197,24,.3);border-radius:2px}
 .innov-scroll::-webkit-scrollbar-track{background:transparent}
 .icard{
-  flex:0 0 300px;background:var(--s1);border:1px solid var(--b2);
-  border-radius:10px;padding:20px 18px;
-  display:flex;flex-direction:column;gap:10px;
+  flex:0 0 256px;background:var(--s1);border:1px solid var(--b2);
+  border-radius:0 0 8px 8px;padding:16px 15px 13px;
+  display:flex;flex-direction:column;gap:10px;height:auto;
   transition:border-color .15s,transform .15s;
   position:relative;overflow:hidden;
 }
-.icard::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--y);opacity:.5;
-}
+.icard:hover{border-top-color:var(--y)}
 .icard:hover{border-color:rgba(245,197,24,.3);transform:translateY(-2px)}
 .ic-tag{
   font-family:var(--mono);font-size:9px;letter-spacing:.12em;
@@ -654,7 +651,7 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 }
 .ic-body strong{color:var(--t1);font-weight:600}
 .ic-body em{color:var(--t3);font-style:italic}
-.ic-insight{
+.ic-insight{margin-top:auto;
   font-family:var(--mono);font-size:10px;color:var(--t3);
   padding:8px 10px;background:rgba(245,197,24,.05);
   border-radius:5px;border-left:2px solid rgba(245,197,24,.25);
@@ -1736,110 +1733,111 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 <h2 class="sh">What practitioners are<br><em>actually shipping in 2026</em></h2>
 <p class="ss">Fresh insights from engineers actively solving these problems in production. Shared publicly on LinkedIn.</p>
 
+<div class="innov-hint" style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Drag to explore <span style="color:var(--y)">→</span></div>
 <div class="innov-scroll">
 
   <div class="icard">
     <div class="ic-tag">TLS / Anti-bot</div>
     <div class="ic-title">Cloudflare Turnstile Solved Without a Browser</div>
-    <div class="ic-body">Turnstile does not require browser automation. Reverse engineer the POST payload — 79 parameters covering Fingerprint, Timing, Browser Environment and crypto hashes. The result: <strong>Status 200 in 0.27s</strong>, no Playwright, pure HTTP. The Sitekey is extracted automatically, challenge constructed, cryptographic token generated.</div>
+    <div class="ic-body">Solvable with pure HTTP — no browser needed. Reverse-engineer the POST payload: 79 parameters covering Canvas, WebGL, Timing and crypto hashes. <strong>Status 200 in 0.27s.</strong></div>
     <div class="ic-insight">💡 Turnstile PoW is solvable in under 1s via plain HTTP</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">TLS / Proxies</div>
     <div class="ic-title">Why "Just Get Better Proxies" Stopped Working</div>
-    <div class="ic-body">Rotating residential IPs and still getting blocked? The problem is your <strong>TLS handshake</strong>, not your IP. Cipher suite ordering, HTTPS extension sequence, GREASE values — together these form a JA4 fingerprint. A Python requests call looks different from Chrome at the handshake level. Even with a clean residential IP, the fingerprint gives you away.</div>
+    <div class="ic-body">The problem is your <strong>TLS handshake</strong>, not your IP. Cipher suites, HTTPS extensions, GREASE values form a JA4 fingerprint. A clean residential IP still fails if the fingerprint exposes you.</div>
     <div class="ic-insight">💡 The residential IP passed. The fingerprint gave it away.</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Network Identity</div>
     <div class="ic-title">The WebRTC Trap: Your Browser Is Leaking Your Real Location</div>
-    <div class="ic-body">Your proxy says US. Your browser says somewhere else. <strong>WebRTC</strong> can leak your real public IP, expose local network addresses, and create geo mismatches through ICE candidates. Modern anti-bots ask: does everything about this session make sense together? IP + WebRTC + timezone + DNS + Accept-Language must all agree. Disabling WebRTC is not the answer — it removes a feature real users have.</div>
+    <div class="ic-body">Proxy says US. WebRTC says elsewhere. It leaks your real IP via STUN and creates geo mismatches. Anti-bots check that <strong>IP + WebRTC + timezone + DNS + Accept-Language</strong> all agree.</div>
     <div class="ic-insight">💡 Quick test: browserleaks.com/webrtc — check before blaming your proxy</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Benchmarks · 2026</div>
     <div class="ic-title">The 30-Point Gap: Browser Scraping Success Rates Are Not Equal</div>
-    <div class="ic-body">A 2026 stealth benchmark across 71 sites protected by Cloudflare, Akamai, PerimeterX and DataDome. <strong>Browser Use Cloud hit 81% success. Browserbase came in at 42%.</strong> The gap between top and bottom providers is no longer marginal. Basic scraping is increasingly commoditised. The data worth having in 2026 sits behind login walls and multi-step flows that require real browser interaction.</div>
+    <div class="ic-body">71 protected sites tested: <strong>Browser Use Cloud hit 81%</strong>, Browserbase hit 42%. That gap is no longer marginal — it is the difference between a working pipeline and a broken one.</div>
     <div class="ic-insight">💡 A 30-point gap in success rate = the difference between a working pipeline and a broken one</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Architecture</div>
     <div class="ic-title">Browsers as a Session Layer, Not a Scraping Product</div>
-    <div class="ic-body">HTTP is fast. Browsers are expensive. But modern sites care how sessions are created. You end up needing a browser anyway — even just to generate cookies before switching back to HTTP. The right architecture: <strong>use the browser for session warmup and hard challenge pages only, then switch to lightweight HTTP workers</strong> for bulk data collection. Self-hosted, Linux-native, Playwright-compatible.</div>
+    <div class="ic-body">HTTP is fast, browsers are expensive. Right architecture: <strong>browser for session warmup and hard challenges only</strong>, then lightweight HTTP workers for bulk collection.</div>
     <div class="ic-insight">💡 Browser for session warmup → HTTP for bulk collection</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Python Framework</div>
     <div class="ic-title">Scrapling v0.4: The Biggest Python Scraping Update Yet</div>
-    <div class="ic-body">v0.4 introduced a fully async spider framework with a Scrapy-like API. <strong>Concurrent crawling with per-domain throttling, mix HTTP and stealth browser sessions in one spider, pause with Ctrl+C and resume from checkpoint, stream items in real-time, built-in JSON/JSONL export.</strong> Thread-safe ProxyRotator, blocked_domains support, Response.follow() for link following. Handles Cloudflare Turnstile out of the box.</div>
+    <div class="ic-body">New async spider: <strong>concurrent crawling, mix HTTP and stealth sessions, pause/resume from checkpoint, stream items live</strong>. Thread-safe ProxyRotator built in. Handles Turnstile natively.</div>
     <div class="ic-insight">💡 pip install scrapling --upgrade</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Proxies</div>
     <div class="ic-title">SwiftShadow: Free Proxy Rotation Without the Headaches</div>
-    <div class="ic-body">For scrapers hitting 429s and IP blocks, SwiftShadow grabs free proxies, validates them, rotates automatically, and filters by country. <strong>Built-in caching, 2 lines of code, auto-switches when one fails.</strong> Actively maintained at ~300 stars. Best for targets with light to medium protection where free proxy pools are sufficient.</div>
+    <div class="ic-body">Grabs free proxies, validates, rotates automatically, filters by country. <strong>Built-in caching, auto-switches on failure.</strong> ~300 stars, actively maintained.</div>
     <div class="ic-insight">💡 pip install swiftshadow — from swiftshadow import QuickProxy</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">RAG / LLM Pipelines</div>
     <div class="ic-title">Keep Your LLM Context Fresh: Incremental Indexing</div>
-    <div class="ic-body">Most scraped data goes stale within days. CocoIndex turns codebases, PDFs, Slack inboxes and scraped pages into a <strong>continuously updated index</strong> — no stale nightly batches, no context gap. Python on a Rust delta engine: only the affected rows re-run when data changes. Pgvector, LanceDB, Neo4j as targets. <strong>GitHub Trending #1 on launch. 7K+ stars.</strong></div>
+    <div class="ic-body">Scraped data goes stale fast. CocoIndex builds a <strong>continuously updated vector index</strong> — only changed rows re-run. Pgvector, LanceDB, Neo4j targets. <strong>#1 GitHub Trending on launch.</strong></div>
     <div class="ic-insight">💡 github.com/cocoindex-io/cocoindex — incremental RAG for LLM agents</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">API-First Scraping</div>
     <div class="ic-title">Skip the HTML. Hit the API. 50× Faster.</div>
-    <div class="ic-body">Before reaching for Playwright, open DevTools and ask: where is the data actually coming from? Half the time, the page calls its own JSON API in the background. <strong>Skip the HTML entirely. Hit the endpoint directly: 50× faster, 100× less memory, cleaner data, zero browsers.</strong> Find hidden APIs in Network → Fetch/XHR. Part 3 of a 6-part series on real-world scraping techniques.</div>
+    <div class="ic-body">Open DevTools Network → Fetch/XHR before writing any code. Half the time the page calls a JSON API directly. <strong>50× faster, 100× less memory, zero browsers launched.</strong></div>
     <div class="ic-insight">💡 Rule: open DevTools Network tab before writing any code</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Library Analysis</div>
     <div class="ic-title">Scrapling Hit 200K Views — Invest in Your Network Layer</div>
-    <div class="ic-body">Scrapling hit 200K views on X. A top reply: <em>"zero bot detection lasts until Cloudflare patches it in 3 weeks."</em> Probably right. Because <strong>detection vendors update, libraries that bypass them stop working, new libraries ship — the cycle repeats every few months</strong>. What does not deprecate on that timeline: your network infrastructure. A clean proxy setup with the right IP types does not stop working because someone pushed an update.</div>
+    <div class="ic-body">Detection vendors update, bypass libraries break, new ones ship. <strong>This cycle repeats every few months.</strong> What never depreciates: your proxy infrastructure. Invest there first.</div>
     <div class="ic-insight">💡 Invest more in your network layer — it depreciates slower than your library</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Learning Path</div>
     <div class="ic-title">Scraping Tutorials Teach the Wrong Things First</div>
-    <div class="ic-body">Most tutorials start with BeautifulSoup on a clean static HTML page. Real-world scraping is JavaScript-rendered content, rate limits, sessions, dynamic APIs. <strong>Better learning order: DevTools first → understand how data loads → learn to replicate XHR requests → Scrapy for structure → then anti-bot techniques.</strong> Tools are easy to learn. Understanding how the web actually works is the real skill.</div>
+    <div class="ic-body">Most start with BeautifulSoup on static HTML. Real scraping is JS-rendered, sessions, rate limits, dynamic APIs. Better: <strong>DevTools → XHR replication → Scrapy → anti-bot</strong>.</div>
     <div class="ic-insight">💡 DevTools → XHR replication → Scrapy → anti-bot — in that order</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">IoT / Edge</div>
     <div class="ic-title">A Microcontroller Scraping Live Weather Data via API</div>
-    <div class="ic-body">An ESP32/ESP8266 microcontroller calling a web scraping API, getting structured weather data back, displaying it on a TFT screen. The scraping abstraction layer has become <strong>clean enough for devices with no Python runtime</strong>. The API handles TLS, JavaScript rendering, anti-bot. The microcontroller makes one HTTP request and parses JSON. Scraping as infrastructure, not just for big data pipelines.</div>
+    <div class="ic-body">An ESP32 calling a scraping API, parsing JSON, displaying on TFT screen. The abstraction is now <strong>clean enough for devices with no Python</strong>. Scraping as real infrastructure.</div>
     <div class="ic-insight">💡 Scraping APIs are now clean enough for Arduino — #esp8266 #esp32</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Debugging</div>
     <div class="ic-title">Your Scraper Is Blocked Because of Behaviour, Not Code</div>
-    <div class="ic-body">Your scraper worked yesterday. Today it returns empty pages. You changed nothing. The site did. <strong>What actually gets you blocked:</strong> identical headers every request (browsers rotate), requests at exactly 500ms intervals (add random.uniform(1.8, 4.3) delays), no session state (use requests.Session()), datacenter IPs. The closer your scraper behaves to a real browser session, the longer it runs undetected.</div>
+    <div class="ic-body">Identical headers. Machine-speed intervals. No session state. Datacenter IPs. <strong>Fix: rotate headers, random.uniform(1.8, 4.3) delays, requests.Session(), residential proxies.</strong></div>
     <div class="ic-insight">💡 sleep(random.uniform(1.8, 4.3)) beats sleep(2) every time</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">Mental Model</div>
     <div class="ic-title">Understanding Beats Tools Every Time</div>
-    <div class="ic-body">The best anti-bot tool is not a library. Not curl_cffi. Not Playwright. Not a $300/month proxy plan. <strong>It is understanding how detection actually works.</strong> Every scraper that consistently bypasses Cloudflare runs the right mental model — they know which signals matter, which ones they are leaking. Tools change. Detection evolves. Understanding transfers. Built 300+ scrapers: the difference between ones that fail and ones that run for 18 months is not the library.</div>
+    <div class="ic-body">Not curl_cffi, not Playwright, not a $300/mo plan. <strong>Understanding how detection works is the real advantage.</strong> Tools change. Detection evolves. Understanding transfers.</div>
     <div class="ic-insight">💡 "Tools change. Detection evolves. Understanding is what transfers."</div>
   </div>
 
   <div class="icard">
     <div class="ic-tag">AI Visibility · 2026</div>
     <div class="ic-title">Top 10 Scraping APIs per ChatGPT + Perplexity + Gemini + Google</div>
-    <div class="ic-body">Queried four AI models simultaneously for "best scraping API" from a San Francisco IP. <strong>AI consensus ranking: 1. Bright Data, 2. Zyte, 3. ScrapingBee, 4. Firecrawl, 5. Scrape.do, 6. ScraperAPI, 7. Apify, 8. Scrapingdog, 9. Oxylabs, 10. Scrapfly.</strong> Half of B2B buyers now start research in an AI chatbot instead of Google. If your tool is not in this consideration set, it does not exist for those buyers. Report cost: under $1.</div>
+    <div class="ic-body">All four AI models queried simultaneously. <strong>Consensus: 1. Bright Data · 2. Zyte · 3. ScrapingBee · 4. Firecrawl · 5. Scrape.do.</strong> Half of B2B buyers now start research in AI chatbots.</div>
     <div class="ic-insight">💡 AI search is a real channel — Bright Data #1 across all four models</div>
   </div>
 
