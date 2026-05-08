@@ -816,6 +816,28 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
   .ah-step:nth-child(3){border-bottom:1px solid rgba(255,255,255,.05)}
 }
 
+
+/* ── SCRAPEIQ NAVIGATOR ───────────────────────────────────── */
+.nav-result{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;margin-bottom:6px;
+  background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.2);
+  border-radius:6px;cursor:pointer;transition:all .15s;
+}
+.nav-result:hover,.nav-result.active{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.4)}
+.nav-result.primary{border-color:rgba(245,197,24,.35);background:rgba(245,197,24,.08)}
+.nav-result-arrow{color:var(--y);font-size:14px;flex-shrink:0}
+.nav-result-label{font-size:13px;font-weight:700;color:var(--t1)}
+.nav-result-sub{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.06em;margin-top:2px}
+.nav-auto-note{font-family:var(--mono);font-size:9px;color:var(--t3);margin-top:8px;text-align:center}
+.nav-chips{display:flex;flex-direction:column;gap:5px}
+.nav-chip{
+  text-align:left;background:rgba(255,255,255,.04);border:1px solid var(--b2);
+  color:var(--t2);font-size:12px;padding:7px 10px;border-radius:5px;
+  cursor:pointer;transition:all .15s;
+}
+.nav-chip:hover{border-color:rgba(245,197,24,.3);color:var(--y);background:rgba(245,197,24,.06)}
+
 </style>
 </head>
 <body>
@@ -3782,7 +3804,7 @@ Return ONLY valid JSON with corrected selectors:
         <span class="llmtitle" style="font-weight:800;letter-spacing:.02em">ScrapeIQ</span>
       </div>
       <div>
-        <div class="llmsub">Gemini · guide-only</div>
+        <div class="llmsub">Smart navigator · jumps to the right section</div>
       </div>
       <button class="llmx" onclick="toggleLLM()">✕</button>
     </div>
@@ -3974,49 +3996,124 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 // Gemini 1.5 Flash. Answers ONLY from website content.
 // ══════════════════════════════════════════════════════════════
 
-const GEMINI_KEY = 'AIzaSyD7RVCSnzJQsVxZi94n6Fvxrj7FgarffZE';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_KEY}`;
 
-// Build context: use knowledge base + targeted section snippets for the question
-function extractPageContext(question) {
-  const q = (question || '').toLowerCase();
-  const snippets = [];
+// ══════════════════════════════════════════════════════════════
+// ScrapeIQ — Smart Navigator (zero API, instant, no hallucination)
+// Maps questions to guide sections and scrolls there directly.
+// ══════════════════════════════════════════════════════════════
 
-  // Always include core KB (most important, compact)
-  snippets.push(KNOWLEDGE_BASE.trim());
+const SECTION_MAP = [
+  {
+    id: 'flow',
+    label: 'Decision Flow',
+    keywords: ['flow','decision','step','first','start','approach','strategy','which tool','where start','priority','order','what do i do','how do i start','mobile api','xhr','next_data','http first','managed api'],
+  },
+  {
+    id: 'detect',
+    label: 'Detection Layers',
+    keywords: ['detect','ja4','ja3','tls','fingerprint','clienthello','cipher','canvas','webgl','audio','navigator','webdriver','cdp','behavioural','behavior','mouse','grease','alpn','http2','http/2','layer','signal'],
+  },
+  {
+    id: 'antibots',
+    label: 'Anti-Bot Systems',
+    keywords: ['akamai','cloudflare','datadome','perimeter','kasada','f5 shape','f5','human security','anti-bot','antibot','bot protection','waf','turnstile','sensor.js','boring_challenge','_abck','cf_clearance','_px3','x-kpsdk','reese84','bypass','evade','avoid','blocked','403','challenge','captcha'],
+  },
+  {
+    id: 'libs',
+    label: 'Libraries',
+    keywords: ['library','libraries','curl_cffi','camoufox','cloakbrowser','patchright','scrapling','scrapy','playwright','puppeteer','selenium','seleniumbase','nodriver','pydoll','botasaurus','botright','requests','httpx','selectolax','parsel','beautifulsoup','bs4','lxml','colly','katana','tool','framework','package','install','pip'],
+  },
+  {
+    id: 'ai',
+    label: 'AI Scraping',
+    keywords: ['ai','llm','firecrawl','crawl4ai','scrapegraph','jina','steel','browser use','mcp','agent','gpt','claude scraping','openai','embedding','markdown extraction','natural language','intelligent','machine learning','ml scraping'],
+  },
+  {
+    id: 'platforms',
+    label: 'Platforms',
+    keywords: ['platform','bright data','zyte','apify','oxylabs','scraperapi','scrapingbee','scrapfly','smartproxy','decodo','managed','service','api scraping','scraping as a service','provider','success rate'],
+  },
+  {
+    id: 'proxies',
+    label: 'Proxies',
+    keywords: ['proxy','proxies','residential','datacenter','mobile','4g','isp','rotating','ip','ban','block ip','subnet','asn','carrier','t-mobile','vodafone','swiftshadow','brightdata proxy','zyte proxy'],
+  },
+  {
+    id: 'play',
+    label: 'Playbook',
+    keywords: ['playbook','guide','when to use','which approach','recommendation','checklist','how to scrape','best practice','tutorial','steps','workflow'],
+  },
+  {
+    id: 'arch',
+    label: 'Architecture',
+    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','self-healing','auto-heal','claude heal'],
+  },
+  {
+    id: 'innovation',
+    label: 'Innovation',
+    keywords: ['innovation','field notes','community','linkedin','insight','news','2026','latest','new','scrapling 200k','swiftshadow','rayobrowse','cocoindex','200k','community insights'],
+  },
+  {
+    id: 'tools',
+    label: 'Testing Tools',
+    keywords: ['test','testing','browserleaks','browserscan','creepjs','pixelscan','cover your tracks','eff','check fingerprint','webrtc leak','tls check','ja4 check','verify','tool test','diagnostic'],
+  },
+  {
+    id: 'community',
+    label: 'Community',
+    keywords: ['community','discord','reddit','newsletter','web scraping club','pierluigi','oxylabs discord','extract data','r/webscraping','slack','forum','learn','resource'],
+  },
+  {
+    id: 'tl',
+    label: 'Timeline',
+    keywords: ['history','timeline','evolution','2018','2019','2020','2021','2022','2023','2024','2025','when','origin','started','chronology','past'],
+  },
+];
 
-  // Add targeted section text based on keywords in question (max 2 sections)
-  const sectionMap = {
-    'akamai': 'antibots', 'cloudflare': 'antibots', 'datadome': 'antibots',
-    'kasada': 'antibots', 'perimeter': 'antibots', 'f5': 'antibots',
-    'library': 'libs', 'scrapy': 'libs', 'playwright': 'libs', 'curl': 'libs',
-    'proxy': 'proxies', 'residential': 'proxies', 'ip': 'proxies',
-    'architecture': 'arch', 'pipeline': 'arch', 'aws': 'arch', 'azure': 'arch',
-    'ai': 'ai', 'llm': 'ai', 'rag': 'ai', 'firecrawl': 'ai',
-    'detect': 'detect', 'ja4': 'detect', 'tls': 'detect', 'fingerprint': 'detect',
-    'flow': 'flow', 'decision': 'flow', 'playbook': 'play',
-    'test': 'tools', 'browserleaks': 'tools',
-  };
+// Quick chips to show as suggestions
+const QUICK_CHIPS = [
+  'How to bypass Cloudflare?',
+  'Best library for DataDome?',
+  'What is JA4 fingerprinting?',
+  'Scrapy cluster architecture?',
+  'Residential vs datacenter proxy?',
+  'AI scraping tools?',
+];
 
-  const added = new Set();
-  for (const [kw, secId] of Object.entries(sectionMap)) {
-    if (q.includes(kw) && !added.has(secId)) {
-      const sec = document.getElementById(secId);
-      if (sec) {
-        const text = sec.innerText.replace(/\s+/g, ' ').trim().slice(0, 2000);
-        if (text) snippets.push(`=== ${secId.toUpperCase()} ===\n${text}`);
-        added.add(secId);
-        if (added.size >= 2) break;
-      }
+function scoreSection(section, words) {
+  let score = 0;
+  for (const w of words) {
+    for (const kw of section.keywords) {
+      if (kw.includes(w) || w.includes(kw)) score += kw === w ? 3 : 1;
     }
   }
-
-  const full = snippets.join('\n\n');
-  return full.length > 6000 ? full.slice(0, 6000) : full;
+  return score;
 }
 
-// Send message to Gemini with full page context
-async function sendMsg() {
+function findSections(question) {
+  const q = question.toLowerCase().trim();
+  const words = q.split(/\s+/).filter(w => w.length > 2);
+  
+  const scored = SECTION_MAP.map(s => ({ ...s, score: scoreSection(s, words) }))
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score);
+  
+  return scored.slice(0, 3); // top 3 matches
+}
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const navH = document.getElementById('nav')?.offsetHeight || 56;
+  const top = el.getBoundingClientRect().top + window.scrollY - navH - 12;
+  window.scrollTo({ top, behavior: 'smooth' });
+  // Flash highlight
+  el.style.outline = '2px solid rgba(245,197,24,.6)';
+  el.style.outlineOffset = '8px';
+  setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 2000);
+}
+
+function sendMsg() {
   const inp = document.getElementById('llmin');
   const btn = document.getElementById('llmsend');
   const msgs = document.getElementById('llmmsgs');
@@ -4031,90 +4128,60 @@ async function sendMsg() {
   msgs.appendChild(um);
   inp.value = '';
   inp.style.height = 'auto';
-  btn.disabled = true;
   msgs.scrollTop = msgs.scrollHeight;
 
-  // Thinking indicator
+  // Find matching sections
+  const matches = findSections(text);
   const tm = document.createElement('div');
   tm.className = 'msg a';
-  tm.innerHTML = '<span class="scrapeiq-thinking"><span></span><span></span><span></span></span>';
-  msgs.appendChild(tm);
-  msgs.scrollTop = msgs.scrollHeight;
 
-  try {
-    const pageContext = extractPageContext(text);
-
-    const systemInstruction = `You are ScrapeIQ, a smart assistant embedded in Asad's Guide to Web Scraping 2026.
-
-CRITICAL RULES:
-1. Answer ONLY using the website content provided below. Do not use any external knowledge.
-2. If the answer is not in the provided content, say: "I don't have information about that in this guide. Try asking about anti-bots, libraries, proxies, architecture patterns, or scraping techniques."
-3. Be concise, technical, and direct. Use bullet points for lists.
-4. When mentioning tools, include their key detail (e.g. curl_cffi for TLS impersonation, Camoufox for 100% Cloudflare pass rate).
-5. Never make up statistics, GitHub stars, or claims not in the content.
-6. Format responses with **bold** for key terms and \`code\` for library names/commands.
-
-WEBSITE CONTENT:
-${pageContext}`;
-
-    const body = {
-      system_instruction: { parts: [{ text: systemInstruction }] },
-      contents: [{ role: 'user', parts: [{ text }] }],
-      generationConfig: {
-        temperature: 0.1,
-        maxOutputTokens: 600,
-        topP: 0.8,
-      },
-      safetySettings: [
-        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
-        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
-        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
-      ]
-    };
-
-    const res = await fetch(GEMINI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error?.message || `HTTP ${res.status}`);
+  if (matches.length === 0) {
+    tm.innerHTML = `I couldn't find a specific section for that. Try asking about:<br><br>
+      <span class="nav-chips">
+        ${QUICK_CHIPS.map(c => `<button class="nav-chip" onclick="rephrase('${c.replace(/'/g,"\\'")}')">&#8594; ${c}</button>`).join('')}
+      </span>`;
+  } else {
+    const primary = matches[0];
+    let html = `Found ${matches.length > 1 ? matches.length + ' relevant sections' : 'a section'} for that:<br><br>`;
+    
+    html += matches.map((m, i) => `
+      <div class="nav-result ${i === 0 ? 'primary' : ''}" onclick="scrollToSection('${m.id}');this.closest('.msg').querySelectorAll('.nav-result').forEach(r=>r.classList.remove('active'));this.classList.add('active')">
+        <span class="nav-result-arrow">&#8594;</span>
+        <div>
+          <div class="nav-result-label">${m.label}</div>
+          <div class="nav-result-sub">#${m.id} section</div>
+        </div>
+      </div>`).join('');
+    
+    if (matches.length > 0) {
+      html += `<div class="nav-auto-note">Click any result to jump there ↑</div>`;
     }
-
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!answer) throw new Error('Empty response from Gemini');
-
-    // Format markdown-style response
-    tm.innerHTML = answer
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      .replace(/\n\n/g, '<br><br>')
-      .replace(/\n([•\-\*]) /g, '<br>• ')
-      .replace(/\n/g, '<br>');
-
-  } catch (err) {
-    console.error('ScrapeIQ error:', err);
-    tm.innerHTML = `<span style="color:var(--red)">Error: ${err.message}. Please try again.</span>`;
+    
+    tm.innerHTML = html;
+    
+    // Auto-scroll to primary match after short delay
+    setTimeout(() => scrollToSection(primary.id), 400);
   }
 
-  btn.disabled = false;
+  msgs.appendChild(tm);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-// Add thinking animation CSS
-const thinkStyle = document.createElement('style');
-thinkStyle.textContent = `
-.scrapeiq-thinking{display:inline-flex;gap:4px;align-items:center;padding:4px 0}
-.scrapeiq-thinking span{width:6px;height:6px;border-radius:50%;background:var(--y);opacity:.3;animation:thdot .9s ease-in-out infinite}
-.scrapeiq-thinking span:nth-child(2){animation-delay:.15s}
-.scrapeiq-thinking span:nth-child(3){animation-delay:.3s}
-@keyframes thdot{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-`;
-document.head.appendChild(thinkStyle);
+function rephrase(q) {
+  const inp = document.getElementById('llmin');
+  inp.value = q;
+  sendMsg();
+}
+
+// Update quick chips in panel on open
+function updateChips() {
+  const chipsEl = document.querySelector('.llmchips');
+  if (!chipsEl) return;
+  chipsEl.innerHTML = QUICK_CHIPS.map(c =>
+    `<button class="llmchip" onclick="document.getElementById('llmin').value='${c.replace(/'/g,"\\'")}';sendMsg()">${c}</button>`
+  ).join('');
+}
+document.addEventListener('DOMContentLoaded', updateChips);
 
 // Fade banner logic
 function dismissBanner(){
