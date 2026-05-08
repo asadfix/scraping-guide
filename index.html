@@ -40,8 +40,7 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
 /* ── NAV ─────────────────────── */
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:300;height:var(--nh);
-  background:rgba(10,10,10,.97);backdrop-filter:blur(20px) saturate(180%);
-  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(10,10,10,.97);border-bottom:1px solid rgba(255,255,255,.06);
   box-shadow:0 1px 0 rgba(255,255,255,.04);
 }
 .ni{
@@ -838,6 +837,150 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 }
 .nav-chip:hover{border-color:rgba(245,197,24,.3);color:var(--y);background:rgba(245,197,24,.06)}
 
+
+/* ── PERFORMANCE ─────────────────────────────────────────────────────── */
+#nav { will-change: transform; transform: translateZ(0); }
+.llmw { will-change: transform; transform: translateZ(0); }
+.icard { will-change: transform; }
+
+/* content-visibility: skip off-screen sections entirely */
+.sec, section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
+/* but not hero/nav */
+#hero, #about { content-visibility: visible; }
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Remove expensive animations on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── MOBILE ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Nav — hamburger approach: hide links, show toggle */
+  .nls { display: none; flex-direction: column; gap: 0; position: absolute;
+    top: var(--nh); left: 0; right: 0; background: rgba(10,10,10,.98);
+    border-bottom: 1px solid rgba(255,255,255,.08); padding: 8px 0;
+    z-index: 299; }
+  .nls.open { display: flex; }
+  .nl { padding: 11px 20px !important; font-size: 13px !important;
+    border-bottom: 1px solid rgba(255,255,255,.04); width: 100%; }
+  .nl:last-child { border-bottom: none; }
+  .ni { padding: 0 16px 0 16px !important; position: relative; }
+
+  /* Hamburger button */
+  .mob-menu-btn {
+    display: flex; flex-direction: column; gap: 4px;
+    background: none; border: none; cursor: pointer; padding: 6px;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .mob-menu-btn span {
+    display: block; width: 20px; height: 2px;
+    background: rgba(240,240,244,.7); border-radius: 2px;
+    transition: all .2s;
+  }
+  .mob-menu-btn.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+  .mob-menu-btn.open span:nth-child(2) { opacity: 0; }
+  .mob-menu-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(4px,-4px); }
+
+  /* Sections — full width, comfortable padding */
+  .sec { padding: 48px 20px 40px !important; }
+  section { padding: 48px 20px 40px; }
+
+  /* Typography scale down */
+  .sh { font-size: clamp(26px,7vw,38px) !important; }
+  .hero-h { font-size: clamp(36px,10vw,56px) !important; }
+  .hero-sub { font-size: 14px !important; }
+  .ss { font-size: 14px !important; }
+
+  /* Cards — single column */
+  .cards.c3, .cards.c2 { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .card { border-radius: 0 !important; border-left: none !important;
+    border-right: none !important; border-top: none !important;
+    border-bottom: 1px solid rgba(255,255,255,.06) !important; }
+
+  /* Author card — stack vertically */
+  .author-card { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .ac-stats { grid-template-columns: 1fr 1fr !important; }
+
+  /* Innovation scroll — narrower cards */
+  .icard { flex: 0 0 280px !important; }
+
+  /* Architecture tabs — wrap */
+  .arch-tabs { gap: 4px !important; }
+  .atab { font-size: 9px !important; padding: 6px 10px !important; }
+
+  /* Arch pros/cons — single column */
+  .arch-pc { grid-template-columns: 1fr !important; }
+  .arch-stack { grid-template-columns: 1fr !important; }
+
+  /* Self-healer steps — single column */
+  .ah-steps { grid-template-columns: 1fr !important; }
+  .ah-step { border-right: none !important; }
+  .ah-step:nth-child(3) { border-bottom: 1px solid rgba(255,255,255,.05) !important; }
+
+  /* SVG diagrams — scrollable */
+  .arch-diagram, .ah-diagram-wrap { overflow-x: auto !important; }
+  .arch-svg { min-width: 600px; }
+
+  /* ScrapeIQ button — smaller, not blocking content */
+  .llmw { bottom: 16px !important; right: 16px !important; }
+  .llmbtn { width: 48px !important; height: 48px !important; font-size: 20px !important; }
+  #llmp { width: calc(100vw - 32px) !important; right: 16px !important;
+    left: 16px !important; bottom: 72px !important; max-height: 65vh !important; }
+
+  /* Fade banner — hide on mobile (too intrusive) */
+  #scrapeiq-fade { display: none !important; }
+
+  /* Timeline — stack */
+  .tl-item { flex-direction: column !important; gap: 8px !important; }
+  .tl-year { min-width: unset !important; }
+
+  /* Community cards — single col */
+  .comm-grid { grid-template-columns: 1fr !important; }
+
+  /* Libraries grid */
+  .lyr-grid { grid-template-columns: 1fr !important; }
+
+  /* Playbook items */
+  .pb-grid { grid-template-columns: 1fr !important; }
+
+  /* Hero chips — wrap smaller */
+  .hero-chips { gap: 6px !important; }
+  .hero-chip { font-size: 10px !important; padding: 5px 10px !important; }
+
+  /* Stats grid on hero */
+  .hero-stats { grid-template-columns: 1fr 1fr !important; }
+
+  /* Detection layers */
+  .lyr-grid, .ab-grid { grid-template-columns: 1fr !important; }
+
+  /* Platforms */
+  .pt-grid { grid-template-columns: 1fr !important; }
+
+  /* Proxies table — horizontal scroll */
+  .proxy-table-wrap { overflow-x: auto !important; }
+
+  /* Tools grid */
+  .tools-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Content visibility off on mobile - too heavy */
+  .sec, section { content-visibility: visible !important; }
+}
+
+/* Desktop mob button hidden */
+@media (min-width: 769px) {
+  .mob-menu-btn { display: none !important; }
+}
+
 </style>
 </head>
 <body>
@@ -860,7 +1003,8 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
       <span class="nav-title">Asad's Scraping Guide</span>
       <span class="nav-badge">2026</span>
     </a>
-    <div class="nls">
+    <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nls" id="mobNav">
       <a class="nl" href="#flow">Flow</a>
       <a class="nl" href="#detect">Detection</a>
       <a class="nl" href="#antibots">Anti-Bots</a>
@@ -4210,6 +4354,38 @@ function showArch(n, btn) {
   document.getElementById('arch-' + n).classList.remove('hidden');
   btn.classList.add('on');
 }
+
+
+// Mobile nav toggle
+function toggleMobMenu() {
+  const nav = document.getElementById('mobNav');
+  const btn = document.getElementById('mobMenuBtn');
+  nav.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+// Close nav when a link is clicked
+document.querySelectorAll('.nl').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('mobNav')?.classList.remove('open');
+    document.getElementById('mobMenuBtn')?.classList.remove('open');
+  });
+});
+
+// Lazy render arch panels - only render SVG when tab is clicked
+const archPanels = document.querySelectorAll('.arch-panel');
+archPanels.forEach((panel, i) => {
+  if (i === 0) return; // first panel always visible
+  const svgs = panel.querySelectorAll('svg');
+  svgs.forEach(svg => {
+    svg.dataset.lazySrc = svg.outerHTML;
+    // Don't remove them - just add content-visibility
+    svg.style.contentVisibility = 'auto';
+  });
+});
+
+// Passive scroll listeners for perf
+window.addEventListener('scroll', () => {}, { passive: true });
+window.addEventListener('touchstart', () => {}, { passive: true });
 
 </script>
 </body></html>
