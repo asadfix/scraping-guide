@@ -586,22 +586,51 @@ h3.rh{font-family:var(--serif);font-size:22px;font-style:italic;margin:36px 0 13
 .tip-toggle::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.7);transition:transform .2s}
 .tip-toggle.on::after{transform:translateX(16px);background:#0b0b0f}
 
+
+/* ── FADE BANNER ─────────────────────────────────────────────── */
+#fade-banner{
+  position:fixed;bottom:100px;right:28px;z-index:250;
+  background:#f5c518;color:#0b0b0f;
+  border-radius:10px;padding:14px 20px 14px 16px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 8px 32px rgba(245,197,24,.35),0 2px 8px rgba(0,0,0,.4);
+  max-width:320px;
+  animation:bannerIn .4s ease forwards;
+  font-size:13px;
+}
+#fade-banner.hiding{animation:bannerOut .5s ease forwards}
+@keyframes bannerIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes bannerOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(8px)}}
+#fade-banner strong{font-weight:800;font-size:14px;display:block;margin-bottom:2px}
+#fade-banner p{font-size:12px;color:rgba(0,0,0,.65);margin:0;line-height:1.4}
+#fade-banner-close{
+  position:absolute;top:8px;right:10px;
+  background:none;border:none;cursor:pointer;
+  font-size:16px;color:rgba(0,0,0,.4);line-height:1;padding:0;
+}
+#fade-banner-close:hover{color:#0b0b0f}
+#fade-banner-btn{
+  background:#0b0b0f;border:none;color:#f5c518;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  padding:6px 14px;border-radius:4px;cursor:pointer;
+  white-space:nowrap;letter-spacing:.04em;flex-shrink:0;
+}
+
 </style>
 </head>
 <body>
-<!-- SCRAPEIQ BANNER -->
-<div id="ai-banner" style="background:#f5c518;padding:0;position:relative;z-index:400">
-  <div style="max-width:var(--w);margin:0 auto;padding:11px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:16px">🕷️</span>
-      <span style="font-size:13px;color:#0b0b0f;font-weight:500"><strong style="font-weight:800">ScrapeIQ</strong> is live, a smart assistant trained on this guide. Ask it anything about anti-bots, libraries, or proxies.</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
-      <button onclick="toggleLLM()" style="background:#0b0b0f;border:none;color:#f5c518;font-family:var(--mono);font-size:11px;font-weight:700;padding:7px 18px;border-radius:4px;cursor:pointer;letter-spacing:.05em;white-space:nowrap">Try ScrapeIQ</button>
-      <button onclick="document.getElementById('ai-banner').style.display='none'" style="background:none;border:none;color:rgba(0,0,0,.4);cursor:pointer;font-size:20px;line-height:1;padding:2px 6px" onmouseover="this.style.color='#0b0b0f'" onmouseout="this.style.color='rgba(0,0,0,.4)'">&#215;</button>
-    </div>
+
+<!-- SCRAPEIQ FADE BANNER -->
+<div id="fade-banner">
+  <div>
+    <strong>🕷️ ScrapeIQ is live</strong>
+    <p>Smart assistant trained on this guide</p>
   </div>
+  <button id="fade-banner-btn" onclick="toggleLLM();dismissBanner()">Ask now</button>
+  <button id="fade-banner-close" onclick="dismissBanner()">×</button>
 </div>
+
+
 <nav id="nav">
   <div class="ni">
     <a href="#hero" class="nb">
@@ -2353,23 +2382,15 @@ Answer in under 150 words unless code is needed. Use **bold** for key terms, \`c
 
 // Hover tip CSS is injected dynamically
 
-// Push nav below banner
-(function() {
-  var banner = document.getElementById('ai-banner');
-  var nav = document.getElementById('nav');
-  function adjustNav() {
-    if (banner && nav) {
-      var h = banner.offsetHeight;
-      if (banner.style.display === 'none') h = 0;
-      nav.style.top = h + 'px';
-      document.getElementById('hero') && (document.getElementById('hero').style.paddingTop = (h + 56) + 'px');
-    }
-  }
-  adjustNav();
-  // When banner closed
-  var origOnclick = document.querySelector('[onclick*="ai-banner"]');
-  window.addEventListener('load', adjustNav);
-})();
+
+
+// Fade banner logic
+function dismissBanner(){
+  var b = document.getElementById('fade-banner');
+  if(b){b.classList.add('hiding');setTimeout(()=>b.remove(),500);}
+}
+// Auto-dismiss after 5 seconds
+setTimeout(function(){dismissBanner();}, 5000);
 
 </script>
 </body></html>
