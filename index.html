@@ -1647,6 +1647,54 @@ section[id], div[id^="self-heal"] {
 </div>
 </div>
 
+
+<div class="cards c1 rv" style="margin-top:24px">
+  <div class="card" style="border-color:rgba(245,197,24,.35);background:linear-gradient(135deg,rgba(245,197,24,.04),rgba(72,187,120,.02))">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">Practical · How to actually spoof TLS in 2026</div>
+    <div class="cname">From theory to working code</div>
+    <div class="cbody">
+      <p style="margin:0 0 14px">All the JA4+ research is academic until you ship it. Three tiers of solution, in order of how often you should reach for each:</p>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:16px">
+        <div style="padding:14px 16px;background:rgba(72,187,120,.05);border:1px solid rgba(72,187,120,.2);border-radius:6px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(72,187,120,.85);text-transform:uppercase;margin-bottom:6px">Tier 1 · 80% of cases</div>
+          <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px">Use a TLS-impersonating HTTP client</div>
+          <div style="font-size:12px;color:var(--t2);line-height:1.65">
+            <code>curl_cffi</code> (Python), <code>tls-client</code> (Go), <code>noble-tls</code>, <code>hrequests</code>. One line of code, exact Chrome/Firefox JA4. Drop-in replacement for <code>requests</code>.<br><br>
+            <code style="display:block;padding:8px 10px;background:rgba(0,0,0,.4);border-radius:4px;font-size:11px;margin-top:6px;color:var(--y);overflow-x:auto">curl_cffi.requests.get(url, impersonate="chrome131")</code>
+          </div>
+        </div>
+        <div style="padding:14px 16px;background:rgba(245,197,24,.05);border:1px solid rgba(245,197,24,.2);border-radius:6px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(245,197,24,.85);text-transform:uppercase;margin-bottom:6px">Tier 2 · Scrapy projects</div>
+          <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px">Plug a stealth middleware in</div>
+          <div style="font-size:12px;color:var(--t2);line-height:1.65">
+            <code>scrapy-stealth</code> adds TLS + HTTP/2 fingerprinting + proxy rotation + fingerprint cycling to existing Scrapy spiders via DOWNLOADER_MIDDLEWARE. Per-request engine switching keeps simple URLs fast.<br><br>
+            <code style="display:block;padding:8px 10px;background:rgba(0,0,0,.4);border-radius:4px;font-size:11px;margin-top:6px;color:var(--y);overflow-x:auto">meta={"stealth": {"profile": "chrome_147"}}</code>
+          </div>
+        </div>
+        <div style="padding:14px 16px;background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.2);border-radius:6px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(167,139,250,.85);text-transform:uppercase;margin-bottom:6px">Tier 3 · Hardest targets</div>
+          <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px">Browser with C++ patches</div>
+          <div style="font-size:12px;color:var(--t2);line-height:1.65">
+            When TLS spoofing alone fails (Akamai extension probes, Kasada toString checks, behavioural ML), reach for <code>Camoufox</code>, <code>rayobrowse</code>, or <code>CloakBrowser</code>. C++ binary patches ship a real-browser TLS stack along with everything else.<br><br>
+            <span style="color:var(--t3);font-size:11px">Cost: 200MB+ memory per browser instance</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top:16px;padding:12px 16px;background:rgba(0,0,0,.25);border-left:2px solid var(--y);border-radius:0 4px 4px 0">
+        <strong style="color:var(--y);font-size:13px">⚠ Common mistakes</strong>
+        <div style="font-size:12px;color:var(--t2);line-height:1.7;margin-top:6px">
+          <strong>1. Spoofing User-Agent without TLS.</strong> If your UA says Chrome but JA4 says Python <code>urllib3</code>, you flag faster than no spoofing at all, the mismatch is the signal.<br>
+          <strong>2. Forgetting HTTP/2 SETTINGS frames.</strong> Even perfect JA4 fails if your HTTP/2 SETTINGS (header table size, max concurrent streams, initial window size) do not match the browser you claim to be. <code>curl_cffi</code> and <code>tls-client</code> handle this; rolling your own usually does not.<br>
+          <strong>3. Using stale impersonation profiles.</strong> Chrome 120 fingerprints in 2026 are themselves suspicious, real users rolled forward. Keep <code>impersonate="chrome131"</code> or newer.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <h3 class="rh rv">Layer 2, JavaScript Fingerprinting: The Page That Interrogates You</h3>
 <p class="ss rv" style="margin-bottom:24px">Once your TLS passes, the page loads its anti-bot script. This is a 500KB+ obfuscated interrogation that runs dozens of tests in parallel.</p>
 
@@ -2493,6 +2541,21 @@ section[id], div[id^="self-heal"] {
       <div class="lib-pc-row">
         <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Scrapy framework + Chrome without automation flags</li><li>Good for Cloudflare-protected targets</li><li>Use Scrapy architecture you know</li></ul></div>
         <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>nodriver overhead per browser request</li><li>Less control than raw nodriver</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-stealth')"><td>scrapy-stealth <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Browser TLS + HTTP/2</span></td><td>Cloudflare, Akamai</td><td><span class="dn"></span></td><td>v0.4 (2026)</td></tr>
+<tr class="lib-detail-row" id="detail-scrapy-stealth">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Pluggable Scrapy DOWNLOADER_MIDDLEWARE with three drivers: <code>basic</code> + <code>turbo</code> (TLS fingerprint + HTTP/2 impersonation, no browser), and <code>browser</code> (real Chrome via CDP for JS-heavy targets). Per-request engine switching via <code>request.meta["stealth"]</code>.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Built-in TLS fingerprint spoofing, scrapy-playwright/scrapy-splash/scrapy-selenium do not have this</li><li>Per-request engine switching: keep light HTTP for easy URLs, browser only for protected ones</li><li>Built-in proxy + fingerprint rotation (no separate middleware needed)</li><li>Native Cloudflare and Akamai detection via status + body keyword checks</li><li>Browser profiles like <code>chrome_147</code>, <code>safari_ios_18_1_1</code> kept current</li><li>MIT license, active development (v0.4 May 2026)</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Project is new with limited GitHub adoption (low star count)</li><li>Less battle-tested than scrapy-playwright in production at scale</li><li>Browser driver 5-15s per page, use selectively for JS-protected URLs only</li><li>Requires Python 3.11+ and Scrapy 2.15+</li></ul></div>
       </div>
     </div>
   </td>
