@@ -2413,11 +2413,11 @@ section[id], div[id^="self-heal"] {
     <div class="lib-detail-inner">
       <div class="lib-detail-top">
         <span class="lib-browser-badge">🌐 Browser</span>
-        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Self-hosted browser API with a real device fingerprint database. Each session gets a unique real-device fingerprint profile.</div>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Docker-based stealth Chromium browser from Rayobyte. C++ level patches (not JS-level), exposed via CDP so Playwright/Puppeteer/Selenium can connect natively. Self-hosted = free and unlimited; managed Cloud version available.</div>
       </div>
       <div class="lib-pc-row">
-        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Real device fingerprints, not synthetic</li><li>Self-hosted, no third-party dependency</li><li>Chromium + Linux, Docker-deployable</li></ul></div>
-        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Less documented than Playwright</li><li>Self-hosting adds ops overhead</li></ul></div>
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Free and unlimited self-hosted (Docker), Cloud version managed</li><li>C++ level patches survive Function.toString() inspection</li><li>Coherent device profile: UA, WebGL, Canvas, AudioContext, fonts all match</li><li>Native CDP, drop-in for Playwright/Puppeteer/Selenium</li><li>Used by Rayobyte to scrape millions of pages/day in production</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul class="lib-pc-list"><li>Still in beta, results vary by target site</li><li>Windows + Android profiles strongest, macOS/Linux less mature</li><li>Closed source (license restricts certain organizations)</li><li>Canvas/WebGL FP coverage still evolving</li></ul></div>
       </div>
     </div>
   </td>
@@ -3616,6 +3616,13 @@ section[id], div[id^="self-heal"] {
     <a href="https://netnut.io" target="_blank" class="pt-link">netnut.io ↗</a>
   </div>
 
+  <div class="ptcard">
+    <div class="ptname">Scraping Robot <span style="font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.06em;font-weight:400;margin-left:6px">BY RAYOBYTE</span></div>
+    <div class="pttag">Scraping API · 5,000 free/month · JSON output</div>
+    <div class="ptbody">Plug-and-play scraping API from Rayobyte. Returns clean JSON, handles cookies + headers + browser attributes automatically. <strong>5,000 free scrapes/month</strong> on signup, paid tiers from $5/GB. Built on Rayobyte's proxy network and rayobrowse stealth browser. Lower entry barrier than Bright Data or Zyte for teams wanting "scraping as a service" without infrastructure.</div>
+    <a href="https://scrapingrobot.com" target="_blank" class="pt-link">scrapingrobot.com ↗</a>
+  </div>
+
 at">✓ Best for: enterprise scale, AI-generated parsers
     <a href="https://oxylabs.io" target="_blank" class="pt-link">oxylabs.io ↗</a>
   </div>
@@ -3714,6 +3721,10 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 <div class="pg"><div class="pgt">Massive</div><div class="pgtr" style="color:var(--green)">Ethical Residential</div>
   <div class="pgb"><strong>100% ethically sourced</strong> residential pool. 1.6M+ IPs across 195+ countries with <strong>99.87% success rate</strong> (US) and 0.52s response time. GDPR + CCPA compliant, AppEsteem certified, sticky sessions up to 30 min. From $8/GB. Strong on Instagram (96%), Amazon (94%), Google (88%). Good ethics-first alternative to Bright Data.</div>
 </div>
+<div class="pg"><div class="pgt">Rayobyte</div><div class="pgtr" style="color:var(--green)">Ethical · Multi-type</div>
+  <div class="pgb"><strong>"America's #1 proxy provider"</strong> (formerly Blazing SEO, est. 2014). 40M+ residential IPs across 100+ countries, plus ISP, datacenter, and mobile. <strong>Non-expiring bandwidth</strong> sets them apart, $3.50/GB residential dropping to $0.50/GB at 5TB+. Ethically sourced via Cash Raven consent-based proxyware. Ships rayobrowse stealth browser too. Hands-on technical CEO, partners with EWDCI for ethics standards.</div>
+</div>
+
 
 <div class="pg"><div class="pgt">Scrapoxy</div><div class="pgtr" style="color:#60a5fa">Open Source Manager</div>
   <div class="pgb">Self-hosted proxy manager that pools and rotates proxies across AWS, Azure, GCP. Routes requests through different IPs automatically. Free alternative to commercial proxy managers. <code>github.com/fabienvauchelles/scrapoxy</code></div>
