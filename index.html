@@ -1456,6 +1456,94 @@ section[id], div[id^="self-heal"] {
 #community, #tl, #outro { content-visibility: visible !important; contain: none !important; }
 
 </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the best library for bypassing Cloudflare in 2026?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Camoufox is the strongest open-source option for bypassing Cloudflare in 2026, achieving a 100% pass rate in March 2026 benchmarks. It patches Firefox at the C++ level using Mozilla's Juggler protocol, making it undetectable via JavaScript inspection. For HTTP-only scraping, curl_cffi with impersonate='chrome131' handles most Cloudflare targets without a full browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is JA4+ TLS fingerprinting and how does it affect web scraping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JA4+ is a TLS fingerprinting standard that identifies scrapers before any HTTP headers are exchanged. It hashes the TLS ClientHello fields (cipher suites, extensions, ALPN) in a sort-stable way that survives Chrome's extension order randomisation. Cloudflare deploys JA4 in a Rust crate at CDN edge, Akamai in an EdgeWorker. Python's requests library has a unique JA4 hash that gets blocked instantly. The fix is curl_cffi, which impersonates real Chrome TLS down to HTTP/2 SETTINGS frames."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you bypass Akamai Bot Manager in 2026?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Akamai Bot Manager in 2026 probes 60 Chrome extension URLs via fetch() to detect headless browsers. Real Chrome always has at least a few extensions installed. The fix: use CloakBrowser (loads real extension profiles) or Camoufox (uses Juggler protocol, no CDP artifacts). Combine with residential or ISP proxies since Akamai flags datacenter ASNs instantly. Set geoip=True in Camoufox to align WebRTC, DNS, and timezone with your proxy exit country."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between residential and datacenter proxies for web scraping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Datacenter proxies are fast and cheap but carry known ASNs (AWS AS16509, GCP AS15169) that anti-bots flag immediately. Residential proxies route through real ISP connections, making traffic look like genuine users. In 2026, most protected sites block datacenter IPs outright. ISP proxies (static residential) offer the best of both: residential IP authority with datacenter speeds. Use datacenter for unprotected APIs, ISP for medium targets, rotating residential for the hardest targets like Cloudflare-protected e-commerce."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you scrape JavaScript-rendered websites with Python in 2026?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For JavaScript-rendered websites in 2026, use Camoufox (Python, patches Firefox at C++ level, bypasses Cloudflare), PatchRight (undetected Playwright drop-in, bypasses Kasada), or scrapy-stealth middleware (adds TLS fingerprinting and browser engine to Scrapy). For AI-powered extraction, Crawl4AI (60K stars) and Firecrawl (111K stars) convert pages to clean Markdown. Avoid plain Playwright without stealth patches — navigator.webdriver=true is trivially detected by all major anti-bots."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is curl_cffi and why is it better than requests for web scraping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "curl_cffi is a Python library that wraps libcurl with BoringSSL patches to produce exact Chrome and Firefox TLS fingerprints. Unlike Python requests (which has a unique JA4 hash that anti-bots recognise instantly), curl_cffi sends a ClientHello identical to a real browser including HTTP/2 SETTINGS frames. It is 10-50x faster than browser automation and works as a drop-in requests replacement: curl_cffi.requests.get(url, impersonate='chrome131')."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I intercept mobile app API traffic for scraping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To intercept mobile app API traffic: install Android Studio and create a virtual device with API 30+, root it using rootAVD and Magisk, install HTTP Toolkit to intercept HTTPS traffic and bypass SSL pinning automatically. Once you capture the API request, replicate it with curl_cffi for production scraping. Mobile APIs serve the same data as the website but with far weaker anti-bot protection — no Cloudflare, no JA4 fingerprinting."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best Scrapy anti-bot middleware in 2026?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "scrapy-stealth is the most complete Scrapy anti-bot middleware in 2026. It adds TLS fingerprint spoofing, HTTP/2 impersonation, proxy rotation, fingerprint cycling, and a real browser engine via CDP — all unavailable in scrapy-playwright, scrapy-splash, or scrapy-selenium. It supports per-request engine switching via request.meta, so easy URLs use the fast HTTP engine while protected pages use the browser engine. Install with: pip install scrapy-stealth"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Web Scraping Guide 2026",
+        "item": "https://asadfix.github.io/scraping-guide/"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
