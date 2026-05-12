@@ -95,8 +95,8 @@
   --b1:    #2a2a38;
   --b2:    #38384a;
   --t1:    #f0f0f0;
-  --t2:    #aaaaaa;
-  --t3:    #666666;
+  --t2:    #c8c8c8;
+  --t3:    #888888;
   --y:     #f5c518;   /* primary yellow */
   --yd:    #c49a10;   /* dark yellow */
   --yl:    rgba(245,197,24,.10);
@@ -186,7 +186,7 @@ main{max-width:var(--w);margin:0 auto;padding:0 28px;overflow-x:hidden}
   font-weight:400;line-height:.95;letter-spacing:-.025em;margin-bottom:14px;
 }
 .sh em{font-style:italic;color:var(--y)}
-.ss{font-size:16px;color:var(--t2);line-height:1.8;max-width:680px;margin-bottom:40px}
+.ss{font-size:17px;color:var(--t2);line-height:1.8;max-width:680px;margin-bottom:40px}
 
 /* ── HERO ────────────────────── */
 #hero{
@@ -348,7 +348,7 @@ pre{padding:20px 18px;overflow-x:auto;font-family:var(--mono);font-size:13px;lin
 .abl{padding:28px 26px 24px 30px;position:relative}
 .absy{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
 .abn{font-family:var(--serif);font-size:clamp(28px,3.5vw,42px);font-weight:400;font-style:italic;letter-spacing:-.02em;line-height:.88;margin-bottom:10px}
-.abd{font-size:13px;color:var(--t2);line-height:1.72;margin-bottom:11px}
+.abd{font-size:14px;color:var(--t2);line-height:1.72;margin-bottom:11px}
 .absigs{display:flex;flex-wrap:wrap;gap:4px}
 .sig{font-family:var(--mono);font-size:9px;padding:3px 8px;border:1px solid;border-radius:3px}
 .abr{border-left:1px solid rgba(255,255,255,.06);padding:28px 26px}
@@ -482,7 +482,7 @@ pre{padding:20px 18px;overflow-x:auto;font-family:var(--mono);font-size:13px;lin
 .ptcard:hover{background:var(--s2)}
 .ptname{font-size:16px;font-weight:600;color:var(--t1);margin-bottom:4px}
 .pttag{font-family:var(--mono);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:9px}
-.ptbody{font-size:13px;color:var(--t2);line-height:1.7}
+.ptbody{font-size:14px;color:var(--t2);line-height:1.7}
 .ptbody strong{color:var(--t1)}
 .ptbody code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
 .ptstat{margin-top:9px;padding-top:8px;border-top:1px solid var(--b1);font-family:var(--mono);font-size:10px;color:var(--grn)}
@@ -1427,7 +1427,7 @@ html { scroll-behavior: smooth; }
   margin-left:auto;
 }
 .abc:has(.ab-head) .abd{
-  font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px;
+  font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:12px;
   padding:0;border:none;background:none;
 }
 .abc:has(.ab-head) .abd strong{color:var(--t1)}
@@ -1455,6 +1455,32 @@ section[id], div[id^="self-heal"] {
 
 /* Last sections must be observable for confetti + stable layout */
 #community, #tl, #outro { content-visibility: visible !important; contain: none !important; }
+
+
+/* ── READABILITY IMPROVEMENTS ────────────────────────── */
+/* Raised body text from #aaa to #c8c8c8 via --t2 */
+/* Raise remaining inline 13px content text */
+.lib-detail-inner li,
+.lib-pc-list li,
+.cbody p,
+.abd,
+.ab-pills + .abd,
+.ptbody,
+.pgb,
+.lyr-detail .cbody,
+.tlit,
+.jargon-body,
+.mob-step-card p,
+.arch-desc,
+.wapp-method-body {
+  font-size: 14px !important;
+  line-height: 1.75 !important;
+  color: var(--t2) !important;
+}
+/* Ensure code within body text stays readable */
+.cbody code, .ptbody code, .abd code, .pgb code {
+  font-size: 12px !important;
+}
 
 </style>
 
