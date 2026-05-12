@@ -94,9 +94,9 @@
   --s3:    #22222c;
   --b1:    #2a2a38;
   --b2:    #38384a;
-  --t1:    #f0f0f0;
-  --t2:    #c8c8c8;
-  --t3:    #888888;
+  --t1: #f2f2f2;
+  --t2: #cccccc;
+  --t3: #999999;
   --y:     #f5c518;   /* primary yellow */
   --yd:    #c49a10;   /* dark yellow */
   --yl:    rgba(245,197,24,.10);
@@ -1481,6 +1481,79 @@ section[id], div[id^="self-heal"] {
 .cbody code, .ptbody code, .abd code, .pgb code {
   font-size: 12px !important;
 }
+
+
+/* ═══ READABILITY PASS (v2) ═══════════════════════════════════════════
+   User feedback: small text hard to read on dark background.
+   Raising all body content to minimum 14px / line-height 1.8.
+   Badges, tags, and monospace labels exempt (intentionally small). */
+
+/* Section intro text */
+.ss { font-size: 18px !important; color: var(--t2) !important; line-height: 1.8 !important; }
+
+/* Card body text */
+.cbody, .cbody p, .cbody li { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+.ptbody, .pgb { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+.abd { font-size: 14px !important; line-height: 1.8 !important; }
+
+/* Library detail rows */
+.lib-under-hood .lib-engine-val,
+.lib-pc-list li,
+.lib-pc-list,
+.lib-hood-label + * { font-size: 14px !important; line-height: 1.8 !important; }
+
+/* Jargon section */
+.jargon-body, .jargon-analogy { font-size: 14px !important; line-height: 1.8 !important; }
+
+/* Timeline */
+.tlit { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+
+/* Community cards */
+.cbody { min-font-size: 14px !important; }
+
+/* Playbook / steps */
+.ps-body, .mob-step-body { font-size: 14px !important; line-height: 1.8 !important; }
+
+/* Anti-bot card descriptions */
+.abd { font-size: 14px !important; color: var(--t2) !important; }
+.abl, .abody { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+
+/* Architecture descriptions */
+.arch-desc, .arch-pc li { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+
+/* Innovation cards */
+.ic-detail { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+
+/* Wappalyzer block */
+.wapp-method-body { font-size: 14px !important; line-height: 1.8 !important; }
+
+/* Proxy grid descriptions */
+.pgb { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+
+/* Flow section */
+.fd-body, .fp-body { font-size: 14px !important; line-height: 1.8 !important; color: var(--t2) !important; }
+
+/* Mobile API steps */
+.mob-step-card p, .mob-step-body { font-size: 14px !important; line-height: 1.8 !important; }
+
+/* Code blocks within content */
+.cbody code, .ptbody code, .abd code, .pgb code, .cbody pre {
+  font-size: 12px !important;
+  background: rgba(0,0,0,.4);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--y) !important;
+}
+
+/* Table body text - library table */
+.lyr td { font-size: 13px !important; color: var(--t2) !important; }
+
+/* Ensure headings stay sharp */
+.sh, .cname, .ptname { color: #f2f2f2 !important; }
+
+/* Outro text */
+.outro-body { font-size: 16px !important; line-height: 1.85 !important; color: var(--t2) !important; }
+/* ═══════════════════════════════════════════════════════════════════ */
 
 </style>
 
@@ -3979,7 +4052,7 @@ at">✓ Best for: enterprise scale, AI-generated parsers
       </div>
       <div style="font-family:var(--mono);font-size:11px;color:var(--t3)">Residential · ISP · Web Access API · Web Render API · MCP Server</div>
     </div>
-    <a href="https://www.joinmassive.com/?ref=ogyzztc" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;font-weight:700;padding:8px 18px;background:rgba(72,187,120,.12);border:1px solid rgba(72,187,120,.4);border-radius:5px;color:rgba(72,187,120,.95);text-decoration:none;white-space:nowrap;transition:background .15s" onmouseover="this.style.background='rgba(72,187,120,.22)'" onmouseout="this.style.background='rgba(72,187,120,.12)'">joinmassive.com ↗</a>
+    <a href="https://www.joinmassive.com/?ref=ogyzztc" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;font-weight:700;padding:8px 18px;background:rgba(72,187,120,.12);border:1px solid rgba(72,187,120,.4);border-radius:5px;color:rgba(72,187,120,.95);text-decoration:none;white-space:nowrap;transition:background .15s" onmouseover="this.style.background='rgba(72,187,120,.22)'" onmouseout="this.style.background='rgba(72,187,120,.12)'">Try Massive with my referral ↗</a>
   </div>
 
   <!-- Personal note -->
@@ -4051,7 +4124,7 @@ at">✓ Best for: enterprise scale, AI-generated parsers
   <!-- CTA -->
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.05)">
     <div style="font-size:12px;color:var(--t3);line-height:1.6">Startups get <strong style="color:var(--t2)">1TB free for 3 months</strong>, no equity required. 24/7 live support. GDPR + CCPA compliant. AppEsteem certified.</div>
-    <a href="https://www.joinmassive.com/?ref=ogyzztc" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;font-weight:700;padding:10px 22px;background:rgba(72,187,120,.15);border:1px solid rgba(72,187,120,.5);border-radius:5px;color:rgba(72,187,120,.95);text-decoration:none;white-space:nowrap;transition:all .15s" onmouseover="this.style.background='rgba(72,187,120,.25)'" onmouseout="this.style.background='rgba(72,187,120,.15)'">Get started with Massive ↗</a>
+    <a href="https://www.joinmassive.com/?ref=ogyzztc" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;font-weight:700;padding:10px 22px;background:rgba(72,187,120,.15);border:1px solid rgba(72,187,120,.5);border-radius:5px;color:rgba(72,187,120,.95);text-decoration:none;white-space:nowrap;transition:all .15s" onmouseover="this.style.background='rgba(72,187,120,.25)'" onmouseout="this.style.background='rgba(72,187,120,.15)'">Join with my referral ↗</a>
   </div>
 
 </div>
