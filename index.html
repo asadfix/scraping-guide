@@ -2213,6 +2213,129 @@ section[id], div[id^="self-heal"] {
   </div>
 </div>
 
+<!-- ── AKAMAI v3 CASE STUDY ─────────────────────────────────────────────── -->
+<div style="margin:28px 0 36px;padding:24px 28px;background:linear-gradient(135deg,rgba(246,147,35,.05),rgba(0,0,0,.2));border:1px solid rgba(246,147,35,.3);border-radius:8px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+    <span style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;background:rgba(246,147,35,.12);border:1px solid rgba(246,147,35,.3);border-radius:3px;color:rgba(246,147,35,.9)">Field Notes · May 2026</span>
+    <span style="font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)">Production bypass · No browser · 0 blocks in 500+ requests</span>
+  </div>
+  <h3 style="font-family:var(--serif);font-size:24px;font-weight:400;color:var(--t1);margin-bottom:8px;line-height:1.2">Akamai v3 in 2026: How We Finally Cracked It Without a Browser</h3>
+  <p style="font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:20px">A full day of attempts on a production job. Every technique that failed, why it failed, and the exact approach that gets a clean 200 in one or two requests with zero browser overhead.</p>
+
+  <!-- The _abck cookie explained -->
+  <div style="margin-bottom:20px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,147,35,.8);margin-bottom:10px">The core problem: <code>_abck ~-1~</code></div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.8">Akamai's <code>_abck</code> cookie has two states: <code>~-1~</code> (bot score, blocked) and <code>~0~</code> (validated, trust granted). It only flips after <code>sensor.js</code> — a 512KB obfuscated fingerprinting script — has executed and POSTed signals to <code>/_bm/data</code>. The signals that matter: canvas fingerprint, WebGL GPU string, AudioContext output, 60 Chrome extension probes, mouse/scroll trajectory physics, and navigator properties cross-checked against the fingerprint. Trust is per-session, not per-request.</p>
+  </div>
+
+  <!-- What failed -->
+  <div style="margin-bottom:20px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(224,71,71,.8);margin-bottom:12px">What failed (in order)</div>
+    <div style="display:grid;gap:8px">
+      <div style="padding:12px 14px;background:rgba(224,71,71,.05);border:1px solid rgba(224,71,71,.15);border-radius:5px">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.8);margin-bottom:4px">✗ Attempt 1: Headless Chrome + ISP proxy</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7"><code>gl.getContext('webgl')</code> returns <code>null</code> without a GPU. Sensor.js sees zero WebGL context and assigns maximum bot score before the session even starts. No amount of scrolling or waiting recovers from that initial score.</div>
+      </div>
+      <div style="padding:12px 14px;background:rgba(224,71,71,.05);border:1px solid rgba(224,71,71,.15);border-radius:5px">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.8);margin-bottom:4px">✗ Attempt 2: SwiftShader software GPU (<code>--use-angle=swiftshader</code>)</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7">WebGL works with SwiftShader, but device ID <code>0x0000C0DE</code> is in Akamai's permanent blocklist. The canvas hash is also deterministic and known. Renderer string: <code>ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)))</code> — flagged instantly.</div>
+      </div>
+      <div style="padding:12px 14px;background:rgba(224,71,71,.05);border:1px solid rgba(224,71,71,.15);border-radius:5px">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.8);margin-bottom:4px">✗ Attempt 3: JS prototype patching via CDP</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7">Patching <code>WebGLRenderingContext.prototype.getParameter</code> to return <code>"Intel Iris OpenGL Engine"</code> — site returns a 2327-byte error page before sensor.js runs. Two problems: CDP's <code>Page.addScriptToEvaluateOnNewDocument</code> leaves a timing gap that Akamai detects, and prototype chain tampering is visible via <code>Function.prototype.toString()</code>.</div>
+      </div>
+      <div style="padding:12px 14px;background:rgba(224,71,71,.05);border:1px solid rgba(224,71,71,.15);border-radius:5px">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.8);margin-bottom:4px">✗ Attempt 4: CDP User-Agent override only</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7"><code>Network.setUserAgentOverride</code> with full userAgentMetadata changes the HTTP header and <code>navigator.userAgent</code> but does nothing to the TLS ClientHello. Akamai's EdgeWorker sees the JA4 hash — still Linux Python — and blocks at the network layer before HTML is served.</div>
+      </div>
+      <div style="padding:12px 14px;background:rgba(224,71,71,.05);border:1px solid rgba(224,71,71,.15);border-radius:5px">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.8);margin-bottom:4px">✗ Attempt 5: Xvfb virtual display + non-headless Chrome</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7">Pages load fully (1.1MB real HTML, all images). But Xvfb has no GPU either — Mesa software rasterizer. <code>glxinfo</code> shows <code>llvmpipe (LLVM 15.0.7, 256 bits)</code> — another known server renderer. <code>_abck</code> stays <code>~-1~</code> for 60+ seconds regardless of scrolling and JS mouse events.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The insight -->
+  <div style="margin-bottom:20px;padding:16px 20px;background:rgba(72,187,120,.05);border:1px solid rgba(72,187,120,.25);border-radius:6px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(72,187,120,.8);margin-bottom:10px">The fundamental insight</div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.8;margin:0">Every failed attempt fixed the <strong style="color:var(--t1)">browser layer</strong>. The actual problem was the <strong style="color:var(--t1)">network layer</strong>. Akamai scores in five layers — the first three fire before HTML is even served:</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:12px">
+      <div style="padding:8px 12px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px;color:var(--t2)"><strong style="color:rgba(246,147,35,.9);display:block;margin-bottom:2px">Layer 1 · TLS JA4</strong>fires before HTML is served</div>
+      <div style="padding:8px 12px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px;color:var(--t2)"><strong style="color:rgba(246,147,35,.9);display:block;margin-bottom:2px">Layer 2 · HTTP/2 SETTINGS</strong>HEADER_TABLE_SIZE, WINDOW_SIZE</div>
+      <div style="padding:8px 12px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px;color:var(--t2)"><strong style="color:rgba(246,147,35,.9);display:block;margin-bottom:2px">Layer 3 · ALPN + Header order</strong>h2 vs h3, exact Chrome ordering</div>
+      <div style="padding:8px 12px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px;color:var(--t2)"><strong style="color:rgba(72,187,120,.7);display:block;margin-bottom:2px">Layer 4 · sensor.js</strong>canvas, WebGL, audio, extensions</div>
+      <div style="padding:8px 12px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px;color:var(--t2)"><strong style="color:rgba(72,187,120,.7);display:block;margin-bottom:2px">Layer 5 · Behavioural</strong>mouse Bezier curves, scroll timing</div>
+    </div>
+    <p style="font-size:13px;color:var(--t3);margin:12px 0 0;line-height:1.7">Fix layers 1-3 correctly and you often never reach layer 4. Canvas fingerprinting, SwiftShader, JS injection — all layer 4 solutions applied to a layer 1-3 problem.</p>
+  </div>
+
+  <!-- The breakthrough -->
+  <div style="margin-bottom:20px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(72,187,120,.8);margin-bottom:12px">✓ What worked: fix the TLS layer</div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:12px">A Go library — <code>akamai-v3-sensor</code> — reimplements Chrome's exact TLS stack at the C level: cipher suite order, GREASE values, extension ordering, ALPN, HTTP/2 SETTINGS frames, HTTP/3 QUIC parameters. The JA4 fingerprint it produces is indistinguishable from real Chrome because it <em>is</em> Chrome's cipher suite — implemented in Go.</p>
+    <div style="background:rgba(0,0,0,.4);border-radius:6px;padding:16px 20px;font-family:var(--mono);font-size:12px;color:#a8d8a8;overflow-x:auto;line-height:1.8;border:1px solid rgba(72,187,120,.15)"><span style="color:var(--t3)">// One session, one proxy, one request</span>
+s := sensor.NewSession(<span style="color:#ffd700">"chrome-148"</span>,
+    sensor.WithSessionProxy(<span style="color:#ffd700">"http://user:pass@comcast-ip:port"</span>),
+    sensor.WithSessionTimeout(30*time.Second),
+)
+resp, _ := s.Get(context.Background(), <span style="color:#ffd700">"https://target-site.com/"</span>)
+<span style="color:var(--t3)">// Status: 200, Protocol: h2, _abck: ~0~ (validated)</span>
+
+<span style="color:var(--t3)">// Then GraphQL directly on the same session</span>
+gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
+<span style="color:var(--t3)">// Status: 200, 30KB product data, zero blocks</span></div>
+    <p style="font-size:13px;color:var(--t3);margin-top:8px;line-height:1.7">No browser process. No GPU. No canvas hash. No sensor.js execution. Just a TLS handshake that matches Chrome 148 exactly — because it uses Chrome 148's cipher suites.</p>
+  </div>
+
+  <!-- Production architecture -->
+  <div style="margin-bottom:20px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Production architecture</div>
+    <div style="background:rgba(0,0,0,.4);border-radius:6px;padding:14px 18px;font-family:var(--mono);font-size:12px;color:var(--t2);line-height:2;border:1px solid var(--b1)">Scrapy spider
+  → GoProxyMiddleware (urllib, ~35ms round trip)
+      → Go HTTP server :8765 (4-session pool)
+          → akamai-v3-sensor sessions
+              → ISP proxy (Comcast AS7015, static residential)
+                  → Target site</div>
+    <p style="font-size:13px;color:var(--t2);line-height:1.7;margin-top:10px">Session rotation: 206 or GenericError triggers next session in pool. 3 errors on one session = background re-warm (new TLS handshake, new session state). All 4 blocked = 503, Python middleware waits 5s and retries up to 3× before fallback.</p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:12px">
+      <div style="font-family:var(--mono);font-size:12px"><span style="color:rgba(72,187,120,.9)">24</span> <span style="color:var(--t3)">requests/minute (4 sessions)</span></div>
+      <div style="font-family:var(--mono);font-size:12px"><span style="color:rgba(72,187,120,.9)">0</span> <span style="color:var(--t3)">blocks in first 500+ requests</span></div>
+      <div style="font-family:var(--mono);font-size:12px"><span style="color:rgba(72,187,120,.9)">0</span> <span style="color:var(--t3)">browser processes running</span></div>
+    </div>
+  </div>
+
+  <!-- Decision tree -->
+  <div style="padding:16px 20px;background:rgba(0,0,0,.2);border-radius:6px;border:1px solid var(--b1)">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:12px">Practical decision tree for Akamai in 2026</div>
+    <div style="display:grid;gap:6px">
+      <div style="display:flex;gap:12px;align-items:start;font-size:13px">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:24px">01</span>
+        <span style="color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">Find the mobile/GraphQL API first</strong> — often zero anti-bot protection. Same data, no sensor.js.</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:start;font-size:13px">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:24px">02</span>
+        <span style="color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">curl_cffi chrome131 + ISP residential proxy</strong> — works on ~60% of Akamai targets where sensor.js scoring is light. Free, fast, no infrastructure.</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:start;font-size:13px">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:24px">03</span>
+        <span style="color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">Go TLS library (akamai-v3-sensor) + ISP proxy</strong> — for targets with heavier sensor.js where curl_cffi's impersonation profile doesn't pass JA4 at the EdgeWorker level.</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:start;font-size:13px">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:24px">04</span>
+        <span style="color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">CloakBrowser (49 C++ patches, loads real extensions)</strong> — for targets requiring a real canvas hash and passing the 60-extension-URL probe. Slowest option, highest compatibility.</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:start;font-size:13px">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:24px">05</span>
+        <span style="color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">Managed API (Scrapfly, Bright Data)</strong> — for Akamai Bot Manager Premier targets running pixel challenges. Engineering cost exceeds managed API cost.</span>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:10px 14px;background:rgba(246,147,35,.05);border-left:2px solid rgba(246,147,35,.4);border-radius:0 4px 4px 0;font-size:12px;color:var(--t3);line-height:1.7">
+      <strong style="color:rgba(246,147,35,.8)">Key lesson:</strong> SwiftShader's <code>0x0000C0DE</code> device ID is permanently flagged. <code>Page.addScriptToEvaluateOnNewDocument</code> leaves a timing gap Akamai detects. A clean ISP IP (Comcast AS7015) matters — datacenter IPs fail at IP reputation before TLS even matters.
+    </div>
+  </div>
+</div>
+<!-- ── END AKAMAI CASE STUDY ─────────────────────────────────────────────── -->
+
 <!-- CLOUDFLARE -->
 <div class="abc" style="margin-bottom:8px">
   <div class="abstr" style="background:var(--orn)"></div>
