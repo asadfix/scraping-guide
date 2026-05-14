@@ -2526,7 +2526,7 @@ section[id], div[id^="self-heal"] {
 
   <div style="margin-bottom:28px">
     <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(72,187,120,.85);margin-bottom:14px">&check; What worked &middot; a Go library reimplementing Chrome's TLS stack</div>
-    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:14px">A Go library reimplements Chrome's exact TLS stack at the C level: cipher suite order, GREASE values, extension ordering, ALPN, HTTP/2 SETTINGS frames, HTTP/3 QUIC parameters. The JA4 fingerprint it produces is indistinguishable from real Chrome 148 because it <em>is</em> Chrome 148's cipher suite, implemented in Go.</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:14px">A Go library, <a href="https://github.com/jesterfoidchopped/akamai-v3-sensor" target="_blank" rel="noopener" style="color:rgba(72,187,120,.95);text-decoration:underline;font-weight:600">akamai-v3-sensor</a>, reimplements Chrome's exact TLS stack at the C level: cipher suite order, GREASE values, extension ordering, ALPN, HTTP/2 SETTINGS frames, HTTP/3 QUIC parameters. The JA4 fingerprint it produces is indistinguishable from real Chrome 148 because it <em>is</em> Chrome 148's cipher suite, implemented in Go.</p>
     <pre style="background:rgba(0,0,0,.45);border:1px solid rgba(72,187,120,.18);border-radius:6px;padding:18px 22px;font-family:var(--mono);font-size:13px;line-height:1.9;overflow-x:auto;color:#a8d8a8;margin:0"><span style="color:var(--t3)">// One session, one proxy, one request</span>
 s := sensor.NewSession(<span style="color:#ffd700">"chrome-148"</span>,
     sensor.WithSessionProxy(<span style="color:#ffd700">"http://user:pass@comcast-ip:port"</span>),
@@ -2597,7 +2597,7 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
       </div>
       <div style="display:flex;gap:14px;align-items:start">
         <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">03</span>
-        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1)">Go TLS library + ISP proxy.</strong> For targets with heavier sensor.js where curl_cffi's impersonation doesn't pass JA4 at the EdgeWorker.</span>
+        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1)">Go TLS library (<a href="https://github.com/jesterfoidchopped/akamai-v3-sensor" target="_blank" rel="noopener" style="color:var(--y);text-decoration:underline">akamai-v3-sensor</a>) + ISP proxy.</strong> For targets with heavier sensor.js where curl_cffi's impersonation doesn't pass JA4 at the EdgeWorker.</span>
       </div>
       <div style="display:flex;gap:14px;align-items:start">
         <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">04</span>
