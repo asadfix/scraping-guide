@@ -2646,7 +2646,67 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
 <h2 class="sh">Every tool built to fight<br><em>every wall we just described.</em></h2>
 <p class="ss">Now that you understand the detection stack and the six anti-bot vendors, every library below makes sense in context. curl_cffi exists because of JA4. Camoufox exists because of CDP leaks. PatchRight exists because of Kasada's toString() inspection. The arsenal wasn't built randomly, each tool is a direct countermeasure to a specific detection innovation.</p>
 
-<h3 class="rh rv">Master comparison table, all 60+ libraries & tools</h3>
+
+<!-- ── LANGUAGE ECOSYSTEM ─────────────────────────────────────────────── -->
+<div style="margin:36px 0 28px;padding:24px 28px;background:linear-gradient(135deg,rgba(96,165,250,.04),rgba(167,139,250,.03));border:1px solid var(--b1);border-radius:8px">
+  <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(96,165,250,.85);margin-bottom:10px">Before the table &middot; pick the right language first</div>
+  <h3 style="font-family:var(--serif);font-size:24px;font-weight:400;color:var(--t1);margin-bottom:8px;line-height:1.2">Scraping is no longer Python-only.</h3>
+  <p style="font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:22px">Python still dominates the open-source ecosystem (Scrapy, curl_cffi, Camoufox), but the hardest 10% of targets in 2026 reach for Go, TypeScript, or Rust. Here's when each language earns its place, and why mixing them in one pipeline is the production-grade move.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+    
+    <!-- Python -->
+    <div style="padding:16px 18px;background:rgba(72,187,120,.05);border:1px solid rgba(72,187,120,.2);border-radius:6px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-family:var(--mono);font-size:14px;font-weight:800;color:rgba(72,187,120,.95)">Python</span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:2px 6px;background:rgba(72,187,120,.1);border:1px solid rgba(72,187,120,.3);border-radius:3px;color:rgba(72,187,120,.9)">Default</span>
+      </div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:10px">Largest ecosystem. Scrapy + curl_cffi + Camoufox cover 80% of targets. Best for data engineers already running pandas, Airflow, dbt downstream.</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6"><strong style="color:var(--t2)">Use when:</strong> default choice, fast prototyping, ML pipelines, when team is Python-native</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6;margin-top:4px"><strong style="color:var(--t2)">Key libs:</strong> Scrapy, curl_cffi, Camoufox, PatchRight, Crawlee-python, scrapy-stealth</div>
+    </div>
+
+    <!-- Go -->
+    <div style="padding:16px 18px;background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.25);border-radius:6px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-family:var(--mono);font-size:14px;font-weight:800;color:rgba(96,165,250,.95)">Go</span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:2px 6px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);border-radius:3px;color:rgba(96,165,250,.9)">TLS &amp; concurrency</span>
+      </div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:10px">Closest language to OS-level TLS control. Akamai-grade JA4 spoofing is a Go specialty. Native goroutines beat asyncio at 10,000+ concurrent connections. Single binary deploys.</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6"><strong style="color:var(--t2)">Use when:</strong> Akamai v3, F5 Shape, TLS fingerprint precision, 10K+ concurrent crawls, edge deployments</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6;margin-top:4px"><strong style="color:var(--t2)">Key libs:</strong> akamai-v3-sensor, tls-client, colly, surf, rod, cycletls</div>
+    </div>
+
+    <!-- TypeScript / Node -->
+    <div style="padding:16px 18px;background:rgba(245,197,24,.05);border:1px solid rgba(245,197,24,.2);border-radius:6px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-family:var(--mono);font-size:14px;font-weight:800;color:var(--y)">TypeScript / Node.js</span>
+      </div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:10px">First-class Playwright and Puppeteer. Better browser automation primitives than Python ports. Strongest ecosystem for AI agents and Chrome extension work. Apify's Crawlee was Node-first for a reason.</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6"><strong style="color:var(--t2)">Use when:</strong> browser automation is the bottleneck, AI agents, Computer Use Agents, working with Chrome DevTools deeply, full-stack JS team</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6;margin-top:4px"><strong style="color:var(--t2)">Key libs:</strong> Crawlee, Playwright (TS), Puppeteer, Stagehand, Browser Use, ScrapingBee SDK, got-scraping</div>
+    </div>
+
+    <!-- Rust -->
+    <div style="padding:16px 18px;background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.25);border-radius:6px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-family:var(--mono);font-size:14px;font-weight:800;color:rgba(167,139,250,.95)">Rust</span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:2px 6px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:3px;color:rgba(167,139,250,.9)">Emerging</span>
+      </div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:10px">Lower-level than Go, even more control over TLS internals and memory. Used where you need both performance and Chrome-level fingerprint precision. 67% fewer tokens than equivalent Python in some benchmarks. Steeper learning curve.</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6"><strong style="color:var(--t2)">Use when:</strong> webclaw, custom TLS work, MCP servers, performance is critical, you already have Rust on the team</div>
+      <div style="font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.6;margin-top:4px"><strong style="color:var(--t2)">Key libs:</strong> webclaw, rquest, rnet, scraper, fantoccini</div>
+    </div>
+  </div>
+
+  <!-- The pragmatic conclusion -->
+  <div style="margin-top:18px;padding:14px 18px;background:rgba(0,0,0,.25);border-left:2px solid var(--y);border-radius:0 4px 4px 0">
+    <strong style="color:var(--y);font-size:13px">The pragmatic move in 2026:</strong>
+    <div style="font-size:13px;color:var(--t2);line-height:1.75;margin-top:6px">Run Python for orchestration (Scrapy is still the best framework for crawl logic, queues, deduplication, and ML downstream). Drop down to <strong style="color:var(--t1)">Go via a sidecar HTTP service</strong> only for the requests that need true Chrome JA4 (Akamai v3, F5 Shape). Use <strong style="color:var(--t1)">Node + Crawlee or Playwright (TS)</strong> when the work is genuinely browser-automation-heavy, especially for AI agents. The Akamai case study above shows this exact pattern: Scrapy spider in Python, calling a Go server via <code>urllib</code> for the protected requests only.</div>
+  </div>
+</div>
+
+<h3 class="rh rv">Master comparison table, all 73 libraries & tools</h3>
 <div class="lt-wrap rv"><table class="lt">
 <thead><tr>
   <th>Library <span style="font-size:9px;opacity:.5;font-weight:400">(click to expand)</span></th><th>Type</th><th>Lang</th><th>JS render</th><th>TLS spoof</th><th>TLS detail</th><th>Anti-bot target</th><th>MCP</th><th>Stars</th>
