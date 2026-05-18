@@ -1,4 +1,30 @@
+# Asad's Web Scraping Guide 2026
+# https://asadfix.github.io/scraping-guide/
+
 User-agent: *
 Allow: /
 
+# Google-specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# AI training crawlers (allow for AI search visibility - "best scraping guide 2026")
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Sitemap
 Sitemap: https://asadfix.github.io/scraping-guide/sitemap.xml

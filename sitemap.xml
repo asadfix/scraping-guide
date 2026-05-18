@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://asadfix.github.io/scraping-guide/</loc>
-    <lastmod>2026-05-11</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://asadfix.github.io/scraping-guide/og-image.png</image:loc>
+      <image:title>Web Scraping and Anti-Bot Bypass Guide 2026</image:title>
+      <image:caption>Production guide to bypassing Cloudflare, Akamai, DataDome, Kasada, F5 Shape with 73 libraries and 9 architectures</image:caption>
+    </image:image>
   </url>
 </urlset>
