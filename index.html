@@ -2601,7 +2601,7 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
       </div>
       <div style="display:flex;gap:14px;align-items:start">
         <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">04</span>
-        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1)">CloakBrowser (49 C++ patches, loads real extensions).</strong> For targets requiring a real canvas hash and passing the 60-extension probe.</span>
+        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1)"><a href="https://github.com/CloakHQ/CloakBrowser" target="_blank" rel="noopener" style="color:var(--y);text-decoration:underline">CloakBrowser</a> (49 C++ patches, loads real extensions).</strong> For targets requiring a real canvas hash and passing the 60-extension probe. The kill-switch for sites where TLS spoofing alone is not enough.</span>
       </div>
       <div style="display:flex;gap:14px;align-items:start">
         <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">05</span>
@@ -2831,17 +2831,17 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
     </div>
   </td>
 </tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('CloakBrowser')"><td>CloakBrowser <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">49 C++ patches</span></td><td>Akamai, reCAPTCHA v3 0.9</td><td><span class="dn"></span></td><td>–</td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('CloakBrowser')"><td><a href="https://github.com/CloakHQ/CloakBrowser" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--t1);text-decoration:none;font-weight:600">CloakBrowser</a> <span class="lib-row-badge lib-browser-b">🌐</span></td><td><span class="lcat lb">Browser</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">49 C++ patches</span></td><td>Akamai, reCAPTCHA v3 0.9</td><td><span class="dn"></span></td><td>–</td></tr>
 <tr class="lib-detail-row" id="detail-CloakBrowser">
   <td colspan="8">
     <div class="lib-detail-inner">
       <div class="lib-detail-top">
         <span class="lib-browser-badge">🌐 Browser</span>
-        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> 49 C++ binary patches to Chromium. Patches webdriver, chrome object, plugins, permissions, WebGL, Canvas at the binary level, not patchable by JS.</div>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> 49+ C++ binary patches to Chromium itself. Patches webdriver, chrome object, plugins, permissions, WebGL, Canvas, AudioContext, and extension probe responses at the C++ level, not JavaScript. Repo: <a href="https://github.com/CloakHQ/CloakBrowser" target="_blank" rel="noopener" style="color:var(--y);text-decoration:underline">github.com/CloakHQ/CloakBrowser</a>.</div>
       </div>
       <div class="lib-pc-row">
-        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>reCAPTCHA v3 score 0.9, highest of any tool</li><li>Passes Akamai extension probes</li><li>Real extension fingerprint database built-in</li><li>C++ level, undetectable by any JS probe</li></ul></div>
-        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Paid product, not open source</li><li>Less community support than Playwright</li><li>Chrome only</li></ul></div>
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>reCAPTCHA v3 score 0.9, the highest of any tool I have tested</li><li>Passes Akamai's 60-URL extension probe (loads real 1Password / Bitwarden / LastPass profiles)</li><li>Real extension fingerprint database built-in, no manual setup</li><li>C++ level patches survive <code>Function.prototype.toString()</code> inspection (the kill-switch for JS stealth tools like puppeteer-stealth and patchright)</li><li>Solves the hard problems Camoufox and PatchRight cannot: canvas hash at the C++ rendering layer, AudioContext at the audio pipeline layer, real extension probe responses</li><li>Now open source on GitHub, active development</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Higher resource cost than HTTP-only tools (200MB+ per instance)</li><li>Chromium only, no Firefox variant</li><li>Newer than Camoufox, smaller community</li><li>Overkill for sites that curl_cffi + ISP proxy already handle</li></ul></div>
       </div>
     </div>
   </td>
