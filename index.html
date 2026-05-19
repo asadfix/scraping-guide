@@ -1791,20 +1791,14 @@ section[id], div[id^="self-heal"] {
       <div class="hs"><div class="hs-n">4</div><div class="hs-l">Detection layers</div></div>
       <div class="hs"><div class="hs-n">6</div><div class="hs-l">Decision steps</div></div>
     </div>
-  </div>
-
-  <!-- LLM Context Download Button -->
-  <div class="rv" style="margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;z-index:10">
-    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
-      <button id="llm-dl-btn" onclick="downloadLLMContext()" style="position:relative;z-index:10;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;padding:11px 24px;background:rgba(245,197,24,.08);border:1.5px solid rgba(245,197,24,.4);border-radius:5px;color:rgba(245,197,24,.9);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(245,197,24,.16)'" onmouseout="this.style.background='rgba(245,197,24,.08)'">
+    <!-- LLM Context Download Button -->
+    <div style="text-align:center;margin-top:28px;position:relative;z-index:10">
+      <button id="llm-dl-btn" onclick="downloadLLMContext()" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;padding:10px 24px;background:rgba(245,197,24,.08);border:1.5px solid rgba(245,197,24,.4);border-radius:5px;color:rgba(245,197,24,.9);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(245,197,24,.16)'" onmouseout="this.style.background='rgba(245,197,24,.08)'">
         <span>⬇</span> Download as LLM Context
-        <span style="font-size:9px;opacity:.55;font-weight:400;text-transform:none;letter-spacing:0">~35K tokens · fits Claude &amp; GPT-4o</span>
+        <span style="font-size:9px;opacity:.6;font-weight:400;text-transform:none;letter-spacing:0">~35K tokens · Claude &amp; GPT-4o</span>
       </button>
-      <a href="#flow" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;padding:11px 20px;background:rgba(255,255,255,.04);border:1.5px solid var(--b1);border-radius:5px;color:var(--t2);text-decoration:none;display:flex;align-items:center;gap:6px;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
-        Start Reading ↓
-      </a>
+      <p style="font-family:var(--mono);font-size:10px;color:var(--t3);margin:8px 0 0;letter-spacing:.04em">Paste into Claude, ChatGPT, or Cursor — full guide as LLM context</p>
     </div>
-    <p style="font-family:var(--mono);font-size:10px;color:var(--t3);text-align:center;letter-spacing:.04em;margin:0">Paste the .md file into Claude, ChatGPT, or Cursor to ask scraping questions with the full guide as context</p>
   </div>
 
   <div class="hero-scroll">
