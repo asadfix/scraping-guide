@@ -2078,6 +2078,10 @@ section[id], div[id^="self-heal"] {
 </div>
 </div>
 
+<div style="margin:8px 0 16px;padding:12px 16px;background:rgba(245,197,24,.04);border-left:2px solid var(--y);border-radius:0 4px 4px 0;font-size:13px;color:var(--t2);line-height:1.75">
+  <strong style="color:var(--y)">The harvest-and-replay threat (Castle Research, April 2026):</strong> Real canvas hashes from real Macs are now commercially traded. Services like Bablosoft's <strong>PerfectCanvas</strong> render canvas on a real remote GPU and inject the result into headless sessions. A "passing" canvas hash is not proof of a real browser, it may be a replayed hash from a legitimate device. Detection systems are responding by pairing canvas probes with harder-to-replay signals: WASM SIMD CPU timing, behavioural Bezier-curve physics, and controlled variability in their own probe scripts. <a href="https://castle.io/research/fingerprint-harvesting-in-the-bot-ecosystem/" target="_blank" rel="noopener" style="color:var(--y)">Full report.</a>
+</div>
+
 <div class="cards c2 rv" style="margin-top:8px">
 <div class="card">
   <div class="cbar" style="background:var(--y)"></div>
@@ -5057,6 +5061,47 @@ The conventional framing: web scraping is a tool for extracting data from websit
 <br><br>Once AI agents start interacting with the web autonomously at scale, reliability becomes a systems problem first and a parsing problem second. The pipeline that Firecrawl, Crawl4AI, Stagehand, and Scrapling are converging on is not "scraper plus LLM." It is a resilient extraction runtime with LLM as one processing layer among many.
 
 <br><br><em>Framing via D4Vinci (Scrapling author), May 2026.</em>
+    </div>
+  </div>
+
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Research &middot; Castle Intelligence &middot; April 2026</div>
+    <div class="ic-title">Your Anti-Bot Fingerprint Is Probably for Sale Right Now</div>
+    <div class="ic-body">Castle analysed 811 bot-adjacent sites and found browser fingerprints being collected, packaged, and sold as operational assets. 12.5% deployed fingerprinting scripts consistent with harvesting. Services openly advertise "comprehensive TLS, HTTP/2, and JavaScript fingerprint collection."</div>
+    <div class="ic-insight">&#128161; Detection systems must assume replay. Client-side signals are untrusted input, not proof of identity.</div>
+    <div class="ic-detail">
+<a href="https://castle.io/research/fingerprint-harvesting-in-the-bot-ecosystem/" target="_blank" rel="noopener" style="color:var(--y)">Castle Research (Antoine Vastel), April 2026</a> analysed 811 bot-adjacent websites including proxy providers, CAPTCHA farms, engagement manipulation services, and sneaker bots. The findings document a structured, commercialised layer of the bot ecosystem that most scraping engineers have not thought about.
+
+<br><br><strong>What they found:</strong>
+
+<br><br>12.5% of analysed sites deployed fingerprinting-related scripts consistent with harvesting. A subset replicated vendor-specific telemetry from PerimeterX, Incapsula, Akamai, Adyen, and hCaptcha, not to defend themselves, but to collect and replay the same signals against those vendors.
+
+<br><br><strong>The mechanics:</strong>
+
+<br><br>Services like <code>impersonate[.]pro</code> openly advertise "comprehensive TLS, HTTP/2, HTTP/3, and JavaScript fingerprint collection." In Discord and Telegram communities, bot developers discuss embedding custom JavaScript on real websites specifically to harvest fingerprints from genuine visitors. The goal: build inventories of authentic device profiles that can be injected into automated sessions.
+
+<br><br>The <strong>PerfectCanvas</strong> mechanism from Bablosoft is the clearest example. Their documentation describes exactly the pattern:
+<br>&bull; Render canvas on a real remote machine with a real GPU
+<br>&bull; Send the canvas output to the automation server
+<br>&bull; Inject it into the headless browser's response to the canvas probe
+
+<br><br>This is the harvesting-and-replay model made explicit. Instead of spoofing canvas values (detectable via inconsistency), you replay values from a real Mac. The fingerprint is genuine. It just came from a different device.
+
+<br><br><strong>Genesis Marketplace established the precedent:</strong> ~323,000 compromised browser environments for sale, each bundled with a real device fingerprint and a custom Chromium extension that injected the victim's browser profile into attacker sessions. F5 Labs and Europol both documented this. Castle's report shows the same approach is now commercialised at scale for bot traffic, not just account takeover.
+
+<br><br><strong>What this means for scrapers:</strong>
+
+<br><br>The arms race has a new dimension. Anti-bots are scoring fingerprints. Bot services are buying real fingerprints to replay. Defenders are now building for <em>replay conditions</em>, not just spoofing conditions. This is why:
+
+<br><br>&bull; Canvas/WebGL probes are increasingly paired with behavioural and timing signals (harder to replay than static values)
+<br>&bull; WASM SIMD CPU probes (above) are valuable precisely because they are harder to harvest and replay than JS-layer fingerprints
+<br>&bull; Anti-bots are introducing controlled variability in their own client-side scripts so that even valid payloads can't be reverse-engineered and replayed reliably
+
+<br><br><strong>The implication for this guide:</strong> when a stealth browser passes the canvas probe, it may not be because it spoofed the hash well. It may be because it replayed a real hash that was never flagged. The distinction matters because vendors will move toward replay-resistant probes, making the harvest-and-replay model progressively harder. WASM SIMD (which requires real hardware timing) is an early example of a replay-resistant signal.
+
+<br><br><em>Source: <a href="https://castle.io/research/fingerprint-harvesting-in-the-bot-ecosystem/" target="_blank" rel="noopener" style="color:var(--y)">Fingerprint Harvesting in the Bot Ecosystem</a>, Castle Research, Antoine Vastel, April 2026.</em>
     </div>
   </div>
 
