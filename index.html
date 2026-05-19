@@ -4966,6 +4966,37 @@ The <a href="https://github.com/sudo-iudo/unclearable-cookie" target="_blank" re
 
 
 </div>
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Reality check &middot; robots.txt</div>
+    <div class="ic-title">robots.txt Works Perfectly. On the Bots That Were Going to Comply Anyway.</div>
+    <div class="ic-body">A publisher blocked GPTBot, ClaudeBot, and PerplexityBot in robots.txt. Logs confirmed zero traffic from those User-Agents. The scraping continued. It just stopped identifying itself.</div>
+    <div class="ic-insight">&#128161; User-Agent is a string the client chooses to send. Polite bots send a real one.</div>
+    <div class="ic-detail">
+A publisher blocked GPTBot, ClaudeBot, and PerplexityBot in robots.txt. Logs confirmed it: zero traffic from any of those User-Agents. They thought they had solved the problem.
+
+<br><br>What was actually happening: the scraping continued. The traffic that used to say <code>"I am GPTBot"</code> was now saying <code>"I am Chrome 124 on macOS."</code> Same content destinations, same fetch patterns, different label.
+
+<br><br><strong>User-Agent is a string the client chooses to send.</strong> Polite scrapers send a real one. The scrapers you are actually worried about &mdash; the ones running at commercial scale on behalf of paying customers &mdash; send whatever string gets through.
+
+<br><br><strong>robots.txt works on:</strong>
+<br>&check; Academic crawlers (Googlebot, Bingbot, academic research bots)
+<br>&check; Large AI labs (OpenAI, Anthropic, Google) that have reputational incentives to comply
+<br>&check; Hobbyist scrapers who read the rules and care
+
+<br><br><strong>robots.txt does not work on:</strong>
+<br>&times; Commercial data brokers sending Chrome User-Agents
+<br>&times; Competitive intelligence tools running at scale behind residential proxies
+<br>&times; AI startups that have not publicly announced themselves
+<br>&times; Anyone whose business depends on data you do not want them to have
+
+<br><br>The implication for anti-bot systems: blocking by User-Agent is the weakest possible signal. Cloudflare, Akamai, and DataDome do not read robots.txt. They score TLS fingerprints, canvas hashes, behavioural timing, and IP reputation because those signals are harder to fake. User-Agent string matching is not a detection layer. It is a flag for voluntary compliance.
+
+<br><br>For scrapers reading this: if a target blocks GPTBot in robots.txt but has no real anti-bot scoring, the robots.txt is the only gate. Respect it. If they have Akamai or Cloudflare deployed, the robots.txt is decorative. The actual gate is the JA4 hash, the canvas probe, the IP reputation check. That is where this guide comes in.
+
+<br><br><em>Via a publisher conversation, May 2026.</em>
+    </div>
+  </div>
 </section>
 
 <!-- ═══ TESTING TOOLS ═══ -->
@@ -6538,6 +6569,12 @@ data = resp.json()</code></pre></div>
     <div class="cbody">Whether your IP address is associated with known bots, VPNs, datacenters, or abuse. Datacenter IPs are instantly flagged. Residential IPs from real ISPs get highest trust. <em>Analogy: your home address appearing on a blacklist, the doorman knows before you knock.</em></div>
   </div>
 </div>
+  <div class="card">
+    <div class="cbar" style="background:rgba(224,71,71,.8)"></div>
+    <div class="ctag">Compliance signal</div>
+    <div class="cname">robots.txt</div>
+    <div class="cbody">A text file at <code>/robots.txt</code> telling crawlers which paths to skip. Works on voluntary compliance only. Googlebot and GPTBot respect it. Commercial scrapers send a Chrome User-Agent and walk straight past it. <em>Analogy: a "staff only" sign. Anyone who cares about signs obeys it. Anyone who does not care walks in anyway.</em></div>
+  </div>
 </section>
 
 <!-- ═══ COMMUNITY ═══ -->
