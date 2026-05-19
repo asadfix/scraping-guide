@@ -1792,6 +1792,21 @@ section[id], div[id^="self-heal"] {
       <div class="hs"><div class="hs-n">6</div><div class="hs-l">Decision steps</div></div>
     </div>
   </div>
+
+  <!-- LLM Context Download Button -->
+  <div class="rv" style="margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;z-index:10">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <button id="llm-dl-btn" onclick="downloadLLMContext()" style="position:relative;z-index:10;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;padding:11px 24px;background:rgba(245,197,24,.08);border:1.5px solid rgba(245,197,24,.4);border-radius:5px;color:rgba(245,197,24,.9);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(245,197,24,.16)'" onmouseout="this.style.background='rgba(245,197,24,.08)'">
+        <span>⬇</span> Download as LLM Context
+        <span style="font-size:9px;opacity:.55;font-weight:400;text-transform:none;letter-spacing:0">~35K tokens · fits Claude &amp; GPT-4o</span>
+      </button>
+      <a href="#flow" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;padding:11px 20px;background:rgba(255,255,255,.04);border:1.5px solid var(--b1);border-radius:5px;color:var(--t2);text-decoration:none;display:flex;align-items:center;gap:6px;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+        Start Reading ↓
+      </a>
+    </div>
+    <p style="font-family:var(--mono);font-size:10px;color:var(--t3);text-align:center;letter-spacing:.04em;margin:0">Paste the .md file into Claude, ChatGPT, or Cursor to ask scraping questions with the full guide as context</p>
+  </div>
+
   <div class="hero-scroll">
     <div class="hscroll-line"><div class="hscroll-fill"></div></div>
     <div class="hscroll-label">Scroll</div>
@@ -7752,6 +7767,135 @@ function showCase(name, btn) {
       btn.style.color = 'var(--y)';
     }
   }
+}
+
+
+
+// ── LLM CONTEXT DOWNLOAD ─────────────────────────────────────────────────────
+function downloadLLMContext() {
+  const btn = document.getElementById('llm-dl-btn');
+  btn.innerHTML = '<span>⏳</span> Building context...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    try {
+      // Force-expand all collapsed sections for extraction
+      document.querySelectorAll('.lib-detail-row').forEach(r => r.style.display = 'table-row');
+      document.querySelectorAll('.icard').forEach(c => c.classList.add('expanded'));
+      document.querySelectorAll('.case-panel').forEach(p => p.style.display = 'block');
+      document.querySelectorAll('.arch-panel').forEach(p => p.style.display = 'block');
+
+      function cleanText(el) {
+        if (!el) return '';
+        const clone = el.cloneNode(true);
+        clone.querySelectorAll('script,style,button,nav,.llmw,.mob-menu-btn,.hero-scroll,.hscroll-line').forEach(e => e.remove());
+        let text = clone.innerText || clone.textContent || '';
+        text = text.replace(/\t/g, ' ').replace(/\n{3,}/g, '\n\n').replace(/ {2,}/g, ' ');
+        return text.trim();
+      }
+
+      const sections = [
+        { id: 'flow',       title: 'THE SCRAPING DECISION FLOW' },
+        { id: 'detect',     title: 'DETECTION LAYERS — How Anti-Bots Catch You' },
+        { id: 'antibots',   title: 'ANTI-BOT VENDORS — Cloudflare, Akamai, DataDome, Kasada, PerimeterX, F5 Shape' },
+        { id: 'cases',      title: 'CASE STUDIES — Real Production Bypasses' },
+        { id: 'libs',       title: 'LIBRARIES — 73 Tools Across Python, Go, TypeScript, Rust' },
+        { id: 'ai',         title: 'AI-POWERED SCRAPING' },
+        { id: 'platforms',  title: 'SCRAPING PLATFORMS AND SERVICES' },
+        { id: 'proxies',    title: 'PROXY PROVIDERS AND TYPES' },
+        { id: 'play',       title: 'DECISION PLAYBOOK — Step-by-Step Priority Order' },
+        { id: 'innovation', title: 'INNOVATION AND EMERGING TECHNIQUES' },
+        { id: 'tools',      title: 'TESTING AND DETECTION TOOLS' },
+        { id: 'arch',       title: 'PRODUCTION ARCHITECTURES' },
+        { id: 'mobile',     title: 'MOBILE API INTERCEPTION' },
+        { id: 'jargon',     title: 'JARGON GLOSSARY' },
+      ];
+
+      let md = '';
+
+      md += `# Asad Ikram's Web Scraping & Anti-Bot Bypass Guide 2026\n`;
+      md += `Source: https://asadfix.github.io/scraping-guide/\n`;
+      md += `Author: Asad Ikram — Data Engineer, 7 years production scraping\n`;
+      md += `Generated: ${new Date().toISOString().split('T')[0]}\n\n`;
+      md += `---\n\n`;
+      md += `## HOW TO USE THIS CONTEXT\n\n`;
+      md += `Paste this file as a system prompt or context into Claude, ChatGPT, Cursor, or any LLM.\n`;
+      md += `Then ask questions like:\n`;
+      md += `- "How do I bypass Cloudflare Turnstile with Python?"\n`;
+      md += `- "What's the best library for scraping a site with Akamai Bot Manager v3?"\n`;
+      md += `- "Explain the difference between JA3 and JA4+ TLS fingerprinting"\n`;
+      md += `- "Write a scrapy-stealth middleware config for my Scrapy spider"\n`;
+      md += `- "Why is curl_cffi better than requests for scraping?"\n`;
+      md += `- "What is the _abck cookie and why won't it flip from ~-1~ to ~0~?"\n\n`;
+      md += `---\n\n`;
+      md += `## QUICK REFERENCE — DECISION TREES\n\n`;
+      md += `### General scraping priority (start left, move right only when needed)\n\n`;
+      md += `1. Find the mobile/GraphQL API — often zero anti-bot, same data\n`;
+      md += `2. Find XHR endpoint in Chrome DevTools Network tab\n`;
+      md += `3. Find JSON in HTML — __NEXT_DATA__, window.__data__, chompjs\n`;
+      md += `4. HTTP scraping — curl_cffi impersonate=chrome131 + ISP residential proxy\n`;
+      md += `5. C++ patched browser — Camoufox (Cloudflare), CloakBrowser (Akamai extensions)\n`;
+      md += `6. Managed API — Bright Data, Zyte, Scrapfly for Bot Manager Premier\n\n`;
+      md += `### Akamai v3 specific\n\n`;
+      md += `1. Mobile/GraphQL API (often unprotected)\n`;
+      md += `2. curl_cffi chrome131 + ISP proxy (works on ~60% of Akamai targets)\n`;
+      md += `3. akamai-v3-sensor Go library + ISP proxy — github.com/jesterfoidchopped/akamai-v3-sensor\n`;
+      md += `4. CloakBrowser — github.com/CloakHQ/CloakBrowser (real extension profiles)\n`;
+      md += `5. Managed API for Bot Manager Premier (pixel challenges)\n\n`;
+      md += `### TLS spoofing tiers\n\n`;
+      md += `- Tier 1 (80% of cases): curl_cffi impersonate="chrome131"\n`;
+      md += `- Tier 2 (Scrapy): scrapy-stealth middleware — github.com/fawadss1/scrapy-stealth\n`;
+      md += `- Tier 3 (hardest): Camoufox / CloakBrowser / akamai-v3-sensor Go library\n\n`;
+      md += `### Detection layers (Akamai scores in 5 layers)\n\n`;
+      md += `- Layer 1: TLS JA4 fingerprint — fires BEFORE HTML is served\n`;
+      md += `- Layer 2: HTTP/2 SETTINGS frame\n`;
+      md += `- Layer 2.5: WASM SIMD CPU probes — defeats all JS-level stealth patches\n`;
+      md += `- Layer 3: ALPN + header order\n`;
+      md += `- Layer 4: sensor.js — canvas, WebGL, AudioContext, 60 Chrome extension probes\n`;
+      md += `- Layer 5: Behavioural — mouse Bezier curves, scroll timing\n\n`;
+      md += `Key insight: Canvas fingerprinting, SwiftShader, and JS injection are layer 4 solutions applied to a layer 1 problem. Fix the TLS layer first.\n\n`;
+      md += `---\n\n`;
+
+      sections.forEach(({ id, title }) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const text = cleanText(el);
+        if (text.length < 50) return;
+        md += `---\n\n## ${title}\n\n${text}\n\n`;
+      });
+
+      md += `---\n\n`;
+      md += `*Context extracted from asadfix.github.io/scraping-guide — Asad Ikram's complete 2026 web scraping guide.*\n`;
+      md += `*Free, no signup, no paywall. Single HTML file on GitHub Pages.*\n`;
+
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'scraping-guide-2026-llm-context.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      btn.innerHTML = '<span>✓</span> Downloaded!';
+      btn.style.background = 'rgba(72,187,120,.15)';
+      btn.style.borderColor = 'rgba(72,187,120,.5)';
+      btn.style.color = 'rgba(72,187,120,.95)';
+      setTimeout(() => {
+        btn.innerHTML = '<span>⬇</span> Download as LLM Context <span style="font-size:9px;opacity:.55;font-weight:400;text-transform:none;letter-spacing:0">~35K tokens · fits Claude & GPT-4o</span>';
+        btn.style.background = 'rgba(245,197,24,.08)';
+        btn.style.borderColor = 'rgba(245,197,24,.4)';
+        btn.style.color = 'rgba(245,197,24,.9)';
+        btn.disabled = false;
+      }, 3000);
+
+    } catch(e) {
+      console.error('LLM context download failed:', e);
+      btn.innerHTML = '<span>⬇</span> Download as LLM Context';
+      btn.disabled = false;
+    }
+  }, 150);
 }
 
 </script>
