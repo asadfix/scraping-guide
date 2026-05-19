@@ -2001,7 +2001,7 @@ section[id], div[id^="self-heal"] {
           <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(245,197,24,.85);text-transform:uppercase;margin-bottom:6px">Tier 2 · Scrapy projects</div>
           <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px">Plug a stealth middleware in</div>
           <div style="font-size:12px;color:var(--t2);line-height:1.65">
-            <code>scrapy-stealth</code> adds TLS + HTTP/2 fingerprinting + proxy rotation + fingerprint cycling to existing Scrapy spiders via DOWNLOADER_MIDDLEWARE. Per-request engine switching keeps simple URLs fast.<br><br>
+            <a href="https://github.com/fawadss1/scrapy-stealth" target="_blank" rel="noopener" style="color:var(--y);text-decoration:underline;font-family:var(--mono)">scrapy-stealth</a> adds TLS + HTTP/2 fingerprinting + proxy rotation + fingerprint cycling to existing Scrapy spiders via DOWNLOADER_MIDDLEWARE. Per-request engine switching keeps simple URLs fast.<br><br>
             <code style="display:block;padding:8px 10px;background:rgba(0,0,0,.4);border-radius:4px;font-size:11px;margin-top:6px;color:var(--y);overflow-x:auto">meta={"stealth": {"profile": "chrome_147"}}</code>
           </div>
         </div>
@@ -3194,13 +3194,13 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
     </div>
   </td>
 </tr>
-<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-stealth')"><td>scrapy-stealth <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Browser TLS + HTTP/2</span></td><td>Cloudflare, Akamai</td><td><span class="dn"></span></td><td>v0.4 (2026)</td></tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('scrapy-stealth')"><td><a href="https://github.com/fawadss1/scrapy-stealth" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--t1);text-decoration:none;font-weight:600">scrapy-stealth</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:12px;color:var(--t3)">Python</span></td><td><span class="dy"></span></td><td><span class="dy"></span> <span style="font-size:14px">Browser TLS + HTTP/2</span></td><td>Cloudflare, Akamai</td><td><span class="dn"></span></td><td>v0.4 (2026)</td></tr>
 <tr class="lib-detail-row" id="detail-scrapy-stealth">
   <td colspan="8">
     <div class="lib-detail-inner">
       <div class="lib-detail-top">
         <span class="lib-http-badge">⚡ HTTP</span>
-        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Pluggable Scrapy DOWNLOADER_MIDDLEWARE with three drivers: <code>basic</code> + <code>turbo</code> (TLS fingerprint + HTTP/2 impersonation, no browser), and <code>browser</code> (real Chrome via CDP for JS-heavy targets). Per-request engine switching via <code>request.meta["stealth"]</code>.</div>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Pluggable Scrapy DOWNLOADER_MIDDLEWARE with three drivers: <code>basic</code> + <code>turbo</code> (TLS fingerprint + HTTP/2 impersonation, no browser), and <code>browser</code> (real Chrome via CDP for JS-heavy targets). Per-request engine switching via <code>request.meta["stealth"]</code>. Repo: <a href="https://github.com/fawadss1/scrapy-stealth" target="_blank" rel="noopener" style="color:var(--y);text-decoration:underline">github.com/fawadss1/scrapy-stealth</a>. Author Fawad ships frequent updates.</div>
       </div>
       <div class="lib-pc-row">
         <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul class="lib-pc-list"><li>Built-in TLS fingerprint spoofing, scrapy-playwright/scrapy-splash/scrapy-selenium do not have this</li><li>Per-request engine switching: keep light HTTP for easy URLs, browser only for protected ones</li><li>Built-in proxy + fingerprint rotation (no separate middleware needed)</li><li>Native Cloudflare and Akamai detection via status + body keyword checks</li><li>Browser profiles like <code>chrome_147</code>, <code>safari_ios_18_1_1</code> kept current</li><li>MIT license, active development (v0.4 May 2026)</li></ul></div>
@@ -4127,6 +4127,68 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
         <span class="kw">return</span> <span class="df">json</span><span class="py">.</span><span class="fn">loads</span><span class="py">(</span><span class="df">result</span><span class="py">.</span><span class="df">extracted_content</span><span class="py">)</span>
 <span class="cm"># F1 > 0.95 on well-structured pages, NEXT-EVAL benchmark 2025</span></pre></div>
 </div>
+
+
+<!-- ── LLM + SCHEMA VALIDATION ──────────────────────────────────────────── -->
+<h3 class="rh rv" style="margin-top:48px">From extraction to <em>production-grade data</em></h3>
+<p class="ss" style="margin-bottom:24px">Crawl4AI and Firecrawl get you semantic understanding out of an LLM. But ask an LLM for a price across 10,000 articles and you will get <code>$40</code>, <code>40 dollars</code>, <code>40 USD</code>, <code>"forty dollars"</code>, and occasionally <code>null</code>. Production pipelines cannot ingest that. The fix is to separate the two concerns LLMs conflate: <strong>semantic understanding</strong> and <strong>structural guarantees</strong>.</p>
+
+<div class="cards c2 rv" style="margin-bottom:28px">
+  <div class="card" style="border-color:rgba(72,187,120,.25)">
+    <div class="cbar" style="background:rgba(72,187,120,.9)"></div>
+    <div class="ctag">The pattern · Pydantic + Instructor + LLM</div>
+    <div class="cname">Schema-validated LLM extraction</div>
+    <div class="cbody">
+      Define a Pydantic schema for what you want. Pass it to the LLM via <strong>Instructor</strong> (which patches OpenAI, Anthropic, Mistral clients to return validated schema objects, not free text). Instructor handles retries when the LLM returns malformed output, and rejects responses that fail validation before they enter your pipeline.
+      <br><br>
+      <pre style="background:rgba(0,0,0,.4);border-radius:5px;padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.8;color:#a8d8a8;overflow-x:auto;margin:8px 0"><span style="color:var(--t3)"># pip install instructor pydantic anthropic</span>
+<span style="color:#c586c0">from</span> pydantic <span style="color:#c586c0">import</span> BaseModel, Field
+<span style="color:#c586c0">import</span> instructor, anthropic
+
+<span style="color:#c586c0">class</span> <span style="color:#4ec9b0">JobPosting</span>(BaseModel):
+    title: str
+    company: str
+    salary_min_usd: <span style="color:#4ec9b0">int</span> | <span style="color:#569cd6">None</span> = Field(description=<span style="color:#ffd700">"Floor of salary range in USD"</span>)
+    salary_max_usd: <span style="color:#4ec9b0">int</span> | <span style="color:#569cd6">None</span>
+    years_experience_min: <span style="color:#4ec9b0">int</span>
+    location: str
+    remote: <span style="color:#4ec9b0">bool</span>
+
+client = instructor.from_anthropic(anthropic.Anthropic())
+result = client.messages.create(
+    model=<span style="color:#ffd700">"claude-sonnet-4"</span>,
+    response_model=JobPosting,
+    messages=[{<span style="color:#ffd700">"role"</span>: <span style="color:#ffd700">"user"</span>, <span style="color:#ffd700">"content"</span>: scraped_html}],
+    max_retries=<span style="color:#79c0ff">3</span>,
+)
+<span style="color:var(--t3)"># result is a validated JobPosting object, not a string</span>
+<span style="color:var(--t3)"># If LLM hallucinates "competitive" for salary, Instructor retries</span></pre>
+      <strong>Why this beats raw LLM calls:</strong> normalises currencies, units, and phrasings ("just under two percent" → 1.8); rejects hallucinated dates that don't fit the schema; retries automatically on type errors; gives you a real Python object downstream.
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(96,165,250,.25)">
+    <div class="cbar" style="background:rgba(96,165,250,.9)"></div>
+    <div class="ctag">When classical NLP still wins</div>
+    <div class="cname">spaCy, NLTK, Stanford NLP at scale</div>
+    <div class="cbody">
+      LLMs cost $0.001–0.01 per article on Claude or GPT-5. Classical NLP costs effectively zero after model load. For <strong>10M+ document extraction at scale</strong> where the schema is narrow and the domain is stable, spaCy NER + dependency parsing still wins on cost.
+      <br><br>
+      <strong>Use classical NLP when:</strong> scraping millions of consistent documents (e-commerce, classifieds), schema is fixed, domain doesn't shift, latency budget is &lt;5ms per doc.
+      <br><br>
+      <strong>Use LLM + Instructor when:</strong> messy heterogeneous sources (news, newsletters, job boards), context disambiguation matters ("Apple" the company vs the fruit), schema may evolve, semantic equivalences need resolving ("FTE" = "full-time" = "permanent" = "direct hire").
+      <br><br>
+      <strong>Hybrid in production:</strong> classical NLP pre-filters and tags. LLM resolves only the ambiguous cases. This is what Bloomberg, Reuters Refinitiv, and FactSet actually do, not pure LLM pipelines.
+      <br><br>
+      <em>Sources and further reading: <a href="https://substack.thewebscraping.club/p/how-to-use-llms-data-extraction-unstructured-text" target="_blank" rel="noopener" style="color:rgba(96,165,250,.95)">Federico Trotta, The Web Scraping Club, May 2026</a>; <a href="https://github.com/567-labs/instructor" target="_blank" rel="noopener" style="color:rgba(96,165,250,.95)">Instructor library</a>.</em>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:16px;padding:14px 18px;background:rgba(245,197,24,.04);border-left:2px solid var(--y);border-radius:0 4px 4px 0;font-size:13px;color:var(--t2);line-height:1.75">
+  <strong style="color:var(--y);font-size:13px">The production failure mode nobody warns you about:</strong> LLMs hallucinate <em>plausibly</em>. If your scraped article doesn't mention a publication date, an LLM will sometimes invent one that fits the article's tone. A Pydantic <code>date | None</code> field with Instructor's retry logic catches this, the LLM has to either find a real date or return None. Without schema validation, fabricated dates pass into your database as facts.
+</div>
+
 </section>
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
