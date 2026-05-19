@@ -4130,6 +4130,33 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
 
 
 <!-- ── LLM + SCHEMA VALIDATION ──────────────────────────────────────────── -->
+
+<div class="cards c2 rv" style="margin-top:28px">
+  <div class="card" style="border-color:rgba(96,165,250,.3)">
+    <div class="cbar" style="background:rgba(96,165,250,.9)"></div>
+    <div class="ctag">MCP Server · 55 production tools · MIT</div>
+    <div class="cname">Crawilfy <span style="font-family:var(--mono);font-size:10px;color:var(--t3);font-weight:400;margin-left:6px">github.com/razavioo/crawilfy-mcp-server</span></div>
+    <div class="cbody">
+      <strong>The full scraping stack as an MCP server</strong> — gives Claude Code, Cursor, and Codex 55 production tools for the complete crawling pipeline.
+      <br><br>
+      <strong>What it ships:</strong>
+      <br>&bull; Stealth via <code>curl_cffi</code> TLS impersonation + rotating proxies
+      <br>&bull; Auto-discover REST + GraphQL endpoints on any site
+      <br>&bull; Record a flow once, export it as a runnable Python crawler
+      <br>&bull; Smart extraction with any OpenAI-compatible LLM (free tiers + local Ollama work)
+      <br>&bull; MIT licensed
+      <br><br>
+      One command: <code style="background:rgba(0,0,0,.4);padding:2px 8px;border-radius:3px;color:var(--y)">uvx crawilfy-mcp-server</code>
+      <br><br>
+      <strong>Why this matters:</strong> at $0.002–0.01 per request, commercial scraping APIs compound fast on any non-trivial AI agent. Crawilfy brings the full stack in-process: TLS impersonation, proxy rotation, LLM extraction, all from within your IDE. The alternative is paying per-request at scale.
+    </div>
+    <div style="margin-top:12px;display:flex;gap:10px">
+      <a href="https://github.com/razavioo/crawilfy-mcp-server" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;color:rgba(96,165,250,.9);text-decoration:underline">GitHub ↗</a>
+      <a href="https://pypi.org/project/crawilfy-mcp-server/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;color:rgba(96,165,250,.9);text-decoration:underline">PyPI ↗</a>
+    </div>
+  </div>
+</div>
+
 <h3 class="rh rv" style="margin-top:48px">From extraction to <em>production-grade data</em></h3>
 <p class="ss" style="margin-bottom:24px">Crawl4AI and Firecrawl get you semantic understanding out of an LLM. But ask an LLM for a price across 10,000 articles and you will get <code>$40</code>, <code>40 dollars</code>, <code>40 USD</code>, <code>"forty dollars"</code>, and occasionally <code>null</code>. Production pipelines cannot ingest that. The fix is to separate the two concerns LLMs conflate: <strong>semantic understanding</strong> and <strong>structural guarantees</strong>.</p>
 
@@ -4997,6 +5024,42 @@ A publisher blocked GPTBot, ClaudeBot, and PerplexityBot in robots.txt. Logs con
 <br><br><em>Via a publisher conversation, May 2026.</em>
     </div>
   </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Ecosystem shift</div>
+    <div class="ic-title">Web Scraping Is Becoming Distributed Adversarial Systems Engineering</div>
+    <div class="ic-body">Most scraping frameworks still assume the web is static. Modern websites are adversarial runtime environments. The shift from HTML parsing to infrastructure engineering is well underway.</div>
+    <div class="ic-insight">&#128161; The future of autonomous AI agents may depend on infrastructure that can operate reliably across hostile, dynamically changing web environments.</div>
+    <div class="ic-detail">
+The conventional framing: web scraping is a tool for extracting data from websites.
+
+<br><br>The 2026 framing: web scraping is distributed adversarial systems engineering.
+
+<br><br><strong>What modern infrastructure has to operate against:</strong>
+<br>&bull; Fingerprinting systems (TLS JA4, canvas, WebGL, WASM SIMD)
+<br>&bull; Behavioural detection (mouse physics, scroll timing, inter-request jitter)
+<br>&bull; Anti-bot orchestration (Akamai EdgeWorker, Cloudflare Worker, DataDome middleware)
+<br>&bull; Cloudflare interstitials and Turnstile challenges
+<br>&bull; Dynamic runtime rendering (SPAs, hydration, lazy loading, service workers)
+<br>&bull; Session-aware defences (trust accumulation, per-session scoring, unclearable cookies)
+
+<br><br>This is what makes tools like <a href="https://github.com/D4Vinci/Scrapling" target="_blank" rel="noopener" style="color:var(--y)">Scrapling</a> architecturally interesting beyond "another Python scraper." It combines stealth browser execution, TLS fingerprint impersonation, adaptive element tracking that survives DOM changes, session-aware orchestration, proxy rotation, and MCP-based AI extraction. Not a scraper. A runtime.
+
+<br><br><strong>The systems properties that matter now:</strong>
+<br>&bull; Runtime orchestration (not just retries, state-aware crawl management)
+<br>&bull; Observability (what failed, at which layer, on which request)
+<br>&bull; Adaptive recovery (selector drift, DOM changes, anti-bot updates)
+<br>&bull; State persistence (session trust, cookie chains, cross-request identity)
+<br>&bull; Stealth execution (not a flag, an architecture)
+<br>&bull; Infrastructure resilience (circuit breakers, session warmup, fallback tiers)
+
+<br><br>Once AI agents start interacting with the web autonomously at scale, reliability becomes a systems problem first and a parsing problem second. The pipeline that Firecrawl, Crawl4AI, Stagehand, and Scrapling are converging on is not "scraper plus LLM." It is a resilient extraction runtime with LLM as one processing layer among many.
+
+<br><br><em>Framing via D4Vinci (Scrapling author), May 2026.</em>
+    </div>
+  </div>
+
 </section>
 
 <!-- ═══ TESTING TOOLS ═══ -->
@@ -6723,7 +6786,17 @@ data = resp.json()</code></pre></div>
       <div class="cbody">The community open-source project for learning web scraping with Python. Real examples, community-contributed code. 1,714 stars, 111 forks. Where a lot of scrapers got their start.</div>
     </div>
     </a>
+  
+  <a href="https://www.linkedin.com/pulse/3-web-scraping-mistakes-quietly-took-down-my-crawlers-keval-sakhiya-i8esc/" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--y)"></div>
+    <div class="ctag">Practitioner · War story</div>
+    <div class="cname">3 Mistakes That Quietly Took Down My Crawlers</div>
+    <div class="csub">Keval Sakhiya · Zyte Extract Summit winner</div>
+    <div class="cbody">A production scraper's account of the three silent killers that took down real crawlers: missing session management, no request pacing, and header fingerprinting failures. Practical and honest, not tutorial-style.</div>
   </div>
+  </a>
+</div>
 </section>
 
 <!-- ── SELF-HEALING SCRAPER ────────────────────────────────────── -->
