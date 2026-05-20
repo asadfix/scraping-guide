@@ -11,7 +11,7 @@
 </script>
 <!-- ═══ SEO ═══ -->
   <meta name="description" content="Bypass Cloudflare, Akamai, DataDome, Kasada in 2026. Production guide with 73 libraries (curl_cffi, Camoufox, Scrapy), 9 architectures, JA4+ TLS, mobile API interception.">
-  <meta name="keywords" content="web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
+  <meta name="keywords" content="Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
   <meta name="author" content="Asad Ikram">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://web-scraping-guide.com/sitemap.xml">
@@ -67,6 +67,7 @@
     "dateModified": "2026-05-01",
     "image": "https://web-scraping-guide.com/og-image.png",
     "about": [
+      {"@type": "Thing", "name": "Anubis", "description": "Open-source Web AI Firewall by TecharoHQ that uses JavaScript proof-of-work challenges to protect FOSS sites from AI scrapers"},
       {"@type": "Thing", "name": "Web Scraping", "sameAs": "https://en.wikipedia.org/wiki/Web_scraping"},
       {"@type": "Thing", "name": "Anti-Bot Detection"},
       {"@type": "Thing", "name": "TLS Fingerprinting"},
@@ -2556,6 +2557,16 @@ section[id], div[id^="self-heal"] {
     <div class="ab-pills"><span class="absy">AWS-native</span><span class="absy">Bot Control</span><span class="absy">CAPTCHA</span></div>
   </div>
 
+  <div class="abc">
+    <div class="ab-head">
+      <div class="ab-dot" style="background:#d4a574"></div>
+      <div class="ab-name">Anubis</div>
+      <div class="ab-tag">Open-source · PoW · Anti-AI scraper</div>
+    </div>
+    <div class="abd">Self-hosted Web AI Firewall (15k+ stars on GitHub, MIT licensed, written in Go by Xe Iaso/<a href="https://github.com/TecharoHQ/anubis" target="_blank" style="color:#d4a574">TecharoHQ</a>). Sits as a reverse proxy and issues JavaScript proof-of-work challenges before serving requests. Built specifically against AI scrapers that ignore <code>robots.txt</code>. Used by <strong>Codeberg, FFmpeg, the Linux kernel source, Sourcehut</strong>, and most non-Cloudflare FOSS projects. Recognisable by its anime "Anubis" mascot illustration during the challenge. <strong>Bypass:</strong> headless Chromium with JS enabled (it'll solve the PoW naturally, just slower), or persist the verification cookie across requests. Codeberg confirmed in mid-2025 that AI scrapers already learned to solve Anubis challenges, so it slows scraping but doesn't stop a determined operator.</div>
+    <div class="ab-pills"><span class="absy">Proof-of-work</span><span class="absy">Self-hosted</span><span class="absy">AI-targeted</span><span class="absy">FOSS</span></div>
+  </div>
+
 </div>
 
 <h3 class="rh rv">Quick identification reference</h3>
@@ -2568,6 +2579,7 @@ section[id], div[id^="self-heal"] {
 <tr><td><code>_px3</code> or <code>_pxde</code> set</td><td>PerimeterX <span class="bdg br">block</span></td><td><code>_px3</code></td><td>Cookie inspection</td></tr>
 <tr><td>Silent 403 · no body</td><td>Kasada <span class="bdg br">silent</span></td><td><code>x-kpsdk-ct</code></td><td>Response headers · <code>ips.js</code> in source</td></tr>
 <tr><td><code>reese84</code> or <code>TS</code> cookie</td><td>F5 Shape <span class="bdg br">block</span></td><td><code>reese84</code></td><td>Cookie names · Shape JS reference</td></tr>
+<tr><td>Anime mascot "weighing your soul" page</td><td>Anubis <span class="bdg by">challenge</span></td><td><code>techaro.lol-anubis-auth</code></td><td>JS PoW challenge · Anubis HTML title</td></tr>
 </tbody>
 </table>
 
@@ -4765,6 +4777,15 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 
 <div class="innov-hint" style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Drag to explore <span style="color:var(--y)">→</span></div>
 <div class="innov-scroll">
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">FOSS Defense / Anti-AI</div>
+    <div class="ic-title">Anubis: The Anime-Mascot Firewall Protecting FOSS</div>
+    <div class="ic-body">Self-hosted Web AI Firewall (15k+ stars) built by Xe Iaso. Used by <strong>Codeberg, FFmpeg, the Linux kernel docs, Sourcehut</strong>. Issues a JS proof-of-work challenge with a furry-eared mascot. <strong>Codeberg admitted in mid-2025 that AI bots already learned to solve it.</strong></div>
+    <div class="ic-insight">💡 PoW slows scrapers but headless Chromium solves it naturally</div>
+    <div class="ic-detail">Anubis is the new category of anti-scraper protection most guides miss: <strong>self-hosted, FOSS-targeted, AI-scraper-focused</strong>. Unlike Cloudflare and Akamai (enterprise SaaS), Anubis runs as a reverse proxy on the same server as the protected site. The challenge is pure client-side JavaScript proof-of-work — the browser hashes until it finds a nonce matching a difficulty target. For real users this is invisible (~1-3 seconds on modern hardware, painful on old phones). For scrapers using plain <code>requests</code> or <code>curl_cffi</code>, the challenge is unsolvable without JS execution. The bypass is mundane: any headless browser (Playwright, Camoufox, Patchright) with JS enabled will solve it automatically. Persist the auth cookie (<code>techaro.lol-anubis-auth</code>) and reuse it across requests. The political angle: Anubis exists because AI scrapers (OpenAI, Anthropic, Common Crawl, ByteDance) were DDoSing small FOSS projects by ignoring <code>robots.txt</code>. It's a community response, not a commercial product. <a href="https://github.com/TecharoHQ/anubis" target="_blank" style="color:#f5c518">github.com/TecharoHQ/anubis</a></div>
+  </div>
 
   <div class="icard" onclick="this.classList.toggle('expanded')">
     <div class="ic-expand-hint">+</div>
