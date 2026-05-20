@@ -1,5 +1,5 @@
 # Asad's Web Scraping Guide 2026
-# https://asadfix.github.io/scraping-guide/
+# https://web-scraping-guide.com
 
 User-agent: *
 Allow: /
@@ -27,4 +27,4 @@ User-agent: Google-Extended
 Allow: /
 
 # Sitemap
-Sitemap: https://asadfix.github.io/scraping-guide/sitemap.xml
+Sitemap: https://web-scraping-guide.com/sitemap.xml
