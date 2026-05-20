@@ -4783,6 +4783,15 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 
   <div class="icard" onclick="this.classList.toggle('expanded')">
     <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Trending / Browser stealth</div>
+    <div class="ic-title">CloakBrowser Just Crossed +9.1K Stars in One Week</div>
+    <div class="ic-body">The fastest-growing GitHub repo this week is a scraping tool. CloakBrowser, the stealth Chromium with source-level fingerprint patches, hit +9.1K stars (Nov 2026), passing 30/30 anti-bot tests. <strong>Confirms what production scrapers already knew: real browsers with patched binaries beat stealth plugins.</strong></div>
+    <div class="ic-insight">💡 Drop-in Playwright replacement, no JS patches to detect</div>
+    <div class="ic-detail">Stealth plugins (puppeteer-extra-stealth, playwright-stealth) overwrite JS properties at runtime — which is itself a detection signal. Anti-bot scripts can see the override happen. CloakBrowser patches Chromium's C++ source directly so the fingerprint is real at the binary level. There's no override to detect. The recent velocity (+9.1K stars in one week) was driven by it passing every public anti-bot test suite including Sannysoft, Antoinevastel, Creepjs, and Bot.sannysoft. Its closest analogue is Camoufox (Firefox-based, same approach with Juggler) but CloakBrowser uses Chromium so it works with existing Playwright pipelines. The tradeoff: maintenance burden. When Chrome ships a new version, CloakBrowser has to patch and rebuild. The team has been keeping up so far. <a href="https://github.com/CloakHQ/CloakBrowser" target="_blank" style="color:#f5c518">github.com/CloakHQ/CloakBrowser</a></div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
     <div class="ic-tag">FOSS Defense / Anti-AI</div>
     <div class="ic-title">Anubis: The Anime-Mascot Firewall Protecting FOSS</div>
     <div class="ic-body">Self-hosted Web AI Firewall (15k+ stars) built by Xe Iaso. Used by <strong>Codeberg, FFmpeg, the Linux kernel docs, Sourcehut</strong>. Issues a JS proof-of-work challenge with a furry-eared mascot. <strong>Codeberg admitted in mid-2025 that AI bots already learned to solve it.</strong></div>
