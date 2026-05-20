@@ -12,4 +12,10 @@
       <image:caption>Production guide to bypassing Cloudflare, Akamai, DataDome, Kasada, F5 Shape with 73 libraries and 9 architectures</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://web-scraping-guide.com/privacy.html</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>
