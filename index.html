@@ -4783,6 +4783,24 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 
   <div class="icard" onclick="this.classList.toggle('expanded')">
     <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Detection / OS fingerprinting</div>
+    <div class="ic-title">The Detection Vector Nobody Patches: Hyphenation Dictionaries</div>
+    <div class="ic-body">Chromium on Windows and Linux requires a hyphenation dictionary to be bundled at build time. Most custom Chromium forks ship without one. <strong>The result: many stealth browsers literally cannot hyphenate words</strong> — a signal anti-bots can probe via <code>hyphens: auto</code> CSS and measure rendered output.</div>
+    <div class="ic-insight">💡 Camoufox, PatchRight, undetected forks — check yours with the PoC</div>
+    <div class="ic-detail">When CSS <code>hyphens: auto</code> is set and text overflows a container, the browser inserts soft hyphens at language-specific break points (so "hyphenation" becomes "hy-phen-ation"). The dictionary that drives this is OS-level on Android and macOS, but Chromium on Windows and Linux must bundle it at build time. Most people forking Chromium don't know this — the build artifact is large and the feature is invisible until you specifically test it. Joe (joe12387) demonstrated this is a detection vector: anti-bot scripts can render a known word in a known-width container with <code>hyphens: auto</code>, screenshot via Canvas, and compare the hyphenation positions against expected values for the claimed OS. A custom Chromium fork that fails to hyphenate at all (or hyphenates wrong) reveals itself instantly. Mitigation: ensure your build includes the hyphenation dictionary for the languages you claim to support, or run real Chromium binaries (not forks) under XVFB instead. <a href="https://joe12387.github.io/hyphenation-dictionary-poc/index.html" target="_blank" style="color:#f5c518">Live PoC</a> · <a href="https://github.com/joe12387/hyphenation-dictionary-poc/" target="_blank" style="color:#f5c518">github.com/joe12387</a></div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Workflow / AI-assisted recon</div>
+    <div class="ic-title">Burp Suite MCP + Claude Code = Anti-Bot Recon in Minutes</div>
+    <div class="ic-body">PortSwigger shipped an MCP server for Burp Suite. Point it at Claude Code and the hours-long ritual of tracing which cookie unlocks which route, when the sensor payload fires, what gets re-validated on POST — collapses into a single prompt. <strong>The bar for what counts as anti-bot recon just moved.</strong></div>
+    <div class="ic-insight">💡 Build a burp-antibot-recon SKILL.md and replay it across targets</div>
+    <div class="ic-detail">The classic anti-bot recon workflow: capture a session through Burp, scroll the HTTP history one request at a time, manually trace cookie flows (<code>_abck</code>, <code>datadome</code>, <code>cf_clearance</code>, <code>reese84</code>), identify sensor.js challenge endpoints, figure out which requests trigger re-validation. For a moderately complex target like nike.com, this takes hours per session. With Burp's MCP server pointed at Claude Code, you capture the same session and prompt: "trace the _abck cookie lifecycle from home page through add-to-cart, identify all sensor payload endpoints, and explain the validation flow." Claude reads Burp's full history directly and produces the analysis in seconds. The pattern scales: build a reusable <code>burp-antibot-recon</code> Skill once, replay it across Akamai/DataDome/Cloudflare targets. If you work in this space and haven't wired it up, this is the unlock. <a href="https://github.com/PortSwigger/mcp-server" target="_blank" style="color:#f5c518">github.com/PortSwigger/mcp-server</a></div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
     <div class="ic-tag">Trending / Browser stealth</div>
     <div class="ic-title">CloakBrowser Just Crossed +9.1K Stars in One Week</div>
     <div class="ic-body">The fastest-growing GitHub repo this week is a scraping tool. CloakBrowser, the stealth Chromium with source-level fingerprint patches, hit +9.1K stars (Nov 2026), passing 30/30 anti-bot tests. <strong>Confirms what production scrapers already knew: real browsers with patched binaries beat stealth plugins.</strong></div>
