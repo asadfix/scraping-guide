@@ -1873,6 +1873,10 @@ section[id], div[id^="self-heal"] {
 <h2 class="sh">The scraping<br><em>decision flow</em></h2>
 <p class="ss">Walk steps in order. Stop at the first win. Complexity and cost increase right. Most production scraping is solved at steps 1–3.</p>
 
+<div class="ib tip rv" style="margin-bottom:18px">
+<strong>Recon first (Step 0):</strong> Before picking a step from the flow, capture a real session through <a href="https://portswigger.net/burp" target="_blank" rel="noopener" style="color:var(--y)">Burp Suite</a> and run <a href="https://github.com/PortSwigger/mcp-server" target="_blank" rel="noopener" style="color:var(--y)">PortSwigger's MCP server</a> with Claude Code. One prompt traces the entire cookie lifecycle (<code>_abck</code>, <code>cf_clearance</code>, <code>datadome</code>, <code>reese84</code>), identifies sensor payload endpoints, and tells you which step from the flow below will actually work for this target. <strong>What used to be a 4-hour manual walk through HTTP history is now a 2-minute prompt.</strong>
+</div>
+
 <div class="fdwrap rv">
   <div class="fdtop">Asad's Priority Order, start left, move right only when needed</div>
   <div class="fdrow">
@@ -1882,7 +1886,7 @@ section[id], div[id^="self-heal"] {
     </div>
     <div class="fds fd2" style="margin-left:14px">
       <div class="fdsn">Step 2</div>
-      <div class="fdsb"><div class="fdsi">🔍</div><div class="fdsl">XHR Endpoint</div><div class="fdsh">Chrome DevTools<br>Burpsuite · webclaw</div></div>
+      <div class="fdsb"><div class="fdsi">🔍</div><div class="fdsl">XHR Endpoint</div><div class="fdsh">Chrome DevTools<br><a href="https://github.com/PortSwigger/mcp-server" target="_blank" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,.25)">Burp + MCP</a> · webclaw</div></div>
     </div>
     <div class="fds fd3" style="margin-left:14px">
       <div class="fdsn">Step 3</div>
@@ -2137,6 +2141,17 @@ section[id], div[id^="self-heal"] {
 <h3 class="rh rv">Layer 2.5, WebAssembly Fingerprinting: <em>The Layer Below Your Stealth Browser</em></h3>
 <div class="cards c3 rv">
 
+<div class="card">
+  <div class="cbar" style="background:var(--ylw)"></div>
+  <div class="ctag">Build-time leak · Nobody patches this</div>
+  <div class="cname">Hyphenation Dictionary Detection</div>
+  <div class="cbody">
+    Chromium needs a <strong>hyphenation dictionary bundled at build time</strong> on Windows and Linux (Android and macOS handle it at OS level). Most people forking Chromium don't know this. <strong>The benefit for detection: many stealth Chromium forks literally cannot hyphenate words</strong>, and that is visible from JavaScript.<br><br>
+    The probe: set <code>hyphens: auto</code> on a narrow container, render a known word like "hyphenation", read the rendered width or screenshot via Canvas. A real Chrome on Windows produces <code>hy-phen-ation</code>. A custom fork without the dictionary produces no break, or the wrong break.<br><br>
+    Affected stealth browsers: anything built from a custom Chromium source that skipped the hyphenation step, which is most of them. <strong>Real CloakBrowser and properly-built forks include it, hand-rolled patches usually don't.</strong><br><br>
+    Mitigation: confirm your build ships the dictionary for every language you claim to support, or run a real Chrome binary under XVFB. Verify with the live PoC: <a href="https://joe12387.github.io/hyphenation-dictionary-poc/index.html" target="_blank" rel="noopener" style="color:var(--y)">joe12387.github.io/hyphenation-dictionary-poc</a> · <a href="https://github.com/joe12387/hyphenation-dictionary-poc/" target="_blank" rel="noopener" style="color:var(--y)">github source</a>
+  </div>
+</div>
 <div class="card">
   <div class="cbar" style="background:rgba(167,139,250,.9)"></div>
   <div class="ctag">CPU fingerprinting · DataDome internal research</div>
