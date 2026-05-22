@@ -11,7 +11,7 @@
 </script>
 <!-- ═══ SEO ═══ -->
   <meta name="description" content="Bypass Cloudflare, Akamai, DataDome, Kasada in 2026. Production guide with 73 libraries (curl_cffi, Camoufox, Scrapy), 9 architectures, JA4+ TLS, mobile API interception.">
-  <meta name="keywords" content="Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
+  <meta name="keywords" content="agentic browser infrastructure, Browserbase, Kernel browser, Anchor Browser, Hyperbrowser, Browser Use, Stagehand, Skyvern, computer use agents, LLM crawling, Crawl4AI, Firecrawl, Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
   <meta name="author" content="Asad Ikram">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://web-scraping-guide.com/sitemap.xml">
@@ -4268,6 +4268,77 @@ result = client.messages.create(
   <strong style="color:var(--y);font-size:13px">The production failure mode nobody warns you about:</strong> LLMs hallucinate <em>plausibly</em>. If your scraped article doesn't mention a publication date, an LLM will sometimes invent one that fits the article's tone. A Pydantic <code>date | None</code> field with Instructor's retry logic catches this, the LLM has to either find a real date or return None. Without schema validation, fabricated dates pass into your database as facts.
 </div>
 
+<!-- ── AGENTIC BROWSER STACK ─────────────────────────────── -->
+<div style="margin-top:48px">
+  <div class="aik">Q2 2026 Landscape · mapped by Massive</div>
+  <h3 class="rh rv" style="margin-top:8px">The agentic browser stack is 8 layers, not one product</h3>
+  <p class="ss rv" style="margin-bottom:28px">"Browser agent" sounds like a single tool. It's a stack. Most teams building AI agents account for one or two layers; the reliable ones map all eight. When an agent fails a task, the cause is usually not the framework everyone debates, it's one of the other seven layers nobody mapped. The proxy layer sits at the bottom and every layer above it still has to reach the live site.</p>
+
+  <div class="cards c2 rv" style="gap:16px">
+
+    <div class="card">
+      <div class="cbar" style="background:#60a5fa"></div>
+      <div class="ctag">Layer 1 · Cloud Browser Platforms</div>
+      <div class="cname">Hosted headless browsers at scale</div>
+      <div class="cbody">Managed Chrome/Chromium in the cloud, no infra to run. <a href="https://browserbase.com" target="_blank" rel="noopener" style="color:var(--y)">Browserbase</a>, <a href="https://onkernel.com" target="_blank" rel="noopener" style="color:var(--y)">Kernel</a>, <a href="https://notte.cc" target="_blank" rel="noopener" style="color:var(--y)">Notte</a>, <a href="https://anchorbrowser.io" target="_blank" rel="noopener" style="color:var(--y)">Anchor Browser</a>, <a href="https://browserless.io" target="_blank" rel="noopener" style="color:var(--y)">Browserless</a>, <a href="https://hyperbrowser.ai" target="_blank" rel="noopener" style="color:var(--y)">Hyperbrowser</a>.</div>
+    </div>
+
+    <div class="card">
+      <div class="cbar" style="background:#a78bfa"></div>
+      <div class="ctag">Layer 2 · Agent Frameworks &amp; SDKs</div>
+      <div class="cname">Natural-language task → browser actions</div>
+      <div class="cbody"><a href="https://github.com/browser-use/browser-use" target="_blank" rel="noopener" style="color:var(--y)">Browser Use</a>, <a href="https://github.com/browserbase/stagehand" target="_blank" rel="noopener" style="color:var(--y)">Stagehand</a>, <a href="https://github.com/Skyvern-AI/skyvern" target="_blank" rel="noopener" style="color:var(--y)">Skyvern</a>, <a href="https://agentql.com" target="_blank" rel="noopener" style="color:var(--y)">AgentQL</a>, Dendrite, <a href="https://github.com/nanobrowser/nanobrowser" target="_blank" rel="noopener" style="color:var(--y)">Nanobrowser</a>. These translate "log in and download my invoices" into clicks and form fills.</div>
+    </div>
+
+    <div class="card">
+      <div class="cbar" style="background:#6ce796"></div>
+      <div class="ctag">Layer 3 · Browser Automation</div>
+      <div class="cname">The execution primitives</div>
+      <div class="cbody"><a href="https://playwright.dev" target="_blank" rel="noopener" style="color:var(--y)">Playwright</a>, <a href="https://pptr.dev" target="_blank" rel="noopener" style="color:var(--y)">Puppeteer</a>, <a href="https://selenium.dev" target="_blank" rel="noopener" style="color:var(--y)">Selenium</a>, <a href="https://crawlee.dev" target="_blank" rel="noopener" style="color:var(--y)">Crawlee</a> (by Apify), <a href="https://github.com/browsermcp/mcp" target="_blank" rel="noopener" style="color:var(--y)">BrowserMCP</a>. Every layer above eventually calls down to one of these.</div>
+    </div>
+
+    <div class="card">
+      <div class="cbar" style="background:#f5c518"></div>
+      <div class="ctag">Layer 4 · Computer Use Agents</div>
+      <div class="cname">Models that see the screen and act</div>
+      <div class="cbody"><a href="https://docs.anthropic.com/en/docs/build-with-claude/computer-use" target="_blank" rel="noopener" style="color:var(--y)">Anthropic Computer Use</a>, <a href="https://openai.com" target="_blank" rel="noopener" style="color:var(--y)">OpenAI Operator</a>, Fellou, Twin, MultiOn. Vision-driven, they screenshot the page and decide the next click rather than reading the DOM.</div>
+    </div>
+
+    <div class="card">
+      <div class="cbar" style="background:#ff6b6b"></div>
+      <div class="ctag">Layer 5 · Stealth &amp; Anti-Detection</div>
+      <div class="cname">Where most agent tasks silently fail</div>
+      <div class="cbody"><a href="https://github.com/CloakHQ/CloakBrowser" target="_blank" rel="noopener" style="color:var(--y)">CloakBrowser</a>, <a href="https://steel.dev" target="_blank" rel="noopener" style="color:var(--y)">Steel</a>, <a href="https://lightpanda.io" target="_blank" rel="noopener" style="color:var(--y)">Lightpanda</a>, <a href="https://github.com/thewh1teagle/pydoll" target="_blank" rel="noopener" style="color:var(--y)">Pydoll</a>, <a href="https://github.com/daijro/camoufox" target="_blank" rel="noopener" style="color:var(--y)">Camoufox</a>. A flawless agent framework with a detected browser fingerprint still gets blocked.</div>
+    </div>
+
+    <div class="card">
+      <div class="cbar" style="background:#22d3ee"></div>
+      <div class="ctag">Layer 6 · Data Extraction &amp; Enrichment</div>
+      <div class="cname">Page → structured records</div>
+      <div class="cbody"><a href="https://diffbot.com" target="_blank" rel="noopener" style="color:var(--y)">Diffbot</a>, <a href="https://scrapingbee.com" target="_blank" rel="noopener" style="color:var(--y)">ScrapingBee</a>, <a href="https://scraperapi.com" target="_blank" rel="noopener" style="color:var(--y)">ScraperAPI</a>, <a href="https://zyte.com" target="_blank" rel="noopener" style="color:var(--y)">Zyte</a>, <a href="https://scrapegraphai.com" target="_blank" rel="noopener" style="color:var(--y)">ScrapeGraphAI</a>. Turn the rendered page into clean JSON.</div>
+    </div>
+
+    <div class="card">
+      <div class="cbar" style="background:#fb923c"></div>
+      <div class="ctag">Layer 7 · LLM-Optimized Crawling</div>
+      <div class="cname">Crawl output formatted for models</div>
+      <div class="cbody"><a href="https://github.com/unclecode/crawl4ai" target="_blank" rel="noopener" style="color:var(--y)">Crawl4AI</a>, <a href="https://firecrawl.dev" target="_blank" rel="noopener" style="color:var(--y)">Firecrawl</a>, <a href="https://jina.ai" target="_blank" rel="noopener" style="color:var(--y)">Jina AI</a>, <a href="https://apify.com" target="_blank" rel="noopener" style="color:var(--y)">Apify</a>, <a href="https://github.com/mishushakov/llm-scraper" target="_blank" rel="noopener" style="color:var(--y)">LLMScraper</a>, <a href="https://scrapy.org" target="_blank" rel="noopener" style="color:var(--y)">Scrapy</a>. Markdown/clean-text output that costs fewer tokens downstream.</div>
+    </div>
+
+    <div class="card">
+      <div class="cbar" style="background:#f5c518"></div>
+      <div class="ctag">Layer 8 · Network &amp; Proxy Layer</div>
+      <div class="cname">The foundation everything depends on</div>
+      <div class="cbody"><a href="https://joinmassive.com/?ref=ogyzztc" target="_blank" rel="noopener" style="color:var(--y)">Massive</a> <span style="font-size:11px;opacity:.6">(affiliate)</span>, <a href="https://brightdata.com" target="_blank" rel="noopener" style="color:var(--y)">Bright Data</a>, <a href="https://oxylabs.io" target="_blank" rel="noopener" style="color:var(--y)">Oxylabs</a>, <a href="https://smartproxy.com" target="_blank" rel="noopener" style="color:var(--y)">Smartproxy</a>, <a href="https://netnut.io" target="_blank" rel="noopener" style="color:var(--y)">NetNut</a>, <a href="https://iproyal.com" target="_blank" rel="noopener" style="color:var(--y)">IPRoyal</a>. A perfect stack with a flagged datacenter IP fails at the first request.</div>
+    </div>
+
+  </div>
+
+  <div class="ib tip rv" style="margin-top:24px">
+    <strong>How to use this map when debugging:</strong> When an agent fails, don't start with the framework (Layer 2), that's where everyone wastes time. Check Layer 5 (is the browser fingerprint detected?) and Layer 8 (is the IP flagged?) first. The boring layers fail more often than the clever ones. Credit: landscape mapped by <a href="https://joinmassive.com/?ref=ogyzztc" target="_blank" rel="noopener" style="color:var(--y)">Massive</a>, Q2 2026.
+  </div>
+</div>
+
 </section>
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
@@ -4798,6 +4869,24 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 
   <div class="icard" onclick="this.classList.toggle('expanded')">
     <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Landscape / Agentic browsers</div>
+    <div class="ic-title">"Browser Agent" Is Not One Product — It's 8 Layers</div>
+    <div class="ic-body">Massive mapped the agentic browser infrastructure landscape for Q2 2026. The insight: most teams building AI agents think about one or two layers. The reliable ones account for all eight. When an agent fails a task, the cause is usually not the framework everyone debates — it's one of the other seven layers nobody mapped.</div>
+    <div class="ic-insight">💡 Every layer above the network still has to reach the live site</div>
+    <div class="ic-detail">The eight layers of the 2026 agentic browser stack: <strong>(1) Cloud Browser Platforms</strong> — Browserbase, Kernel, Notte, Anchor Browser, Browserless, Hyperbrowser. <strong>(2) Agent Frameworks &amp; SDKs</strong> — Browser Use, Stagehand, Skyvern, AgentQL, Dendrite, Nanobrowser. <strong>(3) Browser Automation</strong> — Playwright, Puppeteer, Selenium, Crawlee, BrowserMCP. <strong>(4) Computer Use Agents</strong> — Anthropic CUA, OpenAI Operator, Fellou, Twin, MultiOn. <strong>(5) Stealth &amp; Anti-Detection</strong> — CloakBrowser, Steel, Lightpanda, Pydoll, Camoufox. <strong>(6) Data Extraction &amp; Enrichment</strong> — Diffbot, ScrapingBee, ScraperAPI, Zyte, ScrapeGraphAI. <strong>(7) LLM-Optimized Crawling</strong> — Crawl4AI, Firecrawl, Jina AI, Apify, LLMScraper, Scrapy. <strong>(8) Network &amp; Proxy Layer</strong> — Massive, Bright Data, Oxylabs, Smartproxy, NetNut, IPRoyal. The proxy layer sits at the bottom and everything above it depends on it: a perfect agent framework with a flagged datacenter IP still fails. Most agent debugging focuses on layer 2 (the framework) when the actual failure is layer 5 (detection) or layer 8 (the IP). Map all eight before you debug one.</div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Architecture / Resilience</div>
+    <div class="ic-title">Pub/Sub: Why Sequential Crawlers Don't Scale</div>
+    <div class="ic-body">A threat-intel crawler hitting 1000+ sources started as one service crawling sequentially. Two failures emerged: latency grew linearly with each new source, and one broken source took down the entire pipeline. <strong>The fix wasn't more compute — it was event-driven pub/sub architecture.</strong></div>
+    <div class="ic-insight">💡 If N sequential steps can each kill the rest, that's an architecture problem</div>
+    <div class="ic-detail">The pattern: a publisher pushes one message per source to a broker (SQS, Kafka, RabbitMQ, Google Pub/Sub). Independent worker subscribers pull messages and crawl in parallel, completely isolated from each other. When one source breaks — a timeout, a layout change, a 500 — it fails alone in its own worker. The rest of the pipeline never notices. Three properties fall out of this for free: (1) ingestion latency stays flat regardless of source count, because workers run concurrently not sequentially; (2) failures are isolated by design, with a dead-letter queue capturing the broken messages for retry; (3) the system scales horizontally — add more subscriber workers, get more throughput, no code change. This is the difference between a script that crawls 50 sources and a platform that crawls 50,000. I added a full architecture diagram for this pattern in the Architecture section (tab: Pub/Sub Event-Driven). The takeaway generalises beyond scraping: any pipeline where one slow or broken step blocks all the others is one message broker away from being resilient.</div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
     <div class="ic-tag">Detection / OS fingerprinting</div>
     <div class="ic-title">The Detection Vector Nobody Patches: Hyphenation Dictionaries</div>
     <div class="ic-body">Chromium on Windows and Linux requires a hyphenation dictionary to be bundled at build time. Most custom Chromium forks ship without one. <strong>The result: many stealth browsers literally cannot hyphenate words</strong> — a signal anti-bots can probe via <code>hyphens: auto</code> CSS and measure rendered output.</div>
@@ -5216,7 +5305,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
 <section class="sec" id="arch">
 <div class="sk"><span class="sn">★</span> Architecture</div>
 <h2 class="sh">How production scrapers<br><em>are actually built</em></h2>
-<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Nine real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
+<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Ten real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
 
 <div class="arch-tabs">
   <button class="atab on" onclick="showArch(0,this)">Scrapyd Single Node</button>
@@ -5228,6 +5317,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <button class="atab" onclick="showArch(6,this)">Azure Pipeline</button>
   <button class="atab" onclick="showArch(7,this)">AI-Native RAG</button>
   <button class="atab" onclick="showArch(8,this)">Microservices API</button>
+  <button class="atab" onclick="showArch(9,this)">Pub/Sub Event-Driven</button>
 </div>
 
 <!-- ── 0: Scrapyd Single Node ────────────────────────────────── -->
@@ -6371,6 +6461,82 @@ The conventional framing: web scraping is a tool for extracting data from websit
     <span class="arch-tool">FastAPI / GraphQL</span><span class="arch-tool">Redis / SQS</span><span class="arch-tool">curl_cffi workers</span><span class="arch-tool">Camoufox workers</span><span class="arch-tool">Crawl4AI workers</span><span class="arch-tool">Postgres + S3</span><span class="arch-tool">Prometheus + Grafana</span><span class="arch-tool">Retool (admin)</span>
   </div>
 </div>
+
+<!-- ── 9: Pub/Sub Event-Driven ────────────────────────────────── -->
+<div class="arch-panel hidden" id="arch-9">
+<p class="arch-desc">The resilience pattern for crawling 1000+ sources. Instead of one service crawling sources sequentially (where one broken source stalls everything and latency grows linearly with source count), a publisher pushes one message per source to a broker. Independent worker subscribers pull messages and crawl in parallel, fully isolated. One source breaking fails alone, the rest of the pipeline keeps running. Scales horizontally: add subscribers, get throughput. The lesson: if your service does N things sequentially and any one can kill the rest, that is not a scaling problem, it is an architecture problem.</p>
+<div class="arch-diagram">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+  <defs>
+    <marker id="arrPS" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.6)"/></marker>
+  </defs>
+  <!-- Scheduler / Publisher -->
+  <g transform="translate(20,160)">
+    <rect width="110" height="64" rx="6" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.3)"/>
+    <text x="55" y="24" text-anchor="middle" fill="#f5c518" font-size="18">📡</text>
+    <text x="55" y="42" text-anchor="middle" fill="rgba(240,240,244,.85)" font-size="11" font-family="monospace">Publisher</text>
+    <text x="55" y="56" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">1 msg / source</text>
+  </g>
+  <!-- arrow to broker -->
+  <line x1="130" y1="192" x2="195" y2="192" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#arrPS)"/>
+  <text x="162" y="184" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">publish</text>
+  <!-- Message Broker -->
+  <g transform="translate(200,120)">
+    <rect width="180" height="140" rx="8" fill="rgba(245,197,24,.05)" stroke="rgba(245,197,24,.35)" stroke-width="1.5"/>
+    <text x="90" y="26" text-anchor="middle" fill="#f5c518" font-size="12" font-family="monospace" font-weight="bold">Message Broker</text>
+    <text x="90" y="42" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">topic: sources</text>
+    <!-- queued messages -->
+    <g fill="rgba(245,197,24,.15)" stroke="rgba(245,197,24,.4)">
+      <rect x="22" y="58" width="40" height="26" rx="3"/>
+      <rect x="70" y="58" width="40" height="26" rx="3"/>
+      <rect x="118" y="58" width="40" height="26" rx="3"/>
+      <rect x="22" y="92" width="40" height="26" rx="3"/>
+      <rect x="70" y="92" width="40" height="26" rx="3"/>
+      <rect x="118" y="92" width="40" height="26" rx="3"/>
+    </g>
+    <text x="90" y="132" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">SQS · Kafka · RabbitMQ · Pub/Sub</text>
+  </g>
+  <!-- fan-out arrows to workers -->
+  <line x1="380" y1="160" x2="470" y2="80" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#arrPS)"/>
+  <line x1="380" y1="190" x2="470" y2="190" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#arrPS)"/>
+  <line x1="380" y1="220" x2="470" y2="300" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#arrPS)"/>
+  <text x="430" y="120" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">pull</text>
+  <!-- Workers / Subscribers -->
+  <g transform="translate(475,52)">
+    <rect width="130" height="56" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.3)"/>
+    <text x="65" y="22" text-anchor="middle" fill="#6ce796" font-size="11" font-family="monospace">Worker 1</text>
+    <text x="65" y="40" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">isolated crawl</text>
+  </g>
+  <g transform="translate(475,162)">
+    <rect width="130" height="56" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.3)"/>
+    <text x="65" y="22" text-anchor="middle" fill="#6ce796" font-size="11" font-family="monospace">Worker 2</text>
+    <text x="65" y="40" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">isolated crawl</text>
+  </g>
+  <g transform="translate(475,272)">
+    <rect width="130" height="56" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.35)"/>
+    <text x="65" y="22" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="monospace">Worker 3 ✗</text>
+    <text x="65" y="40" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">fails in isolation</text>
+  </g>
+  <!-- arrows to sink -->
+  <line x1="605" y1="80" x2="700" y2="170" stroke="rgba(245,197,24,.5)" stroke-width="1.5" marker-end="url(#arrPS)"/>
+  <line x1="605" y1="190" x2="700" y2="190" stroke="rgba(245,197,24,.5)" stroke-width="1.5" marker-end="url(#arrPS)"/>
+  <!-- Data sink -->
+  <g transform="translate(705,150)">
+    <rect width="120" height="80" rx="6" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.3)"/>
+    <text x="60" y="30" text-anchor="middle" fill="#f5c518" font-size="18">🗄️</text>
+    <text x="60" y="50" text-anchor="middle" fill="rgba(240,240,244,.8)" font-size="11" font-family="monospace">Data Store</text>
+    <text x="60" y="66" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">+ dead-letter Q</text>
+  </g>
+  <!-- caption -->
+  <text x="450" y="368" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="10" font-family="monospace">Latency stays flat as sources grow · failures isolated · scales by adding subscribers</text>
+</svg>
+</div>
+<div class="arch-tools">
+  <span class="atools-label">Stack</span>
+  <span class="arch-tool">AWS SQS / SNS</span><span class="arch-tool">Apache Kafka</span><span class="arch-tool">RabbitMQ</span><span class="arch-tool">Google Pub/Sub</span><span class="arch-tool">Celery (workers)</span><span class="arch-tool">scrapy-redis</span><span class="arch-tool">Dead-letter queue</span><span class="arch-tool">Horizontal autoscaling</span>
+</div>
+</div>
+
 </div>
 
 
