@@ -7905,8 +7905,9 @@ setTimeout(function(){dismissBanner();}, 5000);
 function showArch(n, btn) {
   document.querySelectorAll('.arch-panel').forEach(p => p.classList.add('hidden'));
   document.querySelectorAll('.atab').forEach(b => b.classList.remove('on'));
-  document.getElementById('arch-' + n).classList.remove('hidden');
-  btn.classList.add('on');
+  var panel = document.getElementById('arch-' + n);
+  if (panel) { panel.classList.remove('hidden'); }
+  if (btn) { btn.classList.add('on'); }
 }
 
 
