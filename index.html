@@ -11,7 +11,7 @@
 </script>
 <!-- ═══ SEO ═══ -->
   <meta name="description" content="Bypass Cloudflare, Akamai, DataDome, Kasada in 2026. Production guide with 73 libraries (curl_cffi, Camoufox, Scrapy), 9 architectures, JA4+ TLS, mobile API interception.">
-  <meta name="keywords" content="Frida Android hooking, JADX decompile APK, Ghidra reverse engineering, mobile API reversing, certificate pinning bypass, proxy manager, Thompson Sampling proxy rotation, Bayesian proxy selection, proxy validation Go, ProxyOps, Queue-It bypass, virtual waiting room bypass, distributed browser network, stealth browser benchmark, Scrapeless, agentic browser infrastructure, Browserbase, Kernel browser, Anchor Browser, Hyperbrowser, Browser Use, Stagehand, Skyvern, computer use agents, LLM crawling, Crawl4AI, Firecrawl, Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
+  <meta name="keywords" content="self-hosted browser service, Playwright remote connect, browser as a service, CloakBrowser Xvfb Docker, John Watson Rooney, Frida Android hooking, JADX decompile APK, Ghidra reverse engineering, mobile API reversing, certificate pinning bypass, proxy manager, Thompson Sampling proxy rotation, Bayesian proxy selection, proxy validation Go, ProxyOps, Queue-It bypass, virtual waiting room bypass, distributed browser network, stealth browser benchmark, Scrapeless, agentic browser infrastructure, Browserbase, Kernel browser, Anchor Browser, Hyperbrowser, Browser Use, Stagehand, Skyvern, computer use agents, LLM crawling, Crawl4AI, Firecrawl, Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
   <meta name="author" content="Asad Ikram">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://web-scraping-guide.com/sitemap.xml">
@@ -4870,6 +4870,15 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 
   <div class="icard" onclick="this.classList.toggle('expanded')">
     <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Build pattern / Self-hosted infra</div>
+    <div class="ic-title">Browser-as-a-Service: Separate the Control Library from the Binary</div>
+    <div class="ic-body">John Watson Rooney built a self-hosted stealth-Chrome scraping service and documented every gotcha. The key mental model: <strong>Playwright, Puppeteer, and Selenium are control libraries, not browsers.</strong> They speak CDP to whatever binary you point them at. Separate the two: run a persistent patched browser on a dedicated machine, connect to it over WebSocket from many scripts.</div>
+    <div class="ic-insight">💡 playwright.connect("ws://...") = one browser service, many clients</div>
+    <div class="ic-detail">The architecture: instead of <code>playwright.launch()</code> spinning up a local browser per script, run a persistent Playwright server on a dedicated box exposing a WebSocket endpoint, and have every scraping script <code>connect("ws://host:3000")</code> as a client. The page can't tell the difference, the API is identical. Five hard-won lessons from the build: (1) <strong>Binary choice matters as much as library choice.</strong> JS overrides of navigator.webdriver are themselves detectable (wrong property descriptor, wrong prototype chain); source-patched binaries like CloakBrowser remove the signal instead of masking it. (2) <strong>Headed via Xvfb beats headless</strong>, the virtual framebuffer means nothing looks headless because it isn't. (3) <strong>The two-slot trap:</strong> Playwright keeps TWO Chromium directories, a full build and a stripped <code>chrome-headless-shell</code>. Replace only the full slot with your patched binary and Playwright silently launches the untouched headless shell instead, you get 403s and the wrong version string with nothing in the logs explaining why. You must replace both slots and rename the headless one to <code>chrome-headless-shell</code>. (4) <strong>supervisord inside Docker</strong> manages the multi-process reality (Xvfb priority 10, Playwright server priority 20 with startsecs delay). (5) <strong>Concurrency = contexts, not instances.</strong> One browser, a pool of isolated contexts (separate cookies/storage), workers pull from an async queue, a 403 requeues with backoff and the worker grabs the next job. Proxy creds go per-context so a bad IP just retries with a fresh one. 16 concurrent contexts ran fine on a Ryzen 4650G mini-desktop. <a href="https://johnwrooney.substack.com/p/i-built-a-self-hosted-browser-scraping" target="_blank" style="color:#f5c518">Full writeup</a> · <a href="https://github.com/jhnwr/browser-service" target="_blank" style="color:#f5c518">github.com/jhnwr/browser-service</a> · <a href="https://www.youtube.com/@JohnWatsonRooney" target="_blank" style="color:#f5c518">YouTube</a></div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
     <div class="ic-tag">Learning / Mobile API reversing</div>
     <div class="ic-title">The Mobile-API Reversing Toolchain: Frida + JADX + Ghidra</div>
     <div class="ic-body">Your guide's #1 rule is "find the mobile API first", apps often hit the same backend with zero anti-bot. But intercepting a modern app means defeating its own protections (cert pinning, signed headers). The toolchain: <strong>Frida</strong> to hook and modify native Java/C functions at runtime, <strong>JADX</strong> to decompile the APK back to Java, <strong>Ghidra</strong> to decompile the native C, on a rooted Android emulator.</div>
@@ -5360,7 +5369,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
 <section class="sec" id="arch">
 <div class="sk"><span class="sn">★</span> Architecture</div>
 <h2 class="sh">How production scrapers<br><em>are actually built</em></h2>
-<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Ten real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
+<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Eleven real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
 
 <div class="arch-tabs">
   <button class="atab on" onclick="showArch(0,this)">Scrapyd Single Node</button>
@@ -5373,6 +5382,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <button class="atab" onclick="showArch(7,this)">AI-Native RAG</button>
   <button class="atab" onclick="showArch(8,this)">Microservices API</button>
   <button class="atab" onclick="showArch(9,this)">Pub/Sub Event-Driven</button>
+  <button class="atab" onclick="showArch(10,this)">Self-Hosted Browser Pool</button>
 </div>
 
 <!-- ── 0: Scrapyd Single Node ────────────────────────────────── -->
@@ -6589,6 +6599,93 @@ The conventional framing: web scraping is a tool for extracting data from websit
 <div class="arch-tools">
   <span class="atools-label">Stack</span>
   <span class="arch-tool">AWS SQS / SNS</span><span class="arch-tool">Apache Kafka</span><span class="arch-tool">RabbitMQ</span><span class="arch-tool">Google Pub/Sub</span><span class="arch-tool">Celery (workers)</span><span class="arch-tool">scrapy-redis</span><span class="arch-tool">Dead-letter queue</span><span class="arch-tool">Horizontal autoscaling</span>
+</div>
+</div>
+
+<!-- ── 10: Self-Hosted Browser Pool ────────────────────────────────── -->
+<div class="arch-panel hidden" id="arch-10">
+<p class="arch-desc">Browser-as-a-service, decouple the control library from the browser binary (John Watson Rooney's pattern). A persistent patched-Chromium (CloakBrowser) runs headed under Xvfb inside Docker, managed by supervisord, exposing a Playwright WebSocket endpoint. Many scraping scripts connect as clients over <code>ws://</code>, each opening isolated contexts with per-context rotating proxies. One browser service, many projects. Scale by adding browser nodes behind one endpoint.</p>
+<div class="arch-diagram">
+<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+  <defs>
+    <marker id="arrBP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.6)"/></marker>
+  </defs>
+  <!-- Client scripts -->
+  <g transform="translate(20,40)">
+    <rect width="130" height="48" rx="6" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.3)"/>
+    <text x="65" y="20" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace">Scraper Script 1</text>
+    <text x="65" y="36" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">Playwright client</text>
+  </g>
+  <g transform="translate(20,110)">
+    <rect width="130" height="48" rx="6" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.3)"/>
+    <text x="65" y="20" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace">Scraper Script 2</text>
+    <text x="65" y="36" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">scrapy-playwright</text>
+  </g>
+  <g transform="translate(20,180)">
+    <rect width="130" height="48" rx="6" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.3)"/>
+    <text x="65" y="20" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace">Scraper Script N</text>
+    <text x="65" y="36" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">connect(ws://)</text>
+  </g>
+  <!-- ws arrows -->
+  <line x1="150" y1="64" x2="280" y2="120" stroke="rgba(245,197,24,.55)" stroke-width="1.5" marker-end="url(#arrBP)"/>
+  <line x1="150" y1="134" x2="280" y2="140" stroke="rgba(245,197,24,.55)" stroke-width="1.5" marker-end="url(#arrBP)"/>
+  <line x1="150" y1="204" x2="280" y2="160" stroke="rgba(245,197,24,.55)" stroke-width="1.5" marker-end="url(#arrBP)"/>
+  <text x="210" y="100" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">CDP / ws://:3000</text>
+  <!-- Docker container with browser service -->
+  <g transform="translate(285,55)">
+    <rect width="320" height="240" rx="8" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.3)" stroke-dasharray="4 3"/>
+    <text x="160" y="24" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">Docker container (supervisord)</text>
+    <!-- Xvfb -->
+    <g transform="translate(24,44)">
+      <rect width="130" height="50" rx="5" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.3)"/>
+      <text x="65" y="22" text-anchor="middle" fill="#6ce796" font-size="10" font-family="monospace">Xvfb :99</text>
+      <text x="65" y="38" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8" font-family="monospace">1920x1080x24</text>
+    </g>
+    <!-- Playwright server -->
+    <g transform="translate(166,44)">
+      <rect width="130" height="50" rx="5" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.3)"/>
+      <text x="65" y="22" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="monospace">Playwright srv</text>
+      <text x="65" y="38" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8" font-family="monospace">ws endpoint</text>
+    </g>
+    <!-- Patched browser -->
+    <g transform="translate(24,108)">
+      <rect width="272" height="56" rx="5" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.3)"/>
+      <text x="136" y="24" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="monospace">CloakBrowser (headed, both slots)</text>
+      <text x="136" y="42" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8" font-family="monospace">source-patched · chrome + chrome-headless-shell</text>
+    </g>
+    <!-- contexts -->
+    <g transform="translate(24,176)">
+      <text x="0" y="12" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Pool of isolated contexts (16x):</text>
+      <g fill="rgba(245,197,24,.15)" stroke="rgba(245,197,24,.4)">
+        <rect x="0" y="20" width="34" height="22" rx="3"/>
+        <rect x="42" y="20" width="34" height="22" rx="3"/>
+        <rect x="84" y="20" width="34" height="22" rx="3"/>
+        <rect x="126" y="20" width="34" height="22" rx="3"/>
+        <rect x="168" y="20" width="34" height="22" rx="3"/>
+        <rect x="210" y="20" width="34" height="22" rx="3"/>
+      </g>
+    </g>
+  </g>
+  <!-- arrows out to proxies -->
+  <line x1="605" y1="175" x2="690" y2="140" stroke="rgba(245,197,24,.55)" stroke-width="1.5" marker-end="url(#arrBP)"/>
+  <text x="650" y="130" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">per-context proxy</text>
+  <!-- Residential proxies -->
+  <g transform="translate(692,110)">
+    <rect width="100" height="60" rx="6" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.3)"/>
+    <text x="50" y="26" text-anchor="middle" fill="#f5c518" font-size="16">🔁</text>
+    <text x="50" y="46" text-anchor="middle" fill="rgba(240,240,244,.7)" font-size="9" font-family="monospace">Residential</text>
+  </g>
+  <!-- target -->
+  <line x1="792" y1="140" x2="855" y2="140" stroke="rgba(245,197,24,.5)" stroke-width="1.5" marker-end="url(#arrBP)"/>
+  <g transform="translate(800,180)">
+    <text x="30" y="0" text-anchor="middle" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Target</text>
+  </g>
+  <text x="450" y="335" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="10" font-family="monospace">Control library stays local · patched binary runs remote · scale by adding browser nodes (Docker Swarm)</text>
+</svg>
+</div>
+<div class="arch-tools">
+  <span class="atools-label">Stack</span>
+  <span class="arch-tool">Playwright server (ws)</span><span class="arch-tool">CloakBrowser</span><span class="arch-tool">Xvfb</span><span class="arch-tool">Docker + supervisord</span><span class="arch-tool">Isolated contexts pool</span><span class="arch-tool">scrapy-playwright</span><span class="arch-tool">Residential proxies (per-context)</span><span class="arch-tool">Docker Swarm (scale-out)</span>
 </div>
 </div>
 
