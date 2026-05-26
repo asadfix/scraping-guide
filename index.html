@@ -1764,6 +1764,8 @@ section[id], div[id^="self-heal"] {
       <a class="nl" href="#innovation">Innovation</a>
       <a class="nl" href="#tools">Testing</a>
       <a class="nl" href="#arch">Architecture</a>
+  <a class="nl" href="#cost">Cost</a>
+  <a class="nl" href="#post-extract">Post-Extract</a>
       <a class="nl" href="#mobile">Mobile API</a>
       <a class="nl" href="#jargon">Jargon</a><a class="nl" href="#community">Community</a>
   <a class="nl" href="#legal-ethics">Legal</a>
@@ -6177,8 +6179,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
 </div>
 </div>
 
-
-</section>
 <!-- ── 6: Azure Pipeline ─────────────────────────────────────── -->
 <div class="arch-panel hidden" id="arch-6">
 <p class="arch-desc">Microsoft Azure-native scraping pipeline. Container Instances run Scrapy spiders, Logic Apps handle scheduling, Data Factory orchestrates ETL, Azure Data Lake Storage Gen2 for raw data, Synapse Analytics for Bronze/Silver/Gold processing, Power BI for dashboards.</p>
@@ -6892,7 +6892,92 @@ Return ONLY valid JSON with corrected selectors:
     </div>
   </div>
 </div>
+</section>
 
+<!-- ═══ COST & ECONOMICS ═══ -->
+<section class="sec" id="cost">
+<div class="sk"><span class="sn">★</span> Cost &amp; economics</div>
+<h2 class="sh">Build vs buy:<br><em>the number that decides</em></h2>
+<p class="ss">The most common mistake is treating "can I bypass it" as the only question. The real production question is "what does each successful record cost, and is rolling my own cheaper than paying someone else." Here is the honest math, with the caveat that exact prices move constantly, so treat these as orders of magnitude, not quotes.</p>
+
+<h3 class="rh rv" style="margin-top:8px">Self-hosted stealth stack vs managed API</h3>
+<div class="ct-wrap rv" style="overflow-x:auto;margin:24px 0">
+<table class="ct">
+<thead>
+<tr><th>Approach</th><th>Monthly cost driver</th><th>Rough cost</th><th>Best when</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Self-hosted: HTTP + curl_cffi + residential proxies</strong></td><td>Proxy bandwidth (the dominant cost), small server</td><td>Proxy GB at roughly 3 to 8 USD/GB, plus ~50 to 200/mo compute</td><td>High volume on targets that yield to TLS impersonation, where you control bandwidth use</td></tr>
+<tr><td><strong>Self-hosted: Camoufox/CloakBrowser cluster + residential proxies</strong></td><td>Server CPU/RAM for browsers, plus proxy bandwidth (browsers burn far more GB)</td><td>~200 to 1,200/mo compute, plus heavy proxy GB; engineering time to maintain</td><td>Hardened targets that need a real browser, at volumes where per-request API fees would exceed infra cost</td></tr>
+<tr><td><strong>Managed API (ScraperAPI, Zyte, Bright Data Web Unlocker, Scrapfly)</strong></td><td>Per successful request, anti-bot handling included</td><td>Roughly 1 to 5 USD per 1,000 requests (more for JS-render / hard targets)</td><td>Low-to-medium volume, or hard targets where engineering time is worth more than the per-request fee</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="ib tip rv">
+<strong>The break-even rule of thumb:</strong> Managed APIs win until volume gets high enough that per-request fees dwarf the cost of running your own infra. A worked example: at 1 USD per 1,000 requests, 10 million requests/month is ~10,000 USD on a managed API. A self-hosted stack handling the same volume might run a few hundred in compute plus 1,000 to 3,000 in proxy bandwidth, call it 2,000 to 4,000 all-in, <em>if</em> you have the engineering time to build and babysit it. Below roughly 1 to 2 million requests/month, the managed API is almost always cheaper once you price in your own hours. Above 10 million, self-hosting usually wins on raw cost. In between, it depends on how hardened the target is and how much your time costs.</div>
+
+<div class="ib warn rv" style="margin-top:18px">
+<strong>The cost everyone forgets: maintenance.</strong> A managed API absorbs every anti-bot change for you. A self-hosted Camoufox cluster does not, when Akamai ships a new sensor build or your fingerprint starts leaking, that is your weekend. Price your own time into the comparison. A stack that is 3,000/mo cheaper but eats four engineer-days a month is not actually cheaper. For many teams the right answer is hybrid: managed API for the hard or low-volume targets, self-hosted for the high-volume easy ones.</div>
+</section>
+
+<!-- ═══ POST-EXTRACTION ═══ -->
+<section class="sec" id="post-extract">
+<div class="sk"><span class="sn">★</span> After the bypass</div>
+<h2 class="sh">What happens to<br><em>50 million rows</em></h2>
+<p class="ss">Bypassing detection is the part everyone writes about. But getting the data is only the start. The questions that actually decide whether a scraping operation survives are about what you do next: where the data lands, how you avoid storing the same thing twice, and how you notice when a site quietly starts feeding you garbage.</p>
+
+<h3 class="rh rv" style="margin-top:8px">Storage: stop dumping JSON into a folder</h3>
+<div class="cards c2 rv">
+  <div class="card">
+    <div class="cbar" style="background:#6ce796"></div>
+    <div class="ctag">Format</div>
+    <div class="cname">Parquet, not CSV or JSON</div>
+    <div class="cbody">For anything past a few hundred thousand rows, columnar Parquet beats row formats decisively: 5 to 10x smaller on disk through column compression, and analytics engines (Athena, DuckDB, Spark) only read the columns a query touches. A 50M-row crawl that is 40GB as JSON is often under 5GB as Parquet, and queries run an order of magnitude faster. Partition by crawl date or source so you can prune whole files without scanning them.</div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#22d3ee"></div>
+    <div class="ctag">Layout</div>
+    <div class="cname">A simple medallion layout</div>
+    <div class="cbody">Land raw responses untouched in a <strong>bronze</strong> layer (S3/GCS, exactly as scraped, your audit trail and replay source). Clean and normalise into <strong>silver</strong> (typed, deduplicated, schema-validated Parquet). Build query-ready aggregates in <strong>gold</strong> (the tables analysts and APIs actually hit). When a parser bug ships, you re-run silver from bronze without re-scraping, which on a hardened target can save you weeks and a lot of proxy spend.</div>
+  </div>
+</div>
+
+<h3 class="rh rv">Deduplication: the same item will arrive many times</h3>
+<div class="cards c2 rv">
+  <div class="card">
+    <div class="cbar" style="background:#f5c518"></div>
+    <div class="ctag">URL-level</div>
+    <div class="cname">Seen-URL sets &amp; Bloom filters</div>
+    <div class="cbody">A large crawl revisits the same URL constantly through pagination loops, cross-links, and retries. Holding every seen URL in a Python set works until memory dies around a few million. A <strong>Bloom filter</strong> (or scrapy-redis's <code>RFPDupeFilter</code> backed by Redis) checks membership in constant memory with a tiny, tunable false-positive rate. For distributed crawls, a shared Redis set keeps every worker honest so two workers never fetch the same page.</div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#a78bfa"></div>
+    <div class="ctag">Content-level</div>
+    <div class="cname">Hash the content, not the URL</div>
+    <div class="cbody">The harder duplicate is the same product reachable via three different URLs (tracking params, locale prefixes, canonical vs vanity). URL dedup misses these. Compute a stable hash over the meaningful fields (a normalised product ID, or a hash of the cleaned record), and dedup on that. Keep a <code>last_seen</code> timestamp so you can tell a genuine update apart from a re-scrape, and upsert rather than blindly insert.</div>
+  </div>
+</div>
+
+<h3 class="rh rv">Data poisoning: when the bypass succeeds but the data is fake</h3>
+<div class="ib warn rv">
+<strong>Passing the bouncer does not mean the data is real.</strong> Sophisticated sites detect scraper-like behaviour <em>after</em> the initial check and respond not by blocking you but by quietly serving <strong>poisoned data</strong>: subtly wrong prices, shuffled listings, fabricated rows, or stale snapshots. You get clean 200 responses and a healthy-looking dataset that is silently corrupt. This is more dangerous than a block, because a block is obvious and poisoned data flows straight into your decisions.
+</div>
+<div class="cards c2 rv" style="margin-top:18px">
+  <div class="card">
+    <div class="cbar" style="background:#ff6b6b"></div>
+    <div class="ctag">Detection</div>
+    <div class="cname">How to catch poisoning</div>
+    <div class="cbody">Maintain a small hand-verified <strong>ground-truth sample</strong> (a few dozen records you check manually) and diff every crawl against it. Watch for statistical anomalies: prices that are suspiciously round, distributions that shift overnight, or the same record varying between two near-simultaneous requests from different IPs. Cross-check a sample against the mobile API or a logged-in view. If two clean sessions disagree on the same field, suspect poisoning before you trust the data.</div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#fb923c"></div>
+    <div class="ctag">Cause</div>
+    <div class="cname">Why it happens to fast scrapers</div>
+    <div class="cbody">Poisoning is usually triggered by behaviour, not fingerprint: requesting pages far faster than a human could, hitting endpoints in a non-human order, or ignoring the rendering layer entirely. The fix is the same boring discipline that prevents bans: pace requests, vary timing, follow realistic navigation paths, and do not request the whole catalogue in five minutes. Slow, human-shaped scraping gets real data; greedy scraping gets fed lies.</div>
+  </div>
+</div>
+</section>
 
 
 <!-- ═══ MOBILE API ═══ -->
