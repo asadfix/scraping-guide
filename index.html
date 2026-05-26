@@ -11,7 +11,7 @@
 </script>
 <!-- ═══ SEO ═══ -->
   <meta name="description" content="Bypass Cloudflare, Akamai, DataDome, Kasada in 2026. Production guide with 73 libraries (curl_cffi, Camoufox, Scrapy), 9 architectures, JA4+ TLS, mobile API interception.">
-  <meta name="keywords" content="self-hosted browser service, Playwright remote connect, browser as a service, CloakBrowser Xvfb Docker, John Watson Rooney, Frida Android hooking, JADX decompile APK, Ghidra reverse engineering, mobile API reversing, certificate pinning bypass, proxy manager, Thompson Sampling proxy rotation, Bayesian proxy selection, proxy validation Go, ProxyOps, Queue-It bypass, virtual waiting room bypass, distributed browser network, stealth browser benchmark, Scrapeless, agentic browser infrastructure, Browserbase, Kernel browser, Anchor Browser, Hyperbrowser, Browser Use, Stagehand, Skyvern, computer use agents, LLM crawling, Crawl4AI, Firecrawl, Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
+  <meta name="keywords" content="web scraping legality, is web scraping legal, CFAA web scraping, GDPR scraping, scraping ethics, robots.txt scraping, self-hosted browser service, Playwright remote connect, browser as a service, CloakBrowser Xvfb Docker, John Watson Rooney, Frida Android hooking, JADX decompile APK, Ghidra reverse engineering, mobile API reversing, certificate pinning bypass, proxy manager, Thompson Sampling proxy rotation, Bayesian proxy selection, proxy validation Go, ProxyOps, Queue-It bypass, virtual waiting room bypass, distributed browser network, stealth browser benchmark, Scrapeless, agentic browser infrastructure, Browserbase, Kernel browser, Anchor Browser, Hyperbrowser, Browser Use, Stagehand, Skyvern, computer use agents, LLM crawling, Crawl4AI, Firecrawl, Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
   <meta name="author" content="Asad Ikram">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://web-scraping-guide.com/sitemap.xml">
@@ -1766,6 +1766,7 @@ section[id], div[id^="self-heal"] {
       <a class="nl" href="#arch">Architecture</a>
       <a class="nl" href="#mobile">Mobile API</a>
       <a class="nl" href="#jargon">Jargon</a><a class="nl" href="#community">Community</a>
+  <a class="nl" href="#legal-ethics">Legal</a>
       <a class="nl" href="#tl">Timeline</a>
     </div>
   </div>
@@ -2618,6 +2619,10 @@ section[id], div[id^="self-heal"] {
 <div class="sk"><span class="sn">05b</span> Field notes</div>
 <h2 class="sh">How I approached <em>real-world bypasses</em></h2>
 <p class="ss">The theory above tells you what anti-bots <em>do</em>. These notes tell you what I <em>did</em> when I hit them on a production job. Each is a full day or two of work distilled to: what I tried, why it failed, what finally worked, and the decision tree I'd use next time.</p>
+
+<div class="ib warn rv" style="margin-top:18px">
+<strong>Read these as snapshots, not recipes.</strong> Each case is dated and reflects what worked on a specific target at a specific time. Anti-bot systems are probabilistic and adapt continuously, so the exact stack that worked for me may behave differently for you, on a different target, today. The durable value is the reasoning, not the recipe. See <a href="#legal-ethics" style="color:var(--y)">Legal &amp; Reality</a> for the full caveat.
+</div>
 
 <div class="cases-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin:32px 0 24px;padding-bottom:12px;border-bottom:1px solid var(--b1)">
   <button class="case-tab active" onclick="showCase('akamai', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(246,147,35,.12);border:1px solid rgba(246,147,35,.4);border-radius:5px;color:rgba(246,147,35,.95);cursor:pointer;transition:all .15s;font-weight:700">Akamai v3<span style="font-size:9px;opacity:.8;margin-left:4px">May 2026</span></button>
@@ -7264,6 +7269,53 @@ data = resp.json()</code></pre></div>
 
 </section>
 
+<!-- ═══ LEGAL, ETHICS & REALITY ═══ -->
+<section class="sec" id="legal-ethics">
+<div class="sk"><span class="sn">★</span> Legal, ethics &amp; reality</div>
+<h2 class="sh">The part most guides<br><em>conveniently skip</em></h2>
+<p class="ss">Bypassing detection is only half the question. The other half is whether you should, whether it is legal where you operate, and whether your approach survives contact with reality. This section is deliberately honest about the limits of everything above.</p>
+
+<h3 class="rh rv" style="margin-top:8px">This is not legal advice, but you need to think about these</h3>
+<div class="cards c2 rv">
+  <div class="card">
+    <div class="cbar" style="background:#ff6b6b"></div>
+    <div class="ctag">Legal exposure</div>
+    <div class="cname">Terms of Service &amp; CFAA-style law</div>
+    <div class="cbody">Scraping publicly available data has been broadly upheld in some jurisdictions (e.g. the US hiQ v LinkedIn line of cases), but violating a site's Terms of Service, bypassing an authentication wall, or accessing non-public data can expose you to breach-of-contract or computer-misuse claims (CFAA in the US, the Computer Misuse Act in the UK, and equivalents elsewhere). "Technically possible" and "legally safe" are different questions. Logging in and then scraping is a materially different legal posture than scraping anonymous public pages.</div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#22d3ee"></div>
+    <div class="ctag">Privacy law</div>
+    <div class="cname">GDPR, CCPA &amp; personal data</div>
+    <div class="cbody">If your scrape collects personal data of EU/UK residents, GDPR applies regardless of where you operate, and you likely become a data controller with obligations (lawful basis, retention limits, subject rights). The same logic applies to CCPA in California and a growing list of regional laws. Scraping names, profiles, reviews, or contact details is not the same as scraping product prices. Treat personal data as radioactive unless you have a clear lawful basis.</div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#f5c518"></div>
+    <div class="ctag">Ethics &amp; sustainability</div>
+    <div class="cname">robots.txt, rate limits &amp; not being a jerk</div>
+    <div class="cbody">robots.txt is not legally binding in most places, but ignoring it is a signal of intent and increasingly cited in disputes. Beyond law: hammering a small site with thousands of requests can degrade service for real users and is the fastest way to get your IP ranges burned across an entire provider. Pace your requests, cache aggressively, scrape during off-peak hours, and take only what you need. Sustainable scraping is slow scraping.</div>
+  </div>
+  <div class="card">
+    <div class="cbar" style="background:#a78bfa"></div>
+    <div class="ctag">Jurisdiction</div>
+    <div class="cname">Where you are matters</div>
+    <div class="cbody">The legality of an identical scrape can differ between the country you operate from, the country the target is hosted in, and the country whose residents' data you collect. A technique that is low-risk in one jurisdiction can carry real exposure in another. If you are operating commercially or at scale, this is a question for an actual lawyer in the relevant jurisdictions, not a guide on the internet.</div>
+  </div>
+</div>
+
+<h3 class="rh rv">Read this before you copy anything above</h3>
+<div class="ib warn rv">
+<strong>Anti-bot systems are probabilistic, not deterministic.</strong> Modern systems (Akamai, Cloudflare, DataDome, Kasada, HUMAN) are machine-learning systems running adaptive scoring, per-customer configurations, and continuous experiments. That means: the same fingerprint can pass today and fail tomorrow, two identical sessions can get different treatment, and a technique that worked on one customer of a vendor can fail on the next. Nothing in this guide is a guaranteed bypass. It is a description of what worked, on specific targets, at a specific time.
+</div>
+
+<div class="ib tip rv" style="margin-top:18px">
+<strong>This advice has a shelf life.</strong> The more widely a bypass technique spreads, the faster vendors adapt to it, so the most public techniques are often the first to die. Treat dated case studies (each is timestamped) as a snapshot, not a permanent recipe. The durable value here is the <em>detection theory</em> and the <em>decision process</em>, not any single tool or fingerprint. Understanding <em>why</em> a layer fires lets you adapt when the specific recipe stops working. Copying a fingerprint without understanding it is cargo-cult scraping, and it ages badly.
+</div>
+
+<div class="ib rv" style="margin-top:18px">
+<strong>You probably need less than this guide implies.</strong> This guide is optimised for hardened targets (Akamai v3, Kasada, F5 Shape). Most scraping jobs are not that. A huge number of sites still yield to a plain HTTP client with proper headers, session reuse, and sensible pacing, no patched browser, no mobile proxies, no JA4 spoofing. Always start at the cheapest rung of the ladder (the decision flow near the top of this guide) and only escalate when a target actually forces you to. The expensive stealth stack is a last resort, not a default. Your results will also vary enormously by target category: a strategy tuned for ecommerce can fail completely on airline pricing, ticketing, sneaker drops, or social platforms.
+</div>
+</section>
 
 
 <!-- ═══ 09 TIMELINE ═══ -->
