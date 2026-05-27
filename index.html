@@ -2203,6 +2203,9 @@ section[id], div[id^="self-heal"] {
 </div>
 
 <h3 class="rh rv">Layer 3, Network Identity: The Five Vectors That Must Agree</h3>
+<div class="ib warn rv" style="margin-bottom:20px">
+<strong>This is the layer most people underinvest in.</strong> Beginners pour effort into header spoofing and fingerprint patching while running through a flagged IP, and then wonder why nothing works. It is backwards. If your IP reputation is bad, no amount of header spoofing will save your requests, the request is scored down before your carefully crafted headers are ever read. Infrastructure beats code here: a plain HTTP client on a clean residential IP routinely outperforms a perfectly patched browser on a flagged datacenter IP. Get the network identity right first, then worry about everything above it.
+</div>
 <div class="cards c3 rv">
 <div class="card">
   <div class="cbar" style="background:var(--blu)"></div>
