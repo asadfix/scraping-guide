@@ -1074,6 +1074,22 @@ html { scroll-behavior: smooth; }
 
   /* Content visibility off on mobile - too heavy */
   .sec, section { content-visibility: visible !important; }
+
+  /* ── CONSISTENT MOBILE TYPOGRAPHY (normalization pass) ── */
+  body { font-size: 16px !important; }
+  .cbody, .abd, .ic-body, .ib, .arch-desc, .ct td, p { font-size: 15px !important; line-height: 1.65 !important; }
+  .cname, .ic-title { font-size: 17px !important; line-height: 1.3 !important; }
+  .rh { font-size: 21px !important; line-height: 1.3 !important; }
+  .csub, .ic-insight, .ic-detail { font-size: 13px !important; }
+  /* tiny uppercase labels: floor at 11px so nothing is unreadable */
+  .ctag, .sk, .absy, .cbl, .cbc, .atools-label, .ic-tag, .ah-badge,
+  .ab-tag, .nav-badge, .hst-l, .csub, .fdtop, .lyrn { font-size: 11px !important; letter-spacing: .08em !important; }
+  .arch-tool { font-size: 11px !important; }
+  .atab { font-size: 11px !important; padding: 8px 12px !important; }
+  .bdg { font-size: 10px !important; }
+  code { font-size: 13px !important; }
+  pre { font-size: 12px !important; }
+  .hero-chip { font-size: 11px !important; }
 }
 
 /* Desktop mob button hidden */
