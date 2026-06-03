@@ -2241,6 +2241,18 @@ function dismissLegalBanner(){
 
 </div>
 
+<div class="card rv" style="margin-bottom:28px;border:1px solid rgba(248,113,113,.25);background:rgba(248,113,113,.04)">
+  <div class="cbar" style="background:rgba(248,113,113,.7)"></div>
+  <div class="ctag" style="color:rgba(248,113,113,.8)">CVE-2026-6770 · April 2026 · Process memory leak</div>
+  <div class="cname">IndexedDB Iteration Order: The Fingerprint Nobody Patched</div>
+  <div class="cbody">Firefox stored IndexedDB database names using internal UUID mappings in a <strong>global hash table shared across all origins within the same browser process</strong>. When a site calls <code>indexedDB.databases()</code>, the names come back in hash table iteration order, which is deterministic and stable for the lifetime of that process. Two unrelated sites see the same ordering and can use it to silently link a user's activity across domains — no cookies, no shared storage, no user interaction required.<br><br>
+  The fingerprint persisted across reloads, new private windows, and even Tor Browser's "New Identity" resets. Only a full browser restart cleared it. <strong>Fixed in Firefox 150 / Tor Browser 15.0.10 (April 21, 2026).</strong><br><br>
+  <strong style="color:rgba(240,200,80,.9)">Scraper implication:</strong> If you run multiple scraping identities inside the same browser process (shared Camoufox instance, same Firefox PID), an anti-bot can correlate them using this ordering as a stable session token — regardless of proxy rotation, cookie isolation, or fingerprint patching. The signal is below every stealth layer.<br><br>
+  <strong>Rule:</strong> Isolate scraping identities at the process level, not just the profile level. One identity = one browser process. Verify your Camoufox build is on Firefox 150+.<br>
+  <span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Ref: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-6770" target="_blank" rel="noopener" style="color:var(--t3)">CVE-2026-6770</a> · <a href="https://www.mozilla.org/security/advisories/mfsa2026-30/" target="_blank" rel="noopener" style="color:var(--t3)">mfsa2026-30</a> · <a href="https://securityaffairs.com/191374/security/firefox-bug-cve-2026-6770-enabled-cross-site-tracking-and-tor-fingerprinting.html" target="_blank" rel="noopener" style="color:var(--t3)">SecurityAffairs writeup</a></span>
+  </div>
+</div>
+
 <h3 class="rh rv">Layer 3, Network Identity: The Five Vectors That Must Agree</h3>
 <div class="ib warn rv" style="margin-bottom:20px">
 <strong>This is the layer most people underinvest in.</strong> Beginners pour effort into header spoofing and fingerprint patching while running through a flagged IP, and then wonder why nothing works. It is backwards. If your IP reputation is bad, no amount of header spoofing will save your requests, the request is scored down before your carefully crafted headers are ever read. Infrastructure beats code here: a plain HTTP client on a clean residential IP routinely outperforms a perfectly patched browser on a flagged datacenter IP. Get the network identity right first, then worry about everything above it.
@@ -3052,6 +3064,13 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
       <div class="lib-pc-row">
         <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>100% Cloudflare pass rate as of March 2026</li><li>geoip=True aligns all 5 identity vectors automatically</li><li>Below-CDP, invisible to JS-level detection</li><li>Async context manager, drop-in playwright replacement</li></ul></div>
         <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Firefox only, no Chrome/Safari</li><li>Heavier than curl_cffi</li><li>Occasional site-specific quirks with Firefox fingerprint</li></ul></div>
+      </div>
+      <div style="margin-top:14px;padding:12px 14px;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);border-radius:6px;font-size:13px;line-height:1.75;color:var(--t2)">
+        <span style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(248,113,113,.9);display:block;margin-bottom:6px">⚠ CVE-2026-6770 — Process-Level Fingerprint Leak (patched Firefox 150)</span>
+        Firefox below v150 returned IndexedDB database names in hash table iteration order rather than sorted order. Because the hash table is shared across all origins within the same browser process, the ordering became a <strong>stable, high-entropy process-lifetime fingerprint</strong> — consistent across tabs, sites, private windows, and even Tor Browser's "New Identity" resets. Anti-bot systems could use this to correlate multiple scraping identities running in the same browser process, regardless of proxy rotation or profile switching.<br><br>
+        <strong>Fix:</strong> Use Camoufox built on Firefox 150+ (patched April 2026). Verify your version.<br>
+        <strong>Scraper lesson:</strong> Always isolate identities at the <em>process level</em>, not just the profile level. Multiple sessions in one browser process can be correlated through memory-state artifacts like this even when fingerprint patching is otherwise perfect.<br>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Ref: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-6770" target="_blank" rel="noopener" style="color:var(--t3)">CVE-2026-6770</a> · <a href="https://www.mozilla.org/security/advisories/mfsa2026-30/" target="_blank" rel="noopener" style="color:var(--t3)">mfsa2026-30</a> · Fixed Firefox 150 / Tor Browser 15.0.10</span>
       </div>
     </div>
   </td>
