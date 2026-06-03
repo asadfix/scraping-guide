@@ -4977,6 +4977,15 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 
   <div class="icard" onclick="this.classList.toggle('expanded')">
     <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">2026 landscape / AI browser stack</div>
+    <div class="ic-title">The AI Browser Stack: 3 New Layers Nobody Talks About Yet</div>
+    <div class="ic-body">The AI browser race has the headlines (Atlas, Comet, Dia, new contender every month). But the winner gets decided by what sits underneath. A fresh map of the stack the AI browsers actually run on shows <strong>three categories that did not exist a year ago: AI-native browsers, anti-detect platforms, and publisher licensing/tolls.</strong></div>
+    <div class="ic-insight">💡 Publisher licensing is the economic answer to "AI crawlers are scrapers too"</div>
+    <div class="ic-detail">Three additions worth tracking, beyond the agentic browser map already in this guide. <strong>(1) AI-native browsers</strong> as a top layer: ChatGPT Atlas, Perplexity Comet, The Browser Company's Dia. Not wrappers, full browsers built around an LLM as the primary user interface. They drive the lower layers as agents on behalf of real users, which is part of why Microsoft Edge and V8 quietly stopped enforcing automation-transparency flags (see the "Vendors That Wrote the Detection Rules" card). <strong>(2) Anti-detect &amp; fingerprinting platforms</strong> as a distinct category: Multilogin, AdsPower, Kameleo. These are not scraping libraries, they are productised browser-profile managers (each profile = a coherent fingerprint with its own canvas/WebGL/timezone/IP), originally for multi-account ecommerce and affiliate work but increasingly used by serious scrapers. Worth knowing about because the techniques inside them are the same fingerprint-coherence rules this guide describes, just packaged with a UI. <strong>(3) Publisher licensing &amp; tolls</strong>, the genuinely new layer: <a href="https://tollbit.com" target="_blank" rel="noopener" style="color:#f5c518">TollBit</a>, <a href="https://blog.cloudflare.com/pay-per-crawl/" target="_blank" rel="noopener" style="color:#f5c518">Cloudflare Pay-Per-Crawl</a>, ProRata.ai. The premise: instead of fighting AI crawlers with detection, charge them per access. Publishers expose a paid API for LLMs and agents, with rate-limited free tiers and metered paid ones. This is the economic acknowledgment that AI crawlers are scrapers and that some categories of access are worth paying for. If you build agentic browser systems, this is the layer that may eventually replace bot-detection-as-defense for content-heavy sites. The detection layer is designed to tell bots from people, but the AI browsers on top and the residential networks on the bottom both look the part, so this line is blurring fast. Credit: landscape framing by Massive (Q4 2026 update).</div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
     <div class="ic-tag">2026 reality / Stack composition</div>
     <div class="ic-title">Defense in Depth Is Table Stakes Now (26-Site Scan)</div>
     <div class="ic-body">A scan of 26 e-commerce and ticketing sites found the same pattern everywhere: the defense is no longer a vendor, it is a <strong>stack</strong>. Home Depot's sign-in loads Akamai Bot Manager, PerimeterX/HUMAN, Forter, AND reCAPTCHA Enterprise simultaneously. Beating one is tractable. Beating the composition is not.</div>
@@ -7737,6 +7746,8 @@ Deduplication: URL-level via Bloom filter or scrapy-redis RFPDupeFilter (Redis-b
 Data poisoning: passing the bouncer does not mean data is real. Sites quietly serve fake/shuffled/stale data to scrapers that scrape too fast. Detect via ground-truth sample diffing + cross-checks between sessions. Cause is behavioural (too fast/non-human path), not fingerprint. Fix: pace + realistic navigation.
 
 INNOVATION FEED (active 2026 developments):
+AI BROWSER STACK (new layers Q4 2026): AI-native browsers (ChatGPT Atlas, Perplexity Comet, The Browser Company Dia), Anti-detect platforms (Multilogin, AdsPower, Kameleo), Publisher licensing & tolls (TollBit, Cloudflare Pay-Per-Crawl, ProRata.ai - publishers charging AI crawlers per access rather than blocking). The licensing layer is the economic answer to "AI crawlers are scrapers."
+
 CloakBrowser +9.1K stars in a week (Nov 2026). Anubis FOSS firewall growing. Burp Suite MCP + Claude Code collapses 4hr recon to 2 min. Hyphenation dictionary detection. FlySafair Queue-It bypass via CDN gap. Web-as-database concept (resproxies enable real-time, no storage). ProxyOps Bayesian proxy selection. John Watson Rooney self-hosted browser writeup. Massive Q2 2026 agentic browser landscape (8 layers). Defense-in-depth 26-site scan: stack-not-vendor, brand-names-lie, first-party-cloaking, lazy-loaded-defenses. Edge returns navigator.webdriver=false for agents, V8 patched CDP detection (the W3C transparency rules silently dropped). Frost SSD timing fingerprint (zero permissions). detectIncognito v1.7 (navigator.storage flush time <0.1ms = RAM = incognito).
 
 LEGAL & ETHICS:
@@ -7872,7 +7883,7 @@ const SECTION_MAP = [
   {
     id: 'ai',
     label: 'AI Scraping',
-    keywords: ['ai','llm','firecrawl','crawl4ai','scrapegraph','scrapegraphai','jina','steel','browser use','mcp','agent','agentic','gpt','claude scraping','openai','embedding','markdown extraction','natural language','intelligent','machine learning','ml scraping','llmscraper','diffbot','browserbase','kernel','notte','anchor browser','hyperbrowser','browserless','agentql','stagehand','skyvern','dendrite','nanobrowser','computer use','operator','fellou','twin','multion','agentic browser','8 layer','eight layer'],
+    keywords: ['ai','llm','firecrawl','crawl4ai','scrapegraph','scrapegraphai','jina','steel','browser use','mcp','agent','agentic','gpt','claude scraping','openai','embedding','markdown extraction','natural language','intelligent','machine learning','ml scraping','llmscraper','diffbot','browserbase','kernel','notte','anchor browser','hyperbrowser','browserless','agentql','stagehand','skyvern','dendrite','nanobrowser','computer use','operator','fellou','twin','multion','agentic browser','8 layer','eight layer','atlas','comet','dia','chatgpt atlas','perplexity comet','browser company','ai-native browser','ai native browser','multilogin','adspower','kameleo','anti-detect','antidetect','tollbit','pay-per-crawl','pay per crawl','prorata','publisher licensing'],
   },
   {
     id: 'platforms',
@@ -7892,7 +7903,7 @@ const SECTION_MAP = [
   {
     id: 'innovation',
     label: 'Innovation Feed',
-    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack'],
+    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower'],
   },
   {
     id: 'tools',
