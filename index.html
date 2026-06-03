@@ -7593,73 +7593,119 @@ data = resp.json()</code></pre></div>
 <script>
 const KNOWLEDGE_BASE = `
 DETECTION LAYERS:
-Layer 1 TLS/JA4+: JA4+ fingerprints TLS ClientHello by sorting extensions, removing GREASE, hashing cipher suites+ALPN. Cloudflare uses Rust crate at edge, Akamai uses EdgeWorker. HTTP/2 SETTINGS frames also fingerprinted. curl_cffi impersonate=chrome124 fixes this.
-Layer 2 JS Fingerprinting: Canvas 2D hash (GPU-dependent pixel output), WebGL renderer+vendor string, AudioContext floating-point output, Function.prototype.toString() exposes JS patches, navigator.webdriver=true for Selenium. C++ binary patches (Camoufox, CloakBrowser) are the 2026 baseline.
-Layer 3 Network Identity: IP ASN (datacenter=flagged), WebRTC ICE candidates leak real IP, DNS resolver location vs proxy mismatch. All 5 vectors must agree: IP country, WebRTC, DNS, timezone, Accept-Language. Camoufox geoip=True fixes all 5.
-Layer 4 Behavioural ML: Mouse movement Bezier curves with Gaussian noise, scroll velocity, inter-keystroke timing, session dwell time. DataDome 35-signal behavioural model. Botasaurus provides Gaussian mouse simulation.
+Layer 1 TLS/JA4+: JA4+ fingerprints TLS ClientHello by sorting extensions, removing GREASE, hashing cipher suites+ALPN. Cloudflare uses a Rust crate at the edge, Akamai uses EdgeWorker. HTTP/2 SETTINGS frames are also fingerprinted. curl_cffi impersonate=chrome124 fixes this for Python; Go can use rquest/rnet for clean Chrome JA4.
+Layer 2 JS Fingerprinting: Canvas 2D hash (GPU-dependent pixel output), WebGL renderer+vendor string, AudioContext floating-point output, Function.prototype.toString() exposes JS patches, navigator.webdriver historically =true for Selenium. C++ binary patches (Camoufox, CloakBrowser) are the 2026 baseline. 2026 update: Microsoft Edge now returns navigator.webdriver=false for agent-driven Playwright and Google patched out CDP detection in V8 - those flags are no longer reliable.
+Layer 2.5 WASM SIMD CPU probes: anti-bots run small WASM kernels and measure CPU instruction timing to fingerprint actual silicon. JS-level patches cannot defeat this. Real hardware (residential proxies on real devices) is the answer.
+Layer 2.6 Hyphenation dictionary detection: Chromium on Windows/Linux needs a hyphenation dictionary bundled at build. Most custom Chromium forks ship without it. Probe via CSS hyphens:auto + Canvas measurement reveals the fork. Joe12387 PoC.
+Layer 3 Network Identity: IP ASN (datacenter=flagged), WebRTC ICE candidates leak real IP, DNS resolver location vs proxy mismatch. Five vectors must agree: IP country, WebRTC, DNS, timezone, Accept-Language. INFRASTRUCTURE BEATS CODE: a plain HTTP client on a clean residential IP outperforms a patched browser on a flagged datacenter IP. Get network identity right first.
+Layer 3.5 DOM Honeypots: invisible links/inputs designed to trap scrapers that click everything; humans never hit them.
+Layer 4 Behavioural ML: mouse movement curves, scroll velocity, keystroke timing, navigation paths. Probabilistic ML scoring, same fingerprint may pass today and fail tomorrow.
 
-ANTI-BOT SYSTEMS:
-Akamai: sensor.js 512KB obfuscated, 60 chrome-extension probes, multi-request trust scoring, JA4+ at EdgeWorker. Bypass: curl_cffi + CloakBrowser + real extensions + ISP proxy + homepage warmup. Signals: _abck, bm_sz cookies.
-Cloudflare: JA4 in Rust crate at CDN edge, ML score 1-99, Turnstile 79-parameter POST (Canvas hash, SHA-256 PoW, TEA crypto). Bypass: Camoufox 100% pass rate Mar 2026, StealthyFetcher for Turnstile. Signals: cf_clearance, __cf_bm.
-DataDome: 85000 per-site ML models, WASM boring_challenge (Rust, cannot emulate), runs at app server not CDN, 2ms response. Bypass: curl_cffi+residential confirmed bypass, mobile carrier IP highest trust. Signals: datadome cookie.
-PerimeterX/HUMAN: 29650+ sites, 15 trillion weekly verifications, 5-vector score (TLS+IP+HTTP+JS+Behaviour). Bypass: Camoufox+residential, fresh fingerprint per session. Signals: _px3, _pxde.
-Kasada: Gatekeeper proxy, polymorphic ips.js PoW, silent 403, playwright-stealth fingerprinted via toString(). Bypass: PatchRight, SeleniumBase UC, residential proxy essential. Signals: x-kpsdk-ct.
-F5 Shape: custom JS VM, minute expiry. Bypass: managed API only - Bright Data 98.44% success, Zyte 93.14%.
+ANTI-BOT VENDORS:
+Akamai Bot Manager v3: _abck cookie, sensor.js challenge, TLS JA4 check fires before HTML served. Bypass requires real Chrome JA4 (Python TLS stack cannot produce one cleanly - Go sidecar with rquest works).
+Cloudflare: cf_clearance cookie, Turnstile challenge, JS challenge. Smart proxy APIs, curl_cffi TLS impersonation, and browser APIs are the 3 broadly-working bypass categories per Web Scraping Insider 2026 benchmark.
+DataDome: datadome cookie, fingerprint+behaviour scoring. Sophisticated behavioural ML, hardest tier alongside Kasada.
+Kasada: x-kpsdk-* headers, real-browser-only by design.
+F5 Shape (now Distil): client-side JS obfuscation, hardest enterprise tier.
+PerimeterX/HUMAN: _px3 cookie, sensor scripts. Often appears under first-party names (iamNotaRobot.js, abuse-component.js, aps.js).
+Imperva: reese84 cookie, Incapsula challenge.
+AWS WAF: rate-based + managed rules + CAPTCHA action.
+Anubis (FOSS, Xe Iaso, ~15K stars): JS proof-of-work challenge protecting Codeberg, FFmpeg, Linux kernel docs, Sourcehut. Bypass: any headless Chromium with JS solves it, persist the auth cookie.
+Queue-It: virtual waiting room, Cloudflare Worker checks queue token cookie. FlySafair case: CDN routing gap left /check-in served from CloudFront (no Queue-It Worker) with full SPA bundle; block assets.queue-it.net + pushState navigation = bypass.
+2026 reality: defense is now a STACK not a vendor. Home Depot loads Akamai+PerimeterX/HUMAN+Forter+reCAPTCHA Enterprise simultaneously. Brand names lie (Ticketmaster EPS = PerimeterX rebranded). First-party cloaking: vendor scripts under random first-party filenames. Lazy-loaded defenses fire on login/checkout, not homepage - multi-hop traversal is minimum recon.
 
-LIBRARIES:
-curl_cffi: TLS impersonation, impersonate=chrome124 emits Chrome JA4+. pip install curl_cffi. github.com/lexiforest/curl_cffi. Confirmed DataDome bypass.
-Scrapling: Adaptive scraping framework, 38K stars, StealthyFetcher solves Cloudflare Turnstile. v0.4 adds async spider, proxy rotation, checkpoint resume. github.com/D4Vinci/Scrapling.
-Camoufox: C++ Firefox using Juggler protocol below CDP, 100% Cloudflare pass rate Mar 2026. geoip=True aligns all 5 identity vectors. github.com/daijro/camoufox.
-CloakBrowser: 49 C++ binary patches, reCAPTCHA v3 score 0.9, passes Akamai extension probes.
-PatchRight: Patches Playwright Python source, no JS signatures, Kasada bypass. github.com/Kaliiiiiiiiii-Vinyzu/patchright.
-Playwright: 68K stars, CDP-based, cross-browser. github.com/microsoft/playwright.
-Puppeteer: 89K stars, Node.js CDP. github.com/puppeteer/puppeteer.
-Selenium: webdriver=true flag detectable. github.com/SeleniumHQ/selenium.
-SeleniumBase: UC mode removes webdriver flag. github.com/seleniumbase/SeleniumBase.
-Scrapy: 52K stars, production framework, ecosystem: Scrapyd, scrapy-redis, scrapy-cluster. github.com/scrapy/scrapy.
-Firecrawl: 111K stars, URL to Markdown/JSON, FIRE-1 agent, MCP server. github.com/mendableai/firecrawl.
-Crawl4AI: 60K stars, local LLM support, MIT free. github.com/unclecode/crawl4ai.
-Bright Data: 98.44% success rate, 72M+ IPs, best for F5 Shape.
-Zyte: 93.14% success, #1 Proxyway 2025.
-SwiftShadow: Free proxy rotation, 2 lines of code, github.com/Aahaan-k/swiftshadow.
+DECISION FLOW (priority order, start left move right only when needed):
+Step 0 RECON: capture session in Burp Suite + PortSwigger MCP + Claude Code. Trace cookie lifecycle, identify sensor endpoints. 4 hours -> 2 minutes.
+Step 1 MOBILE API: apps often hit same backend with zero anti-bot. HTTPToolkit + Frida (hook Java/C, bypass cert pinning) + JADX (decompile APK) + Ghidra (native .so) on rooted Android emulator. MobileHackingLab free course.
+Step 2 HIDDEN APIs: inspect XHR, __NEXT_DATA__, GraphQL endpoints in HTML.
+Step 3 HTTP CLIENT: curl_cffi (Python, impersonate=chrome124), httpx, Scrapling.
+Step 4 BROWSER AUTOMATION: Camoufox (Firefox-based patched), CloakBrowser (Chromium binary-patched, +9.1K stars), Patchright, Playwright. Pydoll for CDP-less.
+Step 5 MANAGED API: ScraperAPI, Zyte API, Bright Data Web Unlocker, Scrapfly, Infatica Scraper API.
 
-DECISION FLOW:
-Step 1 Mobile API: HTTPToolkit/Frida intercepts HTTPS from apps - same backend with weaker anti-bot.
-Step 2 XHR Endpoint: Chrome DevTools Network tab - find the JSON API the SPA calls, 50x faster.
-Step 3 __NEXT_DATA__: Next.js embeds full state in page - no requests needed, just parse HTML.
-Step 4 HTTP Scraping: curl_cffi + Scrapy + residential proxy.
-Step 5 C++ Browser: Camoufox or CloakBrowser - never JS-level patches.
-Step 6 Managed API: F5 Shape only - Bright Data or Zyte.
+LIBRARIES (Python heavy, 73+ total):
+HTTP: curl_cffi (chrome impersonation), httpx, requests, urllib3.
+Browser stealth: Camoufox (Firefox), CloakBrowser (Chromium, +9.1K stars Nov 2026), Patchright, undetected-chromedriver (mostly dead), nodriver, Pydoll, Botasaurus, Botright, Steel.
+Frameworks: Scrapy + scrapy-playwright + scrapy-redis (distributed) + scrapy-stealth, Crawlee (Apify).
+Parsing: selectolax (fastest), parsel, BeautifulSoup, lxml, chompjs (extract JS objects).
+Mobile reversing: Frida, JADX, Ghidra, HTTPToolkit, mitmproxy.
+Go stack: rquest/rnet (clean Chrome JA4), Colly, Katana.
+
+AI SCRAPING (8-LAYER AGENTIC BROWSER STACK, Q2 2026 per Massive):
+L1 Cloud Browser Platforms: Browserbase, Kernel, Notte, Anchor Browser, Browserless, Hyperbrowser.
+L2 Agent Frameworks/SDKs: Browser Use, Stagehand, Skyvern, AgentQL, Dendrite, Nanobrowser.
+L3 Browser Automation: Playwright, Puppeteer, Selenium, Crawlee, BrowserMCP.
+L4 Computer Use Agents: Anthropic CUA, OpenAI Operator, Fellou, Twin, MultiOn.
+L5 Stealth & Anti-Detection: CloakBrowser, Steel, Lightpanda, Pydoll, Camoufox.
+L6 Data Extraction & Enrichment: Diffbot, ScrapingBee, ScraperAPI, Zyte, ScrapeGraphAI.
+L7 LLM-Optimized Crawling: Crawl4AI, Firecrawl, Jina AI, Apify, LLMScraper, Scrapy.
+L8 Network & Proxy Layer: Massive, Bright Data, Oxylabs, Smartproxy, NetNut, IPRoyal.
+Debug rule: when an agent fails, check L5 (detection) + L8 (IP) first - that is where most failures live, not L2 (framework).
+
+MANAGED PLATFORMS:
+Bright Data (98.44% Scrape.do 2025, 72M+ IPs, GDPR/ISO 27001, ~$1.50/1K req).
+Zyte (#1 Proxyway 2025, 93.14% success, fastest API, native scrapy-zyte-smartproxy).
+Oxylabs (Web Unblocker AI-driven, 177M+ IPs).
+Infatica: Singapore-based, P2B (peer-to-business) sourcing, mandatory KYC on buyers, ISO 27001/27701/22301/20000-1 certified. Scraper API (POST URL -> HTML/JSON, auto-retry, SERP endpoint with AI Overview support). Differentiated on ethics + certifications, not raw scale.
+Firecrawl (URL -> Markdown/JSON, MCP server, used by SAP/Zapier/Deloitte, 111K stars).
+Crawl4AI (open-source, 89.7% OOTB, 60K stars).
+ScrapingBee, Scrapfly, ScraperAPI, Diffbot, WebScraper.io, Apify, NetNut, Nimble, Browse.ai, Kadoa, TinyFish, Bytebot, CloudCruise, Autotab, Browserless.
 
 PROXIES:
-Datacenter proxies: Very low trust, instantly flagged by DataDome and PerimeterX.
-Residential proxies: High trust, confirmed DataDome bypass on real targets.
-Mobile 4G (T-Mobile, Vodafone): Highest trust, hardest to flag, most expensive.
-ISP Static proxies: High trust, good for Akamai, trust accumulates so never rotate mid-session.
-WebRTC leak: Must disable or align WebRTC IP with proxy. Test at browserleaks.com/webrtc.
+Residential is the only reliably clean option in 2026.
+Bright Data: largest pool ~150M, premium tier.
+Oxylabs: ~175M IPs, AI-driven Web Unblocker.
+Infatica: ~15M IPs, P2B model, mandatory KYC, $0.30-$8/GB.
+Massive (affiliate): ethical sourcing focus, real-device network.
+Smartproxy/Decodo: mid-tier.
+NetNut: ISP-direct (DiviNetworks).
+IPRoyal, Rayobyte, Byteful, SOAX.
+WebRTC coherence rule: IP country, WebRTC ICE, DNS, timezone, Accept-Language must all agree. US residential + Pakistani DNS = flagged.
+Crawlera/Zyte bug: port 8011 is plain HTTP; use "http://" scheme for both http and https proxy keys.
+Proxy ops: round-robin sends through dead proxies. ProxyOps (Paulo-H, MIT) uses Thompson Sampling Bayesian selection: 76% vs 36% success over 549,114 requests, same proxies. Go proxy validator (harshit-singh-ai) for I/O-heavy validation at scale - Python threads cap too low.
 
-AI SCRAPING:
-Firecrawl: URL to Markdown, 67% fewer tokens than raw HTML, MCP server for Claude/Cursor integration.
-Crawl4AI: Self-hosted, local LLM, BM25 filter, adaptive crawling, free MIT license.
-ScrapeGraphAI: Natural language prompts build graph extraction pipeline.
-Jina Reader: r.jina.ai/{url} - simplest LLM scraping, no SDK needed.
-Steel: Self-hosted browser API, MCP server, for AI agents.
+ARCHITECTURE (11 production patterns):
+1. Scrapyd single node - simplest, <5 spiders, ScrapydWeb UI.
+2. Scrapy Cluster - shared Redis queue, scrapy-redis.
+3. AWS ECS Fargate Pipeline - containerized spiders, EventBridge schedule.
+4. AWS Data Lake (EKS+Spark+Athena) - large-scale analytics.
+5. Step Functions Multi-Region - state-machine orchestration.
+6. Azure Pipeline - Container Instances + Synapse.
+7. AI-Native RAG Pipeline - Crawl4AI + vector DB + LLM.
+8. Microservices API-first - REST/GraphQL + Redis/SQS + worker pools + Postgres + webhook.
+9. Pub/Sub Event-Driven - publisher pushes one msg per source to broker (SQS/Kafka/RabbitMQ/Google Pub/Sub); independent workers pull and crawl in isolation. One source fails alone. 76% success vs 36% round-robin.
+10. Self-Hosted Browser Pool (John Watson Rooney pattern) - control libs (Playwright/Puppeteer/Selenium) are NOT browsers, they speak CDP to any binary. Run persistent patched-Chromium headed under Xvfb in Docker, supervisord manages Xvfb + Playwright server. Scripts connect via ws://. Two-slot trap: must replace BOTH chrome AND chrome-headless-shell or Playwright silently runs the untouched headless shell (403s, wrong version, nothing in logs). Concurrency = contexts not instances.
+11. Self-Healing Scraper (Claude as brain) - failure detection -> Claude bash_tool + view tool reads error logs + live page + SKILL.md knowledge base -> diff old vs new structure -> patch selector -> retest.
+
+COST & ECONOMICS (build vs buy):
+Self-hosted HTTP+curl_cffi+residential: $200-$1000/mo (proxy bandwidth dominates).
+Self-hosted Camoufox/CloakBrowser cluster: $200-$1200/mo compute + heavy bandwidth + engineering time.
+Managed API: $1-$5 per 1K requests.
+Break-even rule: managed wins below ~1-2M req/mo, self-host above ~10M, hybrid in between. Most-forgotten cost: maintenance (your weekend when Akamai ships a new sensor).
+
+POST-EXTRACTION:
+Storage: Parquet over CSV/JSON (5-10x smaller, columnar). Bronze (raw)/silver (clean)/gold (aggregated) medallion layout on S3/GCS.
+Deduplication: URL-level via Bloom filter or scrapy-redis RFPDupeFilter (Redis-backed). Content-level via stable hash + last_seen timestamp + upsert (catches same item at multiple URLs).
+Data poisoning: passing the bouncer does not mean data is real. Sites quietly serve fake/shuffled/stale data to scrapers that scrape too fast. Detect via ground-truth sample diffing + cross-checks between sessions. Cause is behavioural (too fast/non-human path), not fingerprint. Fix: pace + realistic navigation.
+
+INNOVATION FEED (active 2026 developments):
+CloakBrowser +9.1K stars in a week (Nov 2026). Anubis FOSS firewall growing. Burp Suite MCP + Claude Code collapses 4hr recon to 2 min. Hyphenation dictionary detection. FlySafair Queue-It bypass via CDN gap. Web-as-database concept (resproxies enable real-time, no storage). ProxyOps Bayesian proxy selection. John Watson Rooney self-hosted browser writeup. Massive Q2 2026 agentic browser landscape (8 layers). Defense-in-depth 26-site scan: stack-not-vendor, brand-names-lie, first-party-cloaking, lazy-loaded-defenses. Edge returns navigator.webdriver=false for agents, V8 patched CDP detection (the W3C transparency rules silently dropped). Frost SSD timing fingerprint (zero permissions). detectIncognito v1.7 (navigator.storage flush time <0.1ms = RAM = incognito).
+
+LEGAL & ETHICS:
+Not legal advice. ToS violations + auth-wall bypass exposes CFAA (US) / Computer Misuse Act (UK) risk. hiQ v LinkedIn upheld scraping public data in US. GDPR/CCPA: personal data triggers controller obligations regardless of operator location. robots.txt is not legally binding everywhere but ignoring it signals intent. Jurisdiction matters: operate-from country vs host country vs data-subject country can each apply. Anti-bot systems are PROBABILISTIC (ML scoring, per-customer config) not deterministic - same fingerprint passes today fails tomorrow. Bypass techniques have SHELF LIFE - the more popular, the faster they die. Most jobs need less than this guide implies - start cheapest, escalate only when forced.
 
 TESTING TOOLS:
-BrowserLeaks: browserleaks.com - gold standard fingerprint testing, Canvas, WebGL, TLS, WebRTC, HTTP/2.
-BrowserLeaks TLS: browserleaks.com/tls - generates JA3 and JA4 hashes for your client.
-BrowserLeaks WebRTC: browserleaks.com/webrtc - check if proxy is leaking real IP.
-TLS JSON API: tls.browserleaks.com/json - call from code to compare scraper vs Chrome JA4.
-BrowserScan: browserscan.net - quick pass/fail automation detection check.
-Cover Your Tracks: coveryourtracks.eff.org - EFF tool, fingerprint uniqueness score.
-Pixelscan: pixelscan.net - bot detection simulation.
-CreepJS: abrahamjuliot.github.io/creepjs - advanced behavioral signal analysis.
+BrowserLeaks (browserleaks.com): definitive fingerprint test suite.
+BrowserScan (browserscan.net): quick pass/fail automation detection.
+Cover Your Tracks (coveryourtracks.eff.org): EFF fingerprint uniqueness.
+Pixelscan (pixelscan.net): bot detection simulation.
+CreepJS (abrahamjuliot.github.io/creepjs): behavioural signal analysis.
 
 COMMUNITY:
-The Web Scraping Club newsletter: substack.thewebscraping.club by Pierluigi Vinciguerra.
-Scraping Wiki: github.com/TheWebScrapingClub/scraping-wiki - 64 pages, 300+ articles indexed.
+The Web Scraping Club (Pierluigi Vinciguerra): substack.thewebscraping.club.
+John Watson Rooney YouTube: practical Scrapy/Playwright/proxies tutorials (where the author learned web scraping).
+Scraping Wiki: github.com/TheWebScrapingClub/scraping-wiki.
 Discord: Web Scraping Club, Oxylabs, Extract Data Community, Scrapy Official.
-Reddit: r/webscraping, r/scrapy, r/WebScrapingInsider.
+Reddit: r/webscraping, r/scrapy, r/dataengineering.
 `;
 
 
@@ -7757,12 +7803,12 @@ const SECTION_MAP = [
   {
     id: 'detect',
     label: 'Detection Layers',
-    keywords: ['detect','detection','ja4','ja3','tls','fingerprint','fingerprinting','clienthello','cipher','canvas','webgl','audio','navigator','webdriver','cdp','behavioural','behavior','mouse','grease','alpn','http2','http/2','layer','signal','hyphenation','wasm','simd','cpu fingerprint','hardware entropy','timing attack','timezone','locale','probe','probing'],
+    keywords: ['detect','detection','ja4','ja3','tls','fingerprint','fingerprinting','clienthello','cipher','canvas','webgl','audio','navigator','webdriver','navigator.webdriver','cdp','cdp detection','behavioural','behavior','mouse','grease','alpn','http2','http/2','layer','signal','hyphenation','wasm','simd','cpu fingerprint','hardware entropy','timing attack','timezone','locale','probe','probing','side channel','side-channel','frost','ssd timing','incognito detection','detectincognito','navigator.storage','edge webdriver','v8 patch'],
   },
   {
     id: 'antibots',
     label: 'Anti-Bot Systems',
-    keywords: ['akamai','cloudflare','datadome','perimeter','perimeterx','kasada','f5 shape','f5','human security','anti-bot','antibot','bot protection','waf','turnstile','sensor.js','boring_challenge','_abck','cf_clearance','_px3','x-kpsdk','reese84','bypass','evade','avoid','blocked','403','challenge','captcha','anubis','techaro','queue-it','queue it','virtual waiting room','aws waf','imperva'],
+    keywords: ['akamai','cloudflare','datadome','perimeter','perimeterx','kasada','f5 shape','f5','human security','anti-bot','antibot','bot protection','waf','turnstile','sensor.js','boring_challenge','_abck','cf_clearance','_px3','x-kpsdk','reese84','bypass','evade','avoid','blocked','403','challenge','captcha','anubis','techaro','queue-it','queue it','virtual waiting room','aws waf','imperva','forter','recaptcha enterprise','defense in depth','multi vendor stack','vendor stack','composed stack','stack composition'],
   },
   {
     id: 'cases',
@@ -7797,7 +7843,7 @@ const SECTION_MAP = [
   {
     id: 'innovation',
     label: 'Innovation Feed',
-    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser'],
+    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack'],
   },
   {
     id: 'tools',
