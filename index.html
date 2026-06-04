@@ -1594,6 +1594,149 @@ section[id], div[id^="self-heal"] {
 .outro-body { font-size: 16px !important; line-height: 1.85 !important; color: var(--t2) !important; }
 /* ═══════════════════════════════════════════════════════════════════ */
 
+
+/* ─── AI WORKFLOW STANDALONE BLOCK ─────────────────────── */
+.aiwf-block {
+  margin: 80px 0 60px;
+  padding: 36px 28px;
+  background: linear-gradient(135deg, rgba(167,139,250,.04), rgba(34,211,238,.03));
+  border: 1px solid rgba(167,139,250,.25);
+  border-radius: 14px;
+  position: relative;
+}
+.aiwf-block::before {
+  content: '';
+  position: absolute; top: 0; left: 32px; right: 32px; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245,197,24,.6), transparent);
+}
+.aiwf-header { text-align: center; margin-bottom: 32px; }
+.aiwf-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: #f5c518;
+  background: rgba(245,197,24,.08);
+  border: 1px solid rgba(245,197,24,.3);
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+.aiwf-title {
+  font-family: var(--serif, Georgia, serif);
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  color: var(--t1);
+  margin: 0 0 14px;
+}
+.aiwf-title em {
+  font-style: italic;
+  color: #f5c518;
+  font-weight: 400;
+}
+.aiwf-desc {
+  max-width: 760px;
+  margin: 0 auto;
+  color: rgba(240,240,244,.7);
+  font-size: 15px;
+  line-height: 1.65;
+}
+.aiwf-concepts { margin: 28px 0 36px; }
+.aiwf-concept-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.aiwf-concept {
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 8px;
+  padding: 16px 16px 14px;
+  transition: border-color .15s;
+}
+.aiwf-concept:hover { border-color: rgba(245,197,24,.4); }
+.aiwf-concept-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: #f5c518;
+  margin-bottom: 6px;
+}
+.aiwf-concept-name {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t1);
+  margin-bottom: 10px;
+}
+.aiwf-concept-body {
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(240,240,244,.65);
+  margin-bottom: 10px;
+}
+.aiwf-concept-body code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: rgba(245,197,24,.08);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #f5c518;
+}
+.aiwf-concept-rep {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(108,231,150,.6);
+  border-top: 1px solid rgba(108,231,150,.15);
+  padding-top: 8px;
+}
+.aiwf-rejected {
+  margin: 18px auto 0;
+  max-width: 880px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.6;
+  color: rgba(240,240,244,.4);
+  font-style: italic;
+}
+.aiwf-conceptual, .aiwf-prod-wrap {
+  margin-top: 32px;
+}
+.aiwf-conceptual .arch-desc, .aiwf-prod-wrap .arch-desc {
+  background: rgba(255,255,255,.02);
+  border-left: 3px solid rgba(245,197,24,.4);
+  padding: 12px 16px;
+  border-radius: 0 4px 4px 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(240,240,244,.7);
+  margin: 0 0 18px;
+}
+.aiwf-prod-header { margin-bottom: 16px; }
+.aiwf-prod-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: #f5c518;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+.aiwf-prod-sub {
+  font-size: 13px;
+  color: rgba(240,240,244,.55);
+  margin: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .aiwf-block { padding: 24px 16px; margin: 50px -16px 40px; border-radius: 0; }
+  .aiwf-concept-row { grid-template-columns: 1fr; }
+}
+
 </style>
 
   <script type="application/ld+json">
@@ -1804,6 +1947,7 @@ function dismissLegalBanner(){
       <a class="nl" href="#innovation">Innovation</a>
       <a class="nl" href="#tools">Testing</a>
       <a class="nl" href="#arch">Architecture</a>
+  <a class="nl" href="#ai-workflow">AI Workflow</a>
   <a class="nl" href="#cost">Cost</a>
   <a class="nl" href="#post-extract">Post-Extract</a>
       <a class="nl" href="#mobile">Mobile API</a>
@@ -5534,7 +5678,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
 <section class="sec" id="arch">
 <div class="sk"><span class="sn">★</span> Architecture</div>
 <h2 class="sh">How production scrapers<br><em>are actually built</em></h2>
-<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Thirteen real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
+<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Twelve real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
 
 <div class="arch-tabs">
   <button class="atab on" onclick="showArch(0,this)">Scrapyd Single Node</button>
@@ -5549,7 +5693,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <button class="atab" onclick="showArch(9,this)">Pub/Sub Event-Driven</button>
   <button class="atab" onclick="showArch(10,this)">Self-Hosted Browser Pool</button>
   <button class="atab" onclick="showArch(11,this)">★ Asad's Reality Map</button>
-  <button class="atab" onclick="showArch(12,this)">⚡ AI Workflow (Graph + Adversarial)</button>
 </div>
 
 <!-- ── 0: Scrapyd Single Node ────────────────────────────────── -->
@@ -7084,9 +7227,67 @@ The conventional framing: web scraping is a tool for extracting data from websit
 </div>
 
 
-<!-- ── 12: AI Workflow (Graph-Memory + Adversarial Verification) ────── -->
-<div class="arch-panel hidden" id="arch-12">
-<p class="arch-desc">A genuine AI-agent scraping architecture, built around three ideas you won't find in published frameworks. <strong>(1) Graph memory instead of file memory or a blackboard.</strong> URLs, selectors, vendors and outcomes are nodes, connected by edges. When one vendor changes its sensor, every URL on that vendor inherits the learning automatically. <strong>(2) Adversarial verification instead of self-healing.</strong> The scraper agent ships an answer + a confidence score, the verifier agent's job is to disprove it. Only outputs that survive the disproof attempt reach gold storage. <strong>(3) Graph-theoretic intelligence on top of the memory.</strong> PageRank ranks vendors by operational criticality, community detection auto-distinguishes structural failures from selector drift, shortest-path traversal bootstraps strategies for new URLs from their nearest known-working neighbours. Most of the system runs cheap, the agents only argue about the hard cases.</p>
+
+<!-- ══════ AI WORKFLOW STANDALONE BLOCK (between arch tabs and self-healing) ══════ -->
+<div class="aiwf-block" id="ai-workflow">
+  <div class="aiwf-header">
+    <div class="aiwf-badge">★ Featured architecture</div>
+    <h3 class="aiwf-title">The AI Workflow<br><em>graph + adversarial + five algorithms</em></h3>
+    <p class="aiwf-desc">A genuine AI-agent scraping system, designed from scratch. Not a colony of specialists, not a blackboard with arrows on it. Two agents arguing through a queryable graph, with five mathematical concepts each replacing a heuristic that would otherwise rule the system. Below the conceptual diagram, you will find what this looks like when you actually run it in production: real services, real protocols, real bottlenecks.</p>
+  </div>
+
+
+  <!-- ══ THE FIVE MATH CONCEPTS - cards row before the diagram ══ -->
+  <div class="aiwf-concepts">
+    <div class="aiwf-concept-row">
+      <div class="aiwf-concept">
+        <div class="aiwf-concept-tag">① Graph theory</div>
+        <div class="aiwf-concept-name">PageRank · Louvain · BFS</div>
+        <div class="aiwf-concept-body">Memory as a queryable graph. PageRank ranks vendors by operational criticality. Louvain community detection auto-distinguishes failure modes (structural change vs vendor flip vs isolated drift). BFS bootstraps new URLs from their nearest known-working neighbour.</div>
+        <div class="aiwf-concept-rep">replaces · file-based blackboard memory</div>
+      </div>
+      <div class="aiwf-concept">
+        <div class="aiwf-concept-tag">② Bayesian inference</div>
+        <div class="aiwf-concept-name">Beta(α, β) confidence</div>
+        <div class="aiwf-concept-body">Every selector and every URL carries a Beta distribution, not a scalar. <code>Beta(95, 5)</code> means 95 successes in 100 tries, very confident. <code>Beta(3, 0)</code> is 3 from 3, but the credible interval is wide. Routing weighs evidence, not just point estimates.</div>
+        <div class="aiwf-concept-rep">replaces · single confidence float</div>
+      </div>
+      <div class="aiwf-concept">
+        <div class="aiwf-concept-tag">③ Thompson sampling</div>
+        <div class="aiwf-concept-name">multi-armed bandit on rungs</div>
+        <div class="aiwf-concept-body">For each URL, the four rungs (curl_cffi / browser / browser+pacing / managed) are arms of a bandit. Thompson sampling balances exploration (try the cheap rung occasionally) and exploitation (use what worked yesterday). Same math as ProxyOps which is already in this guide.</div>
+        <div class="aiwf-concept-rep">replaces · fixed rung choice per URL</div>
+      </div>
+    </div>
+    <div class="aiwf-concept-row">
+      <div class="aiwf-concept">
+        <div class="aiwf-concept-tag">④ Information theory</div>
+        <div class="aiwf-concept-name">KL divergence drift</div>
+        <div class="aiwf-concept-body">Compute KL divergence between today's value distribution and a rolling 30-day baseline, per field. A field can have 100% fill rate and still drift, prices all shift up 5%, titles all gain a suffix. KL catches what fill-rate misses. <strong>This is how silent poisoning becomes visible before it pollutes silver.</strong></div>
+        <div class="aiwf-concept-rep">replaces · fill-rate as drift signal</div>
+      </div>
+      <div class="aiwf-concept">
+        <div class="aiwf-concept-tag">⑤ Control theory</div>
+        <div class="aiwf-concept-name">PID concurrency loop</div>
+        <div class="aiwf-concept-body">Ban rate is the error signal, request concurrency is the actuator. A PID controller adjusts concurrency continuously to hold ban rate at target (e.g. &lt;0.5%). Proportional reacts to magnitude, integral to persistent drift, derivative dampens overshoot. Used in production at Stripe, Cloudflare. Heuristics here cost real money.</div>
+        <div class="aiwf-concept-rep">replaces · fixed concurrency &amp; manual backoff</div>
+      </div>
+      <div class="aiwf-concept">
+        <div class="aiwf-concept-tag">⑥ Reservoir sampling</div>
+        <div class="aiwf-concept-name">unbiased audit sample</div>
+        <div class="aiwf-concept-body">Maintain a 100-row ground-truth audit sample drawn uniformly from a 50M-row stream, in one pass, in O(1) memory. Vitter's Algorithm R. Without this you end up auditing the easy rows from the start of each batch and missing the hard rows at scale.</div>
+        <div class="aiwf-concept-rep">replaces · first-N or last-N sampling</div>
+      </div>
+    </div>
+    <p class="aiwf-rejected">Concepts deliberately rejected as theatre for this scale: GNN training (graph too small), max-flow/min-cut (no mapping), causal do-calculus (impractical in production), game-theoretic minimax (no concrete operation), Markov chains for traversal (overkill), learned embeddings (cost &gt; value).</p>
+  </div>
+
+
+
+  <!-- ══ THE CONCEPTUAL DIAGRAM (graph + two agents) ══ -->
+  <div class="aiwf-conceptual">
+    <h4 class="aiwf-prod-title">The architecture · conceptual view</h4>
+    <p class="arch-desc">A genuine AI-agent scraping architecture, built around three ideas you won't find in published frameworks. <strong>(1) Graph memory instead of file memory or a blackboard.</strong> URLs, selectors, vendors and outcomes are nodes, connected by edges. When one vendor changes its sensor, every URL on that vendor inherits the learning automatically. <strong>(2) Adversarial verification instead of self-healing.</strong> The scraper agent ships an answer + a confidence score, the verifier agent's job is to disprove it. Only outputs that survive the disproof attempt reach gold storage. <strong>(3) Graph-theoretic intelligence on top of the memory.</strong> PageRank ranks vendors by operational criticality, community detection auto-distinguishes structural failures from selector drift, shortest-path traversal bootstraps strategies for new URLs from their nearest known-working neighbours. Most of the system runs cheap, the agents only argue about the hard cases.</p>
 <div class="arch-diagram">
 <svg viewBox="0 0 1100 1130" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
   <defs>
@@ -7385,6 +7586,324 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <span class="atools-label">Stack</span>
   <span class="arch-tool">Neo4j or DuckDB-graph (knowledge graph memory)</span><span class="arch-tool">NetworkX (PageRank · Louvain · BFS)</span><span class="arch-tool">Claude Haiku (scraper agent)</span><span class="arch-tool">Claude Sonnet (adversarial verifier)</span><span class="arch-tool">Anthropic API · prompt: "prove this is wrong"</span><span class="arch-tool">Confidence routing (≥0.9 / 0.6-0.9 / &lt;0.6)</span><span class="arch-tool">Pub/Sub queue (URL fan-out)</span><span class="arch-tool">curl_cffi + CloakBrowser (rung-aware fetch)</span><span class="arch-tool">Vendor-level learning propagation</span><span class="arch-tool">Schema-drift Slack alerts (human gate)</span><span class="arch-tool">Parquet bronze → silver → gold</span>
 </div>
+
+  </div>
+
+
+  <!-- ══ PRODUCTION-SCALE FLOW DIAGRAM ══ -->
+  <div class="aiwf-prod-wrap">
+    <div class="aiwf-prod-header">
+      <h4 class="aiwf-prod-title">What this looks like in production</h4>
+      <p class="aiwf-prod-sub">Real services, real protocols, real bottlenecks. Drawn for 10M-50M URLs/day. Annotated with where money is spent and where things actually fail.</p>
+    </div>
+    <div class="arch-diagram">
+<svg viewBox="0 0 1200 940" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+  <defs>
+    <marker id="pdArrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(108,231,150,.85)"/></marker>
+    <marker id="pdArrY" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.85)"/></marker>
+    <marker id="pdArrB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(96,165,250,.85)"/></marker>
+    <marker id="pdArrR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,107,107,.85)"/></marker>
+    <marker id="pdArrP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(167,139,250,.85)"/></marker>
+  </defs>
+
+  <!-- ════ LAYER 1: CONTROL PLANE (top strip) ════ -->
+  <g transform="translate(20,16)">
+    <rect width="1160" height="100" rx="8" fill="rgba(245,197,24,.05)" stroke="rgba(245,197,24,.4)"/>
+    <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">CONTROL PLANE</text>
+    <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">where the math lives · low traffic · stateful · single-region</text>
+
+    <!-- Graph DB -->
+    <g transform="translate(30,46)">
+      <rect width="200" height="46" rx="5" fill="rgba(96,165,250,.1)" stroke="rgba(96,165,250,.5)"/>
+      <text x="100" y="18" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="monospace" font-weight="bold">Neo4j cluster</text>
+      <text x="100" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">3-node HA · r6i.2xlarge</text>
+      <text x="100" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">~10k vendors · ~5M URLs</text>
+    </g>
+
+    <!-- Bayesian state store -->
+    <g transform="translate(240,46)">
+      <rect width="180" height="46" rx="5" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.5)"/>
+      <text x="90" y="18" text-anchor="middle" fill="#6ce796" font-size="10" font-family="monospace" font-weight="bold">PostgreSQL (state)</text>
+      <text x="90" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Beta(α,β) per selector</text>
+      <text x="90" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">rds db.r6g.large</text>
+    </g>
+
+    <!-- Bandit (Thompson) service -->
+    <g transform="translate(430,46)">
+      <rect width="190" height="46" rx="5" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.5)"/>
+      <text x="95" y="18" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">Thompson sampler</text>
+      <text x="95" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">FastAPI · ECS · 2 tasks</text>
+      <text x="95" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">per-URL rung selection</text>
+    </g>
+
+    <!-- PID controller -->
+    <g transform="translate(630,46)">
+      <rect width="180" height="46" rx="5" fill="rgba(255,107,107,.1)" stroke="rgba(255,107,107,.5)"/>
+      <text x="90" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">PID concurrency loop</text>
+      <text x="90" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Go service · 1s cadence</text>
+      <text x="90" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">writes worker conc cap</text>
+    </g>
+
+    <!-- KL drift service -->
+    <g transform="translate(820,46)">
+      <rect width="190" height="46" rx="5" fill="rgba(34,211,238,.1)" stroke="rgba(34,211,238,.5)"/>
+      <text x="95" y="18" text-anchor="middle" fill="#22d3ee" font-size="10" font-family="monospace" font-weight="bold">KL drift detector</text>
+      <text x="95" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Spark on EMR · hourly</text>
+      <text x="95" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">vs 30-day baseline</text>
+    </g>
+
+    <!-- Graph algos -->
+    <g transform="translate(1020,46)">
+      <rect width="130" height="46" rx="5" fill="rgba(245,197,24,.1)" stroke="rgba(245,197,24,.5)"/>
+      <text x="65" y="18" text-anchor="middle" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">NetworkX jobs</text>
+      <text x="65" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">nightly · k8s CronJob</text>
+      <text x="65" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">PageRank · Louvain</text>
+    </g>
+  </g>
+
+  <!-- ════ LAYER 2: WORK QUEUE (separator) ════ -->
+  <g transform="translate(20,140)">
+    <rect width="1160" height="56" rx="8" fill="rgba(108,231,150,.05)" stroke="rgba(108,231,150,.4)"/>
+    <text x="14" y="20" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">WORK QUEUE · the only thing between the control plane and the workers</text>
+
+    <g transform="translate(30,28)">
+      <rect width="280" height="22" rx="3" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
+      <text x="140" y="15" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace">SQS · scrape-jobs · ~5M msg/day</text>
+    </g>
+    <g transform="translate(320,28)">
+      <rect width="280" height="22" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.35)"/>
+      <text x="140" y="15" text-anchor="middle" fill="#f5c518" font-size="9" font-family="monospace">SQS · verifier-jobs · ~600K msg/day</text>
+    </g>
+    <g transform="translate(610,28)">
+      <rect width="280" height="22" rx="3" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
+      <text x="140" y="15" text-anchor="middle" fill="#ff6b6b" font-size="9" font-family="monospace">SQS · quarantine-review · ~150K msg/day</text>
+    </g>
+    <g transform="translate(900,28)">
+      <rect width="250" height="22" rx="3" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.35)"/>
+      <text x="125" y="15" text-anchor="middle" fill="#a78bfa" font-size="9" font-family="monospace">Kinesis · outcomes · ~50M/day</text>
+    </g>
+  </g>
+
+  <!-- ════ LAYER 3: SCRAPER FLEET (main work) ════ -->
+  <g transform="translate(20,220)">
+    <rect width="780" height="280" rx="8" fill="rgba(108,231,150,.04)" stroke="rgba(108,231,150,.4)"/>
+    <text x="14" y="20" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">SCRAPER FLEET · EKS · auto-scaled by PID controller</text>
+    <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">50-400 pods · concurrency knob lives here · this is 70% of the bill</text>
+
+    <!-- Rung 1 -->
+    <g transform="translate(20,52)">
+      <rect width="180" height="100" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
+      <text x="90" y="18" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">Rung 1 · curl_cffi pool</text>
+      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~150 pods · c7i.large</text>
+      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~85% of volume</text>
+      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$0.30 / 1K req</text>
+      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(108,231,150,.2)"/>
+      <text x="90" y="82" text-anchor="middle" fill="rgba(108,231,150,.7)" font-size="8" font-family="monospace">claude haiku</text>
+      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">extracts via known selectors</text>
+    </g>
+
+    <!-- Rung 2 -->
+    <g transform="translate(210,52)">
+      <rect width="180" height="100" rx="6" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.4)"/>
+      <text x="90" y="18" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="monospace" font-weight="bold">Rung 2 · browser pool</text>
+      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~40 pods · c7i.4xlarge</text>
+      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~10% of volume</text>
+      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$3 / 1K req</text>
+      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(96,165,250,.2)"/>
+      <text x="90" y="82" text-anchor="middle" fill="rgba(96,165,250,.7)" font-size="8" font-family="monospace">CloakBrowser ws://</text>
+      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">Xvfb · Docker · supervisord</text>
+    </g>
+
+    <!-- Rung 3 -->
+    <g transform="translate(400,52)">
+      <rect width="180" height="100" rx="6" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.4)"/>
+      <text x="90" y="18" text-anchor="middle" fill="#a78bfa" font-size="9" font-family="monospace" font-weight="bold">Rung 3 · browser+pacing</text>
+      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~10 pods · c7i.4xlarge</text>
+      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~3% of volume</text>
+      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$8 / 1K req</text>
+      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(167,139,250,.2)"/>
+      <text x="90" y="82" text-anchor="middle" fill="rgba(167,139,250,.7)" font-size="8" font-family="monospace">human-shape nav</text>
+      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">mouse curves · residential</text>
+    </g>
+
+    <!-- Rung 4 -->
+    <g transform="translate(590,52)">
+      <rect width="180" height="100" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.4)"/>
+      <text x="90" y="18" text-anchor="middle" fill="#ff6b6b" font-size="9" font-family="monospace" font-weight="bold">Rung 4 · managed API</text>
+      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">no pods · provider hosted</text>
+      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~2% of volume</text>
+      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$15 / 1K req</text>
+      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(255,107,107,.2)"/>
+      <text x="90" y="82" text-anchor="middle" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace">Zyte · Bright Data</text>
+      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">true last-resort tier</text>
+    </g>
+
+    <!-- proxy + ASN -->
+    <g transform="translate(20,168)">
+      <rect width="740" height="44" rx="6" fill="rgba(245,197,24,.05)" stroke="rgba(245,197,24,.35)"/>
+      <text x="14" y="18" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">PROXY LAYER · all rungs route through this</text>
+      <text x="14" y="32" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">Bright Data ISP (warm IPs) + Massive residential (P2B) + Infatica (KYC-vetted) · 5-vector coherence enforced</text>
+    </g>
+
+    <!-- output -->
+    <g transform="translate(20,220)">
+      <rect width="740" height="44" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
+      <text x="14" y="18" fill="#6ce796" font-size="10" font-family="monospace" font-weight="bold">EXTRACTION OUTPUT</text>
+      <text x="14" y="32" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">{ row, Beta(α,β) per field, rung_used, latency_ms, proxy_id } → Kinesis outcomes stream</text>
+    </g>
+  </g>
+
+  <!-- ════ LAYER 4: VERIFIER + STORAGE (right column) ════ -->
+  <g transform="translate(820,220)">
+    <rect width="360" height="280" rx="8" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.4)"/>
+    <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">VERIFIER &amp; STORAGE</text>
+    <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">where trust is earned and data lands</text>
+
+    <!-- Verifier -->
+    <g transform="translate(14,52)">
+      <rect width="332" height="80" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.45)"/>
+      <text x="166" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">Verifier service (Claude Sonnet)</text>
+      <text x="166" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">ECS · 6 tasks · prompt: "prove this is wrong"</text>
+      <line x1="14" y1="38" x2="318" y2="38" stroke="rgba(255,107,107,.18)"/>
+      <text x="14" y="52" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">runs on ~12% of rows · scaled by SQS depth</text>
+      <text x="14" y="64" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">re-fetch via different rung · compare via BFS</text>
+      <text x="14" y="76" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace">~$0.12 per verification</text>
+    </g>
+
+    <!-- Bronze -->
+    <g transform="translate(14,144)">
+      <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
+      <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥉 Bronze</text>
+      <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Parquet on S3 · raw + provenance · 90-day retention</text>
+    </g>
+    <!-- Silver -->
+    <g transform="translate(14,182)">
+      <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.5)"/>
+      <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥈 Silver</text>
+      <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">dbt · dedup via content hash · upsert + last_seen</text>
+    </g>
+    <!-- Gold -->
+    <g transform="translate(14,220)">
+      <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.55)"/>
+      <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥇 Gold</text>
+      <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Iceberg tables · BI · downstream APIs</text>
+    </g>
+  </g>
+
+  <!-- ════ LAYER 5: OBSERVABILITY (bottom strip) ════ -->
+  <g transform="translate(20,520)">
+    <rect width="1160" height="80" rx="8" fill="rgba(34,211,238,.04)" stroke="rgba(34,211,238,.4)"/>
+    <text x="14" y="20" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">OBSERVABILITY · the only thing standing between you and a 3am page</text>
+
+    <g transform="translate(30,32)">
+      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
+      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Prometheus + Grafana</text>
+      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">ban rate, fill rate, $/row</text>
+    </g>
+    <g transform="translate(220,32)">
+      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
+      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">OpenTelemetry traces</text>
+      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-request span</text>
+    </g>
+    <g transform="translate(410,32)">
+      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
+      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">KL drift dashboard</text>
+      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-field · top-10 drift today</text>
+    </g>
+    <g transform="translate(600,32)">
+      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
+      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Graph health view</text>
+      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">PageRank Δ · community shifts</text>
+    </g>
+    <g transform="translate(790,32)">
+      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
+      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Reservoir audit</text>
+      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">100-row diff vs truth nightly</text>
+    </g>
+    <g transform="translate(980,32)">
+      <rect width="170" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
+      <text x="85" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">PagerDuty</text>
+      <text x="85" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">criticality-weighted alerts</text>
+    </g>
+  </g>
+
+  <!-- ════ LAYER 6: HUMAN GATES (bottom) ════ -->
+  <g transform="translate(20,620)">
+    <rect width="1160" height="60" rx="8" fill="rgba(167,139,250,.04)" stroke="rgba(167,139,250,.4)"/>
+    <text x="14" y="20" fill="#a78bfa" font-size="11" font-family="monospace" font-weight="bold">HUMAN GATES · only here · nowhere else</text>
+    <text x="14" y="38" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">① schema changes (KL drift &gt; threshold) → Slack with samples · ② new vendor detected → review + edge labels · ③ quarantine queue review · ④ critical-vendor degradation</text>
+    <text x="14" y="52" fill="rgba(167,139,250,.6)" font-size="9" font-family="monospace" font-style="italic">selectors, rungs, candidates evolve automatically · the shape of the data does not change without a person</text>
+  </g>
+
+  <!-- ════ ARROWS ════ -->
+  <!-- Control plane → Work queue (sampler/PID/KL feed scheduling) -->
+  <line x1="525" y1="116" x2="525" y2="138" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#pdArrY)"/>
+
+  <!-- Work queue → scraper fleet -->
+  <line x1="160" y1="198" x2="160" y2="218" stroke="rgba(108,231,150,.7)" stroke-width="1.5" marker-end="url(#pdArrG)"/>
+
+  <!-- Work queue (verifier) → verifier service -->
+  <line x1="460" y1="198" x2="900" y2="218" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#pdArrY)"/>
+
+  <!-- Work queue (quarantine) → human gates -->
+  <line x1="750" y1="198" x2="600" y2="618" stroke="rgba(167,139,250,.45)" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#pdArrP)"/>
+
+  <!-- Scraper fleet → Bronze (via Kinesis outcomes) -->
+  <line x1="800" y1="442" x2="830" y2="158" stroke="rgba(108,231,150,.4)" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="1050" y1="158" x2="985" y2="218" stroke="rgba(167,139,250,.5)" stroke-width="1.3" marker-end="url(#pdArrP)"/>
+
+  <!-- Verifier → Bronze/Silver -->
+  <line x1="985" y1="304" x2="985" y2="324" stroke="rgba(255,107,107,.6)" stroke-width="1.4" marker-end="url(#pdArrR)"/>
+
+  <!-- Outcomes → Control Plane (feedback loop) -->
+  <path d="M 1100 220 Q 1180 110 1085 92" stroke="rgba(245,197,24,.5)" stroke-width="1.3" fill="none" stroke-dasharray="4 3" marker-end="url(#pdArrY)"/>
+  <text x="1170" y="160" text-anchor="middle" fill="rgba(245,197,24,.7)" font-size="9" font-family="monospace" transform="rotate(-90 1170 160)">outcomes feedback</text>
+
+  <!-- Observability ← everything -->
+  <line x1="500" y1="500" x2="500" y2="518" stroke="rgba(34,211,238,.4)" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#pdArrB)"/>
+
+  <!-- Observability → Human gates -->
+  <line x1="500" y1="600" x2="500" y2="618" stroke="rgba(167,139,250,.5)" stroke-width="1.3" marker-end="url(#pdArrP)"/>
+
+  <!-- ════ COST SUMMARY ════ -->
+  <g transform="translate(20,710)">
+    <rect width="1160" height="80" rx="8" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.4)"/>
+    <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">COST PROFILE · at 10M scrapes/day, monthly · the math should add up before you build this</text>
+
+    <text x="14" y="40" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Scraper EKS fleet</text>
+    <text x="220" y="40" fill="rgba(108,231,150,.75)" font-size="9" font-family="monospace">~$14K (70% of bill)</text>
+    <text x="380" y="40" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">// dominated by Rung 2 browser pods + Rung 3 residential</text>
+
+    <text x="14" y="56" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Proxy bandwidth</text>
+    <text x="220" y="56" fill="rgba(245,197,24,.75)" font-size="9" font-family="monospace">~$3K (15%)</text>
+    <text x="380" y="56" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">// dominant variable. PID loop keeps this from blowing up.</text>
+
+    <text x="14" y="72" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Claude API (Haiku + Sonnet)</text>
+    <text x="220" y="72" fill="rgba(167,139,250,.75)" font-size="9" font-family="monospace">~$2.5K (12%)</text>
+    <text x="380" y="72" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">// confidence routing keeps Sonnet calls to ~12% of rows</text>
+
+    <text x="700" y="40" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Neo4j + RDS + ECS + EMR</text>
+    <text x="930" y="40" fill="rgba(34,211,238,.75)" font-size="9" font-family="monospace">~$600 (3%)</text>
+    <text x="700" y="56" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Storage + S3 egress</text>
+    <text x="930" y="56" fill="rgba(108,231,150,.75)" font-size="9" font-family="monospace">~$400 (&lt;2%)</text>
+    <text x="700" y="72" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Total · roughly</text>
+    <text x="930" y="72" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">~$20K/month · $0.07/1K</text>
+  </g>
+
+  <!-- ════ FOOTER: failure modes that this design handles WITHOUT a human ════ -->
+  <g transform="translate(20,810)">
+    <text x="0" y="14" fill="rgba(240,240,244,.65)" font-size="10" font-family="monospace" font-weight="bold">What this production design handles automatically, no on-call required:</text>
+    <text x="0" y="32" fill="rgba(240,240,244,.55)" font-size="9">• Vendor sensor flips · PID and bandits re-route within minutes · ALL URLs on that vendor inherit through the graph</text>
+    <text x="0" y="48" fill="rgba(240,240,244,.55)" font-size="9">• Single-selector drift · verifier disagreement N times raises a new candidate · graph propagates · seamless</text>
+    <text x="0" y="64" fill="rgba(240,240,244,.55)" font-size="9">• Cost creep · PID tightens concurrency as bans rise · bandit shifts traffic to cheaper rungs · spend self-corrects</text>
+    <text x="0" y="80" fill="rgba(240,240,244,.55)" font-size="9">• Silent value poisoning · KL divergence catches distribution shifts the row count and 200-OK rate cannot see</text>
+    <text x="0" y="100" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">What it routes to a human, by design:</text>
+    <text x="0" y="118" fill="rgba(240,240,244,.55)" font-size="9">• Schema changes (new field, removed field, type mismatch) · the shape of data is governed, not learned</text>
+    <text x="0" y="134" fill="#f5c518" font-size="9" font-style="italic">Most "AI scraping" diagrams hide the math. This one names it, costs it, and rejects the parts that do not earn their keep.</text>
+  </g>
+</svg>
+    </div>
+  </div>
 </div>
 
 
@@ -8276,7 +8795,7 @@ ARCHITECTURE (11 production patterns):
 8. Microservices API-first - REST/GraphQL + Redis/SQS + worker pools + Postgres + webhook.
 9. Pub/Sub Event-Driven - publisher pushes one msg per source to broker (SQS/Kafka/RabbitMQ/Google Pub/Sub); independent workers pull and crawl in isolation. One source fails alone. 76% success vs 36% round-robin.
 10. Self-Hosted Browser Pool (John Watson Rooney pattern) - control libs (Playwright/Puppeteer/Selenium) are NOT browsers, they speak CDP to any binary. Run persistent patched-Chromium headed under Xvfb in Docker, supervisord manages Xvfb + Playwright server. Scripts connect via ws://. Two-slot trap: must replace BOTH chrome AND chrome-headless-shell or Playwright silently runs the untouched headless shell (403s, wrong version, nothing in logs). Concurrency = contexts not instances.
-13. AI Workflow: Graph-Memory + Adversarial Verification (Architecture tab "AI Workflow") - genuinely novel AI-agent design built on TWO ideas. (1) Knowledge graph as memory instead of files or blackboard: nodes are URLs, selectors, vendors; edges encode USES, EXTRACTS, FAILED_WITH. When one vendor changes sensor, one node edit propagates to all URLs sharing that vendor. (2) Two agents only - a Scraper (Claude Haiku, cheap) emits row + per-field confidence; a Verifier (Claude Sonnet, adversarial) whose prompt is "prove this is wrong" - re-fetches via different rung, checks mobile API, compares to similar URLs. Trust is earned by surviving disproof. Confidence routing: >=0.9 fast lane (85%, skip verifier), 0.6-0.9 verifier runs (12%), <0.6 quarantine + human (3%). Graph Intelligence Layer adds three algorithms with concrete production value: (A) PageRank on vendor nodes ranks vendors by operational criticality - 'Akamai_v3 = 47% volume, F5 = 2%' - so pager priority is data not vibes; (B) Louvain community detection clusters URLs by shared selectors/vendor/template/behavior and auto-distinguishes failure modes: 100% of community failing = structural change, ~50% = vendor sensor flip, <10% = isolated selector drift; (C) BFS shortest-path for cold-start - new URL arrives, walk to nearest known-working URL via shared edges, inherit rung+selectors+expected vendor. Deliberately rejects GNN training, max-flow, learned embeddings as theatre for a ~10k-node graph. Stack: NetworkX runs all three in <100ms nightly. Three feedback edges write back into the graph: (a) verifier disagreement N times -> selector confidence drops + new candidate mined + propagated, (b) ban spike on one URL -> vendor node sensor_hash flips -> ALL URLs on that vendor mark rung+1, (c) field confidence trend down across URLs -> schema-drift Slack alert (only human gate). Vendor-level learning, not URL-level. No orchestrator, no specialists, no colony, no blackboard.
+AI WORKFLOW (separate from the 12-tab Architecture section, standalone block before Self-Healing). Built on SIX mathematical concepts each replacing a heuristic: (1) Graph theory: knowledge graph as memory, PageRank ranks vendors by operational criticality, Louvain community detection auto-distinguishes failure modes, BFS bootstraps new URLs from nearest known-working neighbor. (2) Bayesian inference: every selector/URL carries a Beta(α,β) distribution not a scalar - 0.95 from 100 obs vs 0.95 from 3 obs route very differently. (3) Thompson sampling: multi-armed bandit over the four rungs (curl_cffi/browser/browser+pacing/managed), explore vs exploit, same math as ProxyOps in the proxies section. (4) Information theory: KL divergence between today's value distribution and 30-day rolling baseline catches silent poisoning - a field can have 100% fill rate while shifting distribution. (5) Control theory: PID controller on ban rate (error signal) drives request concurrency (actuator), proportional+integral+derivative terms, used in production at Stripe/Cloudflare. (6) Reservoir sampling: Vitter's Algorithm R maintains unbiased 100-row ground-truth audit from 50M-row stream in O(1) memory. Architecture has TWO agents only - scraper (Claude Haiku, emits row + Beta confidence) and verifier (Claude Sonnet, adversarial: 'prove this is wrong'). PRODUCTION SCALE diagram included: Control plane (Neo4j cluster + Postgres state + Thompson FastAPI + PID Go service + Spark/EMR KL drift + NetworkX nightly CronJob). Work queue (SQS scrape-jobs ~5M/day + verifier-jobs ~600K/day + quarantine + Kinesis outcomes ~50M/day). Scraper fleet on EKS, 50-400 pods auto-scaled by PID. Verifier ECS scaled by SQS depth. Storage Parquet/dbt/Iceberg bronze→silver→gold. Observability via Prometheus+Grafana+OpenTelemetry+KL drift dashboard+graph health view+reservoir audit+PagerDuty. Cost profile at 10M scrapes/day: ~$20K/month (~$0.07/1K) - scraper EKS 70%, proxy bandwidth 15%, Claude API 12%, infra 5%. Handled automatically: vendor sensor flips (PID+bandits re-route, graph propagates), single-selector drift (verifier raises candidate), cost creep (PID tightens), silent poisoning (KL catches). Human-gated only: schema changes (new field, removed field, type mismatch). 13. AI Workflow: Graph-Memory + Adversarial Verification (Architecture tab "AI Workflow") - genuinely novel AI-agent design built on TWO ideas. (1) Knowledge graph as memory instead of files or blackboard: nodes are URLs, selectors, vendors; edges encode USES, EXTRACTS, FAILED_WITH. When one vendor changes sensor, one node edit propagates to all URLs sharing that vendor. (2) Two agents only - a Scraper (Claude Haiku, cheap) emits row + per-field confidence; a Verifier (Claude Sonnet, adversarial) whose prompt is "prove this is wrong" - re-fetches via different rung, checks mobile API, compares to similar URLs. Trust is earned by surviving disproof. Confidence routing: >=0.9 fast lane (85%, skip verifier), 0.6-0.9 verifier runs (12%), <0.6 quarantine + human (3%). Graph Intelligence Layer adds three algorithms with concrete production value: (A) PageRank on vendor nodes ranks vendors by operational criticality - 'Akamai_v3 = 47% volume, F5 = 2%' - so pager priority is data not vibes; (B) Louvain community detection clusters URLs by shared selectors/vendor/template/behavior and auto-distinguishes failure modes: 100% of community failing = structural change, ~50% = vendor sensor flip, <10% = isolated selector drift; (C) BFS shortest-path for cold-start - new URL arrives, walk to nearest known-working URL via shared edges, inherit rung+selectors+expected vendor. Deliberately rejects GNN training, max-flow, learned embeddings as theatre for a ~10k-node graph. Stack: NetworkX runs all three in <100ms nightly. Three feedback edges write back into the graph: (a) verifier disagreement N times -> selector confidence drops + new candidate mined + propagated, (b) ban spike on one URL -> vendor node sensor_hash flips -> ALL URLs on that vendor mark rung+1, (c) field confidence trend down across URLs -> schema-drift Slack alert (only human gate). Vendor-level learning, not URL-level. No orchestrator, no specialists, no colony, no blackboard.
 12. Asad's Production Reality Map (Architecture tab "Asad's Reality Map") - NOT a pipeline diagram. Drawn around the question: 'when something breaks at 3am, where do I look?' Center: the boring live flow (Pub/Sub queue -> fetch worker -> parse -> dedup+persist -> downstream). Side: 'the keeper' (git-tracked sample HTML + last-good selectors, not a 'blackboard'). Main content: the FIVE failure modes that actually break production - selector drift (~70%), ban rate spike (~15%), structural change (~8%), silent poisoning (rare, devastating), cost creep. Each with looks-like / fix / who-touches-it. Claude has FOUR narrow jobs only: recon, scaffold, single-field repair, nightly ground-truth audit. Explicit rejections: many specialist agents, self-healing-everything (3 of 5 failures should NEVER be auto-patched), orchestrator-as-brain framing, 'living organism' metaphors. Identity: Linux services, not agents. Multi-Agent Orchestration (Zyte bee-colony pattern) - many small Claude Skills as specialist agents (intake, scout, selector-analyzer, code-synthesizer, test-runner, repair, drift-detector) coordinated by a weak orchestrator. Three connected loops: discovery (reduce uncertainty), build (test-driven code), ops (drift detection + targeted repair). Shared APPEND-ONLY blackboard at .scrape/site/ stores spec versions, sample pages, selector candidates, test evidence, repair history with authorship + timestamps. Evidence-weighted consensus beats popularity-weighted. Selector confidence is first-class metadata.
 11. Self-Healing Scraper (Claude as brain) - failure detection -> Claude bash_tool + view tool reads error logs + live page + SKILL.md knowledge base -> diff old vs new structure -> patch selector -> retest.
 
@@ -8459,7 +8978,7 @@ const SECTION_MAP = [
   {
     id: 'arch',
     label: 'Architecture',
-    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','blackboard','colony','reality map','asads workflow','asad workflow','asad reality','production reality','failure modes','five failures','selector drift','ban rate','silent poisoning','cost creep','where do i look','what fails','keeper','linux services','claude four jobs','full ai stack','complete pipeline','ai workflow','ai agent','knowledge graph','graph memory','adversarial verification','verifier agent','scraper agent','two agents','confidence routing','vendor-level learning','vendor learning','propagation','prove this is wrong','neo4j','graph db','adversarial scraper','graph theory','pagerank','louvain','community detection','shortest path','bfs','networkx','centrality','graph algorithm','graph intelligence'],
+    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','blackboard','colony','reality map','asads workflow','asad workflow','asad reality','production reality','failure modes','five failures','selector drift','ban rate','silent poisoning','cost creep','where do i look','what fails','keeper','linux services','claude four jobs','full ai stack','complete pipeline','ai workflow','ai agent','knowledge graph','graph memory','adversarial verification','verifier agent','scraper agent','two agents','confidence routing','vendor-level learning','vendor learning','propagation','prove this is wrong','neo4j','graph db','adversarial scraper','graph theory','pagerank','louvain','community detection','shortest path','bfs','networkx','centrality','graph algorithm','graph intelligence','bayesian','beta distribution','thompson sampling','multi-armed bandit','bandit','kl divergence','information theory','entropy drift','pid controller','control theory','reservoir sampling','vitters algorithm','production scale','what does it look like in production','cost profile','scrape cost','production architecture','full stack ai scraper','eks scraping','spark drift','prometheus grafana'],
   },
   {
     id: 'cost',
