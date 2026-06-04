@@ -7425,7 +7425,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
     <g transform="translate(20,40)">
       <rect width="220" height="140" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.5)" stroke-width="1.3"/>
       <text x="110" y="20" text-anchor="middle" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">SCRAPER agent</text>
-      <text x="110" y="34" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">claude haiku · cheap · fast</text>
+      <text x="110" y="34" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">small model · cheap · fast</text>
       <line x1="12" y1="42" x2="208" y2="42" stroke="rgba(108,231,150,.25)"/>
       <text x="14" y="58" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">1. read graph for this URL</text>
       <text x="14" y="72" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">2. pick rung from vendor history</text>
@@ -7439,7 +7439,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
     <g transform="translate(260,40)">
       <rect width="220" height="140" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.5)" stroke-width="1.3"/>
       <text x="110" y="20" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="monospace" font-weight="bold">VERIFIER agent</text>
-      <text x="110" y="34" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">claude sonnet · adversarial</text>
+      <text x="110" y="34" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">larger model · adversarial</text>
       <line x1="12" y1="42" x2="208" y2="42" stroke="rgba(255,107,107,.25)"/>
       <text x="14" y="58" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">prompt: <tspan fill="#ff6b6b" font-style="italic">"prove this is wrong"</tspan></text>
       <text x="14" y="72" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">• re-fetch via different rung</text>
@@ -7622,403 +7622,473 @@ The conventional framing: web scraping is a tool for extracting data from websit
 </div>
 <div class="arch-tools">
   <span class="atools-label">Stack</span>
-  <span class="arch-tool">Neo4j or DuckDB-graph (knowledge graph memory)</span><span class="arch-tool">NetworkX (PageRank · Louvain · BFS)</span><span class="arch-tool">Claude Haiku (scraper agent)</span><span class="arch-tool">Claude Sonnet (adversarial verifier)</span><span class="arch-tool">Anthropic API · prompt: "prove this is wrong"</span><span class="arch-tool">Confidence routing (≥0.9 / 0.6-0.9 / &lt;0.6)</span><span class="arch-tool">Pub/Sub queue (URL fan-out)</span><span class="arch-tool">curl_cffi + CloakBrowser (rung-aware fetch)</span><span class="arch-tool">Vendor-level learning propagation</span><span class="arch-tool">Schema-drift Slack alerts (human gate)</span><span class="arch-tool">Parquet bronze → silver → gold</span>
+  <span class="arch-tool">Neo4j or DuckDB-graph (knowledge graph memory)</span><span class="arch-tool">NetworkX (PageRank · Louvain · BFS)</span><span class="arch-tool">Small LLM as Scraper agent</span><span class="arch-tool">Larger LLM as Verifier agent</span><span class="arch-tool">Any frontier LLM API · prompt: "prove this is wrong"</span><span class="arch-tool">Confidence routing (≥0.9 / 0.6-0.9 / &lt;0.6)</span><span class="arch-tool">Pub/Sub queue (URL fan-out)</span><span class="arch-tool">curl_cffi + CloakBrowser (rung-aware fetch)</span><span class="arch-tool">Vendor-level learning propagation</span><span class="arch-tool">Schema-drift Slack alerts (human gate)</span><span class="arch-tool">Parquet bronze → silver → gold</span>
 </div>
 
   </div>
 
 
 
-  <!-- ══ PRODUCTION-SCALE FLOW DIAGRAM (animated) ══ -->
+  <!-- ══ PRODUCTION-SCALE FLOW DIAGRAM (animated · with tech icons) ══ -->
   <div class="aiwf-prod-wrap">
     <div class="aiwf-prod-header">
       <h4 class="aiwf-prod-title">What this looks like in production</h4>
-      <p class="aiwf-prod-sub">Real services, real protocols, real bottlenecks. Drawn for 10M-50M URLs/day. The dots flowing through the diagram are roughly proportional to actual message rates per layer, scaled for visibility. Annotated with where money is spent and where things actually fail.</p>
+      <p class="aiwf-prod-sub">Real services, real protocols, real bottlenecks. Drawn for 10M-50M URLs/day. The dots flowing through the diagram are roughly proportional to the relative message rates between layers, scaled for visibility. The Scraper and Verifier agents are model-agnostic, the role definition is what matters, plug in any frontier LLM.</p>
     </div>
 
-    <!-- Stack philosophy callout -->
+    <!-- Stack philosophy callout (model-agnostic version) -->
     <div class="aiwf-stack-philo">
       <div class="aiwf-stack-philo-tag">★ stack philosophy</div>
       <div class="aiwf-stack-philo-body">
-        <strong>No framework. Direct API calls, surgical libraries.</strong> No LangChain, LangGraph, AutoGen, CrewAI, Haystack, LlamaIndex. The architecture has two agent roles and six math operations, none of which need a framework's abstraction. <code>anthropic.Anthropic()</code> for the model. <code>pydantic</code> for structured output. <code>networkx</code> for the three graph algorithms. <code>scipy.stats.beta</code> for Bayesian state. Small custom services for Thompson sampling, KL drift, and the PID loop. <code>boto3</code> for SQS/Kinesis/S3. Frameworks shine when you have 30 chains and 10 tool integrations to coordinate. We have 2 agents and a queue.
+        <strong>Two agents, no framework, model-agnostic.</strong> The two agent roles are <em>scraper</em> (small fast model, runs on every row) and <em>verifier</em> (larger careful model, runs on ~12% of rows). Either role can be served by any frontier LLM with structured output, an Anthropic model, an OpenAI model, a Gemini model, an open-weights model behind vLLM. No LangChain, LangGraph, AutoGen, CrewAI, Haystack, LlamaIndex. The architecture has six math operations, none of which need a framework's abstraction. Direct API call for the model, <code>pydantic</code> for structured output, <code>networkx</code> for the three graph algorithms, <code>scipy.stats.beta</code> for Bayesian state, small custom services for Thompson sampling, KL drift, and the PID loop, <code>boto3</code> for SQS/Kinesis/S3. Frameworks shine when you have 30 chains and 10 tool integrations to coordinate. We have 2 agents and a queue.
       </div>
     </div>
 
     <div class="arch-diagram aiwf-prod-diagram">
-<svg viewBox="0 0 1200 940" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+<svg viewBox="0 0 1200 820" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
   <defs>
-    <!-- Gradient backgrounds for live feel -->
-    <linearGradient id="ctrlBg" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="rgba(245,197,24,.08)"/>
-      <stop offset="100%" stop-color="rgba(245,197,24,.02)"/>
-    </linearGradient>
-    <linearGradient id="fleetBg" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="rgba(108,231,150,.06)"/>
-      <stop offset="100%" stop-color="rgba(108,231,150,.02)"/>
-    </linearGradient>
-    <linearGradient id="storeBg" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="rgba(167,139,250,.06)"/>
-      <stop offset="100%" stop-color="rgba(167,139,250,.02)"/>
-    </linearGradient>
+    <!-- arrow marker -->
+    <marker id="prArr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(240,240,244,.45)"/>
+    </marker>
 
-    <!-- Arrow markers -->
-    <marker id="pdaG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(108,231,150,.9)"/></marker>
-    <marker id="pdaY" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.9)"/></marker>
-    <marker id="pdaR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,107,107,.9)"/></marker>
-    <marker id="pdaP" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(167,139,250,.9)"/></marker>
-    <marker id="pdaB" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(34,211,238,.9)"/></marker>
+    <!-- ══ TECH ICONS (compact, recognizable) ══ -->
 
-    <!-- Filters for glow on agents -->
-    <filter id="agentGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
+    <!-- Neo4j: three connected nodes in a graph shape -->
+    <symbol id="iconNeo4j" viewBox="0 0 32 32">
+      <circle cx="8" cy="10" r="3.5" fill="#018BFF" opacity="0.95"/>
+      <circle cx="24" cy="10" r="3.5" fill="#018BFF" opacity="0.95"/>
+      <circle cx="16" cy="24" r="3.5" fill="#018BFF" opacity="0.95"/>
+      <line x1="8" y1="10" x2="24" y2="10" stroke="#018BFF" stroke-width="1.5"/>
+      <line x1="8" y1="10" x2="16" y2="24" stroke="#018BFF" stroke-width="1.5"/>
+      <line x1="24" y1="10" x2="16" y2="24" stroke="#018BFF" stroke-width="1.5"/>
+    </symbol>
 
-    <!-- ══ ANIMATED FLOW PATHS ══ -->
-    <!-- Path 1: control plane → work queue -->
-    <path id="flowPath1" d="M 525 116 L 525 138" fill="none" stroke="none"/>
-    <!-- Path 2: work queue (scrape) → scraper fleet -->
-    <path id="flowPath2" d="M 160 198 L 160 270" fill="none" stroke="none"/>
-    <!-- Path 3: scraper fleet → verifier queue -->
-    <path id="flowPath3" d="M 800 380 Q 600 290 460 200" fill="none" stroke="none"/>
-    <!-- Path 4: verifier → bronze -->
-    <path id="flowPath4" d="M 985 320 L 985 348" fill="none" stroke="none"/>
-    <!-- Path 5: outputs → control plane (feedback) -->
-    <path id="flowPath5" d="M 1100 220 Q 1180 110 1080 92" fill="none" stroke="none"/>
-    <!-- Path 6: scraper fleet → bronze -->
-    <path id="flowPath6" d="M 800 442 Q 900 410 980 360" fill="none" stroke="none"/>
+    <!-- Postgres: elephant-blue cylinder -->
+    <symbol id="iconPostgres" viewBox="0 0 32 32">
+      <ellipse cx="16" cy="7" rx="11" ry="4" fill="#336791"/>
+      <rect x="5" y="7" width="22" height="18" fill="#336791"/>
+      <ellipse cx="16" cy="25" rx="11" ry="4" fill="#2a5478"/>
+      <ellipse cx="16" cy="7" rx="11" ry="4" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".5"/>
+    </symbol>
+
+    <!-- AWS SQS: stacked envelope/queue -->
+    <symbol id="iconSQS" viewBox="0 0 32 32">
+      <rect x="4" y="6" width="22" height="14" rx="2" fill="#ff9900" opacity="0.95"/>
+      <rect x="6" y="8" width="22" height="14" rx="2" fill="#cc6f00" opacity="0.9"/>
+      <rect x="8" y="10" width="22" height="14" rx="2" fill="#ff9900"/>
+      <path d="M8 14 L19 21 L30 14" fill="none" stroke="#fff" stroke-width="1.5"/>
+    </symbol>
+
+    <!-- Kinesis: streaming wave -->
+    <symbol id="iconKinesis" viewBox="0 0 32 32">
+      <path d="M2 16 Q8 6 14 16 T26 16 L30 16" fill="none" stroke="#9333ea" stroke-width="2.5"/>
+      <path d="M2 22 Q8 12 14 22 T26 22" fill="none" stroke="#9333ea" stroke-width="2.5" opacity="0.6"/>
+      <circle cx="6" cy="13" r="1.5" fill="#9333ea"/>
+      <circle cx="18" cy="13" r="1.5" fill="#9333ea"/>
+    </symbol>
+
+    <!-- Kubernetes/EKS: hex with rays (simplified) -->
+    <symbol id="iconK8s" viewBox="0 0 32 32">
+      <polygon points="16,3 27,9 27,23 16,29 5,23 5,9" fill="none" stroke="#326CE5" stroke-width="2"/>
+      <polygon points="16,9 22,12 22,20 16,23 10,20 10,12" fill="#326CE5" opacity="0.3"/>
+      <line x1="16" y1="3" x2="16" y2="9" stroke="#326CE5" stroke-width="1.3"/>
+      <line x1="27" y1="9" x2="22" y2="12" stroke="#326CE5" stroke-width="1.3"/>
+      <line x1="27" y1="23" x2="22" y2="20" stroke="#326CE5" stroke-width="1.3"/>
+      <line x1="16" y1="29" x2="16" y2="23" stroke="#326CE5" stroke-width="1.3"/>
+      <line x1="5" y1="23" x2="10" y2="20" stroke="#326CE5" stroke-width="1.3"/>
+      <line x1="5" y1="9" x2="10" y2="12" stroke="#326CE5" stroke-width="1.3"/>
+    </symbol>
+
+    <!-- LLM (generic chat / brain bubble) -->
+    <symbol id="iconLLM" viewBox="0 0 32 32">
+      <path d="M5 8 Q5 4 9 4 L23 4 Q27 4 27 8 L27 18 Q27 22 23 22 L14 22 L8 27 L9 22 L9 22 Q5 22 5 18 Z" fill="rgba(245,197,24,.85)"/>
+      <circle cx="11" cy="13" r="1.5" fill="#000" opacity="0.5"/>
+      <circle cx="16" cy="13" r="1.5" fill="#000" opacity="0.5"/>
+      <circle cx="21" cy="13" r="1.5" fill="#000" opacity="0.5"/>
+    </symbol>
+
+    <!-- Spark / EMR -->
+    <symbol id="iconSpark" viewBox="0 0 32 32">
+      <path d="M16 2 L19 14 L31 16 L19 18 L16 30 L13 18 L1 16 L13 14 Z" fill="#e25a1c" opacity="0.95"/>
+    </symbol>
+
+    <!-- S3 bucket -->
+    <symbol id="iconS3" viewBox="0 0 32 32">
+      <path d="M5 8 L27 8 L25 26 L7 26 Z" fill="#569A31"/>
+      <ellipse cx="16" cy="8" rx="11" ry="2.5" fill="#3d6b1f"/>
+      <path d="M10 12 L22 12 M10 17 L22 17 M10 22 L22 22" stroke="rgba(255,255,255,.45)" stroke-width="1"/>
+    </symbol>
+
+    <!-- Grafana flame -->
+    <symbol id="iconGrafana" viewBox="0 0 32 32">
+      <path d="M16 4 Q10 8 11 14 Q7 12 6 18 Q5 25 12 28 Q15 26 14 22 Q19 24 22 19 Q26 21 27 15 Q24 17 22 13 Q25 9 19 7 Q20 11 16 11 Q14 8 16 4 Z" fill="#F46800"/>
+    </symbol>
+
+    <!-- PagerDuty bell -->
+    <symbol id="iconPager" viewBox="0 0 32 32">
+      <path d="M10 6 L22 6 L22 18 L26 22 L6 22 L10 18 Z" fill="#06AC38"/>
+      <circle cx="16" cy="26" r="2.5" fill="#06AC38"/>
+    </symbol>
+
+    <!-- Custom service (gear) -->
+    <symbol id="iconGear" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <g stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+        <line x1="16" y1="3" x2="16" y2="7"/>
+        <line x1="16" y1="25" x2="16" y2="29"/>
+        <line x1="3" y1="16" x2="7" y2="16"/>
+        <line x1="25" y1="16" x2="29" y2="16"/>
+        <line x1="6.5" y1="6.5" x2="9.5" y2="9.5"/>
+        <line x1="22.5" y1="22.5" x2="25.5" y2="25.5"/>
+        <line x1="6.5" y1="25.5" x2="9.5" y2="22.5"/>
+        <line x1="22.5" y1="9.5" x2="25.5" y2="6.5"/>
+      </g>
+    </symbol>
   </defs>
 
   <!-- ════ LAYER 1: CONTROL PLANE ════ -->
   <g transform="translate(20,16)">
-    <rect width="1160" height="100" rx="8" fill="url(#ctrlBg)" stroke="rgba(245,197,24,.4)"/>
-    <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">CONTROL PLANE</text>
-    <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">where the math lives · low traffic · stateful · single-region</text>
+    <rect width="1160" height="120" rx="10" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.35)"/>
+    <text x="14" y="22" fill="#f5c518" font-size="12" font-family="monospace" font-weight="bold">CONTROL PLANE</text>
+    <text x="14" y="38" fill="rgba(240,240,244,.5)" font-size="10" font-family="monospace">where the math lives · low traffic · stateful · single-region</text>
 
-    <g transform="translate(30,46)">
-      <rect width="200" height="46" rx="5" fill="rgba(96,165,250,.1)" stroke="rgba(96,165,250,.5)"/>
-      <text x="100" y="18" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="monospace" font-weight="bold">Neo4j cluster</text>
-      <text x="100" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">3-node HA · r6i.2xlarge</text>
-      <text x="100" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">~10k vendors · ~5M URLs</text>
+    <!-- Neo4j -->
+    <g transform="translate(30,52)">
+      <rect width="170" height="56" rx="6" fill="rgba(1,139,255,.08)" stroke="rgba(1,139,255,.5)"/>
+      <use href="#iconNeo4j" x="10" y="14" width="28" height="28"/>
+      <text x="48" y="24" fill="#60a5fa" font-size="11" font-family="monospace" font-weight="bold">Neo4j</text>
+      <text x="48" y="38" fill="rgba(240,240,244,.6)" font-size="8" font-family="monospace">knowledge graph</text>
+      <text x="48" y="49" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">~10k vendors · ~5M URLs</text>
     </g>
 
-    <g transform="translate(240,46)">
-      <rect width="180" height="46" rx="5" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.5)"/>
-      <text x="90" y="18" text-anchor="middle" fill="#6ce796" font-size="10" font-family="monospace" font-weight="bold">PostgreSQL (state)</text>
-      <text x="90" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Beta(α,β) per selector</text>
-      <text x="90" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">rds db.r6g.large</text>
-    </g>
-
-    <g transform="translate(430,46)">
-      <rect width="190" height="46" rx="5" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.5)"/>
-      <text x="95" y="18" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">Thompson sampler</text>
-      <text x="95" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">FastAPI · ECS · 2 tasks</text>
-      <text x="95" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">per-URL rung selection</text>
-    </g>
-
-    <g transform="translate(630,46)">
-      <rect width="180" height="46" rx="5" fill="rgba(255,107,107,.1)" stroke="rgba(255,107,107,.5)"/>
-      <text x="90" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">PID concurrency loop</text>
-      <text x="90" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Go service · 1s cadence</text>
-      <text x="90" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">writes worker conc cap</text>
-    </g>
-
-    <g transform="translate(820,46)">
-      <rect width="190" height="46" rx="5" fill="rgba(34,211,238,.1)" stroke="rgba(34,211,238,.5)"/>
-      <text x="95" y="18" text-anchor="middle" fill="#22d3ee" font-size="10" font-family="monospace" font-weight="bold">KL drift detector</text>
-      <text x="95" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Spark on EMR · hourly</text>
-      <text x="95" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">vs 30-day baseline</text>
-    </g>
-
-    <g transform="translate(1020,46)">
-      <rect width="130" height="46" rx="5" fill="rgba(245,197,24,.1)" stroke="rgba(245,197,24,.5)"/>
-      <text x="65" y="18" text-anchor="middle" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">NetworkX jobs</text>
-      <text x="65" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">nightly · k8s CronJob</text>
-      <text x="65" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">PageRank · Louvain</text>
-    </g>
-  </g>
-
-  <!-- ════ LAYER 2: WORK QUEUE ════ -->
-  <g transform="translate(20,140)">
-    <rect width="1160" height="56" rx="8" fill="rgba(108,231,150,.05)" stroke="rgba(108,231,150,.4)"/>
-    <text x="14" y="20" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">WORK QUEUE · the only thing between the control plane and the workers</text>
-
-    <g transform="translate(30,28)">
-      <rect width="280" height="22" rx="3" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
-      <text x="140" y="15" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace">SQS · scrape-jobs · ~5M msg/day</text>
-    </g>
-    <g transform="translate(320,28)">
-      <rect width="280" height="22" rx="3" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.35)"/>
-      <text x="140" y="15" text-anchor="middle" fill="#f5c518" font-size="9" font-family="monospace">SQS · verifier-jobs · ~600K msg/day</text>
-    </g>
-    <g transform="translate(610,28)">
-      <rect width="280" height="22" rx="3" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
-      <text x="140" y="15" text-anchor="middle" fill="#ff6b6b" font-size="9" font-family="monospace">SQS · quarantine-review · ~150K msg/day</text>
-    </g>
-    <g transform="translate(900,28)">
-      <rect width="250" height="22" rx="3" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.35)"/>
-      <text x="125" y="15" text-anchor="middle" fill="#a78bfa" font-size="9" font-family="monospace">Kinesis · outcomes · ~50M/day</text>
-    </g>
-  </g>
-
-  <!-- ════ LAYER 3: SCRAPER FLEET ════ -->
-  <g transform="translate(20,220)">
-    <rect width="780" height="280" rx="8" fill="url(#fleetBg)" stroke="rgba(108,231,150,.4)"/>
-    <text x="14" y="20" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">SCRAPER FLEET · EKS · auto-scaled by PID controller</text>
-    <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">50-400 pods · concurrency knob lives here · this is 70% of the bill</text>
-
-    <!-- Rung 1 with pulsing glow on scraper agent -->
-    <g transform="translate(20,52)">
-      <rect width="180" height="100" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
-      <text x="90" y="18" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">Rung 1 · curl_cffi pool</text>
-      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~150 pods · c7i.large</text>
-      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~85% of volume</text>
-      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$0.30 / 1K req</text>
-      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(108,231,150,.2)"/>
-      <g filter="url(#agentGlow)">
-        <text x="90" y="82" text-anchor="middle" fill="rgba(108,231,150,.85)" font-size="8" font-family="monospace" font-weight="bold">
-          claude haiku
-          <animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite"/>
-        </text>
-      </g>
-      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">extracts via known selectors</text>
-    </g>
-
+    <!-- Postgres -->
     <g transform="translate(210,52)">
-      <rect width="180" height="100" rx="6" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.4)"/>
-      <text x="90" y="18" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="monospace" font-weight="bold">Rung 2 · browser pool</text>
-      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~40 pods · c7i.4xlarge</text>
-      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~10% of volume</text>
-      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$3 / 1K req</text>
-      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(96,165,250,.2)"/>
-      <text x="90" y="82" text-anchor="middle" fill="rgba(96,165,250,.7)" font-size="8" font-family="monospace">CloakBrowser ws://</text>
-      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">Xvfb · Docker · supervisord</text>
+      <rect width="170" height="56" rx="6" fill="rgba(51,103,145,.1)" stroke="rgba(96,165,250,.5)"/>
+      <use href="#iconPostgres" x="10" y="14" width="28" height="28"/>
+      <text x="48" y="24" fill="#60a5fa" font-size="11" font-family="monospace" font-weight="bold">PostgreSQL</text>
+      <text x="48" y="38" fill="rgba(240,240,244,.6)" font-size="8" font-family="monospace">Beta(α,β) state</text>
+      <text x="48" y="49" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">per-selector confidence</text>
     </g>
 
-    <g transform="translate(400,52)">
-      <rect width="180" height="100" rx="6" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.4)"/>
-      <text x="90" y="18" text-anchor="middle" fill="#a78bfa" font-size="9" font-family="monospace" font-weight="bold">Rung 3 · browser+pacing</text>
-      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~10 pods · c7i.4xlarge</text>
-      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~3% of volume</text>
-      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$8 / 1K req</text>
-      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(167,139,250,.2)"/>
-      <text x="90" y="82" text-anchor="middle" fill="rgba(167,139,250,.7)" font-size="8" font-family="monospace">human-shape nav</text>
-      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">mouse curves · residential</text>
+    <!-- Thompson sampler -->
+    <g transform="translate(390,52)">
+      <rect width="180" height="56" rx="6" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.5)"/>
+      <g color="#a78bfa"><use href="#iconGear" x="10" y="14" width="28" height="28"/></g>
+      <text x="48" y="22" fill="#a78bfa" font-size="11" font-family="monospace" font-weight="bold">Thompson sampler</text>
+      <text x="48" y="36" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">FastAPI · ECS</text>
+      <text x="48" y="48" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">per-URL rung selection</text>
     </g>
 
-    <g transform="translate(590,52)">
-      <rect width="180" height="100" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.4)"/>
-      <text x="90" y="18" text-anchor="middle" fill="#ff6b6b" font-size="9" font-family="monospace" font-weight="bold">Rung 4 · managed API</text>
-      <text x="90" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">no pods · provider hosted</text>
-      <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~2% of volume</text>
-      <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$15 / 1K req</text>
-      <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(255,107,107,.2)"/>
-      <text x="90" y="82" text-anchor="middle" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace">Zyte · Bright Data</text>
-      <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">true last-resort tier</text>
+    <!-- PID controller -->
+    <g transform="translate(580,52)">
+      <rect width="180" height="56" rx="6" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.5)"/>
+      <g color="#ff6b6b"><use href="#iconGear" x="10" y="14" width="28" height="28"/></g>
+      <text x="48" y="22" fill="#ff6b6b" font-size="11" font-family="monospace" font-weight="bold">PID controller</text>
+      <text x="48" y="36" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Go service · 1s loop</text>
+      <text x="48" y="48" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">tunes worker concurrency</text>
     </g>
 
-    <g transform="translate(20,168)">
-      <rect width="740" height="44" rx="6" fill="rgba(245,197,24,.05)" stroke="rgba(245,197,24,.35)"/>
-      <text x="14" y="18" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">PROXY LAYER · all rungs route through this</text>
-      <text x="14" y="32" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">Bright Data ISP (warm IPs) + Massive residential (P2B) + Infatica (KYC-vetted) · 5-vector coherence enforced</text>
+    <!-- KL drift on Spark -->
+    <g transform="translate(770,52)">
+      <rect width="180" height="56" rx="6" fill="rgba(226,90,28,.08)" stroke="rgba(34,211,238,.5)"/>
+      <use href="#iconSpark" x="10" y="14" width="28" height="28"/>
+      <text x="48" y="22" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">KL drift on Spark</text>
+      <text x="48" y="36" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">EMR · hourly</text>
+      <text x="48" y="48" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">vs 30-day baseline</text>
     </g>
 
-    <g transform="translate(20,220)">
-      <rect width="740" height="44" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
-      <text x="14" y="18" fill="#6ce796" font-size="10" font-family="monospace" font-weight="bold">EXTRACTION OUTPUT</text>
-      <text x="14" y="32" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">{ row, Beta(α,β) per field, rung_used, latency_ms, proxy_id } → Kinesis outcomes stream</text>
+    <!-- NetworkX -->
+    <g transform="translate(960,52)">
+      <rect width="170" height="56" rx="6" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.5)"/>
+      <g color="#f5c518"><use href="#iconGear" x="10" y="14" width="28" height="28"/></g>
+      <text x="48" y="22" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">NetworkX jobs</text>
+      <text x="48" y="36" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">nightly CronJob</text>
+      <text x="48" y="48" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">PageRank · Louvain · BFS</text>
     </g>
   </g>
 
-  <!-- ════ LAYER 4: VERIFIER + STORAGE ════ -->
-  <g transform="translate(820,220)">
-    <rect width="360" height="280" rx="8" fill="url(#storeBg)" stroke="rgba(245,197,24,.4)"/>
-    <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">VERIFIER &amp; STORAGE</text>
-    <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">where trust is earned and data lands</text>
+  <!-- ════ LAYER 2: QUEUES ════ -->
+  <g transform="translate(20,160)">
+    <text x="0" y="14" fill="rgba(240,240,244,.55)" font-size="10" font-family="monospace" font-weight="bold">QUEUE LAYER</text>
 
-    <g transform="translate(14,52)">
-      <rect width="332" height="80" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.45)"/>
-      <text x="166" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">Verifier service</text>
-      <g filter="url(#agentGlow)">
-        <text x="166" y="32" text-anchor="middle" fill="rgba(255,107,107,.85)" font-size="8" font-family="monospace" font-weight="bold">
-          claude sonnet
-          <animate attributeName="opacity" values="0.7;1;0.7" dur="3.5s" repeatCount="indefinite"/>
-        </text>
+    <g transform="translate(0,22)">
+      <rect width="280" height="50" rx="6" fill="rgba(255,153,0,.05)" stroke="rgba(108,231,150,.5)"/>
+      <use href="#iconSQS" x="12" y="11" width="28" height="28"/>
+      <text x="50" y="22" fill="#6ce796" font-size="10" font-family="monospace" font-weight="bold">SQS · scrape-jobs</text>
+      <text x="50" y="35" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~5M msg/day</text>
+    </g>
+
+    <g transform="translate(295,22)">
+      <rect width="280" height="50" rx="6" fill="rgba(255,153,0,.05)" stroke="rgba(245,197,24,.5)"/>
+      <use href="#iconSQS" x="12" y="11" width="28" height="28"/>
+      <text x="50" y="22" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">SQS · verifier-jobs</text>
+      <text x="50" y="35" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~600K msg/day</text>
+    </g>
+
+    <g transform="translate(590,22)">
+      <rect width="270" height="50" rx="6" fill="rgba(255,153,0,.05)" stroke="rgba(255,107,107,.5)"/>
+      <use href="#iconSQS" x="12" y="11" width="28" height="28"/>
+      <text x="50" y="22" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">SQS · quarantine</text>
+      <text x="50" y="35" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~150K msg/day</text>
+    </g>
+
+    <g transform="translate(875,22)">
+      <rect width="285" height="50" rx="6" fill="rgba(147,51,234,.05)" stroke="rgba(167,139,250,.5)"/>
+      <use href="#iconKinesis" x="12" y="11" width="28" height="28"/>
+      <text x="50" y="22" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">Kinesis · outcomes</text>
+      <text x="50" y="35" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">~50M events/day</text>
+    </g>
+  </g>
+
+  <!-- ════ LAYER 3: AGENTS + STORAGE ════ -->
+  <g transform="translate(20,260)">
+    <!-- Scraper Agent on EKS -->
+    <g transform="translate(0,0)">
+      <rect width="570" height="220" rx="10" fill="rgba(108,231,150,.04)" stroke="rgba(108,231,150,.4)"/>
+
+      <use href="#iconK8s" x="14" y="14" width="32" height="32"/>
+      <text x="54" y="28" fill="#6ce796" font-size="12" font-family="monospace" font-weight="bold">SCRAPER agent · EKS</text>
+      <text x="54" y="42" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">50–400 pods · auto-scaled by PID</text>
+
+      <!-- The agent role with model abstraction -->
+      <g transform="translate(14,56)">
+        <rect width="270" height="74" rx="6" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.45)"/>
+        <use href="#iconLLM" x="10" y="12" width="34" height="34"/>
+        <text x="50" y="22" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">Scraper role</text>
+        <text x="50" y="36" fill="rgba(240,240,244,.6)" font-size="8" font-family="monospace">small fast model · any vendor</text>
+        <text x="50" y="48" fill="rgba(240,240,244,.45)" font-size="7" font-family="monospace">reads graph → picks rung →</text>
+        <text x="50" y="58" fill="rgba(240,240,244,.45)" font-size="7" font-family="monospace">extracts → emits Beta(α,β)</text>
+        <text x="50" y="68" fill="rgba(108,231,150,.65)" font-size="7" font-family="monospace">runs on 100% of rows · cheap</text>
       </g>
-      <line x1="14" y1="38" x2="318" y2="38" stroke="rgba(255,107,107,.18)"/>
-      <text x="14" y="52" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">prompt: "prove this is wrong"</text>
-      <text x="14" y="64" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">re-fetch · BFS compare · disprove</text>
-      <text x="14" y="76" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace">~12% of rows · ~$0.12 each</text>
+
+      <!-- Rung breakdown -->
+      <g transform="translate(296,56)">
+        <text x="0" y="10" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace" font-weight="bold">4 rungs (PID-tuned)</text>
+        <g transform="translate(0,16)">
+          <rect width="260" height="14" rx="3" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.3)"/>
+          <text x="6" y="10" fill="#6ce796" font-size="8" font-family="monospace">1 curl_cffi · ~85% · ~$0.30/1K</text>
+        </g>
+        <g transform="translate(0,32)">
+          <rect width="260" height="14" rx="3" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.3)"/>
+          <text x="6" y="10" fill="#60a5fa" font-size="8" font-family="monospace">2 browser pool · ~10% · ~$3/1K</text>
+        </g>
+        <g transform="translate(0,48)">
+          <rect width="260" height="14" rx="3" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.3)"/>
+          <text x="6" y="10" fill="#a78bfa" font-size="8" font-family="monospace">3 browser + pacing · ~3% · ~$8/1K</text>
+        </g>
+        <g transform="translate(0,64)">
+          <rect width="260" height="14" rx="3" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.3)"/>
+          <text x="6" y="10" fill="#ff6b6b" font-size="8" font-family="monospace">4 managed API · ~2% · ~$15/1K</text>
+        </g>
+      </g>
+
+      <!-- Proxy layer -->
+      <g transform="translate(14,142)">
+        <rect width="542" height="32" rx="6" fill="rgba(245,197,24,.05)" stroke="rgba(245,197,24,.3)"/>
+        <text x="12" y="14" fill="#f5c518" font-size="9" font-family="monospace" font-weight="bold">PROXY LAYER</text>
+        <text x="12" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Bright Data ISP + Massive residential + Infatica · 5-vector coherence enforced</text>
+      </g>
+      <g transform="translate(14,182)">
+        <rect width="542" height="28" rx="6" fill="rgba(108,231,150,.05)" stroke="rgba(108,231,150,.3)"/>
+        <text x="12" y="13" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">EXTRACTION OUTPUT</text>
+        <text x="12" y="23" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">{ row, Beta(α,β) per field, rung, latency, proxy_id } → Kinesis</text>
+      </g>
     </g>
 
-    <g transform="translate(14,144)">
-      <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
-      <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥉 Bronze</text>
-      <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Parquet on S3 · raw + provenance · 90-day retention</text>
+    <!-- Verifier Agent -->
+    <g transform="translate(600,0)">
+      <rect width="280" height="220" rx="10" fill="rgba(255,107,107,.04)" stroke="rgba(255,107,107,.4)"/>
+
+      <use href="#iconK8s" x="14" y="14" width="32" height="32"/>
+      <text x="54" y="28" fill="#ff6b6b" font-size="12" font-family="monospace" font-weight="bold">VERIFIER · ECS</text>
+      <text x="54" y="42" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">scaled by queue depth</text>
+
+      <g transform="translate(14,56)">
+        <rect width="252" height="74" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.45)"/>
+        <use href="#iconLLM" x="10" y="12" width="34" height="34"/>
+        <text x="50" y="22" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">Verifier role</text>
+        <text x="50" y="36" fill="rgba(240,240,244,.6)" font-size="8" font-family="monospace">larger careful model · any vendor</text>
+        <text x="50" y="48" fill="rgba(240,240,244,.45)" font-size="7" font-family="monospace">prompt: "prove this is wrong"</text>
+        <text x="50" y="58" fill="rgba(240,240,244,.45)" font-size="7" font-family="monospace">re-fetch · BFS compare</text>
+        <text x="50" y="68" fill="rgba(255,107,107,.65)" font-size="7" font-family="monospace">runs on ~12% of rows</text>
+      </g>
+
+      <g transform="translate(14,142)">
+        <rect width="252" height="32" rx="6" fill="rgba(255,107,107,.05)" stroke="rgba(255,107,107,.3)"/>
+        <text x="12" y="14" fill="#ff6b6b" font-size="9" font-family="monospace" font-weight="bold">ADVERSARIAL OUTPUT</text>
+        <text x="12" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">verdict: confirmed | refuted | quarantine</text>
+      </g>
+      <g transform="translate(14,182)">
+        <rect width="252" height="28" rx="6" fill="rgba(240,240,244,.03)" stroke="rgba(240,240,244,.15)"/>
+        <text x="126" y="18" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace" font-style="italic">trust earned by surviving disproof</text>
+      </g>
     </g>
-    <g transform="translate(14,182)">
-      <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.5)"/>
-      <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥈 Silver</text>
-      <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">dbt · dedup via content hash · upsert + last_seen</text>
-    </g>
-    <g transform="translate(14,220)">
-      <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.55)"/>
-      <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥇 Gold</text>
-      <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Iceberg tables · BI · downstream APIs</text>
+
+    <!-- Storage Tier -->
+    <g transform="translate(890,0)">
+      <rect width="270" height="220" rx="10" fill="rgba(86,154,49,.04)" stroke="rgba(108,231,150,.4)"/>
+      <use href="#iconS3" x="14" y="14" width="32" height="32"/>
+      <text x="54" y="28" fill="#6ce796" font-size="12" font-family="monospace" font-weight="bold">STORAGE</text>
+      <text x="54" y="42" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">S3 · medallion architecture</text>
+
+      <g transform="translate(14,58)">
+        <rect width="242" height="42" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.35)"/>
+        <text x="12" y="14" fill="#cd7f32" font-size="11" font-family="monospace" font-weight="bold">🥉 Bronze</text>
+        <text x="12" y="28" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Parquet · raw + provenance</text>
+        <text x="12" y="38" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">90-day retention</text>
+      </g>
+
+      <g transform="translate(14,108)">
+        <rect width="242" height="42" rx="6" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.5)"/>
+        <text x="12" y="14" fill="#c0c0c0" font-size="11" font-family="monospace" font-weight="bold">🥈 Silver</text>
+        <text x="12" y="28" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">dbt · dedup via content hash</text>
+        <text x="12" y="38" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">upsert + last_seen</text>
+      </g>
+
+      <g transform="translate(14,158)">
+        <rect width="242" height="42" rx="6" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.55)"/>
+        <text x="12" y="14" fill="#ffd700" font-size="11" font-family="monospace" font-weight="bold">🥇 Gold</text>
+        <text x="12" y="28" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Iceberg tables · BI · APIs</text>
+        <text x="12" y="38" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">downstream consumers</text>
+      </g>
     </g>
   </g>
 
-  <!-- ════ STATIC GUIDE ARROWS (kept thin, animation does the work) ════ -->
-  <line x1="525" y1="116" x2="525" y2="138" stroke="rgba(245,197,24,.4)" stroke-width="1" marker-end="url(#pdaY)"/>
-  <line x1="160" y1="198" x2="160" y2="218" stroke="rgba(108,231,150,.5)" stroke-width="1" marker-end="url(#pdaG)"/>
-  <path d="M 800 380 Q 600 290 460 200" stroke="rgba(245,197,24,.4)" stroke-width="1" fill="none" marker-end="url(#pdaY)"/>
-  <line x1="985" y1="304" x2="985" y2="324" stroke="rgba(255,107,107,.5)" stroke-width="1" marker-end="url(#pdaR)"/>
-  <path d="M 1100 220 Q 1180 110 1085 92" stroke="rgba(245,197,24,.4)" stroke-width="1" fill="none" stroke-dasharray="4 3" marker-end="url(#pdaY)"/>
-  <line x1="500" y1="500" x2="500" y2="518" stroke="rgba(34,211,238,.4)" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#pdaB)"/>
-  <line x1="500" y1="600" x2="500" y2="618" stroke="rgba(167,139,250,.4)" stroke-width="1" marker-end="url(#pdaP)"/>
+  <!-- ════ LAYER 4: OBSERVABILITY ════ -->
+  <g transform="translate(20,500)">
+    <rect width="1160" height="74" rx="8" fill="rgba(34,211,238,.04)" stroke="rgba(34,211,238,.35)"/>
+    <text x="14" y="22" fill="#22d3ee" font-size="12" font-family="monospace" font-weight="bold">OBSERVABILITY</text>
+    <text x="14" y="36" fill="rgba(240,240,244,.5)" font-size="10" font-family="monospace">what stands between you and a 3am page</text>
 
-  <!-- ══ ANIMATED FLOW DOTS - the cool part ══ -->
-  <!-- control plane down to work queue -->
-  <circle r="3.5" fill="#f5c518">
-    <animateMotion dur="2.4s" repeatCount="indefinite" path="M 525 116 L 525 138"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.4s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- work queue (scrape-jobs) down to fleet · many dots, staggered -->
-  <circle r="3" fill="#6ce796">
-    <animateMotion dur="1.6s" repeatCount="indefinite" path="M 170 196 L 110 270"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="3" fill="#6ce796">
-    <animateMotion dur="1.6s" begin="0.4s" repeatCount="indefinite" path="M 170 196 L 270 270"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" begin="0.4s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="3" fill="#6ce796">
-    <animateMotion dur="1.6s" begin="0.8s" repeatCount="indefinite" path="M 170 196 L 430 270"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" begin="0.8s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="3" fill="#6ce796">
-    <animateMotion dur="1.6s" begin="1.2s" repeatCount="indefinite" path="M 170 196 L 580 270"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" begin="1.2s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- scraper fleet → verifier queue (smaller stream, ~12% of volume) -->
-  <circle r="2.8" fill="#f5c518">
-    <animateMotion dur="2.6s" repeatCount="indefinite" path="M 400 320 Q 500 250 460 198"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.6s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="2.8" fill="#f5c518">
-    <animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite" path="M 400 320 Q 500 250 460 198"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- verifier queue → verifier service -->
-  <circle r="3" fill="#ff6b6b">
-    <animateMotion dur="1.8s" repeatCount="indefinite" path="M 460 198 L 900 264"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.8s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="3" fill="#ff6b6b">
-    <animateMotion dur="1.8s" begin="0.9s" repeatCount="indefinite" path="M 460 198 L 900 264"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- scraper fleet → bronze (high volume, many dots) -->
-  <circle r="3" fill="#6ce796">
-    <animateMotion dur="1.3s" repeatCount="indefinite" path="M 750 442 Q 880 410 985 360"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.3s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="3" fill="#6ce796">
-    <animateMotion dur="1.3s" begin="0.3s" repeatCount="indefinite" path="M 750 442 Q 880 410 985 360"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.3s" begin="0.3s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="3" fill="#6ce796">
-    <animateMotion dur="1.3s" begin="0.7s" repeatCount="indefinite" path="M 750 442 Q 880 410 985 360"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.3s" begin="0.7s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- verifier → bronze -->
-  <circle r="3" fill="#ff6b6b">
-    <animateMotion dur="1.6s" repeatCount="indefinite" path="M 985 304 L 985 348"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- bronze → silver → gold (slow medallion flow) -->
-  <circle r="2.5" fill="rgba(108,231,150,.8)">
-    <animateMotion dur="2.2s" repeatCount="indefinite" path="M 985 380 L 985 410"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.2s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="2.5" fill="rgba(108,231,150,.8)">
-    <animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M 985 418 L 985 448"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.2s" begin="0.7s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- outcomes → Kinesis → control plane feedback (the closing loop) -->
-  <circle r="3" fill="#a78bfa">
-    <animateMotion dur="3.2s" repeatCount="indefinite" path="M 1100 220 Q 1180 110 1080 92"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.2s" repeatCount="indefinite"/>
-  </circle>
-  <circle r="3" fill="#a78bfa">
-    <animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" path="M 1100 220 Q 1180 110 1080 92"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.2s" begin="1.6s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- ════ LAYER 5: OBSERVABILITY ════ -->
-  <g transform="translate(20,520)">
-    <rect width="1160" height="80" rx="8" fill="rgba(34,211,238,.04)" stroke="rgba(34,211,238,.4)"/>
-    <text x="14" y="20" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">OBSERVABILITY · the only thing standing between you and a 3am page</text>
-
-    <g transform="translate(30,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Prometheus + Grafana</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">ban rate, fill rate, $/row</text></g>
-    <g transform="translate(220,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">OpenTelemetry traces</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-request span</text></g>
-    <g transform="translate(410,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">KL drift dashboard</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-field · top-10 drift today</text></g>
-    <g transform="translate(600,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Graph health view</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">PageRank Δ · community shifts</text></g>
-    <g transform="translate(790,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Reservoir audit</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">100-row diff vs truth nightly</text></g>
-    <g transform="translate(980,32)"><rect width="170" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="85" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">PagerDuty</text><text x="85" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">criticality-weighted alerts</text></g>
+    <g transform="translate(140,46)">
+      <use href="#iconGrafana" x="0" y="2" width="20" height="20"/>
+      <text x="26" y="16" fill="#22d3ee" font-size="9" font-family="monospace">Prometheus + Grafana</text>
+    </g>
+    <g transform="translate(330,46)">
+      <use href="#iconGear" x="0" y="2" width="20" height="20" color="#22d3ee"/>
+      <text x="26" y="16" fill="#22d3ee" font-size="9" font-family="monospace">OpenTelemetry traces</text>
+    </g>
+    <g transform="translate(520,46)">
+      <use href="#iconGear" x="0" y="2" width="20" height="20" color="#22d3ee"/>
+      <text x="26" y="16" fill="#22d3ee" font-size="9" font-family="monospace">KL drift dashboard</text>
+    </g>
+    <g transform="translate(700,46)">
+      <use href="#iconNeo4j" x="0" y="2" width="20" height="20"/>
+      <text x="26" y="16" fill="#22d3ee" font-size="9" font-family="monospace">Graph health view</text>
+    </g>
+    <g transform="translate(880,46)">
+      <use href="#iconGear" x="0" y="2" width="20" height="20" color="#22d3ee"/>
+      <text x="26" y="16" fill="#22d3ee" font-size="9" font-family="monospace">Reservoir audit</text>
+    </g>
+    <g transform="translate(1040,46)">
+      <use href="#iconPager" x="0" y="2" width="20" height="20"/>
+      <text x="26" y="16" fill="#22d3ee" font-size="9" font-family="monospace">PagerDuty</text>
+    </g>
   </g>
 
-  <!-- ════ LAYER 6: HUMAN GATES ════ -->
-  <g transform="translate(20,620)">
-    <rect width="1160" height="60" rx="8" fill="rgba(167,139,250,.04)" stroke="rgba(167,139,250,.4)"/>
-    <text x="14" y="20" fill="#a78bfa" font-size="11" font-family="monospace" font-weight="bold">HUMAN GATES · only here · nowhere else</text>
-    <text x="14" y="38" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">① schema changes (KL drift &gt; threshold) → Slack with samples · ② new vendor detected → review + edge labels · ③ quarantine queue review · ④ critical-vendor degradation</text>
+  <!-- ════ LAYER 5: HUMAN GATES ════ -->
+  <g transform="translate(20,594)">
+    <rect width="1160" height="60" rx="8" fill="rgba(167,139,250,.04)" stroke="rgba(167,139,250,.35)"/>
+    <text x="14" y="22" fill="#a78bfa" font-size="12" font-family="monospace" font-weight="bold">HUMAN GATES · only here · nowhere else</text>
+    <text x="14" y="38" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">① schema changes (KL drift &gt; threshold) → Slack with samples · ② new vendor detected · ③ quarantine review · ④ critical-vendor degradation</text>
     <text x="14" y="52" fill="rgba(167,139,250,.6)" font-size="9" font-family="monospace" font-style="italic">selectors, rungs, candidates evolve automatically · the shape of the data does not change without a person</text>
   </g>
 
-  <!-- ════ COST PROFILE ════ -->
-  <g transform="translate(20,710)">
-    <rect width="1160" height="80" rx="8" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.4)"/>
-    <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">COST PROFILE · at 10M scrapes/day, monthly · the math should add up before you build this</text>
-
-    <text x="14" y="40" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Scraper EKS fleet</text>
-    <text x="220" y="40" fill="rgba(108,231,150,.75)" font-size="9" font-family="monospace">~$14K (70% of bill)</text>
-    <text x="380" y="40" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">// dominated by Rung 2 browser pods + Rung 3 residential</text>
-
-    <text x="14" y="56" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Proxy bandwidth</text>
-    <text x="220" y="56" fill="rgba(245,197,24,.75)" font-size="9" font-family="monospace">~$3K (15%)</text>
-    <text x="380" y="56" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">// dominant variable. PID loop keeps this from blowing up.</text>
-
-    <text x="14" y="72" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Claude API (Haiku + Sonnet)</text>
-    <text x="220" y="72" fill="rgba(167,139,250,.75)" font-size="9" font-family="monospace">~$2.5K (12%)</text>
-    <text x="380" y="72" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">// confidence routing keeps Sonnet calls to ~12% of rows</text>
-
-    <text x="700" y="40" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Neo4j + RDS + ECS + EMR</text>
-    <text x="930" y="40" fill="rgba(34,211,238,.75)" font-size="9" font-family="monospace">~$600 (3%)</text>
-    <text x="700" y="56" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Storage + S3 egress</text>
-    <text x="930" y="56" fill="rgba(108,231,150,.75)" font-size="9" font-family="monospace">~$400 (&lt;2%)</text>
-    <text x="700" y="72" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">Total · roughly</text>
-    <text x="930" y="72" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">~$20K/month · $0.07/1K</text>
-  </g>
-
   <!-- ════ FOOTER ════ -->
-  <g transform="translate(20,810)">
-    <text x="0" y="14" fill="rgba(240,240,244,.65)" font-size="10" font-family="monospace" font-weight="bold">What this production design handles automatically, no on-call required:</text>
-    <text x="0" y="32" fill="rgba(240,240,244,.55)" font-size="9">• Vendor sensor flips · PID and bandits re-route within minutes · ALL URLs on that vendor inherit through the graph</text>
+  <g transform="translate(20,680)">
+    <text x="0" y="14" fill="rgba(240,240,244,.7)" font-size="11" font-family="monospace" font-weight="bold">What this production design handles automatically · no on-call required:</text>
+    <text x="0" y="32" fill="rgba(240,240,244,.55)" font-size="9">• Vendor sensor flips · PID + bandits re-route within minutes · ALL URLs on that vendor inherit through the graph</text>
     <text x="0" y="48" fill="rgba(240,240,244,.55)" font-size="9">• Single-selector drift · verifier disagreement N times raises a new candidate · graph propagates · seamless</text>
     <text x="0" y="64" fill="rgba(240,240,244,.55)" font-size="9">• Cost creep · PID tightens concurrency as bans rise · bandit shifts traffic to cheaper rungs · spend self-corrects</text>
     <text x="0" y="80" fill="rgba(240,240,244,.55)" font-size="9">• Silent value poisoning · KL divergence catches distribution shifts the row count and 200-OK rate cannot see</text>
-    <text x="0" y="100" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">What it routes to a human, by design:</text>
-    <text x="0" y="118" fill="rgba(240,240,244,.55)" font-size="9">• Schema changes (new field, removed field, type mismatch) · the shape of data is governed, not learned</text>
-    <text x="0" y="134" fill="#f5c518" font-size="9" font-style="italic">Six mathematical primitives, two agents, one graph. Every routing decision is named, costed, and traceable.</text>
+    <text x="0" y="104" fill="#a78bfa" font-size="11" font-family="monospace" font-weight="bold">What it routes to a human · by design:</text>
+    <text x="0" y="120" fill="rgba(240,240,244,.55)" font-size="9">• Schema changes (new field · removed field · type mismatch) · the shape of data is governed, not learned</text>
   </g>
+
+  <!-- ════ ARROWS · subtle, color-coded ════ -->
+
+  <!-- control plane → queue (yellow, slow pulse to show config writes) -->
+  <line x1="525" y1="138" x2="525" y2="158" stroke="rgba(245,197,24,.45)" stroke-width="1.2" stroke-dasharray="3 2" marker-end="url(#prArr)"/>
+
+  <!-- scrape-jobs queue → scraper -->
+  <line x1="140" y1="232" x2="140" y2="258" stroke="rgba(108,231,150,.55)" stroke-width="1.5" marker-end="url(#prArr)"/>
+
+  <!-- scraper output → Kinesis -->
+  <line x1="590" y1="468" x2="1015" y2="232" stroke="rgba(108,231,150,.3)" stroke-width="1" stroke-dasharray="3 3"/>
+  <!-- scraper → bronze direct -->
+  <line x1="590" y1="468" x2="905" y2="320" stroke="rgba(108,231,150,.4)" stroke-width="1" marker-end="url(#prArr)"/>
+
+  <!-- scraper → verifier-jobs queue (subset, ~12%) -->
+  <line x1="590" y1="320" x2="430" y2="232" stroke="rgba(245,197,24,.4)" stroke-width="1.2" marker-end="url(#prArr)"/>
+
+  <!-- verifier-jobs → verifier -->
+  <line x1="430" y1="232" x2="660" y2="258" stroke="rgba(245,197,24,.4)" stroke-width="1.2" marker-end="url(#prArr)"/>
+
+  <!-- verifier → bronze -->
+  <line x1="880" y1="370" x2="905" y2="370" stroke="rgba(255,107,107,.5)" stroke-width="1.2" marker-end="url(#prArr)"/>
+
+  <!-- Kinesis → control plane feedback (closes the loop, dashed) -->
+  <path d="M 1160 232 Q 1190 180 1190 130 Q 1190 90 1100 96" stroke="rgba(167,139,250,.5)" stroke-width="1.2" fill="none" stroke-dasharray="4 3" marker-end="url(#prArr)"/>
+
+  <!-- observability arrows up (everything reports) -->
+  <line x1="600" y1="500" x2="600" y2="488" stroke="rgba(34,211,238,.3)" stroke-width="1" stroke-dasharray="2 3"/>
+
+  <!-- observability → human gates -->
+  <line x1="600" y1="574" x2="600" y2="594" stroke="rgba(167,139,250,.45)" stroke-width="1.2" marker-end="url(#prArr)"/>
+
+  <!-- ════ ANIMATED DOTS · 7 total, clear, no overlap ════ -->
+
+  <!-- 1. control plane → queue (yellow, configuration writes) -->
+  <circle r="4" fill="#f5c518">
+    <animateMotion dur="3.5s" repeatCount="indefinite" path="M 525 138 L 525 158"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 2,3,4. queue → scraper (green, three staggered dots = high volume) -->
+  <circle r="4" fill="#6ce796">
+    <animateMotion dur="2s" repeatCount="indefinite" path="M 140 232 L 140 258"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="4" fill="#6ce796">
+    <animateMotion dur="2s" begin="0.7s" repeatCount="indefinite" path="M 140 232 L 140 258"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="4" fill="#6ce796">
+    <animateMotion dur="2s" begin="1.4s" repeatCount="indefinite" path="M 140 232 L 140 258"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 5. scraper → bronze (green, sustained high volume) -->
+  <circle r="4" fill="#6ce796">
+    <animateMotion dur="2.5s" repeatCount="indefinite" path="M 590 468 L 905 320"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 6. scraper → verifier-jobs (yellow, low volume = ~12%) -->
+  <circle r="4" fill="#f5c518">
+    <animateMotion dur="3s" repeatCount="indefinite" path="M 590 320 L 430 232"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 7. verifier-jobs → verifier (yellow continuation) -->
+  <circle r="4" fill="#f5c518">
+    <animateMotion dur="2.2s" begin="1.5s" repeatCount="indefinite" path="M 430 232 L 660 258"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2.2s" begin="1.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 8. verifier → bronze (red, verdict) -->
+  <circle r="4" fill="#ff6b6b">
+    <animateMotion dur="2.4s" begin="0.5s" repeatCount="indefinite" path="M 880 370 L 905 370"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2.4s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 9. Kinesis → control plane (purple, learning feedback) -->
+  <circle r="4" fill="#a78bfa">
+    <animateMotion dur="4s" repeatCount="indefinite" path="M 1160 232 Q 1190 180 1190 130 Q 1190 90 1100 96"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
 </svg>
     </div>
   </div>
@@ -8913,7 +8983,7 @@ ARCHITECTURE (11 production patterns):
 8. Microservices API-first - REST/GraphQL + Redis/SQS + worker pools + Postgres + webhook.
 9. Pub/Sub Event-Driven - publisher pushes one msg per source to broker (SQS/Kafka/RabbitMQ/Google Pub/Sub); independent workers pull and crawl in isolation. One source fails alone. 76% success vs 36% round-robin.
 10. Self-Hosted Browser Pool (John Watson Rooney pattern) - control libs (Playwright/Puppeteer/Selenium) are NOT browsers, they speak CDP to any binary. Run persistent patched-Chromium headed under Xvfb in Docker, supervisord manages Xvfb + Playwright server. Scripts connect via ws://. Two-slot trap: must replace BOTH chrome AND chrome-headless-shell or Playwright silently runs the untouched headless shell (403s, wrong version, nothing in logs). Concurrency = contexts not instances.
-AI WORKFLOW (separate from the 12-tab Architecture section, standalone block before Self-Healing). Built on SIX mathematical concepts each replacing a heuristic: (1) Graph theory: knowledge graph as memory, PageRank ranks vendors by operational criticality, Louvain community detection auto-distinguishes failure modes, BFS bootstraps new URLs from nearest known-working neighbor. (2) Bayesian inference: every selector/URL carries a Beta(α,β) distribution not a scalar - 0.95 from 100 obs vs 0.95 from 3 obs route very differently. (3) Thompson sampling: multi-armed bandit over the four rungs (curl_cffi/browser/browser+pacing/managed), explore vs exploit, same math as ProxyOps in the proxies section. (4) Information theory: KL divergence between today's value distribution and 30-day rolling baseline catches silent poisoning - a field can have 100% fill rate while shifting distribution. (5) Control theory: PID controller on ban rate (error signal) drives request concurrency (actuator), proportional+integral+derivative terms, used in production at Stripe/Cloudflare. (6) Reservoir sampling: Vitter's Algorithm R maintains unbiased 100-row ground-truth audit from 50M-row stream in O(1) memory. Architecture has TWO agents only - scraper (Claude Haiku, emits row + Beta confidence) and verifier (Claude Sonnet, adversarial: 'prove this is wrong'). PRODUCTION SCALE diagram included: Control plane (Neo4j cluster + Postgres state + Thompson FastAPI + PID Go service + Spark/EMR KL drift + NetworkX nightly CronJob). Work queue (SQS scrape-jobs ~5M/day + verifier-jobs ~600K/day + quarantine + Kinesis outcomes ~50M/day). Scraper fleet on EKS, 50-400 pods auto-scaled by PID. Verifier ECS scaled by SQS depth. Storage Parquet/dbt/Iceberg bronze→silver→gold. Observability via Prometheus+Grafana+OpenTelemetry+KL drift dashboard+graph health view+reservoir audit+PagerDuty. Cost profile at 10M scrapes/day: ~$20K/month (~$0.07/1K) - scraper EKS 70%, proxy bandwidth 15%, Claude API 12%, infra 5%. Handled automatically: vendor sensor flips (PID+bandits re-route, graph propagates), single-selector drift (verifier raises candidate), cost creep (PID tightens), silent poisoning (KL catches). Human-gated only: schema changes (new field, removed field, type mismatch). 13. AI Workflow: Graph-Memory + Adversarial Verification (Architecture tab "AI Workflow") - genuinely novel AI-agent design built on TWO ideas. (1) Knowledge graph as memory instead of files or blackboard: nodes are URLs, selectors, vendors; edges encode USES, EXTRACTS, FAILED_WITH. When one vendor changes sensor, one node edit propagates to all URLs sharing that vendor. (2) Two agents only - a Scraper (Claude Haiku, cheap) emits row + per-field confidence; a Verifier (Claude Sonnet, adversarial) whose prompt is "prove this is wrong" - re-fetches via different rung, checks mobile API, compares to similar URLs. Trust is earned by surviving disproof. Confidence routing: >=0.9 fast lane (85%, skip verifier), 0.6-0.9 verifier runs (12%), <0.6 quarantine + human (3%). Graph Intelligence Layer adds three algorithms with concrete production value: (A) PageRank on vendor nodes ranks vendors by operational criticality - 'Akamai_v3 = 47% volume, F5 = 2%' - so pager priority is data not vibes; (B) Louvain community detection clusters URLs by shared selectors/vendor/template/behavior and auto-distinguishes failure modes: 100% of community failing = structural change, ~50% = vendor sensor flip, <10% = isolated selector drift; (C) BFS shortest-path for cold-start - new URL arrives, walk to nearest known-working URL via shared edges, inherit rung+selectors+expected vendor. Deliberately rejects GNN training, max-flow, learned embeddings as theatre for a ~10k-node graph. Stack: NetworkX runs all three in <100ms nightly. Three feedback edges write back into the graph: (a) verifier disagreement N times -> selector confidence drops + new candidate mined + propagated, (b) ban spike on one URL -> vendor node sensor_hash flips -> ALL URLs on that vendor mark rung+1, (c) field confidence trend down across URLs -> schema-drift Slack alert (only human gate). Vendor-level learning, not URL-level. No orchestrator, no specialists, no colony, no blackboard.
+AI WORKFLOW (separate from the 12-tab Architecture section, standalone block before Self-Healing). Built on SIX mathematical concepts each replacing a heuristic: (1) Graph theory: knowledge graph as memory, PageRank ranks vendors by operational criticality, Louvain community detection auto-distinguishes failure modes, BFS bootstraps new URLs from nearest known-working neighbor. (2) Bayesian inference: every selector/URL carries a Beta(α,β) distribution not a scalar - 0.95 from 100 obs vs 0.95 from 3 obs route very differently. (3) Thompson sampling: multi-armed bandit over the four rungs (curl_cffi/browser/browser+pacing/managed), explore vs exploit, same math as ProxyOps in the proxies section. (4) Information theory: KL divergence between today's value distribution and 30-day rolling baseline catches silent poisoning - a field can have 100% fill rate while shifting distribution. (5) Control theory: PID controller on ban rate (error signal) drives request concurrency (actuator), proportional+integral+derivative terms, used in production at Stripe/Cloudflare. (6) Reservoir sampling: Vitter's Algorithm R maintains unbiased 100-row ground-truth audit from 50M-row stream in O(1) memory. Architecture has TWO agents only - scraper (small fast model, emits row + Beta confidence) and verifier (larger careful model, adversarial: 'prove this is wrong'). MODEL-AGNOSTIC: either role can be served by any frontier LLM with structured output (Anthropic, OpenAI, Gemini, open-weights behind vLLM). PRODUCTION SCALE animated diagram included with real tech icons (Neo4j, Postgres, AWS SQS, AWS Kinesis, Kubernetes/EKS, Spark, S3, Grafana, PagerDuty). Control plane (Neo4j cluster + Postgres state + Thompson FastAPI + PID Go service + Spark/EMR KL drift + NetworkX nightly CronJob). Work queue (SQS scrape-jobs ~5M/day + verifier-jobs ~600K/day + quarantine + Kinesis outcomes ~50M/day). Scraper fleet on EKS, 50-400 pods auto-scaled by PID. Verifier ECS scaled by SQS depth. Storage Parquet/dbt/Iceberg bronze→silver→gold. Observability via Prometheus+Grafana+OpenTelemetry+KL drift dashboard+graph health view+reservoir audit+PagerDuty. Cost profile at 10M scrapes/day: ~$20K/month (~$0.07/1K) - scraper EKS 70%, proxy bandwidth 15%, LLM API 12%, infra 5%. Handled automatically: vendor sensor flips (PID+bandits re-route, graph propagates), single-selector drift (verifier raises candidate), cost creep (PID tightens), silent poisoning (KL catches). Human-gated only: schema changes (new field, removed field, type mismatch). 13. AI Workflow: Graph-Memory + Adversarial Verification (Architecture tab "AI Workflow") - genuinely novel AI-agent design built on TWO ideas. (1) Knowledge graph as memory instead of files or blackboard: nodes are URLs, selectors, vendors; edges encode USES, EXTRACTS, FAILED_WITH. When one vendor changes sensor, one node edit propagates to all URLs sharing that vendor. (2) Two agents only - a Scraper (Claude Haiku, cheap) emits row + per-field confidence; a Verifier (Claude Sonnet, adversarial) whose prompt is "prove this is wrong" - re-fetches via different rung, checks mobile API, compares to similar URLs. Trust is earned by surviving disproof. Confidence routing: >=0.9 fast lane (85%, skip verifier), 0.6-0.9 verifier runs (12%), <0.6 quarantine + human (3%). Graph Intelligence Layer adds three algorithms with concrete production value: (A) PageRank on vendor nodes ranks vendors by operational criticality - 'Akamai_v3 = 47% volume, F5 = 2%' - so pager priority is data not vibes; (B) Louvain community detection clusters URLs by shared selectors/vendor/template/behavior and auto-distinguishes failure modes: 100% of community failing = structural change, ~50% = vendor sensor flip, <10% = isolated selector drift; (C) BFS shortest-path for cold-start - new URL arrives, walk to nearest known-working URL via shared edges, inherit rung+selectors+expected vendor. Deliberately rejects GNN training, max-flow, learned embeddings as theatre for a ~10k-node graph. Stack: NetworkX runs all three in <100ms nightly. Three feedback edges write back into the graph: (a) verifier disagreement N times -> selector confidence drops + new candidate mined + propagated, (b) ban spike on one URL -> vendor node sensor_hash flips -> ALL URLs on that vendor mark rung+1, (c) field confidence trend down across URLs -> schema-drift Slack alert (only human gate). Vendor-level learning, not URL-level. No orchestrator, no specialists, no colony, no blackboard.
 12. Asad's Production Reality Map (Architecture tab "Asad's Reality Map") - NOT a pipeline diagram. Drawn around the question: 'when something breaks at 3am, where do I look?' Center: the boring live flow (Pub/Sub queue -> fetch worker -> parse -> dedup+persist -> downstream). Side: 'the keeper' (git-tracked sample HTML + last-good selectors, not a 'blackboard'). Main content: the FIVE failure modes that actually break production - selector drift (~70%), ban rate spike (~15%), structural change (~8%), silent poisoning (rare, devastating), cost creep. Each with looks-like / fix / who-touches-it. Claude has FOUR narrow jobs only: recon, scaffold, single-field repair, nightly ground-truth audit. Explicit rejections: many specialist agents, self-healing-everything (3 of 5 failures should NEVER be auto-patched), orchestrator-as-brain framing, 'living organism' metaphors. Identity: Linux services, not agents. Multi-Agent Orchestration (Zyte bee-colony pattern) - many small Claude Skills as specialist agents (intake, scout, selector-analyzer, code-synthesizer, test-runner, repair, drift-detector) coordinated by a weak orchestrator. Three connected loops: discovery (reduce uncertainty), build (test-driven code), ops (drift detection + targeted repair). Shared APPEND-ONLY blackboard at .scrape/site/ stores spec versions, sample pages, selector candidates, test evidence, repair history with authorship + timestamps. Evidence-weighted consensus beats popularity-weighted. Selector confidence is first-class metadata.
 11. Self-Healing Scraper (Claude as brain) - failure detection -> Claude bash_tool + view tool reads error logs + live page + SKILL.md knowledge base -> diff old vs new structure -> patch selector -> retest.
 
