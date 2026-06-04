@@ -9198,8 +9198,10 @@ window.addEventListener('scroll', () => {
   const h = document.documentElement;
   np.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
   let cur = '';
+  // Use getBoundingClientRect for accuracy across positioned ancestors
+  // First entry whose top is at or above the 100px-from-top threshold wins
   document.querySelectorAll('section[id], #ai-workflow').forEach(s => {
-    if (window.scrollY >= s.offsetTop - 72) cur = s.id;
+    if (s.getBoundingClientRect().top <= 100) cur = s.id;
   });
   nls.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + cur));
 }, {passive:true});
