@@ -5534,7 +5534,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
 <section class="sec" id="arch">
 <div class="sk"><span class="sn">★</span> Architecture</div>
 <h2 class="sh">How production scrapers<br><em>are actually built</em></h2>
-<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Twelve real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
+<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Thirteen real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
 
 <div class="arch-tabs">
   <button class="atab on" onclick="showArch(0,this)">Scrapyd Single Node</button>
@@ -5549,6 +5549,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <button class="atab" onclick="showArch(9,this)">Pub/Sub Event-Driven</button>
   <button class="atab" onclick="showArch(10,this)">Self-Hosted Browser Pool</button>
   <button class="atab" onclick="showArch(11,this)">★ Asad's Reality Map</button>
+  <button class="atab" onclick="showArch(12,this)">⚡ AI Workflow (Graph + Adversarial)</button>
 </div>
 
 <!-- ── 0: Scrapyd Single Node ────────────────────────────────── -->
@@ -7082,6 +7083,231 @@ The conventional framing: web scraping is a tool for extracting data from websit
 </div>
 </div>
 
+
+<!-- ── 12: AI Workflow (Graph-Memory + Adversarial Verification) ────── -->
+<div class="arch-panel hidden" id="arch-12">
+<p class="arch-desc">A genuine AI-agent scraping architecture, built around two ideas you won't find in published frameworks. <strong>(1) Graph memory instead of file memory or a blackboard.</strong> URLs, selectors, vendors and outcomes are nodes, connected by edges. When one vendor changes its sensor, every URL on that vendor inherits the learning automatically. <strong>(2) Adversarial verification instead of self-healing.</strong> The scraper agent ships an answer + a confidence score, the verifier agent's job is to disprove it. Only outputs that survive the disproof attempt reach gold storage. Most of the system runs cheap, the agents only argue about the hard cases.</p>
+<div class="arch-diagram">
+<svg viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+  <defs>
+    <marker id="aiwArrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(108,231,150,.8)"/></marker>
+    <marker id="aiwArrY" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.8)"/></marker>
+    <marker id="aiwArrR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,107,107,.8)"/></marker>
+    <marker id="aiwArrB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(96,165,250,.8)"/></marker>
+    <marker id="aiwArrP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(167,139,250,.8)"/></marker>
+  </defs>
+
+  <!-- ════ BANNER ════ -->
+  <g transform="translate(20,16)">
+    <rect width="1060" height="50" rx="6" fill="rgba(167,139,250,.07)" stroke="rgba(167,139,250,.45)"/>
+    <text x="530" y="22" text-anchor="middle" fill="#a78bfa" font-size="13" font-family="monospace" font-weight="bold">Two ideas this architecture is built on (and nothing else):</text>
+    <text x="530" y="40" text-anchor="middle" fill="rgba(240,240,244,.65)" font-size="11">① graph-shaped memory · vendor-level learning propagates ② adversarial verification · ship only what survives disproof</text>
+  </g>
+
+  <!-- ════ THE GRAPH MEMORY (left half - the big idea) ════ -->
+  <g transform="translate(20,88)">
+    <rect width="540" height="340" rx="10" fill="rgba(96,165,250,.04)" stroke="rgba(96,165,250,.5)" stroke-width="1.4"/>
+    <text x="270" y="22" text-anchor="middle" fill="#60a5fa" font-size="12" font-family="monospace" font-weight="bold">THE KNOWLEDGE GRAPH (memory, not files)</text>
+    <text x="270" y="38" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">Neo4j or DuckDB-graph · one process can read it · agents query it like a database</text>
+
+    <!-- Vendor cluster (top center) -->
+    <g transform="translate(195,60)">
+      <ellipse cx="75" cy="22" rx="75" ry="22" fill="rgba(255,107,107,.1)" stroke="rgba(255,107,107,.5)" stroke-width="1.3"/>
+      <text x="75" y="20" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">VENDOR :Akamai_v3</text>
+      <text x="75" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">last_sensor_hash · expected_cookies</text>
+    </g>
+
+    <!-- URL nodes (left side) -->
+    <g transform="translate(28,134)">
+      <ellipse cx="68" cy="18" rx="68" ry="18" fill="rgba(96,165,250,.1)" stroke="rgba(96,165,250,.5)"/>
+      <text x="68" y="14" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="monospace" font-weight="bold">URL :homedepot/p/123</text>
+      <text x="68" y="26" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="7" font-family="monospace">success_rate=0.94 · rung=2</text>
+    </g>
+    <g transform="translate(28,182)">
+      <ellipse cx="68" cy="18" rx="68" ry="18" fill="rgba(96,165,250,.1)" stroke="rgba(96,165,250,.5)"/>
+      <text x="68" y="14" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="monospace" font-weight="bold">URL :homedepot/p/456</text>
+      <text x="68" y="26" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="7" font-family="monospace">success_rate=0.91 · rung=2</text>
+    </g>
+    <g transform="translate(28,230)">
+      <ellipse cx="68" cy="18" rx="68" ry="18" fill="rgba(96,165,250,.1)" stroke="rgba(96,165,250,.5)"/>
+      <text x="68" y="14" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="monospace" font-weight="bold">URL :lowes/p/789</text>
+      <text x="68" y="26" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="7" font-family="monospace">success_rate=0.98 · rung=2</text>
+    </g>
+    <g transform="translate(28,278)">
+      <ellipse cx="68" cy="18" rx="68" ry="18" fill="rgba(96,165,250,.1)" stroke="rgba(96,165,250,.5)"/>
+      <text x="68" y="14" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="monospace" font-weight="bold">URL :ticketmaster/...</text>
+      <text x="68" y="26" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="7" font-family="monospace">success_rate=0.61 · rung=4</text>
+    </g>
+
+    <!-- Selector nodes (right side) -->
+    <g transform="translate(360,134)">
+      <ellipse cx="68" cy="18" rx="68" ry="18" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.5)"/>
+      <text x="68" y="14" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">SELECTOR :price.v3</text>
+      <text x="68" y="26" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="7" font-family="monospace">CSS · confidence 0.92</text>
+    </g>
+    <g transform="translate(360,182)">
+      <ellipse cx="68" cy="18" rx="68" ry="18" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.5)"/>
+      <text x="68" y="14" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">SELECTOR :title.v1</text>
+      <text x="68" y="26" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="7" font-family="monospace">XPath · confidence 0.98</text>
+    </g>
+    <g transform="translate(360,230)">
+      <ellipse cx="68" cy="18" rx="68" ry="18" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.5)"/>
+      <text x="68" y="14" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">SELECTOR :stock.v2</text>
+      <text x="68" y="26" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="7" font-family="monospace">JSON path · confidence 0.74</text>
+    </g>
+
+    <!-- Edges: URLs → Vendor (uses) -->
+    <line x1="96" y1="134" x2="240" y2="84" stroke="rgba(255,107,107,.5)" stroke-width="1.1"/>
+    <line x1="96" y1="182" x2="240" y2="84" stroke="rgba(255,107,107,.5)" stroke-width="1.1"/>
+    <line x1="96" y1="230" x2="270" y2="84" stroke="rgba(255,107,107,.5)" stroke-width="1.1"/>
+    <line x1="96" y1="278" x2="290" y2="84" stroke="rgba(255,107,107,.5)" stroke-width="1.1"/>
+    <text x="160" y="105" fill="rgba(255,107,107,.7)" font-size="7" font-family="monospace" font-style="italic">USES</text>
+
+    <!-- Edges: URLs → Selectors (extracts_with) -->
+    <line x1="164" y1="142" x2="360" y2="142" stroke="rgba(108,231,150,.4)" stroke-width="1" stroke-dasharray="3 2"/>
+    <line x1="164" y1="190" x2="360" y2="190" stroke="rgba(108,231,150,.4)" stroke-width="1" stroke-dasharray="3 2"/>
+    <line x1="164" y1="238" x2="360" y2="238" stroke="rgba(108,231,150,.4)" stroke-width="1" stroke-dasharray="3 2"/>
+    <line x1="164" y1="285" x2="350" y2="245" stroke="rgba(108,231,150,.4)" stroke-width="1" stroke-dasharray="3 2"/>
+    <text x="265" y="138" fill="rgba(108,231,150,.7)" font-size="7" font-family="monospace" font-style="italic">EXTRACTS</text>
+
+    <!-- The propagation callout -->
+    <g transform="translate(28,310)">
+      <rect width="478" height="22" rx="4" fill="rgba(245,197,24,.07)" stroke="rgba(245,197,24,.45)" stroke-dasharray="3 2"/>
+      <text x="239" y="15" text-anchor="middle" fill="#f5c518" font-size="9" font-family="monospace">★ vendor sensor changes → graph updates → ALL connected URLs inherit new strategy in one write</text>
+    </g>
+  </g>
+
+  <!-- ════ THE TWO AGENTS (right top - the architecture) ════ -->
+  <g transform="translate(580,88)">
+    <rect width="500" height="200" rx="10" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.45)"/>
+    <text x="250" y="22" text-anchor="middle" fill="#f5c518" font-size="12" font-family="monospace" font-weight="bold">THE TWO-AGENT LOOP (only two, not thirteen)</text>
+
+    <!-- Scraper agent -->
+    <g transform="translate(20,40)">
+      <rect width="220" height="140" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.5)" stroke-width="1.3"/>
+      <text x="110" y="20" text-anchor="middle" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">SCRAPER agent</text>
+      <text x="110" y="34" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">claude haiku · cheap · fast</text>
+      <line x1="12" y1="42" x2="208" y2="42" stroke="rgba(108,231,150,.25)"/>
+      <text x="14" y="58" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">1. read graph for this URL</text>
+      <text x="14" y="72" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">2. pick rung from vendor history</text>
+      <text x="14" y="86" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">3. fetch with that rung</text>
+      <text x="14" y="100" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">4. extract using known selectors</text>
+      <text x="14" y="114" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">5. emit row + per-field confidence</text>
+      <text x="14" y="132" fill="rgba(108,231,150,.7)" font-size="8" font-family="monospace" font-style="italic">{ price: 42.99 (0.94),</text>
+    </g>
+
+    <!-- Verifier agent -->
+    <g transform="translate(260,40)">
+      <rect width="220" height="140" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.5)" stroke-width="1.3"/>
+      <text x="110" y="20" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="monospace" font-weight="bold">VERIFIER agent</text>
+      <text x="110" y="34" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">claude sonnet · adversarial</text>
+      <line x1="12" y1="42" x2="208" y2="42" stroke="rgba(255,107,107,.25)"/>
+      <text x="14" y="58" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">prompt: <tspan fill="#ff6b6b" font-style="italic">"prove this is wrong"</tspan></text>
+      <text x="14" y="72" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">• re-fetch via different rung</text>
+      <text x="14" y="86" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">• check mobile API if any</text>
+      <text x="14" y="100" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">• compare to similar URLs</text>
+      <text x="14" y="114" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">• disagrees? FAIL the row</text>
+      <text x="14" y="132" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace" font-style="italic">trust is earned by surviving</text>
+    </g>
+
+    <!-- arrows scraper -> verifier -->
+    <line x1="240" y1="110" x2="258" y2="110" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#aiwArrY)"/>
+    <text x="249" y="104" text-anchor="middle" fill="rgba(245,197,24,.7)" font-size="7" font-family="monospace">claim</text>
+  </g>
+
+  <!-- ════ CONFIDENCE ROUTING (right middle) ════ -->
+  <g transform="translate(580,304)">
+    <rect width="500" height="124" rx="10" fill="rgba(167,139,250,.04)" stroke="rgba(167,139,250,.45)"/>
+    <text x="250" y="22" text-anchor="middle" fill="#a78bfa" font-size="12" font-family="monospace" font-weight="bold">CONFIDENCE ROUTING (only argue about hard cases)</text>
+
+    <!-- branches -->
+    <g transform="translate(20,40)">
+      <rect width="148" height="72" rx="5" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
+      <text x="74" y="18" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">conf ≥ 0.90 · fast lane</text>
+      <text x="74" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">skip verifier</text>
+      <text x="74" y="46" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">ship straight to bronze</text>
+      <text x="74" y="62" text-anchor="middle" fill="rgba(108,231,150,.7)" font-size="8" font-family="monospace">~85% of rows</text>
+    </g>
+    <g transform="translate(176,40)">
+      <rect width="148" height="72" rx="5" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.4)"/>
+      <text x="74" y="18" text-anchor="middle" fill="#f5c518" font-size="9" font-family="monospace" font-weight="bold">0.60 ≤ conf &lt; 0.90 · check</text>
+      <text x="74" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">verifier runs</text>
+      <text x="74" y="46" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">survives? → bronze</text>
+      <text x="74" y="62" text-anchor="middle" fill="rgba(245,197,24,.7)" font-size="8" font-family="monospace">~12% of rows</text>
+    </g>
+    <g transform="translate(332,40)">
+      <rect width="148" height="72" rx="5" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.4)"/>
+      <text x="74" y="18" text-anchor="middle" fill="#ff6b6b" font-size="9" font-family="monospace" font-weight="bold">conf &lt; 0.60 · quarantine</text>
+      <text x="74" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">do not ship</text>
+      <text x="74" y="46" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">human review queue</text>
+      <text x="74" y="62" text-anchor="middle" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace">~3% of rows</text>
+    </g>
+  </g>
+
+  <!-- ════ FEEDBACK INTO GRAPH (lower middle) ════ -->
+  <g transform="translate(20,448)">
+    <rect width="1060" height="22" rx="3" fill="rgba(245,197,24,.06)"/>
+    <text x="530" y="16" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">Every outcome rewrites the graph · this is where the system learns</text>
+  </g>
+
+  <g transform="translate(20,486)">
+    <!-- Verifier outcome → selector node update -->
+    <rect width="340" height="100" rx="6" fill="rgba(96,165,250,.05)" stroke="rgba(96,165,250,.4)"/>
+    <text x="170" y="20" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="monospace" font-weight="bold">verifier disagrees N times in a row</text>
+    <line x1="14" y1="28" x2="326" y2="28" stroke="rgba(96,165,250,.2)"/>
+    <text x="14" y="46" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ selector node confidence drops</text>
+    <text x="14" y="60" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ a new selector candidate is mined</text>
+    <text x="14" y="74" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ graph proposes :price.v4 with edge</text>
+    <text x="14" y="88" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ ALL URLs using vendor inherit candidate</text>
+  </g>
+  <g transform="translate(380,486)">
+    <!-- Ban rate spike → vendor node update -->
+    <rect width="340" height="100" rx="6" fill="rgba(255,107,107,.05)" stroke="rgba(255,107,107,.4)"/>
+    <text x="170" y="20" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">ban rate spike on one URL</text>
+    <line x1="14" y1="28" x2="326" y2="28" stroke="rgba(255,107,107,.2)"/>
+    <text x="14" y="46" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ vendor node 'last_sensor_hash' flips</text>
+    <text x="14" y="60" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ ALL URLs using vendor mark rung+1</text>
+    <text x="14" y="74" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ scraper agent re-reads, escalates</text>
+    <text x="14" y="88" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ no per-URL fix · one vendor edit fixes 1000s</text>
+  </g>
+  <g transform="translate(740,486)">
+    <!-- Confidence pattern → schema flag -->
+    <rect width="340" height="100" rx="6" fill="rgba(167,139,250,.05)" stroke="rgba(167,139,250,.4)"/>
+    <text x="170" y="20" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">field confidence trends down across URLs</text>
+    <line x1="14" y1="28" x2="326" y2="28" stroke="rgba(167,139,250,.2)"/>
+    <text x="14" y="46" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ schema-drift flag raised on the field</text>
+    <text x="14" y="60" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ human notified via Slack with samples</text>
+    <text x="14" y="74" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ system never silently auto-changes schema</text>
+    <text x="14" y="88" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">→ this is the only gate that holds</text>
+  </g>
+
+  <!-- ════ EXECUTION FOOTPRINT (bottom band) ════ -->
+  <g transform="translate(20,602)">
+    <rect width="1060" height="48" rx="6" fill="rgba(108,231,150,.05)" stroke="rgba(108,231,150,.4)"/>
+    <text x="530" y="20" text-anchor="middle" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">What actually runs · in production</text>
+    <text x="530" y="38" text-anchor="middle" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">graph DB (Neo4j or DuckDB) · 2 Anthropic API workers · curl_cffi + browser pool · Pub/Sub queue · Parquet on S3 bronze → silver → gold</text>
+  </g>
+
+  <!-- ════ WHAT THIS IS NOT (signature block) ════ -->
+  <g transform="translate(20,668)">
+    <text x="0" y="14" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">Design choices that make this different from every other "agentic scraper" you've read about:</text>
+    <text x="0" y="32" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Memory is a graph, not a folder.</tspan> When one vendor changes its sensor, the fix touches one node and propagates to thousands of URLs.</text>
+    <text x="0" y="48" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Two agents, not thirteen.</tspan> A scraper that emits confidence, a verifier whose only job is to disprove. No orchestrator, no specialists, no colony.</text>
+    <text x="0" y="64" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Adversarial verification, not self-healing.</tspan> Trust is earned by surviving disproof. The default assumption is "you are wrong."</text>
+    <text x="0" y="80" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Confidence routing, not retry loops.</tspan> 85% of rows ship without ever invoking the second agent. The expensive path runs only on hard cases.</text>
+    <text x="0" y="96" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Schema changes need a human.</tspan> Selectors, rungs, candidates all evolve automatically. The shape of the data does not change without a person.</text>
+    <text x="0" y="112" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Learning is vendor-shaped, not URL-shaped.</tspan> One Akamai_v3 sensor change is one edit. One URL going down is one edit. The graph reflects how anti-bot vendors actually deploy.</text>
+    <text x="0" y="132" fill="rgba(240,240,244,.4)" font-size="9" font-style="italic">Most "AI scraping" diagrams draw a colony of specialists with a blackboard between them. This one is two agents arguing through a graph. Different shape, different bottlenecks, different bugs.</text>
+  </g>
+</svg>
+</div>
+<div class="arch-tools">
+  <span class="atools-label">Stack</span>
+  <span class="arch-tool">Neo4j or DuckDB-graph (knowledge graph memory)</span><span class="arch-tool">Claude Haiku (scraper agent)</span><span class="arch-tool">Claude Sonnet (adversarial verifier)</span><span class="arch-tool">Anthropic API · prompt: "prove this is wrong"</span><span class="arch-tool">Confidence routing (≥0.9 / 0.6-0.9 / &lt;0.6)</span><span class="arch-tool">Pub/Sub queue (URL fan-out)</span><span class="arch-tool">curl_cffi + CloakBrowser (rung-aware fetch)</span><span class="arch-tool">Vendor-level learning propagation</span><span class="arch-tool">Schema-drift Slack alerts (human gate)</span><span class="arch-tool">Parquet bronze → silver → gold</span>
+</div>
+</div>
+
+
 <!-- ── AUTO-HEALER MINI SECTION ─────────────────────────────── -->
 <div class="autohealer-block">
   <div class="ah-header">
@@ -7970,6 +8196,7 @@ ARCHITECTURE (11 production patterns):
 8. Microservices API-first - REST/GraphQL + Redis/SQS + worker pools + Postgres + webhook.
 9. Pub/Sub Event-Driven - publisher pushes one msg per source to broker (SQS/Kafka/RabbitMQ/Google Pub/Sub); independent workers pull and crawl in isolation. One source fails alone. 76% success vs 36% round-robin.
 10. Self-Hosted Browser Pool (John Watson Rooney pattern) - control libs (Playwright/Puppeteer/Selenium) are NOT browsers, they speak CDP to any binary. Run persistent patched-Chromium headed under Xvfb in Docker, supervisord manages Xvfb + Playwright server. Scripts connect via ws://. Two-slot trap: must replace BOTH chrome AND chrome-headless-shell or Playwright silently runs the untouched headless shell (403s, wrong version, nothing in logs). Concurrency = contexts not instances.
+13. AI Workflow: Graph-Memory + Adversarial Verification (Architecture tab "AI Workflow") - genuinely novel AI-agent design built on TWO ideas. (1) Knowledge graph as memory instead of files or blackboard: nodes are URLs, selectors, vendors; edges encode USES, EXTRACTS, FAILED_WITH. When one vendor changes sensor, one node edit propagates to all URLs sharing that vendor. (2) Two agents only - a Scraper (Claude Haiku, cheap) emits row + per-field confidence; a Verifier (Claude Sonnet, adversarial) whose prompt is "prove this is wrong" - re-fetches via different rung, checks mobile API, compares to similar URLs. Trust is earned by surviving disproof. Confidence routing: >=0.9 fast lane (85%, skip verifier), 0.6-0.9 verifier runs (12%), <0.6 quarantine + human (3%). Three feedback edges write back into the graph: (a) verifier disagreement N times -> selector confidence drops + new candidate mined + propagated, (b) ban spike on one URL -> vendor node sensor_hash flips -> ALL URLs on that vendor mark rung+1, (c) field confidence trend down across URLs -> schema-drift Slack alert (only human gate). Vendor-level learning, not URL-level. No orchestrator, no specialists, no colony, no blackboard.
 12. Asad's Production Reality Map (Architecture tab "Asad's Reality Map") - NOT a pipeline diagram. Drawn around the question: 'when something breaks at 3am, where do I look?' Center: the boring live flow (Pub/Sub queue -> fetch worker -> parse -> dedup+persist -> downstream). Side: 'the keeper' (git-tracked sample HTML + last-good selectors, not a 'blackboard'). Main content: the FIVE failure modes that actually break production - selector drift (~70%), ban rate spike (~15%), structural change (~8%), silent poisoning (rare, devastating), cost creep. Each with looks-like / fix / who-touches-it. Claude has FOUR narrow jobs only: recon, scaffold, single-field repair, nightly ground-truth audit. Explicit rejections: many specialist agents, self-healing-everything (3 of 5 failures should NEVER be auto-patched), orchestrator-as-brain framing, 'living organism' metaphors. Identity: Linux services, not agents. Multi-Agent Orchestration (Zyte bee-colony pattern) - many small Claude Skills as specialist agents (intake, scout, selector-analyzer, code-synthesizer, test-runner, repair, drift-detector) coordinated by a weak orchestrator. Three connected loops: discovery (reduce uncertainty), build (test-driven code), ops (drift detection + targeted repair). Shared APPEND-ONLY blackboard at .scrape/site/ stores spec versions, sample pages, selector candidates, test evidence, repair history with authorship + timestamps. Evidence-weighted consensus beats popularity-weighted. Selector confidence is first-class metadata.
 11. Self-Healing Scraper (Claude as brain) - failure detection -> Claude bash_tool + view tool reads error logs + live page + SKILL.md knowledge base -> diff old vs new structure -> patch selector -> retest.
 
@@ -8152,7 +8379,7 @@ const SECTION_MAP = [
   {
     id: 'arch',
     label: 'Architecture',
-    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','blackboard','colony','reality map','asads workflow','asad workflow','asad reality','production reality','failure modes','five failures','selector drift','ban rate','silent poisoning','cost creep','where do i look','what fails','keeper','linux services','claude four jobs','full ai stack','complete pipeline'],
+    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','blackboard','colony','reality map','asads workflow','asad workflow','asad reality','production reality','failure modes','five failures','selector drift','ban rate','silent poisoning','cost creep','where do i look','what fails','keeper','linux services','claude four jobs','full ai stack','complete pipeline','ai workflow','ai agent','knowledge graph','graph memory','adversarial verification','verifier agent','scraper agent','two agents','confidence routing','vendor-level learning','vendor learning','propagation','prove this is wrong','neo4j','graph db','adversarial scraper'],
   },
   {
     id: 'cost',
