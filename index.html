@@ -5534,7 +5534,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
 <section class="sec" id="arch">
 <div class="sk"><span class="sn">★</span> Architecture</div>
 <h2 class="sh">How production scrapers<br><em>are actually built</em></h2>
-<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Eleven real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
+<p class="ss">From a single Scrapyd daemon to multi-region ECS clusters. Twelve real pipeline architectures, from simple to enterprise-scale, with every component and data flow mapped out.</p>
 
 <div class="arch-tabs">
   <button class="atab on" onclick="showArch(0,this)">Scrapyd Single Node</button>
@@ -5548,6 +5548,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <button class="atab" onclick="showArch(8,this)">Microservices API</button>
   <button class="atab" onclick="showArch(9,this)">Pub/Sub Event-Driven</button>
   <button class="atab" onclick="showArch(10,this)">Self-Hosted Browser Pool</button>
+  <button class="atab" onclick="showArch(11,this)">⚡ AI-Native Workflow</button>
 </div>
 
 <!-- ── 0: Scrapyd Single Node ────────────────────────────────── -->
@@ -6853,9 +6854,323 @@ The conventional framing: web scraping is a tool for extracting data from websit
 </div>
 </div>
 
+<!-- ── 11: AI-Native Scraping Workflow ────────────────────────────────── -->
+<div class="arch-panel hidden" id="arch-11">
+<p class="arch-desc">The full AI-native scraping pipeline. Synthesises every pattern in this guide: <strong>multi-agent orchestration</strong> (Claude Skills as specialist bees), the <strong>append-only blackboard</strong> as shared memory, <strong>three connected loops</strong> (Discovery, Build, Ops) instead of a linear pipeline, <strong>self-healing</strong> via the drift-detector + repair-agent feedback path, <strong>Pub/Sub fan-out</strong> for resilient execution, the <strong>self-hosted browser pool</strong> for stealth Chromium, and the <strong>bronze/silver/gold medallion</strong> storage layout. Evidence-weighted, not popularity-weighted. The orchestrator routes attention, it does not command.</p>
+<div class="arch-diagram">
+<svg viewBox="0 0 1100 720" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+  <defs>
+    <marker id="arrAI" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.65)"/></marker>
+    <marker id="arrAIg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(108,231,150,.7)"/></marker>
+    <marker id="arrAIr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,107,107,.7)"/></marker>
+    <marker id="arrAIb" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(96,165,250,.7)"/></marker>
+  </defs>
 
+  <!-- ────── HUMAN / TRIGGER ────── -->
+  <g transform="translate(20,20)">
+    <rect width="180" height="56" rx="6" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.4)"/>
+    <text x="90" y="22" text-anchor="middle" fill="#a78bfa" font-size="14">🧑‍💻 Human Request</text>
+    <text x="90" y="40" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">"scrape this site" + spec</text>
+  </g>
 
+  <!-- ────── ORCHESTRATOR ────── -->
+  <g transform="translate(440,20)">
+    <rect width="220" height="56" rx="6" fill="rgba(245,197,24,.1)" stroke="rgba(245,197,24,.55)" stroke-width="1.5"/>
+    <text x="110" y="24" text-anchor="middle" fill="#f5c518" font-size="14" font-weight="bold">🎯 Orchestrator</text>
+    <text x="110" y="42" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">routes attention · approval gates · weak by design</text>
+  </g>
 
+  <!-- ────── HUMAN GATES ────── -->
+  <g transform="translate(900,20)">
+    <rect width="180" height="56" rx="6" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.45)"/>
+    <text x="90" y="22" text-anchor="middle" fill="#22d3ee" font-size="13">✓ Approval Gates</text>
+    <text x="90" y="40" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">schema · big repairs · deploy</text>
+  </g>
+
+  <!-- request arrow -->
+  <line x1="200" y1="48" x2="436" y2="48" stroke="rgba(245,197,24,.65)" stroke-width="1.5" marker-end="url(#arrAI)"/>
+  <line x1="660" y1="48" x2="896" y2="48" stroke="rgba(34,211,238,.55)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrAI)"/>
+
+  <!-- ────── DISCOVERY LOOP (left) ────── -->
+  <g transform="translate(20,110)">
+    <rect width="270" height="260" rx="10" fill="rgba(96,165,250,.04)" stroke="rgba(96,165,250,.35)" stroke-dasharray="5 4"/>
+    <text x="135" y="22" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace" font-weight="bold">DISCOVERY LOOP · reduce uncertainty</text>
+
+    <!-- skills -->
+    <g transform="translate(14,40)">
+      <rect width="116" height="38" rx="4" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">intake-spec</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">request → spec.v1</text>
+    </g>
+    <g transform="translate(140,40)">
+      <rect width="116" height="38" rx="4" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">site-explorer</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">map structure</text>
+    </g>
+    <g transform="translate(14,88)">
+      <rect width="116" height="38" rx="4" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">scout-pages</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">find detail URLs</text>
+    </g>
+    <g transform="translate(140,88)">
+      <rect width="116" height="38" rx="4" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">link-classifier</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">item vs noise</text>
+    </g>
+    <g transform="translate(14,136)">
+      <rect width="116" height="38" rx="4" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">downloader</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">raw + rendered</text>
+    </g>
+    <g transform="translate(140,136)">
+      <rect width="116" height="38" rx="4" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">page-analyzer</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">extract patterns</text>
+    </g>
+
+    <!-- recon callout -->
+    <g transform="translate(14,184)">
+      <rect width="242" height="56" rx="4" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.3)"/>
+      <text x="121" y="18" text-anchor="middle" fill="#f5c518" font-size="10" font-family="monospace">Step 0 Recon</text>
+      <text x="121" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">Burp Suite + PortSwigger MCP</text>
+      <text x="121" y="48" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8">4hr → 2min cookie + sensor trace</text>
+    </g>
+  </g>
+
+  <!-- ────── BUILD LOOP (center) ────── -->
+  <g transform="translate(310,110)">
+    <rect width="270" height="260" rx="10" fill="rgba(108,231,150,.04)" stroke="rgba(108,231,150,.35)" stroke-dasharray="5 4"/>
+    <text x="135" y="22" text-anchor="middle" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">BUILD LOOP · test-driven, not vibe-driven</text>
+
+    <g transform="translate(14,40)">
+      <rect width="116" height="38" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">schema</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">pydantic models</text>
+    </g>
+    <g transform="translate(140,40)">
+      <rect width="116" height="38" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">fixtures</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">samples → tests</text>
+    </g>
+    <g transform="translate(14,88)">
+      <rect width="116" height="38" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">selector-analyzer</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">candidates + score</text>
+    </g>
+    <g transform="translate(140,88)">
+      <rect width="116" height="38" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">code-synth</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">spider generation</text>
+    </g>
+    <g transform="translate(14,136)">
+      <rect width="116" height="38" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">test-runner</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">heartbeat of build</text>
+    </g>
+    <g transform="translate(140,136)">
+      <rect width="116" height="38" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">repair-agent</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">surgical, not rewrite</text>
+    </g>
+
+    <!-- inner loop -->
+    <g transform="translate(14,184)">
+      <rect width="242" height="56" rx="4" fill="rgba(255,255,255,.03)" stroke="rgba(108,231,150,.25)"/>
+      <text x="121" y="18" text-anchor="middle" fill="#6ce796" font-size="10" font-family="monospace">inner loop</text>
+      <text x="121" y="34" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">gen → test → fail → fix → retest</text>
+      <text x="121" y="48" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8">confidence as first-class metadata</text>
+    </g>
+  </g>
+
+  <!-- ────── OPS LOOP (right) ────── -->
+  <g transform="translate(600,110)">
+    <rect width="270" height="260" rx="10" fill="rgba(255,107,107,.04)" stroke="rgba(255,107,107,.35)" stroke-dasharray="5 4"/>
+    <text x="135" y="22" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="monospace" font-weight="bold">OPS LOOP · the hive keeps running</text>
+
+    <g transform="translate(14,40)">
+      <rect width="116" height="38" rx="4" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">drift-detector</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">item count + fill-rate</text>
+    </g>
+    <g transform="translate(140,40)">
+      <rect width="116" height="38" rx="4" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">ban-watcher</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">403/429 spikes</text>
+    </g>
+    <g transform="translate(14,88)">
+      <rect width="116" height="38" rx="4" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">poison-check</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">vs ground truth</text>
+    </g>
+    <g transform="translate(140,88)">
+      <rect width="116" height="38" rx="4" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">cost-monitor</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">$/successful row</text>
+    </g>
+    <g transform="translate(14,136)">
+      <rect width="116" height="38" rx="4" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">router</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">signal → right loop</text>
+    </g>
+    <g transform="translate(140,136)">
+      <rect width="116" height="38" rx="4" fill="rgba(255,107,107,.08)" stroke="rgba(255,107,107,.35)"/>
+      <text x="58" y="16" text-anchor="middle" fill="#cdd6f4" font-size="10" font-family="monospace">alerts</text>
+      <text x="58" y="30" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">Slack · email</text>
+    </g>
+
+    <!-- routing logic -->
+    <g transform="translate(14,184)">
+      <rect width="242" height="56" rx="4" fill="rgba(255,255,255,.03)" stroke="rgba(255,107,107,.25)"/>
+      <text x="121" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace">routing rules</text>
+      <text x="121" y="32" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8">fill-rate↓ = selector repair · ban↑ = proxy/fingerprint</text>
+      <text x="121" y="46" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8">layout change = re-sample · schema drift = human</text>
+    </g>
+  </g>
+
+  <!-- ────── BLACKBOARD (center bottom of loops) ────── -->
+  <g transform="translate(890,110)">
+    <rect width="195" height="260" rx="10" fill="rgba(245,197,24,.06)" stroke="rgba(245,197,24,.5)" stroke-width="1.5"/>
+    <text x="97" y="22" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">BLACKBOARD</text>
+    <text x="97" y="38" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">.scrape/site/</text>
+    <text x="97" y="52" text-anchor="middle" fill="rgba(245,197,24,.7)" font-size="8" font-family="monospace">APPEND-ONLY</text>
+    <line x1="10" y1="60" x2="185" y2="60" stroke="rgba(245,197,24,.25)"/>
+    <g fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace">
+      <text x="14" y="78">spec.v1.json</text>
+      <text x="14" y="94">spec.v2.approved</text>
+      <text x="14" y="110">sample_pages/</text>
+      <text x="14" y="126">  raw/  rendered/</text>
+      <text x="14" y="142">  screenshots/</text>
+      <text x="14" y="158">selector_candidates</text>
+      <text x="14" y="174">test_evidence/</text>
+      <text x="14" y="190">crawl_reports/</text>
+      <text x="14" y="206">review_feedback/</text>
+      <text x="14" y="222">repair_history/</text>
+    </g>
+    <line x1="10" y1="230" x2="185" y2="230" stroke="rgba(245,197,24,.25)"/>
+    <text x="97" y="246" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-family="monospace">every write = author + ts + reason</text>
+  </g>
+
+  <!-- arrows from orchestrator to 3 loops -->
+  <line x1="500" y1="78" x2="155" y2="106" stroke="rgba(245,197,24,.5)" stroke-width="1.3" marker-end="url(#arrAI)"/>
+  <line x1="550" y1="78" x2="445" y2="106" stroke="rgba(245,197,24,.5)" stroke-width="1.3" marker-end="url(#arrAI)"/>
+  <line x1="600" y1="78" x2="735" y2="106" stroke="rgba(245,197,24,.5)" stroke-width="1.3" marker-end="url(#arrAI)"/>
+
+  <!-- bidirectional arrows from loops to blackboard -->
+  <line x1="290" y1="240" x2="888" y2="240" stroke="rgba(245,197,24,.35)" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="580" y1="240" x2="888" y2="240" stroke="rgba(245,197,24,.35)" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="870" y1="240" x2="887" y2="240" stroke="rgba(245,197,24,.5)" stroke-width="1.5" marker-end="url(#arrAI)"/>
+  <text x="660" y="234" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">read/write</text>
+
+  <!-- ops -> build feedback (drift triggers repair) -->
+  <path d="M 660 178 Q 600 105 510 178" stroke="rgba(255,107,107,.5)" stroke-width="1.3" fill="none" stroke-dasharray="4 3" marker-end="url(#arrAIr)"/>
+  <text x="585" y="100" text-anchor="middle" fill="#ff6b6b" font-size="9" font-family="monospace">drift → repair</text>
+
+  <!-- ────── EXECUTION LAYER ────── -->
+  <g transform="translate(20,400)">
+    <rect width="1065" height="100" rx="10" fill="rgba(167,139,250,.04)" stroke="rgba(167,139,250,.35)" stroke-dasharray="5 4"/>
+    <text x="532" y="22" text-anchor="middle" fill="#a78bfa" font-size="11" font-family="monospace" font-weight="bold">EXECUTION LAYER · isolated workers, evidence-weighted routing</text>
+
+    <!-- Pub/Sub Broker -->
+    <g transform="translate(20,38)">
+      <rect width="150" height="50" rx="6" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.4)"/>
+      <text x="75" y="20" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">📡 Pub/Sub Broker</text>
+      <text x="75" y="36" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">SQS · Kafka · RabbitMQ</text>
+    </g>
+    <!-- arrow -->
+    <line x1="170" y1="63" x2="200" y2="63" stroke="rgba(245,197,24,.5)" stroke-width="1.3" marker-end="url(#arrAI)"/>
+
+    <!-- HTTP worker -->
+    <g transform="translate(205,38)">
+      <rect width="142" height="50" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.35)"/>
+      <text x="71" y="18" text-anchor="middle" fill="#6ce796" font-size="10" font-family="monospace">curl_cffi workers</text>
+      <text x="71" y="32" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">Chrome JA4 impersonation</text>
+      <text x="71" y="44" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-style="italic">cheap path</text>
+    </g>
+
+    <!-- Browser-as-a-Service -->
+    <g transform="translate(355,38)">
+      <rect width="142" height="50" rx="6" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.35)"/>
+      <text x="71" y="18" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="monospace">browser pool (ws://)</text>
+      <text x="71" y="32" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">CloakBrowser · Xvfb · Docker</text>
+      <text x="71" y="44" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-style="italic">hardened path</text>
+    </g>
+
+    <!-- Mobile API path -->
+    <g transform="translate(505,38)">
+      <rect width="142" height="50" rx="6" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
+      <text x="71" y="18" text-anchor="middle" fill="#22d3ee" font-size="10" font-family="monospace">mobile API path</text>
+      <text x="71" y="32" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">Frida · signed headers</text>
+      <text x="71" y="44" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-style="italic">when available</text>
+    </g>
+
+    <!-- AI extraction -->
+    <g transform="translate(655,38)">
+      <rect width="142" height="50" rx="6" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.35)"/>
+      <text x="71" y="18" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="monospace">AI extraction</text>
+      <text x="71" y="32" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">Crawl4AI · Firecrawl · Zyte AI</text>
+      <text x="71" y="44" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-style="italic">unstructured pages</text>
+    </g>
+
+    <!-- Managed API fallback -->
+    <g transform="translate(805,38)">
+      <rect width="142" height="50" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.35)"/>
+      <text x="71" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace">managed API</text>
+      <text x="71" y="32" text-anchor="middle" fill="rgba(240,240,244,.45)" font-size="8">Zyte · Bright Data · Scrapfly</text>
+      <text x="71" y="44" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="8" font-style="italic">last resort</text>
+    </g>
+
+    <!-- proxy layer -->
+    <g transform="translate(955,38)">
+      <rect width="100" height="50" rx="6" fill="rgba(245,197,24,.08)" stroke="rgba(245,197,24,.4)"/>
+      <text x="50" y="20" text-anchor="middle" fill="#f5c518" font-size="11">🔁</text>
+      <text x="50" y="38" text-anchor="middle" fill="rgba(240,240,244,.6)" font-size="9" font-family="monospace">resi proxies</text>
+    </g>
+  </g>
+
+  <!-- orchestrator → execution arrow -->
+  <line x1="550" y1="76" x2="550" y2="396" stroke="rgba(245,197,24,.3)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="558" y="395" fill="rgba(240,240,244,.4)" font-size="9" font-family="monospace">dispatch</text>
+
+  <!-- ────── DETECTION & ANTI-BOT (foundation) ────── -->
+  <g transform="translate(20,520)">
+    <rect width="700" height="60" rx="6" fill="rgba(255,107,107,.04)" stroke="rgba(255,107,107,.3)"/>
+    <text x="350" y="20" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="monospace" font-weight="bold">Anti-bot wall · stack not vendor (Akamai + PerimeterX + Forter + reCAPTCHA, etc.)</text>
+    <text x="350" y="42" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">JA4 · WASM SIMD · canvas · WebRTC · behaviour · IP reputation · honeypots · poisoning</text>
+  </g>
+
+  <!-- Storage / Output -->
+  <g transform="translate(740,520)">
+    <rect width="345" height="60" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
+    <text x="172" y="22" text-anchor="middle" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">Medallion Storage (Parquet on S3)</text>
+    <text x="172" y="42" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">🥉 bronze (raw) → 🥈 silver (clean+dedup) → 🥇 gold (analytics)</text>
+  </g>
+
+  <!-- arrows: execution to wall to output -->
+  <line x1="550" y1="500" x2="370" y2="518" stroke="rgba(255,107,107,.45)" stroke-width="1.3" marker-end="url(#arrAIr)"/>
+  <text x="430" y="514" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">requests</text>
+  <line x1="720" y1="550" x2="738" y2="550" stroke="rgba(108,231,150,.55)" stroke-width="1.5" marker-end="url(#arrAIg)"/>
+
+  <!-- Output back to drift detector (closes the ops loop) -->
+  <path d="M 912 520 Q 990 460 870 240" stroke="rgba(108,231,150,.45)" stroke-width="1.2" fill="none" stroke-dasharray="3 3" marker-end="url(#arrAIg)"/>
+  <text x="1010" y="430" text-anchor="middle" fill="rgba(108,231,150,.7)" font-size="9" font-family="monospace">metrics</text>
+
+  <!-- ────── LEGEND / CAPTION ────── -->
+  <g transform="translate(20,610)">
+    <text x="0" y="14" fill="rgba(240,240,244,.65)" font-size="10" font-family="monospace" font-weight="bold">Key properties of this workflow:</text>
+    <text x="0" y="32" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">• Three loops, not a pipeline · the system senses, decides, builds, tests, monitors, adapts</text>
+    <text x="0" y="46" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">• Blackboard is append-only · 3 months later you can trace which selector produced which value at which timestamp</text>
+    <text x="0" y="60" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">• Orchestrator is weak · it routes attention, not commands · evidence-weighted consensus, never popularity-weighted</text>
+    <text x="0" y="74" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">• Approval gates only at material decisions (schema, big repair, deploy) · not every CSS selector</text>
+    <text x="0" y="88" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">• Execution layer escalates from cheap (curl_cffi) → harder (browser pool) → last resort (managed API) per target</text>
+    <text x="0" y="102" fill="rgba(240,240,244,.5)" font-size="9" font-family="monospace">• Drift in ops feeds repair in build · self-healing without rewriting the whole project</text>
+  </g>
+</svg>
+</div>
+<div class="arch-tools">
+  <span class="atools-label">Stack</span>
+  <span class="arch-tool">Claude Skills (specialist agents)</span><span class="arch-tool">Append-only blackboard (.scrape/site/)</span><span class="arch-tool">Pub/Sub broker (SQS/Kafka)</span><span class="arch-tool">curl_cffi workers</span><span class="arch-tool">Browser-as-a-Service (ws://)</span><span class="arch-tool">CloakBrowser + Xvfb + Docker</span><span class="arch-tool">Mobile API (Frida)</span><span class="arch-tool">Crawl4AI · Firecrawl · Zyte AI</span><span class="arch-tool">Managed API fallback</span><span class="arch-tool">Residential proxies</span><span class="arch-tool">Drift detector + repair-agent loop</span><span class="arch-tool">Parquet medallion on S3</span><span class="arch-tool">Anthropic SDK · Claude Sonnet</span>
+</div>
+</div>
 
 <!-- ── AUTO-HEALER MINI SECTION ─────────────────────────────── -->
 <div class="autohealer-block">
@@ -7745,7 +8060,7 @@ ARCHITECTURE (11 production patterns):
 8. Microservices API-first - REST/GraphQL + Redis/SQS + worker pools + Postgres + webhook.
 9. Pub/Sub Event-Driven - publisher pushes one msg per source to broker (SQS/Kafka/RabbitMQ/Google Pub/Sub); independent workers pull and crawl in isolation. One source fails alone. 76% success vs 36% round-robin.
 10. Self-Hosted Browser Pool (John Watson Rooney pattern) - control libs (Playwright/Puppeteer/Selenium) are NOT browsers, they speak CDP to any binary. Run persistent patched-Chromium headed under Xvfb in Docker, supervisord manages Xvfb + Playwright server. Scripts connect via ws://. Two-slot trap: must replace BOTH chrome AND chrome-headless-shell or Playwright silently runs the untouched headless shell (403s, wrong version, nothing in logs). Concurrency = contexts not instances.
-12. Multi-Agent Orchestration (Zyte bee-colony pattern) - many small Claude Skills as specialist agents (intake, scout, selector-analyzer, code-synthesizer, test-runner, repair, drift-detector) coordinated by a weak orchestrator. Three connected loops: discovery (reduce uncertainty), build (test-driven code), ops (drift detection + targeted repair). Shared APPEND-ONLY blackboard at .scrape/site/ stores spec versions, sample pages, selector candidates, test evidence, repair history with authorship + timestamps. Evidence-weighted consensus beats popularity-weighted. Selector confidence is first-class metadata.
+12. AI-Native Scraping Workflow (full diagram in Architecture section, tab "AI-Native Workflow") - synthesises everything: orchestrator routes to specialist Claude Skills across three connected loops (Discovery: intake/scout/explore/download/analyze; Build: schema/fixtures/selector/code/test/repair; Ops: drift-detector/ban-watcher/poison-check/cost-monitor/router/alerts). Append-only blackboard at .scrape/site/. Execution layer escalates curl_cffi -> browser pool -> mobile API -> AI extraction -> managed API. Output to Parquet medallion (bronze/silver/gold) on S3. Drift in ops feeds repair in build, closing the loop. Multi-Agent Orchestration (Zyte bee-colony pattern) - many small Claude Skills as specialist agents (intake, scout, selector-analyzer, code-synthesizer, test-runner, repair, drift-detector) coordinated by a weak orchestrator. Three connected loops: discovery (reduce uncertainty), build (test-driven code), ops (drift detection + targeted repair). Shared APPEND-ONLY blackboard at .scrape/site/ stores spec versions, sample pages, selector candidates, test evidence, repair history with authorship + timestamps. Evidence-weighted consensus beats popularity-weighted. Selector confidence is first-class metadata.
 11. Self-Healing Scraper (Claude as brain) - failure detection -> Claude bash_tool + view tool reads error logs + live page + SKILL.md knowledge base -> diff old vs new structure -> patch selector -> retest.
 
 COST & ECONOMICS (build vs buy):
@@ -7927,7 +8242,7 @@ const SECTION_MAP = [
   {
     id: 'arch',
     label: 'Architecture',
-    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','skill','bee colony','blackboard','scout agent','drift detector','colony','agent orchestrator'],
+    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','skill','bee colony','blackboard','scout agent','drift detector','colony','agent orchestrator','ai workflow','ai-native workflow','ai pipeline','ai scraping workflow','agentic workflow','full ai stack','complete pipeline'],
   },
   {
     id: 'cost',
