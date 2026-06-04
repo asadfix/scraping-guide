@@ -1731,7 +1731,45 @@ section[id], div[id^="self-heal"] {
   margin: 0;
   line-height: 1.6;
 }
+.aiwf-stack-philo {
+  margin: 18px 0 26px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(34,211,238,.05), rgba(108,231,150,.03));
+  border-left: 3px solid rgba(34,211,238,.5);
+  border-radius: 4px 8px 8px 4px;
+}
+.aiwf-stack-philo-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: #22d3ee;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.aiwf-stack-philo-body {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(240,240,244,.72);
+}
+.aiwf-stack-philo-body strong { color: #6ce796; }
+.aiwf-stack-philo-body code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: rgba(255,255,255,.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: #f5c518;
+}
 
+/* Subtle hover-to-pause for the animated SVG */
+.aiwf-prod-diagram svg { transition: filter .25s; }
+.aiwf-prod-diagram:hover svg animateMotion { animation-play-state: paused; }
+
+
+@media (max-width: 768px) {
+  .aiwf-stack-philo { padding: 14px 14px; margin: 12px 0 20px; }
+  .aiwf-stack-philo-body { font-size: 12.5px; }
+}
 @media (max-width: 768px) {
   .aiwf-block { padding: 24px 16px; margin: 50px -16px 40px; border-radius: 0; }
   .aiwf-concept-row { grid-template-columns: 1fr; }
@@ -7233,7 +7271,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <div class="aiwf-header">
     <div class="aiwf-badge">★ Featured architecture</div>
     <h3 class="aiwf-title">The AI Workflow<br><em>graph + adversarial + five algorithms</em></h3>
-    <p class="aiwf-desc">A genuine AI-agent scraping system, designed from scratch. Not a colony of specialists, not a blackboard with arrows on it. Two agents arguing through a queryable graph, with five mathematical concepts each replacing a heuristic that would otherwise rule the system. Below the conceptual diagram, you will find what this looks like when you actually run it in production: real services, real protocols, real bottlenecks.</p>
+    <p class="aiwf-desc">A genuine AI-agent scraping system, designed from scratch. Two agents working through a queryable graph of vendor and selector history, with six mathematical concepts each replacing a heuristic that would otherwise rule the system. Below the conceptual diagram, you will find what this looks like when you actually run it in production: real services, real protocols, real bottlenecks, and the cost numbers it should add up to.</p>
   </div>
 
 
@@ -7244,7 +7282,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
         <div class="aiwf-concept-tag">① Graph theory</div>
         <div class="aiwf-concept-name">PageRank · Louvain · BFS</div>
         <div class="aiwf-concept-body">Memory as a queryable graph. PageRank ranks vendors by operational criticality. Louvain community detection auto-distinguishes failure modes (structural change vs vendor flip vs isolated drift). BFS bootstraps new URLs from their nearest known-working neighbour.</div>
-        <div class="aiwf-concept-rep">replaces · file-based blackboard memory</div>
+        <div class="aiwf-concept-rep">replaces · flat-file selector history</div>
       </div>
       <div class="aiwf-concept">
         <div class="aiwf-concept-tag">② Bayesian inference</div>
@@ -7287,7 +7325,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <!-- ══ THE CONCEPTUAL DIAGRAM (graph + two agents) ══ -->
   <div class="aiwf-conceptual">
     <h4 class="aiwf-prod-title">The architecture · conceptual view</h4>
-    <p class="arch-desc">A genuine AI-agent scraping architecture, built around three ideas you won't find in published frameworks. <strong>(1) Graph memory instead of file memory or a blackboard.</strong> URLs, selectors, vendors and outcomes are nodes, connected by edges. When one vendor changes its sensor, every URL on that vendor inherits the learning automatically. <strong>(2) Adversarial verification instead of self-healing.</strong> The scraper agent ships an answer + a confidence score, the verifier agent's job is to disprove it. Only outputs that survive the disproof attempt reach gold storage. <strong>(3) Graph-theoretic intelligence on top of the memory.</strong> PageRank ranks vendors by operational criticality, community detection auto-distinguishes structural failures from selector drift, shortest-path traversal bootstraps strategies for new URLs from their nearest known-working neighbours. Most of the system runs cheap, the agents only argue about the hard cases.</p>
+    <p class="arch-desc">A genuine AI-agent scraping architecture, built around three ideas you won't find in published frameworks. <strong>(1) Graph memory.</strong> URLs, selectors, vendors and outcomes are nodes, connected by edges. When one vendor changes its sensor, every URL on that vendor inherits the learning automatically. <strong>(2) Adversarial verification instead of self-healing.</strong> The scraper agent ships an answer + a confidence score, the verifier agent's job is to disprove it. Only outputs that survive the disproof attempt reach gold storage. <strong>(3) Graph-theoretic intelligence on top of the memory.</strong> PageRank ranks vendors by operational criticality, community detection auto-distinguishes structural failures from selector drift, shortest-path traversal bootstraps strategies for new URLs from their nearest known-working neighbours. Most of the system runs cheap, verification runs only on the hard cases.</p>
 <div class="arch-diagram">
 <svg viewBox="0 0 1100 1130" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
   <defs>
@@ -7419,7 +7457,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <!-- ════ CONFIDENCE ROUTING (right middle) ════ -->
   <g transform="translate(580,304)">
     <rect width="500" height="124" rx="10" fill="rgba(167,139,250,.04)" stroke="rgba(167,139,250,.45)"/>
-    <text x="250" y="22" text-anchor="middle" fill="#a78bfa" font-size="12" font-family="monospace" font-weight="bold">CONFIDENCE ROUTING (only argue about hard cases)</text>
+    <text x="250" y="22" text-anchor="middle" fill="#a78bfa" font-size="12" font-family="monospace" font-weight="bold">CONFIDENCE ROUTING (only verify the hard cases)</text>
 
     <!-- branches -->
     <g transform="translate(20,40)">
@@ -7572,13 +7610,13 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <g transform="translate(20,938)">
     <text x="0" y="14" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">Design choices that make this different from every other "agentic scraper" you've read about:</text>
     <text x="0" y="32" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Memory is a graph, not a folder.</tspan> When one vendor changes its sensor, the fix touches one node and propagates to thousands of URLs.</text>
-    <text x="0" y="48" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Two agents, not thirteen.</tspan> A scraper that emits confidence, a verifier whose only job is to disprove. No orchestrator, no specialists, no colony.</text>
+    <text x="0" y="48" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Two agents, not thirteen.</tspan> A scraper that emits confidence, a verifier whose only job is to disprove. Direct handoff. No orchestrator in between.</text>
     <text x="0" y="64" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Adversarial verification, not self-healing.</tspan> Trust is earned by surviving disproof. The default assumption is "you are wrong."</text>
     <text x="0" y="80" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Confidence routing, not retry loops.</tspan> 85% of rows ship without ever invoking the second agent. The expensive path runs only on hard cases.</text>
     <text x="0" y="96" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Three graph algorithms, no more.</tspan> PageRank, Louvain, BFS. Skipped GNN training, max-flow, learned embeddings as theatre for a 10k-node graph.</text>
     <text x="0" y="114" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Schema changes need a human.</tspan> Selectors, rungs, candidates all evolve automatically. The shape of the data does not change without a person.</text>
     <text x="0" y="132" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Learning is vendor-shaped, not URL-shaped.</tspan> One Akamai_v3 sensor change is one edit. One URL going down is one edit. The graph reflects how anti-bot vendors actually deploy.</text>
-    <text x="0" y="152" fill="rgba(240,240,244,.4)" font-size="9" font-style="italic">Most "AI scraping" diagrams draw a colony of specialists with a blackboard between them. This one is two agents arguing through a graph. Different shape, different bottlenecks, different bugs.</text>
+    <text x="0" y="152" fill="rgba(240,240,244,.4)" font-size="9" font-style="italic">Six mathematical primitives, two agents, one graph. Every routing decision in the system is named, costed, and traceable to a printed equation, not a heuristic that drifts as the team forgets why it was chosen.</text>
   </g>
 </svg>
 </div>
@@ -7590,29 +7628,73 @@ The conventional framing: web scraping is a tool for extracting data from websit
   </div>
 
 
-  <!-- ══ PRODUCTION-SCALE FLOW DIAGRAM ══ -->
+
+  <!-- ══ PRODUCTION-SCALE FLOW DIAGRAM (animated) ══ -->
   <div class="aiwf-prod-wrap">
     <div class="aiwf-prod-header">
       <h4 class="aiwf-prod-title">What this looks like in production</h4>
-      <p class="aiwf-prod-sub">Real services, real protocols, real bottlenecks. Drawn for 10M-50M URLs/day. Annotated with where money is spent and where things actually fail.</p>
+      <p class="aiwf-prod-sub">Real services, real protocols, real bottlenecks. Drawn for 10M-50M URLs/day. The dots flowing through the diagram are roughly proportional to actual message rates per layer, scaled for visibility. Annotated with where money is spent and where things actually fail.</p>
     </div>
-    <div class="arch-diagram">
+
+    <!-- Stack philosophy callout -->
+    <div class="aiwf-stack-philo">
+      <div class="aiwf-stack-philo-tag">★ stack philosophy</div>
+      <div class="aiwf-stack-philo-body">
+        <strong>No framework. Direct API calls, surgical libraries.</strong> No LangChain, LangGraph, AutoGen, CrewAI, Haystack, LlamaIndex. The architecture has two agent roles and six math operations, none of which need a framework's abstraction. <code>anthropic.Anthropic()</code> for the model. <code>pydantic</code> for structured output. <code>networkx</code> for the three graph algorithms. <code>scipy.stats.beta</code> for Bayesian state. Small custom services for Thompson sampling, KL drift, and the PID loop. <code>boto3</code> for SQS/Kinesis/S3. Frameworks shine when you have 30 chains and 10 tool integrations to coordinate. We have 2 agents and a queue.
+      </div>
+    </div>
+
+    <div class="arch-diagram aiwf-prod-diagram">
 <svg viewBox="0 0 1200 940" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
   <defs>
-    <marker id="pdArrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(108,231,150,.85)"/></marker>
-    <marker id="pdArrY" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.85)"/></marker>
-    <marker id="pdArrB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(96,165,250,.85)"/></marker>
-    <marker id="pdArrR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,107,107,.85)"/></marker>
-    <marker id="pdArrP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(167,139,250,.85)"/></marker>
+    <!-- Gradient backgrounds for live feel -->
+    <linearGradient id="ctrlBg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(245,197,24,.08)"/>
+      <stop offset="100%" stop-color="rgba(245,197,24,.02)"/>
+    </linearGradient>
+    <linearGradient id="fleetBg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(108,231,150,.06)"/>
+      <stop offset="100%" stop-color="rgba(108,231,150,.02)"/>
+    </linearGradient>
+    <linearGradient id="storeBg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(167,139,250,.06)"/>
+      <stop offset="100%" stop-color="rgba(167,139,250,.02)"/>
+    </linearGradient>
+
+    <!-- Arrow markers -->
+    <marker id="pdaG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(108,231,150,.9)"/></marker>
+    <marker id="pdaY" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.9)"/></marker>
+    <marker id="pdaR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,107,107,.9)"/></marker>
+    <marker id="pdaP" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(167,139,250,.9)"/></marker>
+    <marker id="pdaB" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(34,211,238,.9)"/></marker>
+
+    <!-- Filters for glow on agents -->
+    <filter id="agentGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- ══ ANIMATED FLOW PATHS ══ -->
+    <!-- Path 1: control plane → work queue -->
+    <path id="flowPath1" d="M 525 116 L 525 138" fill="none" stroke="none"/>
+    <!-- Path 2: work queue (scrape) → scraper fleet -->
+    <path id="flowPath2" d="M 160 198 L 160 270" fill="none" stroke="none"/>
+    <!-- Path 3: scraper fleet → verifier queue -->
+    <path id="flowPath3" d="M 800 380 Q 600 290 460 200" fill="none" stroke="none"/>
+    <!-- Path 4: verifier → bronze -->
+    <path id="flowPath4" d="M 985 320 L 985 348" fill="none" stroke="none"/>
+    <!-- Path 5: outputs → control plane (feedback) -->
+    <path id="flowPath5" d="M 1100 220 Q 1180 110 1080 92" fill="none" stroke="none"/>
+    <!-- Path 6: scraper fleet → bronze -->
+    <path id="flowPath6" d="M 800 442 Q 900 410 980 360" fill="none" stroke="none"/>
   </defs>
 
-  <!-- ════ LAYER 1: CONTROL PLANE (top strip) ════ -->
+  <!-- ════ LAYER 1: CONTROL PLANE ════ -->
   <g transform="translate(20,16)">
-    <rect width="1160" height="100" rx="8" fill="rgba(245,197,24,.05)" stroke="rgba(245,197,24,.4)"/>
+    <rect width="1160" height="100" rx="8" fill="url(#ctrlBg)" stroke="rgba(245,197,24,.4)"/>
     <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">CONTROL PLANE</text>
     <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">where the math lives · low traffic · stateful · single-region</text>
 
-    <!-- Graph DB -->
     <g transform="translate(30,46)">
       <rect width="200" height="46" rx="5" fill="rgba(96,165,250,.1)" stroke="rgba(96,165,250,.5)"/>
       <text x="100" y="18" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="monospace" font-weight="bold">Neo4j cluster</text>
@@ -7620,7 +7702,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="100" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">~10k vendors · ~5M URLs</text>
     </g>
 
-    <!-- Bayesian state store -->
     <g transform="translate(240,46)">
       <rect width="180" height="46" rx="5" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.5)"/>
       <text x="90" y="18" text-anchor="middle" fill="#6ce796" font-size="10" font-family="monospace" font-weight="bold">PostgreSQL (state)</text>
@@ -7628,7 +7709,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="90" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">rds db.r6g.large</text>
     </g>
 
-    <!-- Bandit (Thompson) service -->
     <g transform="translate(430,46)">
       <rect width="190" height="46" rx="5" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.5)"/>
       <text x="95" y="18" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">Thompson sampler</text>
@@ -7636,7 +7716,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="95" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">per-URL rung selection</text>
     </g>
 
-    <!-- PID controller -->
     <g transform="translate(630,46)">
       <rect width="180" height="46" rx="5" fill="rgba(255,107,107,.1)" stroke="rgba(255,107,107,.5)"/>
       <text x="90" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">PID concurrency loop</text>
@@ -7644,7 +7723,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="90" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">writes worker conc cap</text>
     </g>
 
-    <!-- KL drift service -->
     <g transform="translate(820,46)">
       <rect width="190" height="46" rx="5" fill="rgba(34,211,238,.1)" stroke="rgba(34,211,238,.5)"/>
       <text x="95" y="18" text-anchor="middle" fill="#22d3ee" font-size="10" font-family="monospace" font-weight="bold">KL drift detector</text>
@@ -7652,7 +7730,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="95" y="42" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">vs 30-day baseline</text>
     </g>
 
-    <!-- Graph algos -->
     <g transform="translate(1020,46)">
       <rect width="130" height="46" rx="5" fill="rgba(245,197,24,.1)" stroke="rgba(245,197,24,.5)"/>
       <text x="65" y="18" text-anchor="middle" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">NetworkX jobs</text>
@@ -7661,7 +7738,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
     </g>
   </g>
 
-  <!-- ════ LAYER 2: WORK QUEUE (separator) ════ -->
+  <!-- ════ LAYER 2: WORK QUEUE ════ -->
   <g transform="translate(20,140)">
     <rect width="1160" height="56" rx="8" fill="rgba(108,231,150,.05)" stroke="rgba(108,231,150,.4)"/>
     <text x="14" y="20" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">WORK QUEUE · the only thing between the control plane and the workers</text>
@@ -7684,13 +7761,13 @@ The conventional framing: web scraping is a tool for extracting data from websit
     </g>
   </g>
 
-  <!-- ════ LAYER 3: SCRAPER FLEET (main work) ════ -->
+  <!-- ════ LAYER 3: SCRAPER FLEET ════ -->
   <g transform="translate(20,220)">
-    <rect width="780" height="280" rx="8" fill="rgba(108,231,150,.04)" stroke="rgba(108,231,150,.4)"/>
+    <rect width="780" height="280" rx="8" fill="url(#fleetBg)" stroke="rgba(108,231,150,.4)"/>
     <text x="14" y="20" fill="#6ce796" font-size="11" font-family="monospace" font-weight="bold">SCRAPER FLEET · EKS · auto-scaled by PID controller</text>
     <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">50-400 pods · concurrency knob lives here · this is 70% of the bill</text>
 
-    <!-- Rung 1 -->
+    <!-- Rung 1 with pulsing glow on scraper agent -->
     <g transform="translate(20,52)">
       <rect width="180" height="100" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
       <text x="90" y="18" text-anchor="middle" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">Rung 1 · curl_cffi pool</text>
@@ -7698,11 +7775,15 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="90" y="48" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~85% of volume</text>
       <text x="90" y="62" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">~$0.30 / 1K req</text>
       <line x1="20" y1="68" x2="160" y2="68" stroke="rgba(108,231,150,.2)"/>
-      <text x="90" y="82" text-anchor="middle" fill="rgba(108,231,150,.7)" font-size="8" font-family="monospace">claude haiku</text>
+      <g filter="url(#agentGlow)">
+        <text x="90" y="82" text-anchor="middle" fill="rgba(108,231,150,.85)" font-size="8" font-family="monospace" font-weight="bold">
+          claude haiku
+          <animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite"/>
+        </text>
+      </g>
       <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">extracts via known selectors</text>
     </g>
 
-    <!-- Rung 2 -->
     <g transform="translate(210,52)">
       <rect width="180" height="100" rx="6" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.4)"/>
       <text x="90" y="18" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="monospace" font-weight="bold">Rung 2 · browser pool</text>
@@ -7714,7 +7795,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">Xvfb · Docker · supervisord</text>
     </g>
 
-    <!-- Rung 3 -->
     <g transform="translate(400,52)">
       <rect width="180" height="100" rx="6" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.4)"/>
       <text x="90" y="18" text-anchor="middle" fill="#a78bfa" font-size="9" font-family="monospace" font-weight="bold">Rung 3 · browser+pacing</text>
@@ -7726,7 +7806,6 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">mouse curves · residential</text>
     </g>
 
-    <!-- Rung 4 -->
     <g transform="translate(590,52)">
       <rect width="180" height="100" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.4)"/>
       <text x="90" y="18" text-anchor="middle" fill="#ff6b6b" font-size="9" font-family="monospace" font-weight="bold">Rung 4 · managed API</text>
@@ -7738,14 +7817,12 @@ The conventional framing: web scraping is a tool for extracting data from websit
       <text x="90" y="92" text-anchor="middle" fill="rgba(240,240,244,.4)" font-size="7" font-family="monospace">true last-resort tier</text>
     </g>
 
-    <!-- proxy + ASN -->
     <g transform="translate(20,168)">
       <rect width="740" height="44" rx="6" fill="rgba(245,197,24,.05)" stroke="rgba(245,197,24,.35)"/>
       <text x="14" y="18" fill="#f5c518" font-size="10" font-family="monospace" font-weight="bold">PROXY LAYER · all rungs route through this</text>
       <text x="14" y="32" fill="rgba(240,240,244,.55)" font-size="9" font-family="monospace">Bright Data ISP (warm IPs) + Massive residential (P2B) + Infatica (KYC-vetted) · 5-vector coherence enforced</text>
     </g>
 
-    <!-- output -->
     <g transform="translate(20,220)">
       <rect width="740" height="44" rx="6" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
       <text x="14" y="18" fill="#6ce796" font-size="10" font-family="monospace" font-weight="bold">EXTRACTION OUTPUT</text>
@@ -7753,36 +7830,37 @@ The conventional framing: web scraping is a tool for extracting data from websit
     </g>
   </g>
 
-  <!-- ════ LAYER 4: VERIFIER + STORAGE (right column) ════ -->
+  <!-- ════ LAYER 4: VERIFIER + STORAGE ════ -->
   <g transform="translate(820,220)">
-    <rect width="360" height="280" rx="8" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.4)"/>
+    <rect width="360" height="280" rx="8" fill="url(#storeBg)" stroke="rgba(245,197,24,.4)"/>
     <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">VERIFIER &amp; STORAGE</text>
     <text x="14" y="34" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">where trust is earned and data lands</text>
 
-    <!-- Verifier -->
     <g transform="translate(14,52)">
       <rect width="332" height="80" rx="6" fill="rgba(255,107,107,.06)" stroke="rgba(255,107,107,.45)"/>
-      <text x="166" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">Verifier service (Claude Sonnet)</text>
-      <text x="166" y="32" text-anchor="middle" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">ECS · 6 tasks · prompt: "prove this is wrong"</text>
+      <text x="166" y="18" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="monospace" font-weight="bold">Verifier service</text>
+      <g filter="url(#agentGlow)">
+        <text x="166" y="32" text-anchor="middle" fill="rgba(255,107,107,.85)" font-size="8" font-family="monospace" font-weight="bold">
+          claude sonnet
+          <animate attributeName="opacity" values="0.7;1;0.7" dur="3.5s" repeatCount="indefinite"/>
+        </text>
+      </g>
       <line x1="14" y1="38" x2="318" y2="38" stroke="rgba(255,107,107,.18)"/>
-      <text x="14" y="52" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">runs on ~12% of rows · scaled by SQS depth</text>
-      <text x="14" y="64" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">re-fetch via different rung · compare via BFS</text>
-      <text x="14" y="76" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace">~$0.12 per verification</text>
+      <text x="14" y="52" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">prompt: "prove this is wrong"</text>
+      <text x="14" y="64" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">re-fetch · BFS compare · disprove</text>
+      <text x="14" y="76" fill="rgba(255,107,107,.7)" font-size="8" font-family="monospace">~12% of rows · ~$0.12 each</text>
     </g>
 
-    <!-- Bronze -->
     <g transform="translate(14,144)">
       <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.06)" stroke="rgba(108,231,150,.4)"/>
       <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥉 Bronze</text>
       <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">Parquet on S3 · raw + provenance · 90-day retention</text>
     </g>
-    <!-- Silver -->
     <g transform="translate(14,182)">
       <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.08)" stroke="rgba(108,231,150,.5)"/>
       <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥈 Silver</text>
       <text x="14" y="26" fill="rgba(240,240,244,.55)" font-size="8" font-family="monospace">dbt · dedup via content hash · upsert + last_seen</text>
     </g>
-    <!-- Gold -->
     <g transform="translate(14,220)">
       <rect width="332" height="32" rx="4" fill="rgba(108,231,150,.1)" stroke="rgba(108,231,150,.55)"/>
       <text x="14" y="14" fill="#6ce796" font-size="9" font-family="monospace" font-weight="bold">🥇 Gold</text>
@@ -7790,44 +7868,114 @@ The conventional framing: web scraping is a tool for extracting data from websit
     </g>
   </g>
 
-  <!-- ════ LAYER 5: OBSERVABILITY (bottom strip) ════ -->
+  <!-- ════ STATIC GUIDE ARROWS (kept thin, animation does the work) ════ -->
+  <line x1="525" y1="116" x2="525" y2="138" stroke="rgba(245,197,24,.4)" stroke-width="1" marker-end="url(#pdaY)"/>
+  <line x1="160" y1="198" x2="160" y2="218" stroke="rgba(108,231,150,.5)" stroke-width="1" marker-end="url(#pdaG)"/>
+  <path d="M 800 380 Q 600 290 460 200" stroke="rgba(245,197,24,.4)" stroke-width="1" fill="none" marker-end="url(#pdaY)"/>
+  <line x1="985" y1="304" x2="985" y2="324" stroke="rgba(255,107,107,.5)" stroke-width="1" marker-end="url(#pdaR)"/>
+  <path d="M 1100 220 Q 1180 110 1085 92" stroke="rgba(245,197,24,.4)" stroke-width="1" fill="none" stroke-dasharray="4 3" marker-end="url(#pdaY)"/>
+  <line x1="500" y1="500" x2="500" y2="518" stroke="rgba(34,211,238,.4)" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#pdaB)"/>
+  <line x1="500" y1="600" x2="500" y2="618" stroke="rgba(167,139,250,.4)" stroke-width="1" marker-end="url(#pdaP)"/>
+
+  <!-- ══ ANIMATED FLOW DOTS - the cool part ══ -->
+  <!-- control plane down to work queue -->
+  <circle r="3.5" fill="#f5c518">
+    <animateMotion dur="2.4s" repeatCount="indefinite" path="M 525 116 L 525 138"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- work queue (scrape-jobs) down to fleet · many dots, staggered -->
+  <circle r="3" fill="#6ce796">
+    <animateMotion dur="1.6s" repeatCount="indefinite" path="M 170 196 L 110 270"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#6ce796">
+    <animateMotion dur="1.6s" begin="0.4s" repeatCount="indefinite" path="M 170 196 L 270 270"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" begin="0.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#6ce796">
+    <animateMotion dur="1.6s" begin="0.8s" repeatCount="indefinite" path="M 170 196 L 430 270"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" begin="0.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#6ce796">
+    <animateMotion dur="1.6s" begin="1.2s" repeatCount="indefinite" path="M 170 196 L 580 270"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" begin="1.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- scraper fleet → verifier queue (smaller stream, ~12% of volume) -->
+  <circle r="2.8" fill="#f5c518">
+    <animateMotion dur="2.6s" repeatCount="indefinite" path="M 400 320 Q 500 250 460 198"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="2.8" fill="#f5c518">
+    <animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite" path="M 400 320 Q 500 250 460 198"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- verifier queue → verifier service -->
+  <circle r="3" fill="#ff6b6b">
+    <animateMotion dur="1.8s" repeatCount="indefinite" path="M 460 198 L 900 264"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#ff6b6b">
+    <animateMotion dur="1.8s" begin="0.9s" repeatCount="indefinite" path="M 460 198 L 900 264"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- scraper fleet → bronze (high volume, many dots) -->
+  <circle r="3" fill="#6ce796">
+    <animateMotion dur="1.3s" repeatCount="indefinite" path="M 750 442 Q 880 410 985 360"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.3s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#6ce796">
+    <animateMotion dur="1.3s" begin="0.3s" repeatCount="indefinite" path="M 750 442 Q 880 410 985 360"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.3s" begin="0.3s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#6ce796">
+    <animateMotion dur="1.3s" begin="0.7s" repeatCount="indefinite" path="M 750 442 Q 880 410 985 360"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.3s" begin="0.7s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- verifier → bronze -->
+  <circle r="3" fill="#ff6b6b">
+    <animateMotion dur="1.6s" repeatCount="indefinite" path="M 985 304 L 985 348"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- bronze → silver → gold (slow medallion flow) -->
+  <circle r="2.5" fill="rgba(108,231,150,.8)">
+    <animateMotion dur="2.2s" repeatCount="indefinite" path="M 985 380 L 985 410"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="2.5" fill="rgba(108,231,150,.8)">
+    <animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M 985 418 L 985 448"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.2s" begin="0.7s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- outcomes → Kinesis → control plane feedback (the closing loop) -->
+  <circle r="3" fill="#a78bfa">
+    <animateMotion dur="3.2s" repeatCount="indefinite" path="M 1100 220 Q 1180 110 1080 92"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#a78bfa">
+    <animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" path="M 1100 220 Q 1180 110 1080 92"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.2s" begin="1.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ════ LAYER 5: OBSERVABILITY ════ -->
   <g transform="translate(20,520)">
     <rect width="1160" height="80" rx="8" fill="rgba(34,211,238,.04)" stroke="rgba(34,211,238,.4)"/>
     <text x="14" y="20" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">OBSERVABILITY · the only thing standing between you and a 3am page</text>
 
-    <g transform="translate(30,32)">
-      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
-      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Prometheus + Grafana</text>
-      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">ban rate, fill rate, $/row</text>
-    </g>
-    <g transform="translate(220,32)">
-      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
-      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">OpenTelemetry traces</text>
-      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-request span</text>
-    </g>
-    <g transform="translate(410,32)">
-      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
-      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">KL drift dashboard</text>
-      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-field · top-10 drift today</text>
-    </g>
-    <g transform="translate(600,32)">
-      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
-      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Graph health view</text>
-      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">PageRank Δ · community shifts</text>
-    </g>
-    <g transform="translate(790,32)">
-      <rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
-      <text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Reservoir audit</text>
-      <text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">100-row diff vs truth nightly</text>
-    </g>
-    <g transform="translate(980,32)">
-      <rect width="170" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/>
-      <text x="85" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">PagerDuty</text>
-      <text x="85" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">criticality-weighted alerts</text>
-    </g>
+    <g transform="translate(30,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Prometheus + Grafana</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">ban rate, fill rate, $/row</text></g>
+    <g transform="translate(220,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">OpenTelemetry traces</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-request span</text></g>
+    <g transform="translate(410,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">KL drift dashboard</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">per-field · top-10 drift today</text></g>
+    <g transform="translate(600,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Graph health view</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">PageRank Δ · community shifts</text></g>
+    <g transform="translate(790,32)"><rect width="180" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="90" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">Reservoir audit</text><text x="90" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">100-row diff vs truth nightly</text></g>
+    <g transform="translate(980,32)"><rect width="170" height="38" rx="5" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.35)"/><text x="85" y="16" text-anchor="middle" fill="#22d3ee" font-size="9" font-family="monospace" font-weight="bold">PagerDuty</text><text x="85" y="30" text-anchor="middle" fill="rgba(240,240,244,.5)" font-size="8" font-family="monospace">criticality-weighted alerts</text></g>
   </g>
 
-  <!-- ════ LAYER 6: HUMAN GATES (bottom) ════ -->
+  <!-- ════ LAYER 6: HUMAN GATES ════ -->
   <g transform="translate(20,620)">
     <rect width="1160" height="60" rx="8" fill="rgba(167,139,250,.04)" stroke="rgba(167,139,250,.4)"/>
     <text x="14" y="20" fill="#a78bfa" font-size="11" font-family="monospace" font-weight="bold">HUMAN GATES · only here · nowhere else</text>
@@ -7835,37 +7983,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
     <text x="14" y="52" fill="rgba(167,139,250,.6)" font-size="9" font-family="monospace" font-style="italic">selectors, rungs, candidates evolve automatically · the shape of the data does not change without a person</text>
   </g>
 
-  <!-- ════ ARROWS ════ -->
-  <!-- Control plane → Work queue (sampler/PID/KL feed scheduling) -->
-  <line x1="525" y1="116" x2="525" y2="138" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#pdArrY)"/>
-
-  <!-- Work queue → scraper fleet -->
-  <line x1="160" y1="198" x2="160" y2="218" stroke="rgba(108,231,150,.7)" stroke-width="1.5" marker-end="url(#pdArrG)"/>
-
-  <!-- Work queue (verifier) → verifier service -->
-  <line x1="460" y1="198" x2="900" y2="218" stroke="rgba(245,197,24,.6)" stroke-width="1.5" marker-end="url(#pdArrY)"/>
-
-  <!-- Work queue (quarantine) → human gates -->
-  <line x1="750" y1="198" x2="600" y2="618" stroke="rgba(167,139,250,.45)" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#pdArrP)"/>
-
-  <!-- Scraper fleet → Bronze (via Kinesis outcomes) -->
-  <line x1="800" y1="442" x2="830" y2="158" stroke="rgba(108,231,150,.4)" stroke-width="1" stroke-dasharray="4 3"/>
-  <line x1="1050" y1="158" x2="985" y2="218" stroke="rgba(167,139,250,.5)" stroke-width="1.3" marker-end="url(#pdArrP)"/>
-
-  <!-- Verifier → Bronze/Silver -->
-  <line x1="985" y1="304" x2="985" y2="324" stroke="rgba(255,107,107,.6)" stroke-width="1.4" marker-end="url(#pdArrR)"/>
-
-  <!-- Outcomes → Control Plane (feedback loop) -->
-  <path d="M 1100 220 Q 1180 110 1085 92" stroke="rgba(245,197,24,.5)" stroke-width="1.3" fill="none" stroke-dasharray="4 3" marker-end="url(#pdArrY)"/>
-  <text x="1170" y="160" text-anchor="middle" fill="rgba(245,197,24,.7)" font-size="9" font-family="monospace" transform="rotate(-90 1170 160)">outcomes feedback</text>
-
-  <!-- Observability ← everything -->
-  <line x1="500" y1="500" x2="500" y2="518" stroke="rgba(34,211,238,.4)" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#pdArrB)"/>
-
-  <!-- Observability → Human gates -->
-  <line x1="500" y1="600" x2="500" y2="618" stroke="rgba(167,139,250,.5)" stroke-width="1.3" marker-end="url(#pdArrP)"/>
-
-  <!-- ════ COST SUMMARY ════ -->
+  <!-- ════ COST PROFILE ════ -->
   <g transform="translate(20,710)">
     <rect width="1160" height="80" rx="8" fill="rgba(245,197,24,.04)" stroke="rgba(245,197,24,.4)"/>
     <text x="14" y="20" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">COST PROFILE · at 10M scrapes/day, monthly · the math should add up before you build this</text>
@@ -7890,7 +8008,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
     <text x="930" y="72" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">~$20K/month · $0.07/1K</text>
   </g>
 
-  <!-- ════ FOOTER: failure modes that this design handles WITHOUT a human ════ -->
+  <!-- ════ FOOTER ════ -->
   <g transform="translate(20,810)">
     <text x="0" y="14" fill="rgba(240,240,244,.65)" font-size="10" font-family="monospace" font-weight="bold">What this production design handles automatically, no on-call required:</text>
     <text x="0" y="32" fill="rgba(240,240,244,.55)" font-size="9">• Vendor sensor flips · PID and bandits re-route within minutes · ALL URLs on that vendor inherit through the graph</text>
@@ -7899,7 +8017,7 @@ The conventional framing: web scraping is a tool for extracting data from websit
     <text x="0" y="80" fill="rgba(240,240,244,.55)" font-size="9">• Silent value poisoning · KL divergence catches distribution shifts the row count and 200-OK rate cannot see</text>
     <text x="0" y="100" fill="#a78bfa" font-size="10" font-family="monospace" font-weight="bold">What it routes to a human, by design:</text>
     <text x="0" y="118" fill="rgba(240,240,244,.55)" font-size="9">• Schema changes (new field, removed field, type mismatch) · the shape of data is governed, not learned</text>
-    <text x="0" y="134" fill="#f5c518" font-size="9" font-style="italic">Most "AI scraping" diagrams hide the math. This one names it, costs it, and rejects the parts that do not earn their keep.</text>
+    <text x="0" y="134" fill="#f5c518" font-size="9" font-style="italic">Six mathematical primitives, two agents, one graph. Every routing decision is named, costed, and traceable.</text>
   </g>
 </svg>
     </div>
