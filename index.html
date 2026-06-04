@@ -168,6 +168,16 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
   padding:2px 7px;border-radius:3px;border:1px solid var(--b2);border-top:2px solid rgba(245,197,24,.35);letter-spacing:.06em;white-space:nowrap;
 }
 .nav-updated{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:rgba(240,240,244,.4);margin-left:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);white-space:nowrap}
+
+/* Hide "Updated …" badge below 1600px to give nav links breathing room */
+@media (max-width: 1600px) {
+  .nav-updated { display: none; }
+}
+/* Allow nav links to wrap into a horizontal scroll if still tight */
+@media (max-width: 1400px) {
+  .nls { overflow-x: auto; scrollbar-width: none; }
+  .nls::-webkit-scrollbar { display: none; }
+}
 /* scrollable nav links */
 .nls{
   display:flex;flex:1;flex-wrap:nowrap;overflow-x:visible;
@@ -175,8 +185,8 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
 }
 .nls::-webkit-scrollbar{display:none}
 .nl{
-  font-size:11px;font-weight:600;color:var(--t3);text-decoration:none;
-  padding:0 6px;height:var(--nh);display:flex;align-items:center;
+  font-size:10.5px;font-weight:600;color:var(--t3);text-decoration:none;
+  padding:0 5px;height:var(--nh);display:flex;align-items:center;
   border-bottom:2px solid transparent;transition:all .15s;
   white-space:nowrap;flex-shrink:0;letter-spacing:0;text-transform:uppercase;
 }
@@ -2077,24 +2087,24 @@ function dismissLegalBanner(){
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nls" id="mobNav">
       <a class="nl" href="#flow">Flow</a>
-      <a class="nl" href="#detect">Detection</a>
+      <a class="nl" href="#detect">Detect</a>
       <a class="nl" href="#antibots">Anti-Bots</a>
-      <a class="nl" href="#cases">Case Studies</a>
-      <a class="nl" href="#libs">Libraries</a>
-      <a class="nl" href="#ai">AI Scraping</a>
+      <a class="nl" href="#cases">Cases</a>
+      <a class="nl" href="#libs">Libs</a>
+      <a class="nl" href="#ai">AI</a>
       <a class="nl" href="#platforms">Platforms</a>
       <a class="nl" href="#proxies">Proxies</a>
-      <a class="nl" href="#play">Playbook</a>
-      <a class="nl" href="#innovation">Innovation</a>
-      <a class="nl" href="#tools">Testing</a>
-      <a class="nl" href="#arch">Architecture</a>
-  <a class="nl" href="#ai-workflow">AI Workflow</a>
+      <a class="nl" href="#play">Play</a>
+      <a class="nl" href="#innovation">Innov</a>
+      <a class="nl" href="#tools">Test</a>
+      <a class="nl" href="#arch">Arch</a>
+  <a class="nl" href="#ai-workflow">AI Flow</a>
   <a class="nl" href="#cost">Cost</a>
-  <a class="nl" href="#post-extract">Post-Extract</a>
-      <a class="nl" href="#mobile">Mobile API</a>
+  <a class="nl" href="#post-extract">Post-Ext</a>
+      <a class="nl" href="#mobile">Mobile</a>
       <a class="nl" href="#jargon">Jargon</a><a class="nl" href="#community">Community</a>
   <a class="nl" href="#legal-ethics">Legal</a>
-      <a class="nl" href="#tl">Timeline</a>
+      <a class="nl" href="#tl">TL;DR</a>
     </div>
   </div>
   <div id="np"></div>
@@ -9211,7 +9221,21 @@ window.addEventListener('scroll', () => {
   document.querySelectorAll('section[id], #ai-workflow').forEach(s => {
     if (s.getBoundingClientRect().top <= 100) cur = s.id;
   });
-  nls.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + cur));
+  nls.forEach(l => {
+    const isActive = l.getAttribute('href') === '#' + cur;
+    l.classList.toggle('on', isActive);
+    // If active link is horizontally off-screen, scroll the nav into view
+    if (isActive) {
+      const navContainer = l.closest('.nls');
+      if (navContainer && navContainer.scrollWidth > navContainer.clientWidth) {
+        const lr = l.getBoundingClientRect();
+        const nr = navContainer.getBoundingClientRect();
+        if (lr.left < nr.left || lr.right > nr.right) {
+          l.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+        }
+      }
+    }
+  });
 }, {passive:true});
 
 const ob = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('vi'); }), {threshold:.08, rootMargin:'0px 0px -36px 0px'});
