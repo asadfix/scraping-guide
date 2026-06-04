@@ -159,6 +159,7 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
   font-family:var(--mono);font-size:10px;background:var(--s3);color:var(--t3);
   padding:2px 7px;border-radius:3px;border:1px solid var(--b2);border-top:2px solid rgba(245,197,24,.35);letter-spacing:.06em;white-space:nowrap;
 }
+.nav-updated{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:rgba(240,240,244,.4);margin-left:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);white-space:nowrap}
 /* scrollable nav links */
 .nls{
   display:flex;flex:1;flex-wrap:nowrap;overflow-x:visible;
@@ -961,6 +962,8 @@ html { scroll-behavior: smooth; }
 
 /* ── MOBILE ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .nav-updated { display: none; }
+
 
   /* Nav, hamburger approach: hide links, show toggle */
   .nls { display: none; flex-direction: column; gap: 0; position: absolute;
@@ -1785,6 +1788,7 @@ function dismissLegalBanner(){
       <span class="nd"></span>
       <span class="nav-title">Asad's Scraping Guide</span>
       <span class="nav-badge">2026</span>
+      <span class="nav-updated" title="Last updated">Updated 2026-06-04 14:06 UTC</span>
     </a>
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nls" id="mobNav">
@@ -4977,6 +4981,15 @@ at">✓ Best for: enterprise scale, AI-generated parsers
 
   <div class="icard" onclick="this.classList.toggle('expanded')">
     <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Pattern / Multi-agent architecture</div>
+    <div class="ic-title">Scraping as a Bee Colony: Multi-Agent Orchestration via Claude Skills</div>
+    <div class="ic-body">Zyte published a sharp piece reframing production scraping as <strong>multi-agent orchestration</strong>, not single-shot spiders. The metaphor: honeybees solving distributed coordination for 100 million years. The architecture: many small specialist agents (each one a Claude Skill) writing to a shared append-only blackboard, coordinated by a weak orchestrator that routes attention, not commands.</div>
+    <div class="ic-insight">💡 One Claude Skill = one bee with one specialist role</div>
+    <div class="ic-detail">The architecture organises around <strong>three connected loops</strong>, not a linear pipeline. <strong>(1) Discovery loop:</strong> intake skill turns a fuzzy "scrape this site" request into a structured spec (fields, page types, refresh, cost, fallback); scout skills (detail-page-finder, page-downloader, site-explorer, link-classifier) reduce uncertainty in parallel before any code is written. <strong>(2) Build loop:</strong> selector-analyzer proposes candidates with confidence scores; code-synthesizer generates extraction; test-runner is the heartbeat; repair-agent fixes the broken field surgically without rewriting the project. Selector confidence becomes first-class metadata (price=medium, availability=fragile-with-fallback) so monitoring knows where to look. <strong>(3) Ops loop:</strong> drift-detector watches item count, field fill-rate, ban rate, response codes, schema mismatches; the right repair gets routed to the right loop, not a panic rewrite. The non-obvious piece is the <strong>blackboard</strong>: a structured project directory (<code>.scrape/site/</code>) with append-only authorship, timestamps, source, and reason on every observation. Three months later when the price field goes null, you read backwards through the trail to see which selector was used, which samples supported it, when it last passed, what changed on the site. The orchestrator is deliberately weak: it senses state, routes work, protects approval gates, and asks for human input on the schema/material-tradeoff decisions only, not every CSS path. Evidence-weighted consensus beats popularity-weighted ("another agent agreed" is the weakest form of review). <a href="https://www.zyte.com/blog/multi-agent-orchestration-in-a-large-scale-web-scraping-project/" target="_blank" rel="noopener" style="color:#f5c518">Full Zyte writeup by Neha Setia Nagpal</a></div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
     <div class="ic-tag">2026 landscape / AI browser stack</div>
     <div class="ic-title">The AI Browser Stack: 3 New Layers Nobody Talks About Yet</div>
     <div class="ic-body">The AI browser race has the headlines (Atlas, Comet, Dia, new contender every month). But the winner gets decided by what sits underneath. A fresh map of the stack the AI browsers actually run on shows <strong>three categories that did not exist a year ago: AI-native browsers, anti-detect platforms, and publisher licensing/tolls.</strong></div>
@@ -7732,6 +7745,7 @@ ARCHITECTURE (11 production patterns):
 8. Microservices API-first - REST/GraphQL + Redis/SQS + worker pools + Postgres + webhook.
 9. Pub/Sub Event-Driven - publisher pushes one msg per source to broker (SQS/Kafka/RabbitMQ/Google Pub/Sub); independent workers pull and crawl in isolation. One source fails alone. 76% success vs 36% round-robin.
 10. Self-Hosted Browser Pool (John Watson Rooney pattern) - control libs (Playwright/Puppeteer/Selenium) are NOT browsers, they speak CDP to any binary. Run persistent patched-Chromium headed under Xvfb in Docker, supervisord manages Xvfb + Playwright server. Scripts connect via ws://. Two-slot trap: must replace BOTH chrome AND chrome-headless-shell or Playwright silently runs the untouched headless shell (403s, wrong version, nothing in logs). Concurrency = contexts not instances.
+12. Multi-Agent Orchestration (Zyte bee-colony pattern) - many small Claude Skills as specialist agents (intake, scout, selector-analyzer, code-synthesizer, test-runner, repair, drift-detector) coordinated by a weak orchestrator. Three connected loops: discovery (reduce uncertainty), build (test-driven code), ops (drift detection + targeted repair). Shared APPEND-ONLY blackboard at .scrape/site/ stores spec versions, sample pages, selector candidates, test evidence, repair history with authorship + timestamps. Evidence-weighted consensus beats popularity-weighted. Selector confidence is first-class metadata.
 11. Self-Healing Scraper (Claude as brain) - failure detection -> Claude bash_tool + view tool reads error logs + live page + SKILL.md knowledge base -> diff old vs new structure -> patch selector -> retest.
 
 COST & ECONOMICS (build vs buy):
@@ -7913,7 +7927,7 @@ const SECTION_MAP = [
   {
     id: 'arch',
     label: 'Architecture',
-    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build'],
+    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','skill','bee colony','blackboard','scout agent','drift detector','colony','agent orchestrator'],
   },
   {
     id: 'cost',
