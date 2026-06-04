@@ -7086,9 +7086,9 @@ The conventional framing: web scraping is a tool for extracting data from websit
 
 <!-- ── 12: AI Workflow (Graph-Memory + Adversarial Verification) ────── -->
 <div class="arch-panel hidden" id="arch-12">
-<p class="arch-desc">A genuine AI-agent scraping architecture, built around two ideas you won't find in published frameworks. <strong>(1) Graph memory instead of file memory or a blackboard.</strong> URLs, selectors, vendors and outcomes are nodes, connected by edges. When one vendor changes its sensor, every URL on that vendor inherits the learning automatically. <strong>(2) Adversarial verification instead of self-healing.</strong> The scraper agent ships an answer + a confidence score, the verifier agent's job is to disprove it. Only outputs that survive the disproof attempt reach gold storage. Most of the system runs cheap, the agents only argue about the hard cases.</p>
+<p class="arch-desc">A genuine AI-agent scraping architecture, built around three ideas you won't find in published frameworks. <strong>(1) Graph memory instead of file memory or a blackboard.</strong> URLs, selectors, vendors and outcomes are nodes, connected by edges. When one vendor changes its sensor, every URL on that vendor inherits the learning automatically. <strong>(2) Adversarial verification instead of self-healing.</strong> The scraper agent ships an answer + a confidence score, the verifier agent's job is to disprove it. Only outputs that survive the disproof attempt reach gold storage. <strong>(3) Graph-theoretic intelligence on top of the memory.</strong> PageRank ranks vendors by operational criticality, community detection auto-distinguishes structural failures from selector drift, shortest-path traversal bootstraps strategies for new URLs from their nearest known-working neighbours. Most of the system runs cheap, the agents only argue about the hard cases.</p>
 <div class="arch-diagram">
-<svg viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+<svg viewBox="0 0 1100 1130" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
   <defs>
     <marker id="aiwArrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(108,231,150,.8)"/></marker>
     <marker id="aiwArrY" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(245,197,24,.8)"/></marker>
@@ -7100,8 +7100,8 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <!-- ════ BANNER ════ -->
   <g transform="translate(20,16)">
     <rect width="1060" height="50" rx="6" fill="rgba(167,139,250,.07)" stroke="rgba(167,139,250,.45)"/>
-    <text x="530" y="22" text-anchor="middle" fill="#a78bfa" font-size="13" font-family="monospace" font-weight="bold">Two ideas this architecture is built on (and nothing else):</text>
-    <text x="530" y="40" text-anchor="middle" fill="rgba(240,240,244,.65)" font-size="11">① graph-shaped memory · vendor-level learning propagates ② adversarial verification · ship only what survives disproof</text>
+    <text x="530" y="22" text-anchor="middle" fill="#a78bfa" font-size="13" font-family="monospace" font-weight="bold">Three ideas this architecture is built on (and nothing else):</text>
+    <text x="530" y="40" text-anchor="middle" fill="rgba(240,240,244,.65)" font-size="11">① graph-shaped memory ② adversarial verification ③ graph-theoretic intelligence (PageRank · community detection · shortest path)</text>
   </g>
 
   <!-- ════ THE GRAPH MEMORY (left half - the big idea) ════ -->
@@ -7289,21 +7289,101 @@ The conventional framing: web scraping is a tool for extracting data from websit
   </g>
 
   <!-- ════ WHAT THIS IS NOT (signature block) ════ -->
+  <!-- ════ GRAPH INTELLIGENCE LAYER (the third idea) ════ -->
   <g transform="translate(20,668)">
+    <rect width="1060" height="22" rx="3" fill="rgba(34,211,238,.06)"/>
+    <text x="530" y="16" text-anchor="middle" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">Graph Intelligence Layer · three algorithms that actually pull their weight (not theatre)</text>
+  </g>
+
+  <g transform="translate(20,704)">
+    <!-- PageRank panel -->
+    <rect width="345" height="216" rx="8" fill="rgba(34,211,238,.05)" stroke="rgba(34,211,238,.4)"/>
+    <text x="14" y="22" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">A · PageRank on vendor nodes</text>
+    <text x="14" y="38" fill="rgba(34,211,238,.6)" font-size="9" font-family="monospace">criticality, not popularity</text>
+    <line x1="14" y1="44" x2="331" y2="44" stroke="rgba(34,211,238,.2)"/>
+    
+    <text x="14" y="62" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">what it does</text>
+    <text x="14" y="76" fill="rgba(240,240,244,.55)" font-size="9">rank vendor nodes by how much traffic</text>
+    <text x="14" y="88" fill="rgba(240,240,244,.55)" font-size="9">flows through them (eigenvector centrality)</text>
+    
+    <text x="14" y="108" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">what it tells you</text>
+    <text x="14" y="122" fill="rgba(255,107,107,.7)" font-size="9">Akamai_v3 fails = 47% volume down</text>
+    <text x="14" y="134" fill="rgba(108,231,150,.7)" font-size="9">F5_Shape fails = 2% volume down</text>
+    <text x="14" y="146" fill="rgba(240,240,244,.55)" font-size="9">→ pager priority is data, not vibes</text>
+    
+    <text x="14" y="166" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">cost</text>
+    <text x="14" y="180" fill="rgba(240,240,244,.55)" font-size="9">recompute nightly · tiny graph (~50 vendors)</text>
+    <text x="14" y="192" fill="rgba(240,240,244,.55)" font-size="9">runs in &lt;100ms with NetworkX</text>
+    
+    <text x="14" y="208" fill="rgba(34,211,238,.7)" font-size="9" font-style="italic">tells ops where to point their attention</text>
+  </g>
+
+  <g transform="translate(377,704)">
+    <!-- Community detection panel -->
+    <rect width="345" height="216" rx="8" fill="rgba(34,211,238,.05)" stroke="rgba(34,211,238,.4)" stroke-width="1.5"/>
+    <text x="14" y="22" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">B · Louvain community detection</text>
+    <text x="14" y="38" fill="rgba(34,211,238,.6)" font-size="9" font-family="monospace">★ the gem · failure-mode discriminator</text>
+    <line x1="14" y1="44" x2="331" y2="44" stroke="rgba(34,211,238,.2)"/>
+    
+    <text x="14" y="62" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">what it does</text>
+    <text x="14" y="76" fill="rgba(240,240,244,.55)" font-size="9">cluster URLs into communities by shared</text>
+    <text x="14" y="88" fill="rgba(240,240,244,.55)" font-size="9">selectors, vendor, template, behavior history</text>
+    
+    <text x="14" y="108" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">what it tells you</text>
+    <text x="14" y="122" fill="rgba(240,240,244,.6)" font-size="9">when one URL fails, look at its community:</text>
+    <text x="14" y="134" fill="rgba(255,107,107,.7)" font-size="9">• 100% of community failing = structural</text>
+    <text x="14" y="146" fill="rgba(245,197,24,.85)" font-size="9">• ~50% failing = vendor sensor change</text>
+    <text x="14" y="158" fill="rgba(108,231,150,.7)" font-size="9">• &lt;10% failing = isolated selector drift</text>
+    
+    <text x="14" y="178" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">why this is the gem</text>
+    <text x="14" y="192" fill="rgba(240,240,244,.55)" font-size="9">distinguishes Reality Map failure modes</text>
+    <text x="14" y="204" fill="rgba(34,211,238,.7)" font-size="9" font-style="italic">automatically. Humans currently guess.</text>
+  </g>
+
+  <g transform="translate(734,704)">
+    <!-- Shortest-path panel -->
+    <rect width="346" height="216" rx="8" fill="rgba(34,211,238,.05)" stroke="rgba(34,211,238,.4)"/>
+    <text x="14" y="22" fill="#22d3ee" font-size="11" font-family="monospace" font-weight="bold">C · Shortest-path on new URLs</text>
+    <text x="14" y="38" fill="rgba(34,211,238,.6)" font-size="9" font-family="monospace">cold-start bootstrapping</text>
+    <line x1="14" y1="44" x2="332" y2="44" stroke="rgba(34,211,238,.2)"/>
+    
+    <text x="14" y="62" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">what it does</text>
+    <text x="14" y="76" fill="rgba(240,240,244,.55)" font-size="9">a NEW URL arrives. BFS through graph to</text>
+    <text x="14" y="88" fill="rgba(240,240,244,.55)" font-size="9">find nearest URL with working selectors via</text>
+    <text x="14" y="100" fill="rgba(240,240,244,.55)" font-size="9">shared vendor / template / domain edges</text>
+    
+    <text x="14" y="120" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">what it tells you</text>
+    <text x="14" y="134" fill="rgba(240,240,244,.55)" font-size="9">"start at rung 2, use these 4 selectors,</text>
+    <text x="14" y="146" fill="rgba(240,240,244,.55)" font-size="9">expect Akamai_v3, conf ~0.8 on title"</text>
+    <text x="14" y="158" fill="rgba(108,231,150,.7)" font-size="9">→ zero-shot bootstrap, not blind probe</text>
+    
+    <text x="14" y="178" fill="rgba(240,240,244,.65)" font-size="9" font-family="monospace" font-weight="bold">cost / fallback</text>
+    <text x="14" y="192" fill="rgba(240,240,244,.55)" font-size="9">if path distance &gt; threshold: cold start</text>
+    <text x="14" y="204" fill="rgba(34,211,238,.7)" font-size="9" font-style="italic">via scraper agent recon (slower path)</text>
+  </g>
+
+  <!-- ★ Rejected algorithms note (honesty footer) -->
+  <g transform="translate(20,924)">
+    <text x="0" y="10" fill="rgba(240,240,244,.45)" font-size="9" font-family="monospace">What this layer deliberately does not include:</text>
+    <text x="0" y="22" fill="rgba(240,240,244,.4)" font-size="8">GNN training for selector prediction (graph is too small, cost &gt; value) · max-flow / min-cut (no mapping) · learned graph embeddings (overhyped for ~10k nodes) · centrality measures beyond PageRank (redundant)</text>
+  </g>
+
+  <g transform="translate(20,938)">
     <text x="0" y="14" fill="#f5c518" font-size="11" font-family="monospace" font-weight="bold">Design choices that make this different from every other "agentic scraper" you've read about:</text>
     <text x="0" y="32" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Memory is a graph, not a folder.</tspan> When one vendor changes its sensor, the fix touches one node and propagates to thousands of URLs.</text>
     <text x="0" y="48" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Two agents, not thirteen.</tspan> A scraper that emits confidence, a verifier whose only job is to disprove. No orchestrator, no specialists, no colony.</text>
     <text x="0" y="64" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Adversarial verification, not self-healing.</tspan> Trust is earned by surviving disproof. The default assumption is "you are wrong."</text>
     <text x="0" y="80" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Confidence routing, not retry loops.</tspan> 85% of rows ship without ever invoking the second agent. The expensive path runs only on hard cases.</text>
-    <text x="0" y="96" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Schema changes need a human.</tspan> Selectors, rungs, candidates all evolve automatically. The shape of the data does not change without a person.</text>
-    <text x="0" y="112" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Learning is vendor-shaped, not URL-shaped.</tspan> One Akamai_v3 sensor change is one edit. One URL going down is one edit. The graph reflects how anti-bot vendors actually deploy.</text>
-    <text x="0" y="132" fill="rgba(240,240,244,.4)" font-size="9" font-style="italic">Most "AI scraping" diagrams draw a colony of specialists with a blackboard between them. This one is two agents arguing through a graph. Different shape, different bottlenecks, different bugs.</text>
+    <text x="0" y="96" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Three graph algorithms, no more.</tspan> PageRank, Louvain, BFS. Skipped GNN training, max-flow, learned embeddings as theatre for a 10k-node graph.</text>
+    <text x="0" y="114" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Schema changes need a human.</tspan> Selectors, rungs, candidates all evolve automatically. The shape of the data does not change without a person.</text>
+    <text x="0" y="132" fill="rgba(240,240,244,.55)" font-size="9">→ <tspan fill="rgba(240,240,244,.85)" font-weight="bold">Learning is vendor-shaped, not URL-shaped.</tspan> One Akamai_v3 sensor change is one edit. One URL going down is one edit. The graph reflects how anti-bot vendors actually deploy.</text>
+    <text x="0" y="152" fill="rgba(240,240,244,.4)" font-size="9" font-style="italic">Most "AI scraping" diagrams draw a colony of specialists with a blackboard between them. This one is two agents arguing through a graph. Different shape, different bottlenecks, different bugs.</text>
   </g>
 </svg>
 </div>
 <div class="arch-tools">
   <span class="atools-label">Stack</span>
-  <span class="arch-tool">Neo4j or DuckDB-graph (knowledge graph memory)</span><span class="arch-tool">Claude Haiku (scraper agent)</span><span class="arch-tool">Claude Sonnet (adversarial verifier)</span><span class="arch-tool">Anthropic API · prompt: "prove this is wrong"</span><span class="arch-tool">Confidence routing (≥0.9 / 0.6-0.9 / &lt;0.6)</span><span class="arch-tool">Pub/Sub queue (URL fan-out)</span><span class="arch-tool">curl_cffi + CloakBrowser (rung-aware fetch)</span><span class="arch-tool">Vendor-level learning propagation</span><span class="arch-tool">Schema-drift Slack alerts (human gate)</span><span class="arch-tool">Parquet bronze → silver → gold</span>
+  <span class="arch-tool">Neo4j or DuckDB-graph (knowledge graph memory)</span><span class="arch-tool">NetworkX (PageRank · Louvain · BFS)</span><span class="arch-tool">Claude Haiku (scraper agent)</span><span class="arch-tool">Claude Sonnet (adversarial verifier)</span><span class="arch-tool">Anthropic API · prompt: "prove this is wrong"</span><span class="arch-tool">Confidence routing (≥0.9 / 0.6-0.9 / &lt;0.6)</span><span class="arch-tool">Pub/Sub queue (URL fan-out)</span><span class="arch-tool">curl_cffi + CloakBrowser (rung-aware fetch)</span><span class="arch-tool">Vendor-level learning propagation</span><span class="arch-tool">Schema-drift Slack alerts (human gate)</span><span class="arch-tool">Parquet bronze → silver → gold</span>
 </div>
 </div>
 
@@ -8196,7 +8276,7 @@ ARCHITECTURE (11 production patterns):
 8. Microservices API-first - REST/GraphQL + Redis/SQS + worker pools + Postgres + webhook.
 9. Pub/Sub Event-Driven - publisher pushes one msg per source to broker (SQS/Kafka/RabbitMQ/Google Pub/Sub); independent workers pull and crawl in isolation. One source fails alone. 76% success vs 36% round-robin.
 10. Self-Hosted Browser Pool (John Watson Rooney pattern) - control libs (Playwright/Puppeteer/Selenium) are NOT browsers, they speak CDP to any binary. Run persistent patched-Chromium headed under Xvfb in Docker, supervisord manages Xvfb + Playwright server. Scripts connect via ws://. Two-slot trap: must replace BOTH chrome AND chrome-headless-shell or Playwright silently runs the untouched headless shell (403s, wrong version, nothing in logs). Concurrency = contexts not instances.
-13. AI Workflow: Graph-Memory + Adversarial Verification (Architecture tab "AI Workflow") - genuinely novel AI-agent design built on TWO ideas. (1) Knowledge graph as memory instead of files or blackboard: nodes are URLs, selectors, vendors; edges encode USES, EXTRACTS, FAILED_WITH. When one vendor changes sensor, one node edit propagates to all URLs sharing that vendor. (2) Two agents only - a Scraper (Claude Haiku, cheap) emits row + per-field confidence; a Verifier (Claude Sonnet, adversarial) whose prompt is "prove this is wrong" - re-fetches via different rung, checks mobile API, compares to similar URLs. Trust is earned by surviving disproof. Confidence routing: >=0.9 fast lane (85%, skip verifier), 0.6-0.9 verifier runs (12%), <0.6 quarantine + human (3%). Three feedback edges write back into the graph: (a) verifier disagreement N times -> selector confidence drops + new candidate mined + propagated, (b) ban spike on one URL -> vendor node sensor_hash flips -> ALL URLs on that vendor mark rung+1, (c) field confidence trend down across URLs -> schema-drift Slack alert (only human gate). Vendor-level learning, not URL-level. No orchestrator, no specialists, no colony, no blackboard.
+13. AI Workflow: Graph-Memory + Adversarial Verification (Architecture tab "AI Workflow") - genuinely novel AI-agent design built on TWO ideas. (1) Knowledge graph as memory instead of files or blackboard: nodes are URLs, selectors, vendors; edges encode USES, EXTRACTS, FAILED_WITH. When one vendor changes sensor, one node edit propagates to all URLs sharing that vendor. (2) Two agents only - a Scraper (Claude Haiku, cheap) emits row + per-field confidence; a Verifier (Claude Sonnet, adversarial) whose prompt is "prove this is wrong" - re-fetches via different rung, checks mobile API, compares to similar URLs. Trust is earned by surviving disproof. Confidence routing: >=0.9 fast lane (85%, skip verifier), 0.6-0.9 verifier runs (12%), <0.6 quarantine + human (3%). Graph Intelligence Layer adds three algorithms with concrete production value: (A) PageRank on vendor nodes ranks vendors by operational criticality - 'Akamai_v3 = 47% volume, F5 = 2%' - so pager priority is data not vibes; (B) Louvain community detection clusters URLs by shared selectors/vendor/template/behavior and auto-distinguishes failure modes: 100% of community failing = structural change, ~50% = vendor sensor flip, <10% = isolated selector drift; (C) BFS shortest-path for cold-start - new URL arrives, walk to nearest known-working URL via shared edges, inherit rung+selectors+expected vendor. Deliberately rejects GNN training, max-flow, learned embeddings as theatre for a ~10k-node graph. Stack: NetworkX runs all three in <100ms nightly. Three feedback edges write back into the graph: (a) verifier disagreement N times -> selector confidence drops + new candidate mined + propagated, (b) ban spike on one URL -> vendor node sensor_hash flips -> ALL URLs on that vendor mark rung+1, (c) field confidence trend down across URLs -> schema-drift Slack alert (only human gate). Vendor-level learning, not URL-level. No orchestrator, no specialists, no colony, no blackboard.
 12. Asad's Production Reality Map (Architecture tab "Asad's Reality Map") - NOT a pipeline diagram. Drawn around the question: 'when something breaks at 3am, where do I look?' Center: the boring live flow (Pub/Sub queue -> fetch worker -> parse -> dedup+persist -> downstream). Side: 'the keeper' (git-tracked sample HTML + last-good selectors, not a 'blackboard'). Main content: the FIVE failure modes that actually break production - selector drift (~70%), ban rate spike (~15%), structural change (~8%), silent poisoning (rare, devastating), cost creep. Each with looks-like / fix / who-touches-it. Claude has FOUR narrow jobs only: recon, scaffold, single-field repair, nightly ground-truth audit. Explicit rejections: many specialist agents, self-healing-everything (3 of 5 failures should NEVER be auto-patched), orchestrator-as-brain framing, 'living organism' metaphors. Identity: Linux services, not agents. Multi-Agent Orchestration (Zyte bee-colony pattern) - many small Claude Skills as specialist agents (intake, scout, selector-analyzer, code-synthesizer, test-runner, repair, drift-detector) coordinated by a weak orchestrator. Three connected loops: discovery (reduce uncertainty), build (test-driven code), ops (drift detection + targeted repair). Shared APPEND-ONLY blackboard at .scrape/site/ stores spec versions, sample pages, selector candidates, test evidence, repair history with authorship + timestamps. Evidence-weighted consensus beats popularity-weighted. Selector confidence is first-class metadata.
 11. Self-Healing Scraper (Claude as brain) - failure detection -> Claude bash_tool + view tool reads error logs + live page + SKILL.md knowledge base -> diff old vs new structure -> patch selector -> retest.
 
@@ -8379,7 +8459,7 @@ const SECTION_MAP = [
   {
     id: 'arch',
     label: 'Architecture',
-    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','blackboard','colony','reality map','asads workflow','asad workflow','asad reality','production reality','failure modes','five failures','selector drift','ban rate','silent poisoning','cost creep','where do i look','what fails','keeper','linux services','claude four jobs','full ai stack','complete pipeline','ai workflow','ai agent','knowledge graph','graph memory','adversarial verification','verifier agent','scraper agent','two agents','confidence routing','vendor-level learning','vendor learning','propagation','prove this is wrong','neo4j','graph db','adversarial scraper'],
+    keywords: ['architecture','pipeline','scrapyd','scrapy cluster','scrapy-redis','ecs','fargate','eks','kubernetes','k8s','docker','airflow','step functions','azure','s3','data lake','medallion','bronze','silver','gold','redshift','synapse','microservice','microservices','self-healing','auto-heal','claude heal','pub/sub','pubsub','pub sub','event-driven','event driven','kafka','rabbitmq','sqs','browser pool','self hosted','self-hosted','rag','ai native','design','infrastructure','build','multi-agent','multi agent','orchestration','claude skills','blackboard','colony','reality map','asads workflow','asad workflow','asad reality','production reality','failure modes','five failures','selector drift','ban rate','silent poisoning','cost creep','where do i look','what fails','keeper','linux services','claude four jobs','full ai stack','complete pipeline','ai workflow','ai agent','knowledge graph','graph memory','adversarial verification','verifier agent','scraper agent','two agents','confidence routing','vendor-level learning','vendor learning','propagation','prove this is wrong','neo4j','graph db','adversarial scraper','graph theory','pagerank','louvain','community detection','shortest path','bfs','networkx','centrality','graph algorithm','graph intelligence'],
   },
   {
     id: 'cost',
