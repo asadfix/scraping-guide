@@ -3,18 +3,18 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://web-scraping-guide.com/</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-06-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://web-scraping-guide.com/og-image.png</image:loc>
       <image:title>Web Scraping and Anti-Bot Bypass Guide 2026</image:title>
-      <image:caption>Production guide to bypassing Cloudflare, Akamai, DataDome, Kasada, F5 Shape with 73 libraries and 9 architectures</image:caption>
+      <image:caption>Production guide to bypassing Cloudflare, Akamai, DataDome, Kasada, F5 Shape with 75 libraries and 9 architectures</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://web-scraping-guide.com/privacy.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-06-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
