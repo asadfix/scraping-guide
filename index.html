@@ -2570,6 +2570,36 @@ function dismissLegalBanner(){
 </div>
 </div>
 
+<div class="cards c3 rv" style="margin-top:14px">
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--pur)"></div>
+  <div class="ctag">Hardware timing · No permission needed</div>
+  <div class="cname">Disk Latency As A Tracking Vector</div>
+  <div class="cbody">
+    The timing family goes deeper than storage backends. A technique making the rounds measures the <strong>microscopic latencies of the machine's SSD itself</strong>. Every site and active tab generates a slightly different load pattern on the disk subsystem, and ordinary JavaScript can read those timing variations through default web APIs. In principle a script can infer activity in other tabs from the disk-contention signature alone.<br><br>
+    The two properties that make this matter for a scraper: it needs <strong>zero permissions</strong>, browsers do not prompt for disk access, and neither an ad blocker nor a private window mitigates it. Until vendors fuzz or round these timings there is no clean client-side fix. The general lesson repeats: hardware leaves a signature your fingerprint patch never touches, and a farm of identical VMs can look <em>too</em> identical at the disk layer.
+  </div>
+</div>
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--ylw)"></div>
+  <div class="ctag">Spoof contradiction · Client Hints</div>
+  <div class="cname">sec-ch-ua Is Deterministic, Not Random</div>
+  <div class="cbody">
+    The <code>sec-ch-ua</code> header looks like noise: <code>"Chromium";v="149", "Not A Brand";v="24"</code>. It is not random, it is a <strong>pure function of the Chromium major version</strong>. The brand ordering, the greasey "Not A Brand" label, and the version permutation are all seeded from the major version number over fixed lookup tables, no <code>rand()</code>, no timestamp. Every machine on the same Chromium version produces an identical header.<br><br>
+    That determinism is a trap if you spoof carelessly. Hand-roll a <code>sec-ch-ua</code> that does not match the algorithm for the Chrome version you are claiming, and you have manufactured a contradiction a detector can check with one lookup. If you set the version, derive the header from it rather than copying one from a different build.
+  </div>
+</div>
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--grn)"></div>
+  <div class="ctag">The pattern across all of these</div>
+  <div class="cname">Why These Keep Appearing</div>
+  <div class="cbody">
+    Storage timing, disk latency, IndexedDB ordering, Client Hints seeding: none of these is on a typical spoofing checklist, and that is exactly why they work. They are <strong>second-order signals</strong>, derived from physics or from an implementation detail rather than from a property you thought to override.<br><br>
+    You cannot enumerate them all in advance. The defensible posture is not to chase each new tell, it is to keep the whole environment internally consistent and let real hardware speak for itself wherever you can, rather than presenting a hand-assembled identity that has to be right on every one of a thousand axes at once.
+  </div>
+</div>
+</div>
+
 
 <h3 class="rh rv">Layer 2.5, WebAssembly Fingerprinting: <em>The Layer Below Your Stealth Browser</em></h3>
 <div class="cards c3 rv">
@@ -4629,7 +4659,7 @@ This is the layer that does not care how good your fingerprint patches are. Anyt
 <div class="aiwrap rv">
   <div class="aik">2026 Market Shift</div>
   <div class="ait">Why AI scraping matters now</div>
-  <div class="aib">Firecrawl's markdown output uses <strong>67% fewer tokens</strong> than raw HTML, compounds significantly at thousands of pages for RAG pipelines. AI web scraping market: <strong>$7.5B → $38B by 2034</strong> (CAGR 19.93%). LangChain, LlamaIndex, and CrewAI all have native integrations. Claude and Cursor can scrape the web via MCP tools with zero code.</div>
+  <div class="aib">Firecrawl's markdown output uses <strong>67% fewer tokens</strong> than raw HTML, compounds significantly at thousands of pages for RAG pipelines. AI web scraping market: <strong>$7.5B → $38B by 2034</strong> (CAGR 19.93%). LangChain, LlamaIndex, and CrewAI all have native integrations. Claude and Cursor can scrape the web via MCP tools with zero code. A server like the Decodo MCP is the worked example: it gives the model a scraping tool that returns Markdown, JSON, or screenshots for JS-heavy pages with no proxy rotation or anti-bot handling on your side, which is exactly the shape a RAG or research pipeline wants.</div>
 </div>
 
 <div class="aitools rv">
@@ -4796,6 +4826,11 @@ result = client.messages.create(
 <div style="margin-top:16px;padding:14px 18px;background:rgba(245,197,24,.04);border-left:2px solid var(--y);border-radius:0 4px 4px 0;font-size:13px;color:var(--t2);line-height:1.75">
   <strong style="color:var(--y);font-size:13px">The production failure mode nobody warns you about:</strong> LLMs hallucinate <em>plausibly</em>. If your scraped article doesn't mention a publication date, an LLM will sometimes invent one that fits the article's tone. A Pydantic <code>date | None</code> field with Instructor's retry logic catches this, the LLM has to either find a real date or return None. Without schema validation, fabricated dates pass into your database as facts.
 </div>
+
+<div class="ib rv" style="margin-top:28px">
+<strong>The framing to keep your head straight: AI agents did not replace scraping, they became its biggest new client.</strong> When half the industry is writing the eulogy for web scraping, it is worth noticing that an agent which browses the web is doing exactly what a scraper does. It makes HTTP requests, it hits anti-bot walls, it gets rate limited, it needs proxies and a believable fingerprint. The only thing that changed is who writes the prompt. The tell is in the spend: teams shipping agents bought <em>more</em> proxy and unblocking infrastructure through 2025, not less, because every agent loop ends in the same place a scraper's does, at a server that would rather not serve it. Everything in this guide applies to your agent the moment it leaves the sandbox.
+</div>
+
 
 <!-- ── AGENTIC BROWSER STACK ─────────────────────────────── -->
 <div style="margin-top:48px">
@@ -5936,6 +5971,43 @@ The conventional framing: web scraping is a tool for extracting data from websit
     </div>
   </div>
 
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Pattern &middot; Self-healing scrapers &middot; June 2026</div>
+    <div class="ic-title">The LLM as Compiler and Oracle, Not Runtime</div>
+    <div class="ic-body">A self-healing scraper design where the LLM compiles a cheap deterministic crawler once, then your pages run at zero model cost. When a redesign breaks the crawler, the model serves that one request live to avoid an outage while it regenerates a new crawler in the background. The hard part is not the regenerating, any model can rewrite a broken scraper. The hard part is trusting the rewrite before it ships.</div>
+    <div class="ic-insight">&#128161; The moat is not the heal. It is the proof that the heal is right.</div>
+    <div class="ic-detail">
+The architecture treats the LLM as two roles at once. As a <strong>compiler</strong> it turns a target into cheap deterministic extraction code that runs for free. As an <strong>oracle</strong> it is the source of truth a regenerated crawler must agree with before it is trusted. Between them sits the piece that makes the whole thing safe to run unattended: a <strong>promotion gauntlet</strong>.
+
+<br><br><strong>How a regenerated crawler earns promotion:</strong>
+<br>&bull; It must agree with the LLM oracle on <strong>every</strong> item, not on average. A high mean is not good enough; one disagreement fails the batch.
+<br>&bull; It must return the <strong>exact same record count</strong> as the oracle pass.
+<br>&bull; It must hold across at least <strong>three independent samples</strong>, so a lucky single page cannot promote a broken crawler.
+
+<br><br><strong>Tiered model escalation</strong> keeps the cost sane. A cheap model runs the regeneration by default; the loop only escalates to a stronger model when nothing clears the gauntlet. Whatever gets promoted is still free deterministic code, so the one-time model cost amortises across every later run.
+
+<br><br>This matters because "self-healing scraper" demos are easy and trustworthy self-healing is hard. Any model can produce a plausible rewrite. The engineering is in the verification that decides whether the rewrite is correct before it touches production data, which is the same adversarial-verification idea this guide's AI Workflow is built around. It pairs naturally with the agentic reverse-engineering shift in the next card: the model drives the toolchain, but a gauntlet, not the model's confidence, decides what is true.
+
+<br><br><em>Pattern shared publicly by Jimmy Liu (Crawloop, Apache-2.0 proof of concept), June 2026. Honest status from the author: a working POC without the managed proxies, scale, or dashboards a funded tool ships, and a greedy oracle is still weak on long listings.</em>
+    </div>
+  </div>
+
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Shift &middot; Agentic reverse engineering &middot; 2026</div>
+    <div class="ic-title">Agents Now Drive the Disassembler, Not Just Read It</div>
+    <div class="ic-body">The interesting change in LLM-assisted reverse engineering is not that models suddenly read obfuscated code perfectly. It is that, wired to real tooling, they coordinate the whole pipeline: query disassemblers and decompilers, inspect cross-references, generate scripts, patch binaries, rerun analysis, and refine hypotheses in a loop. The shift is from a smart helper sitting next to the analyst to an agent driving the toolchain.</div>
+    <div class="ic-insight">&#128161; The lever is orchestration of the workflow, not raw comprehension of the code.</div>
+    <div class="ic-detail">
+For scraping this lands squarely on the hardest target type: native mobile request-signing. The manual version of that work (open the <code>.so</code> in Ghidra, trace the call chain, confirm with Frida, rebuild in Python) is exactly the kind of multi-tool loop an agent can now coordinate. You point a coding agent at a target, it spins up specialist sub-agents (engines, impersonation, detection, architecture, fingerprints), runs them in parallel, then synthesises and stress-tests the result.
+
+<br><br><strong>The honest caveat</strong> is the same one the reverse-engineering community draws: agentic workflows compress the <em>process</em>, they do not dissolve every defence. Some obfuscation classes (heavy virtualisation, bytecode VMs) stay resilient, which is precisely when you fall back to the oracle approach from the mobile section rather than a clean offline rebuild. Treat the agent as a force multiplier on a method you already understand, not a replacement for understanding it.
+
+<br><br><em>Framing from "Deobfuscation in the Age of Agentic Reverse Engineering" (REcon 2026) and practitioner demos of multi-agent RE pipelines, 2026.</em>
+    </div>
+  </div>
+
 </section>
 
 <!-- ═══ TESTING TOOLS ═══ -->
@@ -5952,8 +6024,9 @@ The conventional framing: web scraping is a tool for extracting data from websit
   <a href="https://coveryourtracks.eff.org" target="_blank" rel="noopener" style="text-decoration:none"><div class="card rv rv-scale" style="cursor:pointer;border:1px solid var(--b2)"><div class="cbar" style="background:var(--pur)"></div><div class="ctag">EFF built, uniqueness score</div><div class="cname">Cover Your Tracks</div><div class="csub">coveryourtracks.eff.org</div><div class="cbody">Built by the Electronic Frontier Foundation. Tells you how unique your fingerprint is among all visitors. A fingerprint too unique is as bad as one that looks like a bot. Scrapers need to look like the middle of the distribution.</div></div></a>
   <a href="https://pixelscan.net" target="_blank" rel="noopener" style="text-decoration:none"><div class="card rv rv-scale" style="cursor:pointer;border:1px solid var(--b2)"><div class="cbar" style="background:#ff6baa"></div><div class="ctag">Bot detection simulation</div><div class="cname">Pixelscan</div><div class="csub">pixelscan.net</div><div class="cbody">Simulates what anti-fraud systems see. Identifies inconsistencies in timezone, IP, language, and WebRTC that would trigger detection. Fast pass/fail for operational teams before deploying at scale.</div></div></a>
   <a href="https://abrahamjuliot.github.io/creepjs/" target="_blank" rel="noopener" style="text-decoration:none"><div class="card rv rv-scale" style="cursor:pointer;border:1px solid var(--b2)"><div class="cbar" style="background:var(--red)"></div><div class="ctag">Advanced, behavioral and hardware signals</div><div class="cname">CreepJS</div><div class="csub">abrahamjuliot.github.io</div><div class="cbody">The most advanced fingerprint tester available. Simulates what modern anti-fraud systems actually detect, including behavioral and hardware-level signals far beyond surface tests. Use this for deep audits of browser configurations.</div></div></a>
+  <a href="https://github.com/scriptzteam" target="_blank" rel="noopener" style="text-decoration:none"><div class="card rv rv-scale" style="cursor:pointer;border:1px solid var(--b2)"><div class="cbar" style="background:var(--cy)"></div><div class="ctag">Diff your bot against a real browser</div><div class="cname">xray-scanner + script2builtins</div><div class="csub">catalog-driven fingerprint diff</div><div class="cbody">A different kind of test: instead of scoring your browser, it shows you exactly which surfaces leak. The toolchain reverse-engineers bot-detection JavaScript (seeing through string-array tables, JSF-ck, and reflective getters) into a catalog of several hundred fingerprint surfaces, then gives you a test page you point your bot at and diff its JSON against a real browser. You stop guessing which attribute betrayed you and read it off a list. Pair it with a daily benchmark run so you notice when a detector quietly changes what it probes.</div></div></a>
 </div>
-<div class="ib tip rv"><strong>Workflow:</strong> Fetch tls.browserleaks.com/json from both your scraper and real Chrome. Compare ja4 hashes. If they differ, fix TLS first with curl_cffi. Then check WebRTC at browserleaks.com/webrtc. Then headers. Work from layer 1 outward.</div>
+<div class="ib tip rv"><strong>Workflow:</strong> Fetch tls.browserleaks.com/json from both your scraper and real Chrome. Compare ja4 hashes. If they differ, fix TLS first with curl_cffi. Then check WebRTC at browserleaks.com/webrtc. Then headers. Work from layer 1 outward.<br><br>One habit worth building: re-run these checks on a schedule, not once. Detection scripts are not static. A vendor that probed one set of surfaces last week probes a different set this week, so a fingerprint audit you did a month ago is already stale. Treat your own fingerprint as something to monitor continuously, the same way the other side treats yours.</div>
 </section>
 
 <!-- ═══ ARCHITECTURE ═══ -->
@@ -8838,6 +8911,40 @@ data = resp.json()</code></pre></div>
   <span class="arch-tool">Postman</span>
   <span class="arch-tool">curl_cffi</span>
 </div>
+
+<h3 class="rh rv" style="margin-top:48px">When the signature lives in native code</h3>
+<div class="ib rv">
+Interception gets you the requests. On a hardened app it does not get you the <em>signatures</em>. Replay a captured call against an app like Shopee and the backend answers with an error, because every request carries anti-fraud headers built by code you cannot read in JADX. The signing method is there in name only, declared <code>native</code>, with its body on the far side in compiled ARM inside a <code>.so</code> library. This is where most people give up on the mobile route. It is also where the mobile route gets genuinely durable, because once you reproduce the signing you are no longer tied to a running app at all.
+</div>
+<div class="ib rv" style="margin-top:16px">
+<strong>The decision that shapes everything: can you rebuild the signer, or do you have to borrow it?</strong> Read the native library and you land in one of two cases. If it is <strong>readable crypto</strong>, you reverse it and reimplement it in Python, then sign offline at any volume with no app in the loop. If it is a <strong>bytecode virtual machine</strong> you cannot practically rewrite, you keep the app running and drive its own signer as an <strong>oracle</strong> your scraper calls. Both beat the amateur route of a rooted phone you have to babysit, because a signer or an oracle runs on a server inside your scraper. The first is cleaner; the second always works. You pick based on what the library actually is, which means you have to open it first.
+</div>
+<div class="cards c2 rv" style="margin-top:18px">
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--cy)"></div>
+    <div class="ctag">Four tools, one job each</div>
+    <div class="cname">The native-reversing toolchain</div>
+    <div class="cbody">
+      <strong>androguard</strong> is fast static recon. It lists the <code>.so</code> libraries an app ships and finds which classes declare <code>native</code> methods. Structure you can script, not readable source.<br><br>
+      <strong>JADX</strong> decompiles Dalvik back to Java. It is how you read the managed side and find the exact class and method that crosses into native code. It stops at the <code>native</code> keyword, the handoff point.<br><br>
+      <strong>Ghidra</strong> is the NSA's open framework. It disassembles a <code>.so</code> and decompiles it to pseudo C. It is the only tool here that reads native code, so the work centers on it. Run it headless so the workflow scripts cleanly and repeats exactly.<br><br>
+      <strong>Frida</strong> injects a JS engine into the running process so you can hook and call functions live, and confirm your static reading against what the app actually does.
+    </div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--ylw)"></div>
+    <div class="ctag">Two tells worth knowing before you start</div>
+    <div class="cname">Reading the library</div>
+    <div class="cbody">
+      <strong>Model the layers first.</strong> Managed Java and Kotlin builds the request and calls into native methods. A set of <code>.so</code> libraries does the sensitive work. Interceptors attach the anti-fraud headers. Name the layers before you open anything, so you target the one library that matters instead of all of them.<br><br>
+      <strong>A small library is a good sign.</strong> A signing lib of a few hundred kilobytes has little room for a heavy obfuscator, and auto analysis that finishes fast with zero decompile failures tells you the binary is not packed or virtualised. C++ symbols that survived give you the function names for free.<br><br>
+      <strong>Some values are not in the file.</strong> A fixed AES IV can live in <code>.bss</code>, which is zero-filled on disk and only set at runtime. Hash, HMAC, and Base64 modes do not care because their output is fully determined by input and key. The AES modes do, so you read that one value from the live process once and bake it in.
+    </div>
+  </div>
+</div>
+<div class="ib tip rv" style="margin-top:18px">
+The payoff scales past the one app. Most apps that protect their API at all push the work into a native library, and a large share of those turn out to be plain, readable crypto you can rebuild byte for byte. Work it out once and it is the same move on the next app you open. Pair this with an agent that can drive the disassembler and you compress days of manual tracing into a guided loop, which is the next section's territory.
+</div>
 </section>
 
 <!-- ═══ JARGON ═══ -->
@@ -9036,7 +9143,20 @@ data = resp.json()</code></pre></div>
   </a>
 </div>
 
-  <h3 class="rh" style="margin-top:40px">Resources from The Web Scraping Club</h3>
+  <h3 class="rh rv">Free learning resources</h3>
+<div class="cards c3 rv">
+  <a href="https://github.com/IkramKhanNiazi/The-Scrapy-Handbook" target="_blank" rel="noopener" style="text-decoration:none">
+  <div class="card rv rv-scale" style="cursor:pointer;border:1px solid var(--b2)">
+    <div class="cbar" style="background:var(--grn)"></div>
+    <div class="ctag">Free · Open source · Beginner to production</div>
+    <div class="cname">The Scrapy Handbook</div>
+    <div class="csub">Muhammad Ikramullah Khan</div>
+    <div class="cbody">A free, open-source handbook of 45 chapters in 9 parts that takes you from zero to production-ready Scrapy: fundamentals and selectors, items, itemloaders and pipelines, JavaScript sites, databases, proxies, and deployment. Tested code, plain explanations, and open to pull requests. The structured starting point this guide assumes you already have.</div>
+  </div>
+  </a>
+</div>
+
+<h3 class="rh" style="margin-top:40px">Resources from The Web Scraping Club</h3>
   <div class="cards c2">
     <a href="https://github.com/TheWebScrapingClub/scraping-wiki" target="_blank" rel="noopener" style="text-decoration:none">
     <div class="card rv rv-scale" style="cursor:pointer;border:1px solid rgba(245,197,24,.15)">
@@ -9284,7 +9404,7 @@ Queue-It: virtual waiting room, Cloudflare Worker checks queue token cookie. Fly
 
 DECISION FLOW (priority order, start left move right only when needed):
 Step 0 RECON: capture session in Burp Suite + PortSwigger MCP + Claude Code. Trace cookie lifecycle, identify sensor endpoints. 4 hours -> 2 minutes.
-Step 1 MOBILE API: apps often hit same backend with zero anti-bot. HTTPToolkit + Frida (hook Java/C, bypass cert pinning) + JADX (decompile APK) + Ghidra (native .so) on rooted Android emulator. MobileHackingLab free course.
+Step 1 MOBILE API: apps often hit same backend with zero anti-bot. HTTPToolkit + Frida (hook Java/C, bypass cert pinning) + JADX (decompile APK) + Ghidra (native .so) on rooted Android emulator. NATIVE REQUEST-SIGNING: hardened apps (e.g. Shopee) push request signing into compiled native .so libraries, so interception + JADX hit a wall at the 'native' keyword. Strategic fork: if the lib is READABLE CRYPTO, reverse it and reimplement in Python to sign OFFLINE at any volume with no app in the loop; if it is a BYTECODE VM you cannot rewrite, keep the app running and drive its own signer as an ORACLE your scraper calls. Both beat babysitting a rooted phone because a signer/oracle runs server-side in your scraper. Four-tool toolchain: androguard (static recon, lists .so libs + classes declaring native methods), JADX (managed Java, find the class/method crossing into native, stops at the native keyword), Ghidra (NSA framework, only tool that reads native code, decompiles .so to pseudo-C, run headless to script + repeat), Frida (inject JS into running process, hook+call functions live to confirm static reading + read runtime-only values). Method: model the layers first (managed Java -> native .so libs -> signing interceptors) and target the one lib that matters. Tells: a SMALL signing lib (~280KB) has little room for an obfuscator, and auto-analysis finishing fast with zero decompile failures means not packed/virtualized; surviving C++ symbols give function names free. Some values are not in the file: a fixed AES IV can live in .bss (zero-filled on disk, set at runtime), so hash/HMAC/Base64 modes are fully determined by input+key but AES modes need the IV read from the live process once. AGENTIC RE: the shift is not that LLMs read obfuscated code perfectly, it is that agentic workflows coordinate the whole pipeline (query disassemblers/decompilers, inspect cross-refs, generate scripts, patch binaries, rerun, refine in a loop); pairs with native reversing - point a coding agent at a target, spin up specialist sub-agents (engines/impersonation/detection/architecture/fingerprints), synthesize + stress-test; caveat: heavy virtualization/bytecode VMs stay resilient, fall back to the oracle approach. SELF-HEALING SCRAPERS (LLM as compiler+oracle): LLM compiles a cheap deterministic crawler once (runs at $0), serves a broken request live to avoid outage while regenerating in background; promotion gauntlet decides trust (regenerated crawler must agree with the oracle on EVERY item not on average, return exact same record count, hold across >=3 independent samples); tiered model escalation (cheap model default, escalate only when nothing clears the gauntlet). The moat is the proof the heal is right, not the heal. MobileHackingLab free course.
 Step 2 HIDDEN APIs: inspect XHR, __NEXT_DATA__, GraphQL endpoints in HTML.
 Step 3 HTTP CLIENT: curl_cffi (Python, impersonate=chrome124), httpx, Scrapling.
 Step 4 BROWSER AUTOMATION: Camoufox (Firefox-based patched), CloakBrowser (Chromium binary-patched, +9.1K stars), Patchright, Playwright. Pydoll for CDP-less.
@@ -9381,7 +9501,8 @@ John Watson Rooney YouTube: practical Scrapy/Playwright/proxies tutorials (where
 Scraping Wiki: github.com/TheWebScrapingClub/scraping-wiki.
 Discord: Web Scraping Club, Oxylabs, Extract Data Community, Scrapy Official.
 Reddit: r/webscraping, r/scrapy, r/dataengineering.
-`;
+
+FREE LEARNING RESOURCE: The Scrapy Handbook (Muhammad Ikramullah Khan, github.com/IkramKhanNiazi/The-Scrapy-Handbook) is a free open-source 45-chapter guide in 9 parts, zero to production Scrapy: fundamentals/selectors, items/itemloaders/pipelines, JS sites, databases, proxies, deployment. DECODO MCP: an MCP server that is a scraping layer for AI agents, returns Markdown/JSON/screenshots for JS-heavy pages with no proxy rotation or anti-bot handling, built for RAG/research pipelines.`;
 
 
 // Author card stats animate in on scroll
@@ -9534,7 +9655,7 @@ const SECTION_MAP = [
   {
     id: 'ai',
     label: 'AI Scraping',
-    keywords: ['ai','llm','firecrawl','crawl4ai','scrapegraph','scrapegraphai','jina','steel','browser use','mcp','agent','agentic','gpt','claude scraping','openai','embedding','markdown extraction','natural language','intelligent','machine learning','ml scraping','llmscraper','diffbot','browserbase','kernel','notte','anchor browser','hyperbrowser','browserless','agentql','stagehand','skyvern','dendrite','nanobrowser','computer use','operator','fellou','twin','multion','agentic browser','8 layer','eight layer','atlas','comet','dia','chatgpt atlas','perplexity comet','browser company','ai-native browser','ai native browser','multilogin','adspower','kameleo','anti-detect','antidetect','tollbit','pay-per-crawl','pay per crawl','prorata','publisher licensing'],
+    keywords: ['ai','llm','firecrawl','crawl4ai','scrapegraph','scrapegraphai','jina','steel','browser use','mcp','agent','agentic','gpt','claude scraping','openai','embedding','markdown extraction','natural language','intelligent','machine learning','ml scraping','llmscraper','diffbot','browserbase','kernel','notte','anchor browser','hyperbrowser','browserless','agentql','stagehand','skyvern','dendrite','nanobrowser','computer use','operator','fellou','twin','multion','agentic browser','8 layer','eight layer','atlas','comet','dia','chatgpt atlas','perplexity comet','browser company','ai-native browser','ai native browser','multilogin','adspower','kameleo','anti-detect','antidetect','tollbit','pay-per-crawl','pay per crawl','prorata','publisher licensing','decodo mcp','mcp scraping layer','agents are scrapers'],
   },
   {
     id: 'platforms',
@@ -9554,7 +9675,7 @@ const SECTION_MAP = [
   {
     id: 'innovation',
     label: 'Innovation Feed',
-    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower'],
+    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower','crawloop','self-healing scraper','llm compiler','llm oracle','promotion gauntlet','agentic re','agentic reverse engineering','deobfuscation','tiered model escalation','drive disassembler'],
   },
   {
     id: 'tools',
@@ -9584,12 +9705,12 @@ const SECTION_MAP = [
   {
     id: 'mobile',
     label: 'Mobile API',
-    keywords: ['mobile api','app api','android','ios','app','apk','httptoolkit','mitmproxy','frida','jadx','ghidra','certificate pinning','cert pinning','signed header','reverse engineer','reverse-engineer','app reverse','intercept','emulator','rooted','mobile reverse'],
+    keywords: ['mobile api','app api','android','ios','app','apk','httptoolkit','mitmproxy','frida','jadx','ghidra','certificate pinning','cert pinning','signed header','reverse engineer','reverse-engineer','app reverse','intercept','emulator','rooted','mobile reverse','native library','native reversing','libshopeeaegis','.so library','offline signer','signer oracle','androguard','request signing','native crypto','reimplement crypto','bytecode vm','.bss','ghidra headless','sign offline','aegis'],
   },
   {
     id: 'community',
     label: 'Community',
-    keywords: ['community','discord','reddit','newsletter','web scraping club','pierluigi','oxylabs discord','extract data','r/webscraping','slack','forum','learn','resource','youtube','channel','tutorial channel','rooney','john watson','recommended','follow'],
+    keywords: ['community','discord','reddit','newsletter','web scraping club','pierluigi','oxylabs discord','extract data','r/webscraping','slack','forum','learn','resource','youtube','channel','tutorial channel','rooney','john watson','recommended','follow','scrapy handbook','free resource','learn scrapy','45 chapter'],
   },
   {
     id: 'legal-ethics',
