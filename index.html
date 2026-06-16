@@ -167,7 +167,7 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);
   font-family:var(--mono);font-size:10px;background:var(--s3);color:var(--t3);
   padding:2px 7px;border-radius:3px;border:1px solid var(--b2);border-top:2px solid rgba(245,197,24,.35);letter-spacing:.06em;white-space:nowrap;
 }
-.nav-updated{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:rgba(240,240,244,.4);margin-left:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);white-space:nowrap}
+.nav-updated{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:#fff;margin-left:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);white-space:nowrap}
 
 /* Hide "Updated …" badge below 1600px to give nav links breathing room */
 @media (max-width: 1600px) {
@@ -2139,7 +2139,7 @@ function dismissLegalBanner(){
       <span class="nd"></span>
       <span class="nav-title">Asad's Scraping Guide</span>
       <span class="nav-badge">2026</span>
-      <span class="nav-updated" title="Last updated">Updated 2026-06-04 14:06 UTC</span>
+      <span class="nav-updated" title="Last updated">Updated 2026-06-16 13:09 UTC</span>
     </a>
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nls" id="mobNav">
@@ -9390,7 +9390,7 @@ Start with the uncomfortable truth about <code>robots.txt</code>: <strong>it was
   </div>
   <div class="fb2">
   <span>Asad's Scraping Guide 2026</span>
-  <span>Updated May 2026</span>
+  <span style="color:#fff">Updated June 2026</span>
   <span><a href="/privacy.html" style="color:#666;text-decoration:none;font-size:11px" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#666'">Privacy Policy</a></span>
   <span><a href="/privacy.html#affiliate" style="color:#666;text-decoration:none;font-size:11px" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#666'">Affiliate Disclosure</a></span>
 </div>
@@ -9398,6 +9398,8 @@ Start with the uncomfortable truth about <code>robots.txt</code>: <strong>it was
 </footer>
 <script>
 const KNOWLEDGE_BASE = `
+GUIDE FRESHNESS: This knowledge base and web-scraping-guide.com were last updated 2026-06-16. Techniques, tool versions, benchmarks, and anti-bot vendor behaviour reflect June 2026. Treat anything time-sensitive as a June 2026 snapshot.
+
 DETECTION LAYERS:
 Layer 1 TLS/JA4+: JA4+ fingerprints TLS ClientHello by sorting extensions, removing GREASE, hashing cipher suites+ALPN. Cloudflare uses a Rust crate at the edge, Akamai uses EdgeWorker. HTTP/2 SETTINGS frames are also fingerprinted. curl_cffi impersonate=chrome124 fixes this for Python; Go can use rquest/rnet for clean Chrome JA4.
 Layer 2 JS Fingerprinting: Canvas 2D hash (GPU-dependent pixel output), WebGL renderer+vendor string, AudioContext floating-point output, Function.prototype.toString() exposes JS patches, navigator.webdriver historically =true for Selenium. C++ binary patches (Camoufox, CloakBrowser) are the 2026 baseline. 2026 update: Microsoft Edge now returns navigator.webdriver=false for agent-driven Playwright and Google patched out CDP detection in V8 - those flags are no longer reliable.
