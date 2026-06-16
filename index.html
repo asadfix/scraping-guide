@@ -2536,6 +2536,41 @@ function dismissLegalBanner(){
 </div>
 
 
+<h3 class="rh rv">Layer 2.6, Side Channels And State Leaks: <em>The Signals Nobody Thinks To Patch</em></h3>
+<div class="cards c3 rv">
+
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--pur)"></div>
+  <div class="ctag">Timing side channel · navigator.storage</div>
+  <div class="cname">Incognito Detection By Write Speed</div>
+  <div class="cbody">
+    A recent revival of incognito detection skips feature checks entirely and times the storage backend. In a normal window <code>navigator.storage</code> is backed by disk, in a private window it is backed by RAM, and <strong>writing to RAM is measurably faster than writing to disk</strong>. Write and flush a single byte, time it, repeat a few times to weed out noise, and a flush under roughly a tenth of a millisecond gives away a private session.<br><br>
+    The lesson is broader than incognito: a detector does not need to read a property you spoofed, it can <strong>measure a physical consequence of your environment</strong> that no fingerprint patch touches. Timing is not on most people's spoofing checklist.
+  </div>
+</div>
+
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--ylw)"></div>
+  <div class="ctag">Implementation leak · IndexedDB ordering</div>
+  <div class="cname">When An Undefined Edge Case Becomes A Fingerprint</div>
+  <div class="cbody">
+    A 2026 Firefox flaw is the cleanest example of how a tiny implementation detail turns into an identifier. The browser returned IndexedDB database names in <strong>hash-table iteration order rather than a canonical sorted order</strong>. That ordering was stable and unique enough to correlate a user across sessions, across private windows, even across a Tor "New Identity" reset, all without a single cookie.<br><br>
+    The takeaway for anyone building scrapers: stealth is not a setting you flip on. <strong>Any API behaviour, any implementation quirk, any undefined edge case can become a fingerprint.</strong> You cannot enumerate them in advance, which is why coherence across the whole environment matters more than patching individual tells.
+  </div>
+</div>
+
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--grn)"></div>
+  <div class="ctag">The countermeasure that actually holds</div>
+  <div class="cname">Isolate At The Process Level</div>
+  <div class="cbody">
+    Both signals above survive the usual defence of a fresh browser profile per identity, because they leak from <strong>shared process state</strong>, not from the profile. Memory-state artifacts, timing baselines, and hash-table orderings live below the profile boundary. If several scraping identities share one browser process, those hidden signals quietly become a correlation key tying your "separate" identities together.<br><br>
+    The fix is to stop isolating at the profile level and <strong>isolate at the process level</strong>: one identity, one process, and ideally one host with a coherent fingerprint, rather than many personas multiplexed through a single long-lived browser. It costs more to run. It is also the only isolation the deeper signals respect.
+  </div>
+</div>
+</div>
+
+
 <h3 class="rh rv">Layer 2.5, WebAssembly Fingerprinting: <em>The Layer Below Your Stealth Browser</em></h3>
 <div class="cards c3 rv">
 
@@ -2673,8 +2708,42 @@ function dismissLegalBanner(){
 </section>
 
 <div style="max-width:680px;margin:0 auto;padding:32px 0 0;text-align:center">
+<h3 class="rh rv">Layer 5, Fingerprint Replay: <em>The Game Stopped Being About Spoofing</em></h3>
+<div class="cards c3 rv">
+
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--red)"></div>
+  <div class="ctag">Harvested assets · Not synthetic spoofs</div>
+  <div class="cname">Your Fingerprint Can Be Harvested And Replayed</div>
+  <div class="cbody">
+    For years the model was simple: anti-bots read your fingerprint, you spoof the attributes they read. That model is now incomplete. There is a parallel economy that <strong>collects real browser fingerprints from genuine user traffic and replays them inside automation</strong>. Disposable email sites, CAPTCHA farms, and sneaker bots quietly embed collectors that pull canvas, WebGL, audio, fonts, and device attributes from every real visitor.<br><br>
+    Real fingerprints trade as operational assets. I have seen forum threads pricing them around <strong>five dollars per thousand</strong>, and one ecosystem scan found roughly <strong>one in eight</strong> bot-adjacent sites running a fingerprinting collector. The implication for you: a perfectly coherent fingerprint is not necessarily a <em>spoofed</em> one. It may be a real environment, lifted from a real person, replayed at scale.
+  </div>
+</div>
+
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--ylw)"></div>
+  <div class="ctag">Remote render · Inject real output</div>
+  <div class="cname">Canvas Rendered On Real Hardware</div>
+  <div class="cbody">
+    The most interesting harvesting technique splits fingerprint generation from the automation client. Instead of synthetically faking a canvas hash (which leaves detectable artifacts), the canvas is <strong>rendered on a real remote machine and the output injected into the automation browser</strong>. The hash you present came from genuine hardware, so the usual "this canvas looks computed" tells disappear.<br><br>
+    The harvested collectors I have looked at do not stop at raw attributes. They mirror vendor-specific challenge logic: Akamai-style feature bitmasks, PerimeterX canvas markers, payment-provider canvas seeds, hashed feature keys aligned with named CAPTCHA vendors. The dataset is dual layer: raw device signals plus vendor-shaped outputs. That is what makes replay viable against a specific wall rather than just "looking human."
+  </div>
+</div>
+
+<div class="card rv rv-scale">
+  <div class="cbar" style="background:var(--grn)"></div>
+  <div class="ctag">The defensive countermove</div>
+  <div class="cname">Why This Changes Your Strategy</div>
+  <div class="cbody">
+    If real fingerprints can be replayed, defenders stop trusting any single client-side signal in isolation. The countermeasures they reach for are exactly the ones that break naive scrapers: <strong>rotate the fingerprinting logic itself</strong> so harvested payloads go stale, <strong>randomise payload schemas</strong> so an offline-generated payload no longer matches, <strong>bind payloads to per-session nonces</strong> so a replayed body is invalid, and <strong>cross-check redundant signals</strong> across main page, iframe, and worker so a partially patched environment contradicts itself.<br><br>
+    The takeaway I keep coming back to: <strong>coherence and freshness now matter more than any one spoofed attribute</strong>. A clean canvas hash from last week, replayed today against a vendor that rotated its logic, fails harder than no spoofing at all. Treat your fingerprint as a living thing that has to agree with itself across every context, every request.
+  </div>
+</div>
+</div>
+
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:0 auto 20px"></div>
-  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Now you know the four detection layers. Every vendor below is just a different weighting of those same four signals, some prioritise TLS, others behaviour, others network identity. Knowing the layer tells you which tool to pick. Here are the six walls.</p>
+  <p style="font-size:15px;color:rgba(240,240,244,.45);line-height:1.75;font-style:italic;font-family:var(--serif)">Now you know the detection layers, four signal families plus the replay economy sitting on top of them. Every vendor below is just a different weighting of those same signals, some prioritise TLS, others behaviour, others network identity. Knowing the layer tells you which tool to pick. Here are the six walls.</p>
   <div style="width:1px;height:40px;background:rgba(245,197,24,.2);margin:20px auto 0"></div>
 </div>
 <!-- ═══ 03 ANTI-BOTS ═══ -->
@@ -3238,6 +3307,11 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
 <div class="sk rv rv-l"><span class="sn">05</span> The arsenal</div>
 <h2 class="sh">Every tool built to fight<br><em>every wall we just described.</em></h2>
 <p class="ss">Now that you understand the detection stack and the six anti-bot vendors, every library below makes sense in context. curl_cffi exists because of JA4. Camoufox exists because of CDP leaks. PatchRight exists because of Kasada's toString() inspection. The arsenal wasn't built randomly, each tool is a direct countermeasure to a specific detection innovation.</p>
+
+<div class="ib rv" style="margin-top:24px">
+<strong>One distinction decides your tool choice more than any other: which layer does your target actually gate on?</strong> There are three separable surfaces, and most stealth tooling only solves the first two. <strong>TLS fingerprinting</strong> keys on the handshake, a Firefox-shaped TLS via Camoufox or a Chrome-shaped TLS via <code>curl_cffi</code> both answer it. <strong>JavaScript-layer detection</strong> reads navigator properties after the page loads, where a current unpatched Chromium already passes most panels. The third surface is the one that quietly defeats expensive tooling: <strong>automation-protocol fingerprinting</strong>, which detects <em>how</em> the browser is being driven rather than what it claims to be.<br><br>
+This is the layer that does not care how good your fingerprint patches are. Anything driving Chrome through Playwright leaves a recognisable shape in the control protocol at startup, the <code>Runtime.enable</code> and <code>Target.setAutoAttach</code> handshake sequence. A fork can rewrite navigator properties all day without touching it. The tools that clear this layer are the ones that remove the standard automation framework from the control plane entirely: <strong>nodriver</strong> drives system Chrome over a direct CDP connection with no Playwright shim, which is why it walks through Cloudflare Turnstile gates that every patched Playwright fork fails. The practical lesson from running these side by side: identify the gate's layer first, then pick the cheapest tool that covers it. A twenty-line <code>curl_cffi</code> wrapper can match a 130MB patched Chromium fork on a TLS-and-JS target, and lose entirely on an automation-protocol target where only a non-Playwright control plane gets through. Patches are not the lever you think they are, the control plane is.
+</div>
 
 
 <!-- ── LANGUAGE ECOSYSTEM ─────────────────────────────────────────────── -->
@@ -8538,6 +8612,37 @@ Return ONLY valid JSON with corrected selectors:
 
 <div class="ib warn rv" style="margin-top:18px">
 <strong>The cost everyone forgets: maintenance.</strong> A managed API absorbs every anti-bot change for you. A self-hosted Camoufox cluster does not, when Akamai ships a new sensor build or your fingerprint starts leaking, that is your weekend. Price your own time into the comparison. A stack that is 3,000/mo cheaper but eats four engineer-days a month is not actually cheaper. For many teams the right answer is hybrid: managed API for the hard or low-volume targets, self-hosted for the high-volume easy ones.</div>
+
+<h3 class="rh rv" style="margin-top:48px">The bill is mostly waste, not price</h3>
+<div class="ib rv">
+Most people model scraping cost as proxy price times bandwidth and stop there. The real bill is hiding in inefficiency, and it is usually the bigger number. The mental shift that saves the most money is to stop thinking in <em>cost per gigabyte</em> and start thinking in <strong>cost per successful record</strong>. A pipeline with a low success rate pays for every failure twice: once in the wasted request, once in the retry.
+</div>
+<div class="cards c2 rv" style="margin-top:18px">
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--ylw)"></div>
+    <div class="ctag">Driver 1 · Retries and rotation</div>
+    <div class="cname">Failure compounds quietly</div>
+    <div class="cbody">Unnecessary retries and a blunt rotation strategy open a steady gap between the cost you expected and the cost you actually pay. Every blocked request that triggers two retries has tripled its bandwidth for zero data. Before buying more proxy, fix the success rate, it is almost always cheaper to stop failing than to pay for the failures.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--grn)"></div>
+    <div class="ctag">Driver 2 · Proxy-type mismatch</div>
+    <div class="cname">Mobile IPs on an easy target</div>
+    <div class="cbody">Each proxy type is a different point on the speed, cost, and trust curve. Mobile IPs are expensive precisely because they are highly trusted, so they earn their price on a hardened target. Pointing them at a low-protection site burns money for no extra success. Match the proxy tier to how hard the wall actually is, do not run one universal strategy across every target.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--cy)"></div>
+    <div class="ctag">Driver 3 · Loading the whole page</div>
+    <div class="cname">You are paying for images and fonts</div>
+    <div class="cbody">When a headless browser loads a page it also pulls images, scripts, video, and fonts you never parse. If the data lives in structured JSON, use an HTTP request and skip the render entirely. Reserve the browser for pages that genuinely need JavaScript. Blocking heavy resource types on the requests you do render is one of the cheapest wins available.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--pur)"></div>
+    <div class="ctag">Driver 4 · Third-party bleed</div>
+    <div class="cname">One GB on target, five on its trackers</div>
+    <div class="cbody">A modern page calls a pile of third-party services as it loads. I have seen a single GB spent on the real target drag in several more GB of analytics, ad, and widget traffic routed through the same proxy. Block the domains you do not need, and give each website its own proxy credentials so a runaway bill shows up as one obvious outlier instead of hiding in a shared total.</div>
+  </div>
+</div>
 </section>
 
 <!-- ═══ POST-EXTRACTION ═══ -->
@@ -8595,6 +8700,11 @@ Return ONLY valid JSON with corrected selectors:
     <div class="cname">Why it happens to fast scrapers</div>
     <div class="cbody">Poisoning is usually triggered by behaviour, not fingerprint: requesting pages far faster than a human could, hitting endpoints in a non-human order, or ignoring the rendering layer entirely. The fix is the same boring discipline that prevents bans: pace requests, vary timing, follow realistic navigation paths, and do not request the whole catalogue in five minutes. Slow, human-shaped scraping gets real data; greedy scraping gets fed lies.</div>
   </div>
+</div>
+
+<div class="ib rv" style="margin-top:20px">
+<strong>A clean 200 is not the same as a clean dataset.</strong> Modern firewalls rarely bother to hard-block you anymore. They return <code>200 OK</code> with a degraded body: an empty list, sanitised prices, a tarpit that drips bytes forever, or yesterday's snapshot frozen in place. If your scraper treats the status code as the success signal, you will log thousands of green requests and ship corrupt data. Validate the <strong>shape and the statistics</strong>, not the status. The question is never "did I get a 200", it is "did I get roughly N records like yesterday, with prices in the range I expect, and the fields I depend on populated". Wire that check into the pipeline so a silent drop to ten percent fill rate pages you instead of flowing downstream.<br><br>
+One operational habit that pays for itself: keep a small <strong>Targets table</strong> as the single source of truth for every endpoint you depend on. Endpoint path, required headers, cookie shape, the schema version you last validated against, and the expected record count. When a site renames <code>/api/v2/</code> to <code>/api/v3/</code> or reshapes a field, you change one row instead of hunting through scraper code. It costs half a day to write and saves you the morning you would otherwise spend discovering, after the fact, that a fortnight of data is empty.
 </div>
 </section>
 
@@ -9007,6 +9117,29 @@ data = resp.json()</code></pre></div>
   </div>
 </div>
 
+<h3 class="rh rv">The line is moving: agents, robots.txt, and the end of a clean binary</h3>
+<div class="ib rv">
+For twenty years the ethical and technical model rested on a tidy split: humans on one side, bots on the other, with <code>robots.txt</code> as the polite fence between them. That split is dissolving, and it changes how you should think about both the ethics and the defences.<br><br>
+Start with the uncomfortable truth about <code>robots.txt</code>: <strong>it was never a security control</strong>. It is a request, and only the bots that choose to listen ever obeyed it. That was a workable social contract when the only things crawling the web were search engines and the occasional scraper. It breaks the moment an autonomous agent with a set of tools and a goal is involved. Give an agent the instruction to gather something and a browser to do it with, and a blocked default user agent does not stop it, it problem-solves around the block, picks a tool that blends in, and keeps going, without ever being told to evade. The obedience was always voluntary, and agents do not share the assumptions that made it hold.
+</div>
+<div class="cards c2 rv" style="margin-top:18px">
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--cy)"></div>
+    <div class="ctag">The binary is breaking</div>
+    <div class="cname">"Human or bot" no longer maps cleanly</div>
+    <div class="cbody">When an agent browses on behalf of a real person, which is it? The platforms themselves are blurring the line: browser and automation vendors have started shipping agent modes where <code>navigator.webdriver</code> reports <code>false</code>, the same value a human-operated browser returns. The signal that reliably meant "automated" for a decade is being switched off from inside the platform, not defeated from outside. A defender can no longer treat the presence of automation as proof of bad intent, and a scraper can no longer assume that "looking automated" is what gets it blocked.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--ylw)"></div>
+    <div class="ctag">What defence now requires</div>
+    <div class="cname">Two layers, not one fence</div>
+    <div class="cbody">If you sit on the defending side of this, a single fence is no longer enough. Protecting content from agentic collection now takes two layers working together: traditional anti-automation (fingerprinting, rate limiting, browser challenges) <em>and</em> behavioural controls that reason about intent rather than identity. Either one alone leaves a gap, and an agent with options is built to find gaps. The honest framing is that this is an adversarial pressure problem, not a classification problem with a clean answer.</div>
+  </div>
+</div>
+<div class="ib warn rv" style="margin-top:18px">
+<strong>Why this matters for you, on either side.</strong> The adversarial dynamic has a cost that lands on real people. When sophisticated operators mimic legitimate browsers well enough to poison a scoring system, the classifier does not just start failing on bots, it starts failing on genuine users too, the Firefox visitor handed an unsolvable puzzle, the real customer who quietly gives up and leaves. The bot did not cost that business the sale, the over-tuned defence did. Whichever side of this you build on, aim for proportionality: collect what you have a defensible reason to collect, defend in a way that does not punish the humans you are trying to serve, and treat the agentic shift as a reason to be more careful, not less.
+</div>
+
 <h3 class="rh rv">Read this before you copy anything above</h3>
 <div class="ib warn rv">
 <strong>Anti-bot systems are probabilistic, not deterministic.</strong> Modern systems (Akamai, Cloudflare, DataDome, Kasada, HUMAN) are machine-learning systems running adaptive scoring, per-customer configurations, and continuous experiments. That means: the same fingerprint can pass today and fail tomorrow, two identical sessions can get different treatment, and a technique that worked on one customer of a vendor can fail on the next. Nothing in this guide is a guaranteed bypass. It is a description of what worked, on specific targets, at a specific time.
@@ -9132,6 +9265,9 @@ Layer 2.6 Hyphenation dictionary detection: Chromium on Windows/Linux needs a hy
 Layer 3 Network Identity: IP ASN (datacenter=flagged), WebRTC ICE candidates leak real IP, DNS resolver location vs proxy mismatch. Five vectors must agree: IP country, WebRTC, DNS, timezone, Accept-Language. INFRASTRUCTURE BEATS CODE: a plain HTTP client on a clean residential IP outperforms a patched browser on a flagged datacenter IP. Get network identity right first.
 Layer 3.5 DOM Honeypots: invisible links/inputs designed to trap scrapers that click everything; humans never hit them.
 Layer 4 Behavioural ML: mouse movement curves, scroll velocity, keystroke timing, navigation paths. Probabilistic ML scoring, same fingerprint may pass today and fail tomorrow.
+Layer 2.6 Side channels and state leaks: timing-based incognito detection (navigator.storage backed by RAM in private windows vs disk in normal, write+flush a byte and time it, sub-0.1ms flush gives away private session); IndexedDB iteration-order fingerprint (Firefox CVE-2026-6770 returned DB names in hash-table order not sorted, correlated users across sessions/private windows/Tor New Identity with no cookie). These leak from shared PROCESS state not the profile, so a fresh profile per identity does not help. Countermeasure: isolate at the PROCESS level (one identity one process), not just the profile level.
+Layer 5 Fingerprint replay economy: bots HARVEST real browser fingerprints from genuine user traffic and REPLAY them in automation. Real fingerprints trade as operational assets (~5 USD per 1000 on forums; ~1 in 8 bot-adjacent sites run a collector). PerfectCanvas technique renders canvas on real remote hardware and injects output into automation browser (no synthetic-canvas artifacts). Harvested collectors mirror vendor challenge logic (Akamai bitmasks, PerimeterX PX markers, Adyen canvas seeds, hCaptcha font stacks). Implication: a coherent fingerprint is not necessarily a spoofed one, it may be real and replayed. Defenders counter by rotating fingerprint logic, randomising payload schemas, binding payloads to per-session nonces, cross-checking redundant signals across main/iframe/worker. Coherence and freshness now matter more than any single spoofed attribute.
+AUTOMATION-PROTOCOL FINGERPRINTING (the layer that decides tool choice): three separable surfaces - TLS fingerprinting (handshake, answered by curl_cffi or Camoufox), JS-layer detection (navigator props, current Chromium passes most), and automation-protocol fingerprinting (detects HOW the browser is driven). Anything driving Chrome through Playwright leaves a recognisable Runtime.enable/Target.setAutoAttach handshake shape at startup that fingerprint patches do not reach. nodriver drives system Chrome over direct CDP with no Playwright shim, which is why it clears Cloudflare Turnstile gates that every patched Playwright fork fails. In a 7-tool/31-target benchmark nodriver was the only tool with zero blocked; a 21-line curl_cffi wrapper tied a 130MB patched Chromium fork (26 OK each) on TLS/JS targets. channel=chrome (real Chrome vs bundled Chromium) matters as much as the patches. Lesson: identify which layer the target gates on first, then pick the cheapest tool that covers it. SHAPE COHERENCE: a proxy only rewrites the IP, TLS/HTTP2-SETTINGS/navigator/canvas all leak the real host, so a Linux server behind a residential proxy advertises a Linux-shape browser and manufactures a fresh contradiction the gate flags.
 
 ANTI-BOT VENDORS:
 Akamai Bot Manager v3: _abck cookie, sensor.js challenge, TLS JA4 check fires before HTML served. Bypass requires real Chrome JA4 (Python TLS stack cannot produce one cleanly - Go sidecar with rquest works).
@@ -9217,7 +9353,9 @@ Managed API: $1-$5 per 1K requests.
 Break-even rule: managed wins below ~1-2M req/mo, self-host above ~10M, hybrid in between. Most-forgotten cost: maintenance (your weekend when Akamai ships a new sensor).
 
 POST-EXTRACTION:
-Storage: Parquet over CSV/JSON (5-10x smaller, columnar). Bronze (raw)/silver (clean)/gold (aggregated) medallion layout on S3/GCS.
+Validation: a clean 200 is not a clean dataset. Modern WAFs return 200 OK with a degraded body (empty list, sanitised prices, tarpit, stale snapshot) instead of hard-blocking. Validate response SHAPE and statistics ("roughly N records like yesterday, prices in expected range, required fields populated"), not the status code. Keep a Targets table as single source of truth per endpoint (path, headers, cookie shape, schema version, expected record count) so a renamed /api/v2 to /api/v3 is a one-row change.
+Storage: Parquet over CSV/JSON (5-10x smaller, columnar). 
+COST DRIVERS (the bill is mostly waste, think cost-per-successful-record not cost-per-GB): (1) unnecessary retries and blunt rotation compound failure, fix success rate before buying more proxy; (2) proxy-type mismatch, mobile IPs are expensive because trusted, wasted on low-protection targets, match tier to wall hardness; (3) loading the whole page pulls images/scripts/video/fonts you never parse, use HTTP for structured data and reserve the browser for real JS, block heavy resource types; (4) third-party bleed, one GB on target can drag in several GB of analytics/ad/widget traffic through the same proxy, block unneeded domains and use per-website proxy credentials so a runaway bill shows as one obvious outlier. Bronze (raw)/silver (clean)/gold (aggregated) medallion layout on S3/GCS.
 Deduplication: URL-level via Bloom filter or scrapy-redis RFPDupeFilter (Redis-backed). Content-level via stable hash + last_seen timestamp + upsert (catches same item at multiple URLs).
 Data poisoning: passing the bouncer does not mean data is real. Sites quietly serve fake/shuffled/stale data to scrapers that scrape too fast. Detect via ground-truth sample diffing + cross-checks between sessions. Cause is behavioural (too fast/non-human path), not fingerprint. Fix: pace + realistic navigation.
 
@@ -9227,6 +9365,7 @@ AI BROWSER STACK (new layers Q4 2026): AI-native browsers (ChatGPT Atlas, Perple
 CloakBrowser +9.1K stars in a week (Nov 2026). Anubis FOSS firewall growing. Burp Suite MCP + Claude Code collapses 4hr recon to 2 min. Hyphenation dictionary detection. FlySafair Queue-It bypass via CDN gap. Web-as-database concept (resproxies enable real-time, no storage). ProxyOps Bayesian proxy selection. John Watson Rooney self-hosted browser writeup. Massive Q2 2026 agentic browser landscape (8 layers). Defense-in-depth 26-site scan: stack-not-vendor, brand-names-lie, first-party-cloaking, lazy-loaded-defenses. Edge returns navigator.webdriver=false for agents, V8 patched CDP detection (the W3C transparency rules silently dropped). Frost SSD timing fingerprint (zero permissions). detectIncognito v1.7 (navigator.storage flush time <0.1ms = RAM = incognito).
 
 LEGAL & ETHICS:
+AGENTIC WEB SHIFT: robots.txt was never a security control, only obedient bots ever listened, and an autonomous agent with tools and a goal problem-solves around a block without being told to evade. The human-vs-bot binary is dissolving: browser/automation vendors now ship agent modes where navigator.webdriver reports false (same as a human browser), so presence of automation is no longer proof of bad intent. Defending content from agentic collection now needs two layers (traditional anti-automation: fingerprinting/rate-limiting/browser-challenges, AND behavioural controls reasoning about intent). Over-tuned defences poison their own scoring and start failing real users (the Firefox visitor handed an unsolvable puzzle who just leaves), so the anti-bot system, not the bot, costs the sale. Aim for proportionality on either side.
 Not legal advice. ToS violations + auth-wall bypass exposes CFAA (US) / Computer Misuse Act (UK) risk. hiQ v LinkedIn upheld scraping public data in US. GDPR/CCPA: personal data triggers controller obligations regardless of operator location. robots.txt is not legally binding everywhere but ignoring it signals intent. Jurisdiction matters: operate-from country vs host country vs data-subject country can each apply. Anti-bot systems are PROBABILISTIC (ML scoring, per-customer config) not deterministic - same fingerprint passes today fails tomorrow. Bypass techniques have SHELF LIFE - the more popular, the faster they die. Most jobs need less than this guide implies - start cheapest, escalate only when forced.
 
 TESTING TOOLS:
@@ -9375,7 +9514,7 @@ const SECTION_MAP = [
   {
     id: 'detect',
     label: 'Detection Layers',
-    keywords: ['detect','detection','ja4','ja3','tls','fingerprint','fingerprinting','clienthello','cipher','canvas','webgl','audio','navigator','webdriver','navigator.webdriver','cdp','cdp detection','behavioural','behavior','mouse','grease','alpn','http2','http/2','layer','signal','hyphenation','wasm','simd','cpu fingerprint','hardware entropy','timing attack','timezone','locale','probe','probing','side channel','side-channel','frost','ssd timing','incognito detection','detectincognito','navigator.storage','edge webdriver','v8 patch'],
+    keywords: ['detect','detection','ja4','ja3','tls','fingerprint','fingerprinting','clienthello','cipher','canvas','webgl','audio','navigator','webdriver','navigator.webdriver','cdp','cdp detection','behavioural','behavior','mouse','grease','alpn','http2','http/2','layer','signal','hyphenation','wasm','simd','cpu fingerprint','hardware entropy','timing attack','timezone','locale','probe','probing','side channel','side-channel','frost','ssd timing','incognito detection','detectincognito','navigator.storage','edge webdriver','v8 patch','fingerprint harvesting','fingerprint replay','harvested fingerprint','perfectcanvas','replay attack','side channel','incognito detection','navigator.storage','indexeddb','process isolation','process-level isolation','state leak','cve-2026-6770','timing attack','shape coherence','vendor-aligned'],
   },
   {
     id: 'antibots',
@@ -9390,7 +9529,7 @@ const SECTION_MAP = [
   {
     id: 'libs',
     label: 'Libraries',
-    keywords: ['library','libraries','curl_cffi','curl-cffi','camoufox','cloakbrowser','patchright','scrapling','scrapy','playwright','puppeteer','selenium','seleniumbase','nodriver','pydoll','botasaurus','botright','requests','httpx','selectolax','parsel','beautifulsoup','bs4','lxml','colly','katana','tool','framework','package','install','pip','rquest','rnet','lightpanda','chompjs','webclaw','steel','impersonate','jadx','ghidra','frida'],
+    keywords: ['library','libraries','curl_cffi','curl-cffi','camoufox','cloakbrowser','patchright','scrapling','scrapy','playwright','puppeteer','selenium','seleniumbase','nodriver','pydoll','botasaurus','botright','requests','httpx','selectolax','parsel','beautifulsoup','bs4','lxml','colly','katana','tool','framework','package','install','pip','rquest','rnet','lightpanda','chompjs','webclaw','steel','impersonate','jadx','ghidra','frida','automation-protocol','automation protocol','protocol fingerprint','nodriver','control plane','runtime.enable','channel=chrome','which layer','tool choice','curl_cffi vs','playwright fork'],
   },
   {
     id: 'ai',
@@ -9435,12 +9574,12 @@ const SECTION_MAP = [
   {
     id: 'cost',
     label: 'Cost & Economics',
-    keywords: ['cost','price','pricing','economics','budget','expensive','cheap','build vs buy','build or buy','how much','break even','break-even','roi','dollar','per request','per gb','bandwidth cost','engineer cost','maintenance cost','hybrid','cost analysis'],
+    keywords: ['cost','price','pricing','economics','budget','expensive','cheap','build vs buy','build or buy','how much','break even','break-even','roi','dollar','per request','per gb','bandwidth cost','engineer cost','maintenance cost','hybrid','cost analysis','cost per success','cost-per-record','cost driver','retries','proxy type','proxy mismatch','third-party bleed','block images','resource blocking','wasted bandwidth','efficiency','mobile ip cost'],
   },
   {
     id: 'post-extract',
     label: 'Post-Extraction',
-    keywords: ['post extract','post-extraction','after scraping','storage','parquet','data storage','database','dedup','deduplication','duplicates','bloom filter','rfpdupefilter','content hash','schema','medallion','bronze silver gold','data poisoning','poisoning','fake data','data quality','data cleaning','what to do with data','save data','warehouse'],
+    keywords: ['post extract','post-extraction','after scraping','storage','parquet','data storage','database','dedup','deduplication','duplicates','bloom filter','rfpdupefilter','content hash','schema','medallion','bronze silver gold','data poisoning','poisoning','fake data','data quality','data cleaning','what to do with data','save data','warehouse','200 not success','degraded payload','response shape','validate shape','targets table','tarpit','silent corruption','fill rate','schema version'],
   },
   {
     id: 'mobile',
@@ -9455,7 +9594,7 @@ const SECTION_MAP = [
   {
     id: 'legal-ethics',
     label: 'Legal & Ethics',
-    keywords: ['legal','legality','law','lawful','illegal','ethics','ethical','tos','terms of service','cfaa','gdpr','ccpa','jurisdiction','compliance','compliant','robots.txt','robots','privacy','privacy law','personal data','hiq','computer misuse','probabilistic','shelf life','disclaimer','responsible scraping','sustainable','is web scraping legal'],
+    keywords: ['legal','legality','law','lawful','illegal','ethics','ethical','tos','terms of service','cfaa','gdpr','ccpa','jurisdiction','compliance','compliant','robots.txt','robots','privacy','privacy law','personal data','hiq','computer misuse','probabilistic','shelf life','disclaimer','responsible scraping','sustainable','is web scraping legal','agentic web','robots.txt security','agent scraping','navigator.webdriver false','human vs bot','adversarial pressure','two-layer defence','poison scoring','proportionality','agent binary'],
   },
   {
     id: 'jargon',
