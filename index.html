@@ -6008,6 +6008,27 @@ For scraping this lands squarely on the hardest target type: native mobile reque
     </div>
   </div>
 
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Tooling &middot; Agent-native fetching &middot; 2026</div>
+    <div class="ic-title">The Browser Is Getting Lighter Because Agents Do Not Need Pixels</div>
+    <div class="ic-body">A human needs a rendered page. An agent needs the meaning of the page. That gap is producing a new class of fetchers that throw away the visual rendering stack agents never use: headless engines measured in tens of megabytes instead of two hundred, and tools that hand back clean Markdown instead of a DOM you have to parse. When the consumer is an LLM, the heavy browser is mostly overhead.</div>
+    <div class="ic-insight">&#128161; Match the fetcher to the consumer. An LLM wants structure and speed, not a painted viewport.</div>
+    <div class="ic-detail">
+Three tools sketch the direction, and the pattern matters more than any one of them:
+
+<br><br>&bull; <strong>Obscura</strong> is a headless browser written in Rust that ships its own V8, speaks the Chrome DevTools Protocol, and runs as a single binary with no Chrome and no Node.js. Roughly 30MB resident against 200MB-plus for headless Chrome, with per-session fingerprint randomisation and a DOM-to-Markdown mode for feeding pages straight to a model. Be honest about maturity: it is an early v0.1.0 with self-reported numbers, so star it and benchmark it yourself rather than betting production on it today.
+
+<br><br>&bull; <strong>Crawl4AI</strong> turns selected pages into clean Markdown or structured data built for agents, RAG, and pipelines. It is the extract-and-shape half of the stack.
+
+<br><br>&bull; <strong>SearXNG</strong> is a self-hosted search layer that finds the candidate URLs in the first place. It is the discover half.
+
+<br><br>Together they describe a small, controllable agent web-context loop: <strong>discover, fetch, extract, cache, cite</strong>, with each stage owned by a light tool you can host yourself rather than a heavy browser doing all four jobs badly. The takeaway is not "switch to these tools." It is that when an agent is the consumer, the cost of rendering pixels nobody looks at is pure waste, and the tooling is starting to reflect that.
+
+<br><br><em>Tools surfaced publicly by practitioners in 2026: Obscura (Rust headless, Apache-2.0/MIT, early), Crawl4AI (Apache-2.0, 68k+ stars), SearXNG (self-hosted metasearch).</em>
+    </div>
+  </div>
+
 </section>
 
 <!-- ═══ TESTING TOOLS ═══ -->
@@ -9502,7 +9523,8 @@ Scraping Wiki: github.com/TheWebScrapingClub/scraping-wiki.
 Discord: Web Scraping Club, Oxylabs, Extract Data Community, Scrapy Official.
 Reddit: r/webscraping, r/scrapy, r/dataengineering.
 
-FREE LEARNING RESOURCE: The Scrapy Handbook (Muhammad Ikramullah Khan, github.com/IkramKhanNiazi/The-Scrapy-Handbook) is a free open-source 45-chapter guide in 9 parts, zero to production Scrapy: fundamentals/selectors, items/itemloaders/pipelines, JS sites, databases, proxies, deployment. DECODO MCP: an MCP server that is a scraping layer for AI agents, returns Markdown/JSON/screenshots for JS-heavy pages with no proxy rotation or anti-bot handling, built for RAG/research pipelines.`;
+FREE LEARNING RESOURCE: The Scrapy Handbook (Muhammad Ikramullah Khan, github.com/IkramKhanNiazi/The-Scrapy-Handbook) is a free open-source 45-chapter guide in 9 parts, zero to production Scrapy: fundamentals/selectors, items/itemloaders/pipelines, JS sites, databases, proxies, deployment. DECODO MCP: an MCP server that is a scraping layer for AI agents, returns Markdown/JSON/screenshots for JS-heavy pages with no proxy rotation or anti-bot handling, built for RAG/research pipelines.
+AGENT-NATIVE FETCHING (lighter browsers): when an LLM is the consumer it needs page MEANING not pixels, so a new class of fetchers drops the visual rendering stack. Obscura (Rust headless, ships own V8, speaks CDP, single binary no Chrome/Node, ~30MB vs 200MB+ headless Chrome, per-session fingerprint randomization, DOM-to-Markdown for feeding models; early v0.1.0 self-reported, benchmark yourself). Crawl4AI (Apache-2.0, 68k+ stars, pages to clean Markdown/structured data for agents/RAG). SearXNG (self-hosted metasearch, finds candidate URLs). Together = a small self-hostable agent web-context loop: discover, fetch, extract, cache, cite, each stage a light tool instead of one heavy browser doing all four badly.`;
 
 
 // Author card stats animate in on scroll
@@ -9675,7 +9697,7 @@ const SECTION_MAP = [
   {
     id: 'innovation',
     label: 'Innovation Feed',
-    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower','crawloop','self-healing scraper','llm compiler','llm oracle','promotion gauntlet','agentic re','agentic reverse engineering','deobfuscation','tiered model escalation','drive disassembler'],
+    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower','crawloop','self-healing scraper','llm compiler','llm oracle','promotion gauntlet','agentic re','agentic reverse engineering','deobfuscation','tiered model escalation','drive disassembler','obscura','searxng','crawl4ai','rust browser','lightweight browser','dom to markdown','agent-native','agent context'],
   },
   {
     id: 'tools',
