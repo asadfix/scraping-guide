@@ -6218,6 +6218,25 @@ Three tools sketch the direction, and the pattern matters more than any one of t
     </div>
   </div>
 
+  <div class="icard" onclick="this.classList.toggle('expanded')">
+    <div class="ic-expand-hint">+</div>
+    <div class="ic-tag">Defence experiment &middot; Behavioural CAPTCHA &middot; 2026</div>
+    <div class="ic-title">A CAPTCHA That Watches How You Tell a Story</div>
+    <div class="ic-body">A researcher built a deliberately awkward CAPTCHA as a behavioural-biometrics experiment: it shows a random prompt, asks you to type a short story about it, then rate the experience from 1 to 10. The trick is hidden in the interaction order. If you rate the CAPTCHA before you hit submit, you are probably a bot, because a human reads the story task first and rates last. The signal is not the answer, it is the sequence and rhythm of how you produced it.</div>
+    <div class="ic-insight">&#128161; The frontier of human-checking is behaviour over time, not a single correct response.</div>
+    <div class="ic-detail">
+This is worth studying for what it tells you about where bot detection is heading, on both sides.
+
+<br><br><strong>Why the idea is clever.</strong> A traditional CAPTCHA asks for an answer a script can compute or outsource to a solving farm. A behavioural CAPTCHA scores <em>how</em> the answer was produced: typing cadence, edit and pause patterns, the order in which UI elements were touched, time spent reading versus writing. Those are expensive to fake convincingly because they are emergent properties of a real person working through a task, not a field you can fill in. The out-of-order tell (rating before submitting) is a neat tripwire: it catches automation that fills every field it sees without modelling the human workflow the form implies.
+
+<br><br><strong>Why it still falls.</strong> Within a day of the public demo, another engineer bypassed it consistently with an LLM plus Playwright. The sequence is familiar from the rest of this guide: first attempt scored too low and was rejected, the approach was tuned, the second and third attempts passed, including a live run. Behavioural scoring raises the cost of automation, it does not create a wall, because a scripted agent can be taught to produce human-shaped timings and to touch the form in the order a person would. The lesson cuts both ways: if you defend, behavioural signals are a strong layer but not a final one, and you must assume they will be modelled; if you scrape, the modern bar is not "submit the right value" but "reproduce the human process that produced it," which is exactly the territory automation-protocol and interaction-timing detection already live in.
+
+<br><br><strong>The healthy norm on display.</strong> Both the defence and the bypass were published openly, demo and method in the open, framed as understanding security rather than breaking it. That is the same posture this guide takes: the techniques are dual-use, and studying them in public is how both sides get sharper.
+
+<br><br><em>StoryCaptcha by Tyler Richards (stackedqueries), a stated proof-of-concept and not production-ready by the author's own note; public AI-plus-Playwright bypass write-up, 2026.</em>
+    </div>
+  </div>
+
 </section>
 
 <!-- ═══ TESTING TOOLS ═══ -->
@@ -8989,6 +9008,26 @@ Most people model scraping cost as proxy price times bandwidth and stop there. T
 <strong>A clean 200 is not the same as a clean dataset.</strong> Modern firewalls rarely bother to hard-block you anymore. They return <code>200 OK</code> with a degraded body: an empty list, sanitised prices, a tarpit that drips bytes forever, or yesterday's snapshot frozen in place. If your scraper treats the status code as the success signal, you will log thousands of green requests and ship corrupt data. Validate the <strong>shape and the statistics</strong>, not the status. The question is never "did I get a 200", it is "did I get roughly N records like yesterday, with prices in the range I expect, and the fields I depend on populated". Wire that check into the pipeline so a silent drop to ten percent fill rate pages you instead of flowing downstream.<br><br>
 One operational habit that pays for itself: keep a small <strong>Targets table</strong> as the single source of truth for every endpoint you depend on. Endpoint path, required headers, cookie shape, the schema version you last validated against, and the expected record count. When a site renames <code>/api/v2/</code> to <code>/api/v3/</code> or reshapes a field, you change one row instead of hunting through scraper code. It costs half a day to write and saves you the morning you would otherwise spend discovering, after the fact, that a fortnight of data is empty.
 </div>
+
+<h3 class="rh rv" style="margin-top:48px">The status code is a two-way signal: soft 404s, crawl budget, and hallucinated URLs</h3>
+<div class="ib rv">
+The earlier point was that a <code>200 OK</code> can hide failure on the way in, when a tarpit feeds you poisoned data. The same dishonesty runs the other way too, and it is worth understanding from both chairs because it shapes how crawlers (yours, Google's, and an LLM's) treat a URL.<br><br>
+Many JavaScript frameworks, by default, answer a request for a URL that does not exist by rendering a "not found" view and still returning <strong>200 OK</strong> in the header. The page says the content is gone; the server says everything is fine. Google calls that mismatch a <strong>soft 404</strong>, and it is not harmless. A real <code>404</code> or <code>410</code> tells a crawler to stop coming back. A soft 404 keeps the dead URL in the queue, because the server never admits the page is gone, so the crawler keeps re-fetching nothing.
+</div>
+<div class="cards c2 rv" style="margin-top:18px">
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--red)"></div>
+    <div class="ctag">The attack your own default config enables</div>
+    <div class="cname">Crawl-budget drain as negative SEO</div>
+    <div class="cbody">If a framework hands a 200 to every undefined route, an attacker does not need to touch the site at all. Point bots at thousands of made-up URLs on the domain; each one renders, returns 200, and consumes crawl resources that should have gone to real pages. On a large site the real content gets discovered slower. That is a negative technical SEO attack made possible by the server never saying "gone." The fix is boring, which is the point: return a real 404 or 410 for routes that do not resolve, and verify the <em>rendered</em> status in Search Console rather than how the page looks in a browser. The browser hides the header; the crawler reads it.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--cy)"></div>
+    <div class="ctag">The newer, stranger layer</div>
+    <div class="cname">When a 200 confirms a hallucinated URL</div>
+    <div class="cbody">Large language models invent URLs the same way they invent facts. One audit of model-suggested login links for major brands found roughly a third pointed at domains the brands did not own, many unregistered and waiting to be claimed. The HTTP status is the honest answer in this exchange. A proper 404 tells the machine the page never existed. When a server answers a hallucinated URL with 200 OK, it does the opposite: it confirms the fiction and tells the model its guess was right. For a scraper consuming model-suggested targets, this is a direct lesson, treat status codes as ground truth over a page that merely looks populated, because the rendered body is exactly what a soft 404 gets wrong.</div>
+  </div>
+</div>
 </section>
 
 
@@ -9715,7 +9754,9 @@ Discord: Web Scraping Club, Oxylabs, Extract Data Community, Scrapy Official.
 Reddit: r/webscraping, r/scrapy, r/dataengineering.
 
 FREE LEARNING RESOURCE: The Scrapy Handbook (Muhammad Ikramullah Khan, github.com/IkramKhanNiazi/The-Scrapy-Handbook) is a free open-source 45-chapter guide in 9 parts, zero to production Scrapy: fundamentals/selectors, items/itemloaders/pipelines, JS sites, databases, proxies, deployment. DECODO MCP: an MCP server that is a scraping layer for AI agents, returns Markdown/JSON/screenshots for JS-heavy pages with no proxy rotation or anti-bot handling, built for RAG/research pipelines.
-AGENT-NATIVE FETCHING (lighter browsers): when an LLM is the consumer it needs page MEANING not pixels, so a new class of fetchers drops the visual rendering stack. Obscura (Rust headless, ships own V8, speaks CDP, single binary no Chrome/Node, ~30MB vs 200MB+ headless Chrome, per-session fingerprint randomization, DOM-to-Markdown for feeding models; early v0.1.0 self-reported, benchmark yourself). Crawl4AI (Apache-2.0, 68k+ stars, pages to clean Markdown/structured data for agents/RAG). SearXNG (self-hosted metasearch, finds candidate URLs). Together = a small self-hostable agent web-context loop: discover, fetch, extract, cache, cite, each stage a light tool instead of one heavy browser doing all four badly.`;
+AGENT-NATIVE FETCHING (lighter browsers): when an LLM is the consumer it needs page MEANING not pixels, so a new class of fetchers drops the visual rendering stack. Obscura (Rust headless, ships own V8, speaks CDP, single binary no Chrome/Node, ~30MB vs 200MB+ headless Chrome, per-session fingerprint randomization, DOM-to-Markdown for feeding models; early v0.1.0 self-reported, benchmark yourself). Crawl4AI (Apache-2.0, 68k+ stars, pages to clean Markdown/structured data for agents/RAG). SearXNG (self-hosted metasearch, finds candidate URLs). Together = a small self-hostable agent web-context loop: discover, fetch, extract, cache, cite, each stage a light tool instead of one heavy browser doing all four badly.
+SOFT 404 / CRAWL-BUDGET / HALLUCINATED URLS (status code as two-way signal): many JS frameworks (e.g. Angular default) answer a non-existent URL by rendering a "not found" view but still returning 200 OK; Google calls this a soft 404. A real 404/410 tells a crawler to stop returning; a soft 404 keeps the dead URL in the queue (server never admits it is gone), wasting crawl budget. ATTACK (negative technical SEO): if the framework hands 200 to every undefined route, an attacker points bots at thousands of made-up URLs on your domain; each renders + returns 200 + eats crawl budget that should go to real pages, so real content is discovered slower. FIX (boring on purpose): return real 404/410 for unresolved routes, and check the RENDERED status in Search Console not how the page looks in a browser (browser hides the header, crawler reads it). LLM LAYER: models invent URLs like they invent facts; one audit found ~1 in 3 model-suggested brand login links pointed at domains the brand did not own (many unregistered). A 200 on a hallucinated URL CONFIRMS the fiction; a proper 404 is the honest "never existed." For scrapers consuming model-suggested targets: trust status codes over a page that merely looks populated, because the rendered body is exactly what a soft 404 gets wrong.
+BEHAVIOURAL CAPTCHA (StoryCaptcha, Tyler Richards/stackedqueries, POC): shows a random prompt, asks you to type a short story, then rate 1-10; tell = if you rate BEFORE submitting you are probably a bot (humans read the task first, rate last). Scores HOW the answer was produced (typing cadence, edit/pause patterns, UI touch order, read-vs-write time), which is expensive to fake because it is emergent from a real person working a task. BYPASS: within a day, another engineer bypassed it consistently with LLM + Playwright (first attempt rejected, tuned, 2nd/3rd + live run passed). Lesson both ways: behavioural scoring raises automation cost but is not a wall (a scripted agent can be taught human-shaped timings and correct interaction order); modern scraping bar is "reproduce the human process that produced the value" not "submit the right value" - same territory as automation-protocol + interaction-timing detection. Both defence and bypass published openly (understand security, not break it).`;
 
 
 // Author card stats animate in on scroll
@@ -9888,7 +9929,7 @@ const SECTION_MAP = [
   {
     id: 'innovation',
     label: 'Innovation Feed',
-    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower','crawloop','self-healing scraper','llm compiler','llm oracle','promotion gauntlet','agentic re','agentic reverse engineering','deobfuscation','tiered model escalation','drive disassembler','obscura','searxng','crawl4ai','rust browser','lightweight browser','dom to markdown','agent-native','agent context','compile not runtime','llm as compiler','live test','zero model calls','crawloop repo','self-healing proof','trust score','record count match'],
+    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower','crawloop','self-healing scraper','llm compiler','llm oracle','promotion gauntlet','agentic re','agentic reverse engineering','deobfuscation','tiered model escalation','drive disassembler','obscura','searxng','crawl4ai','rust browser','lightweight browser','dom to markdown','agent-native','agent context','compile not runtime','llm as compiler','live test','zero model calls','crawloop repo','self-healing proof','trust score','record count match','storycaptcha','behavioural captcha','behavioral captcha','behavioural biometric','rate before submit','story captcha'],
   },
   {
     id: 'tools',
@@ -9913,7 +9954,7 @@ const SECTION_MAP = [
   {
     id: 'post-extract',
     label: 'Post-Extraction',
-    keywords: ['post extract','post-extraction','after scraping','storage','parquet','data storage','database','dedup','deduplication','duplicates','bloom filter','rfpdupefilter','content hash','schema','medallion','bronze silver gold','data poisoning','poisoning','fake data','data quality','data cleaning','what to do with data','save data','warehouse','200 not success','degraded payload','response shape','validate shape','targets table','tarpit','silent corruption','fill rate','schema version'],
+    keywords: ['post extract','post-extraction','after scraping','storage','parquet','data storage','database','dedup','deduplication','duplicates','bloom filter','rfpdupefilter','content hash','schema','medallion','bronze silver gold','data poisoning','poisoning','fake data','data quality','data cleaning','what to do with data','save data','warehouse','200 not success','degraded payload','response shape','validate shape','targets table','tarpit','silent corruption','fill rate','schema version','soft 404','soft-404','crawl budget','hard 404','410 status','negative seo','hallucinated url','status code honesty','search console'],
   },
   {
     id: 'mobile',
