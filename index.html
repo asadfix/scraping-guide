@@ -6046,6 +6046,125 @@ The conventional framing: web scraping is a tool for extracting data from websit
     <div class="ic-body">A self-healing scraper design where the LLM compiles a cheap deterministic crawler once, then your pages run at zero model cost. When a redesign breaks the crawler, the model serves that one request live to avoid an outage while it regenerates a new crawler in the background. The hard part is not the regenerating, any model can rewrite a broken scraper. The hard part is trusting the rewrite before it ships.</div>
     <div class="ic-insight">&#128161; The moat is not the heal. It is the proof that the heal is right.</div>
     <div class="ic-detail">
+<svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-width:920px;margin:8px auto 0;display:block" font-family="monospace">
+  <defs>
+    <marker id="cl-arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#5a5a70"/>
+    </marker>
+    <marker id="cl-arr-cy" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/>
+    </marker>
+    <marker id="cl-arr-grn" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#6ce796"/>
+    </marker>
+    <marker id="cl-arr-red" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#ff6b6b"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="500" y="30" fill="#f5c518" font-size="15" font-weight="bold" text-anchor="middle" letter-spacing="1">CRAWLOOP: SELF-HEALING VIA COMPILE, NOT RUNTIME</text>
+  <text x="500" y="48" fill="#999999" font-size="10" text-anchor="middle">the LLM compiles a cheap crawler and judges its replacements; it is not in the hot path</text>
+
+  <!-- LLM Compiler & Oracle (top center) -->
+  <rect x="380" y="72" width="240" height="58" rx="8" fill="#16161f" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="500" y="97" fill="#a78bfa" font-size="13" font-weight="bold" text-anchor="middle">LLM: COMPILER + ORACLE</text>
+  <text x="500" y="116" fill="#cccccc" font-size="9" text-anchor="middle">writes the crawler &#183; is the source of truth</text>
+
+  <!-- Deterministic crawler (left) -->
+  <rect x="70" y="170" width="200" height="56" rx="8" fill="#16161f" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="170" y="194" fill="#22d3ee" font-size="12" font-weight="bold" text-anchor="middle">DETERMINISTIC CRAWLER</text>
+  <text x="170" y="212" fill="#6ce796" font-size="9" text-anchor="middle">$0 / instant &#183; no model calls</text>
+
+  <!-- Data extraction pipeline (left lower) -->
+  <rect x="70" y="270" width="200" height="56" rx="8" fill="#16161f" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="170" y="294" fill="#22d3ee" font-size="12" font-weight="bold" text-anchor="middle">EXTRACTION PIPELINE</text>
+  <text x="170" y="312" fill="#cccccc" font-size="9" text-anchor="middle">free, reproducible data</text>
+
+  <!-- Website layout change (far left, trigger) -->
+  <rect x="70" y="370" width="200" height="52" rx="8" fill="#1a1216" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="170" y="392" fill="#ff6b6b" font-size="11" font-weight="bold" text-anchor="middle">WEBSITE LAYOUT CHANGE</text>
+  <text x="170" y="409" fill="#999999" font-size="9" text-anchor="middle">break detected</text>
+
+  <!-- arrows: compiler compiles crawler -->
+  <path d="M390,108 C300,120 200,135 175,168" fill="none" stroke="#5a5a70" stroke-width="1.3" marker-end="url(#cl-arr)"/>
+  <text x="250" y="135" fill="#999999" font-size="8" text-anchor="middle">compiles once</text>
+  <!-- crawler -> pipeline -->
+  <path d="M170,226 L170,268" fill="none" stroke="#22d3ee" stroke-width="1.3" marker-end="url(#cl-arr-cy)"/>
+  <!-- website change -> pipeline (break) -->
+  <path d="M170,368 L170,328" fill="none" stroke="#ff6b6b" stroke-width="1.3" marker-end="url(#cl-arr-red)" stroke-dasharray="4 3"/>
+  <text x="220" y="350" fill="#ff6b6b" font-size="8" text-anchor="middle">breaks it</text>
+
+  <!-- break detected -> LLM serves live (no outage) -->
+  <path d="M270,290 C330,255 340,160 388,120" fill="none" stroke="#f5c518" stroke-width="1.3" marker-end="url(#cl-arr)"/>
+  <text x="365" y="250" fill="#f5c518" font-size="8" text-anchor="middle" transform="rotate(-34 365 250)">break detected</text>
+
+  <!-- LLM-served request (right of compiler) -->
+  <rect x="660" y="80" width="270" height="44" rx="8" fill="#16161f" stroke="#f5c518" stroke-width="1.2"/>
+  <text x="795" y="100" fill="#f5c518" font-size="11" font-weight="bold" text-anchor="middle">LLM SERVES THE REQUEST LIVE</text>
+  <text x="795" y="115" fill="#cccccc" font-size="9" text-anchor="middle">0 downtime while it regenerates</text>
+  <path d="M620,101 L656,101" fill="none" stroke="#f5c518" stroke-width="1.3" marker-end="url(#cl-arr)"/>
+
+  <!-- Promotion gauntlet (right block) -->
+  <rect x="560" y="160" width="400" height="290" rx="10" fill="#0f0f16" stroke="#38384a" stroke-width="1.3"/>
+  <text x="760" y="184" fill="#f2f2f2" font-size="13" font-weight="bold" text-anchor="middle">PROMOTION GAUNTLET</text>
+  <text x="760" y="200" fill="#999999" font-size="9" text-anchor="middle">a regenerated crawler is trusted only if it passes all of these</text>
+
+  <!-- regeneration label -->
+  <path d="M620,118 C690,140 720,150 740,158" fill="none" stroke="#5a5a70" stroke-width="1.2" marker-end="url(#cl-arr)"/>
+  <text x="690" y="138" fill="#999999" font-size="8" text-anchor="middle">regenerate in bg</text>
+
+  <!-- 3 checks -->
+  <rect x="578" y="214" width="115" height="58" rx="6" fill="#16161f" stroke="#a78bfa" stroke-width="1.2"/>
+  <text x="635" y="236" fill="#a78bfa" font-size="10" font-weight="bold" text-anchor="middle">ORACLE</text>
+  <text x="635" y="250" fill="#cccccc" font-size="8" text-anchor="middle">agrees EVERY</text>
+  <text x="635" y="262" fill="#6ce796" font-size="9" text-anchor="middle">item &#8805;0.98</text>
+
+  <rect x="703" y="214" width="115" height="58" rx="6" fill="#16161f" stroke="#a78bfa" stroke-width="1.2"/>
+  <text x="760" y="236" fill="#a78bfa" font-size="10" font-weight="bold" text-anchor="middle">RECORD</text>
+  <text x="760" y="250" fill="#cccccc" font-size="8" text-anchor="middle">count must</text>
+  <text x="760" y="262" fill="#6ce796" font-size="9" text-anchor="middle">match exactly</text>
+
+  <rect x="828" y="214" width="115" height="58" rx="6" fill="#16161f" stroke="#a78bfa" stroke-width="1.2"/>
+  <text x="885" y="236" fill="#a78bfa" font-size="10" font-weight="bold" text-anchor="middle">SAMPLES</text>
+  <text x="885" y="250" fill="#cccccc" font-size="8" text-anchor="middle">holds across</text>
+  <text x="885" y="262" fill="#6ce796" font-size="9" text-anchor="middle">&#8805;3 runs</text>
+
+  <text x="635" y="288" fill="#999999" font-size="7.5" text-anchor="middle">never a mean</text>
+  <text x="760" y="288" fill="#999999" font-size="7.5" text-anchor="middle">no missed rows</text>
+  <text x="885" y="288" fill="#999999" font-size="7.5" text-anchor="middle">no lucky page</text>
+
+  <!-- tiered escalation -->
+  <rect x="578" y="306" width="240" height="50" rx="6" fill="#16161f" stroke="#e07b30" stroke-width="1.2"/>
+  <text x="698" y="327" fill="#e07b30" font-size="10" font-weight="bold" text-anchor="middle">TIERED MODEL ESCALATION</text>
+  <text x="698" y="343" fill="#cccccc" font-size="8.5" text-anchor="middle">cheap model default &#8594; strong only if stuck</text>
+
+  <!-- trust score gauge -->
+  <circle cx="885" cy="331" r="26" fill="none" stroke="#2a2a38" stroke-width="5"/>
+  <path d="M885,305 A26,26 0 0,1 908,344" fill="none" stroke="#6ce796" stroke-width="5"/>
+  <text x="885" y="328" fill="#6ce796" font-size="9" font-weight="bold" text-anchor="middle">TRUST</text>
+  <text x="885" y="340" fill="#cccccc" font-size="8" text-anchor="middle">score</text>
+
+  <!-- outcomes -->
+  <rect x="578" y="380" width="150" height="50" rx="6" fill="#1a1216" stroke="#ff6b6b" stroke-width="1.2"/>
+  <text x="653" y="401" fill="#ff6b6b" font-size="11" font-weight="bold" text-anchor="middle">FAIL</text>
+  <text x="653" y="417" fill="#cccccc" font-size="8.5" text-anchor="middle">regenerate, try again</text>
+
+  <rect x="745" y="380" width="198" height="50" rx="6" fill="#0f1a12" stroke="#6ce796" stroke-width="1.4"/>
+  <text x="844" y="401" fill="#6ce796" font-size="11" font-weight="bold" text-anchor="middle">PROMOTE &#8594; DEPLOY</text>
+  <text x="844" y="417" fill="#cccccc" font-size="8.5" text-anchor="middle">new crawler runs at $0 again</text>
+
+  <!-- fail loop back up -->
+  <path d="M620,380 C600,360 600,300 605,274" fill="none" stroke="#ff6b6b" stroke-width="1.1" marker-end="url(#cl-arr-red)" stroke-dasharray="4 3"/>
+  <!-- promote back to deterministic crawler (closes the loop) -->
+  <path d="M844,430 C844,500 200,500 170,440 L170,428" fill="none" stroke="#6ce796" stroke-width="1.4" marker-end="url(#cl-arr-grn)"/>
+  <text x="500" y="495" fill="#6ce796" font-size="9" text-anchor="middle">promoted crawler replaces the broken one, back to $0 deterministic extraction</text>
+
+  <!-- footer caption -->
+  <text x="500" y="535" fill="#999999" font-size="9" text-anchor="middle" font-style="italic">Proven live against a real public site over real HTTP: cheap model failed the gauntlet, auto-escalated, promoted a crawler</text>
+  <text x="500" y="550" fill="#999999" font-size="9" text-anchor="middle" font-style="italic">that then extracted a fresh page (title, price, stock, URL, image) for $0 with zero model calls.</text>
+</svg>
+
 The architecture treats the LLM as two roles at once. As a <strong>compiler</strong> it turns a target into cheap deterministic extraction code that runs for free. As an <strong>oracle</strong> it is the source of truth a regenerated crawler must agree with before it is trusted. Between them sits the piece that makes the whole thing safe to run unattended: a <strong>promotion gauntlet</strong>.
 
 <br><br><strong>How a regenerated crawler earns promotion:</strong>
@@ -6057,7 +6176,9 @@ The architecture treats the LLM as two roles at once. As a <strong>compiler</str
 
 <br><br>This matters because "self-healing scraper" demos are easy and trustworthy self-healing is hard. Any model can produce a plausible rewrite. The engineering is in the verification that decides whether the rewrite is correct before it touches production data, which is the same adversarial-verification idea this guide's AI Workflow is built around. It pairs naturally with the agentic reverse-engineering shift in the next card: the model drives the toolchain, but a gauntlet, not the model's confidence, decides what is true.
 
-<br><br><em>Pattern shared publicly by Jimmy Liu (Crawloop, Apache-2.0 proof of concept), June 2026. Honest status from the author: a working POC without the managed proxies, scale, or dashboards a funded tool ships, and a greedy oracle is still weak on long listings.</em>
+<br><br><strong>The proof that separates it from a demo:</strong> the author ran the whole loop live against a real public site over real HTTP, not a saved fixture. The cheap model could not clear the gauntlet, so the loop auto-escalated to a stronger model, promoted a crawler, and that promoted crawler then extracted a fresh page (title, price, stock, URL, cover image) for zero cost with zero further model calls. That is the claim that matters: not "an LLM fixed my scraper" but "the system decided, on its own, that the fix was trustworthy enough to run unattended, and it was right." The honest weak spot is in the open too: holding a greedy oracle to exact agreement across a twenty-item listing is hard, and that is where it currently strains.
+
+<br><br><em>Pattern and live proof of concept shared publicly by the author of Crawloop (Apache-2.0 alpha POC, github.com/Jimmynycu/Crawloop), June 2026. Honest status from the README: a working POC without the managed proxies, scale, or dashboards the funded self-healing tools (Kadoa, ScrapeGraphAI, and others) ship.</em>
     </div>
   </div>
 
@@ -9495,7 +9616,7 @@ Queue-It: virtual waiting room, Cloudflare Worker checks queue token cookie. Fly
 
 DECISION FLOW (priority order, start left move right only when needed):
 Step 0 RECON: capture session in Burp Suite + PortSwigger MCP + Claude Code. Trace cookie lifecycle, identify sensor endpoints. 4 hours -> 2 minutes.
-Step 1 MOBILE API: apps often hit same backend with zero anti-bot. HTTPToolkit + Frida (hook Java/C, bypass cert pinning) + JADX (decompile APK) + Ghidra (native .so) on rooted Android emulator. NATIVE REQUEST-SIGNING: hardened apps (e.g. Shopee) push request signing into compiled native .so libraries, so interception + JADX hit a wall at the 'native' keyword. Strategic fork: if the lib is READABLE CRYPTO, reverse it and reimplement in Python to sign OFFLINE at any volume with no app in the loop; if it is a BYTECODE VM you cannot rewrite, keep the app running and drive its own signer as an ORACLE your scraper calls. Both beat babysitting a rooted phone because a signer/oracle runs server-side in your scraper. Four-tool toolchain: androguard (static recon, lists .so libs + classes declaring native methods), JADX (managed Java, find the class/method crossing into native, stops at the native keyword), Ghidra (NSA framework, only tool that reads native code, decompiles .so to pseudo-C, run headless to script + repeat), Frida (inject JS into running process, hook+call functions live to confirm static reading + read runtime-only values). Method: model the layers first (managed Java -> native .so libs -> signing interceptors) and target the one lib that matters. Tells: a SMALL signing lib (~280KB) has little room for an obfuscator, and auto-analysis finishing fast with zero decompile failures means not packed/virtualized; surviving C++ symbols give function names free. Some values are not in the file: a fixed AES IV can live in .bss (zero-filled on disk, set at runtime), so hash/HMAC/Base64 modes are fully determined by input+key but AES modes need the IV read from the live process once. AGENTIC RE: the shift is not that LLMs read obfuscated code perfectly, it is that agentic workflows coordinate the whole pipeline (query disassemblers/decompilers, inspect cross-refs, generate scripts, patch binaries, rerun, refine in a loop); pairs with native reversing - point a coding agent at a target, spin up specialist sub-agents (engines/impersonation/detection/architecture/fingerprints), synthesize + stress-test; caveat: heavy virtualization/bytecode VMs stay resilient, fall back to the oracle approach. SELF-HEALING SCRAPERS (LLM as compiler+oracle): LLM compiles a cheap deterministic crawler once (runs at $0), serves a broken request live to avoid outage while regenerating in background; promotion gauntlet decides trust (regenerated crawler must agree with the oracle on EVERY item not on average, return exact same record count, hold across >=3 independent samples); tiered model escalation (cheap model default, escalate only when nothing clears the gauntlet). The moat is the proof the heal is right, not the heal. MobileHackingLab free course.
+Step 1 MOBILE API: apps often hit same backend with zero anti-bot. HTTPToolkit + Frida (hook Java/C, bypass cert pinning) + JADX (decompile APK) + Ghidra (native .so) on rooted Android emulator. NATIVE REQUEST-SIGNING: hardened apps (e.g. Shopee) push request signing into compiled native .so libraries, so interception + JADX hit a wall at the 'native' keyword. Strategic fork: if the lib is READABLE CRYPTO, reverse it and reimplement in Python to sign OFFLINE at any volume with no app in the loop; if it is a BYTECODE VM you cannot rewrite, keep the app running and drive its own signer as an ORACLE your scraper calls. Both beat babysitting a rooted phone because a signer/oracle runs server-side in your scraper. Four-tool toolchain: androguard (static recon, lists .so libs + classes declaring native methods), JADX (managed Java, find the class/method crossing into native, stops at the native keyword), Ghidra (NSA framework, only tool that reads native code, decompiles .so to pseudo-C, run headless to script + repeat), Frida (inject JS into running process, hook+call functions live to confirm static reading + read runtime-only values). Method: model the layers first (managed Java -> native .so libs -> signing interceptors) and target the one lib that matters. Tells: a SMALL signing lib (~280KB) has little room for an obfuscator, and auto-analysis finishing fast with zero decompile failures means not packed/virtualized; surviving C++ symbols give function names free. Some values are not in the file: a fixed AES IV can live in .bss (zero-filled on disk, set at runtime), so hash/HMAC/Base64 modes are fully determined by input+key but AES modes need the IV read from the live process once. AGENTIC RE: the shift is not that LLMs read obfuscated code perfectly, it is that agentic workflows coordinate the whole pipeline (query disassemblers/decompilers, inspect cross-refs, generate scripts, patch binaries, rerun, refine in a loop); pairs with native reversing - point a coding agent at a target, spin up specialist sub-agents (engines/impersonation/detection/architecture/fingerprints), synthesize + stress-test; caveat: heavy virtualization/bytecode VMs stay resilient, fall back to the oracle approach. SELF-HEALING SCRAPERS (LLM as compiler+oracle): LLM compiles a cheap deterministic crawler once (runs at $0), serves a broken request live to avoid outage while regenerating in background; promotion gauntlet decides trust (regenerated crawler must agree with the oracle on EVERY item not on average, return exact same record count, hold across >=3 independent samples); tiered model escalation (cheap model default, escalate only when nothing clears the gauntlet). The moat is the proof the heal is right, not the heal. PROVEN LIVE (not a fixture): author ran the full loop against a real public site over real HTTP; the cheap model could not clear the gauntlet so it auto-escalated to a stronger model, promoted a crawler, and that promoted crawler extracted a FRESH page (title, price, stock, URL, cover image) for $0 with zero further model calls. Honest weak spot (in the open): holding a greedy oracle to exact agreement across a 20-item listing is hard. Repo: github.com/Jimmynycu/Crawloop (Apache-2.0 alpha POC). Context: "self-healing scraper" is a crowded 2026 buzzword (Kadoa, Crawl4AI, ScrapeGraphAI and others); Crawloop's contribution is not the regeneration (any LLM can rewrite a broken scraper) but the VERIFICATION that decides whether the rewrite is trustworthy before it ships. MobileHackingLab free course.
 Step 2 HIDDEN APIs: inspect XHR, __NEXT_DATA__, GraphQL endpoints in HTML.
 Step 3 HTTP CLIENT: curl_cffi (Python, impersonate=chrome124), httpx, Scrapling.
 Step 4 BROWSER AUTOMATION: Camoufox (Firefox-based patched), CloakBrowser (Chromium binary-patched, +9.1K stars), Patchright, Playwright. Pydoll for CDP-less.
@@ -9767,7 +9888,7 @@ const SECTION_MAP = [
   {
     id: 'innovation',
     label: 'Innovation Feed',
-    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower','crawloop','self-healing scraper','llm compiler','llm oracle','promotion gauntlet','agentic re','agentic reverse engineering','deobfuscation','tiered model escalation','drive disassembler','obscura','searxng','crawl4ai','rust browser','lightweight browser','dom to markdown','agent-native','agent context'],
+    keywords: ['innovation','field notes','linkedin','insight','news','2026','latest','newest','scrapling 200k','swiftshadow','rayobrowse','cocoindex','community insights','trending','recent','what is new','update','what changed','rooney','john watson','self-hosted browser','defense in depth','stack not vendor','26 sites','home depot','ticketmaster','rebranded','first-party cloaking','lazy-loaded','multi-hop','browser vendors','edge agent','frost ssd','detectincognito','flysafair','queue-it bypass','proxyops','cloakbrowser','hyphenation','burp mcp','agentic browser stack','ai browser','ai-native browser','atlas','comet','dia','tollbit','pay-per-crawl','prorata','publisher licensing','multilogin','kameleo','adspower','crawloop','self-healing scraper','llm compiler','llm oracle','promotion gauntlet','agentic re','agentic reverse engineering','deobfuscation','tiered model escalation','drive disassembler','obscura','searxng','crawl4ai','rust browser','lightweight browser','dom to markdown','agent-native','agent context','compile not runtime','llm as compiler','live test','zero model calls','crawloop repo','self-healing proof','trust score','record count match'],
   },
   {
     id: 'tools',
