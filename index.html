@@ -332,6 +332,13 @@ pre{padding:20px 18px;overflow-x:auto;font-family:var(--mono);font-size:14px;lin
 .card{background:var(--s1);padding:26px 24px;transition:all .15s}
 .card:hover{background:var(--s2);}
 .cbar{height:2px;margin-bottom:14px;border-radius:1px}
+/* verdict badges for the case-law cards */
+.cverd{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:9px;white-space:nowrap}
+.cv-win{background:rgba(76,175,116,.13);color:#4caf74;border:1px solid rgba(76,175,116,.38)}
+.cv-loss{background:rgba(224,85,85,.13);color:#e05555;border:1px solid rgba(224,85,85,.38)}
+.cv-split{background:rgba(224,123,48,.13);color:#e07b30;border:1px solid rgba(224,123,48,.38)}
+.cwho{font-family:var(--mono);font-size:10.5px;color:var(--t2);margin-bottom:9px;padding-left:1px}
+.cwho b{color:#f0f0f4;font-weight:700}
 .ctag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
 .cname{font-size:18px;font-weight:700;color:var(--t1);margin-bottom:6px;line-height:1.15}
 .cname .cstar{font-size:10px;color:var(--y);font-family:var(--mono);margin-left:5px}
@@ -2334,62 +2341,111 @@ function dismissLegalBanner(){
   </div>
 </div>
 
-<h3 class="rh rv" style="margin-top:44px">The case law scrapers actually rely on</h3>
+<h3 class="rh rv" style="margin-top:44px">The case law: who actually won</h3>
 <div class="ib rv">
-Most of what people believe about scraping law is folklore. The US line of cases below is the part that is actually settled, and it has moved a long way in favour of collecting public data. Read it for the shape of the reasoning rather than as permission: these are mostly <em>United States</em> rulings, several are district-court decisions that can be appealed, and none of them speak to what you do with the data afterwards.</div>
-<div class="cards c2 rv" style="margin-top:14px">
+Most of what people believe about scraping law is folklore. Below are the decisions that set the line, with the winner stated plainly. The wins for data collectors are real and substantial, but narrower than the headlines suggest, and the losses are just as instructive. These are almost entirely <em>United States</em> rulings, several are district-court decisions that can be and sometimes are reversed, and none of them speak to what you do with the data afterwards.</div>
+
+<div class="ib rv" style="margin-top:16px;border-left:3px solid var(--grn)"><strong>Wins for data collectors</strong></div>
+<div class="cards c2 rv" style="margin-top:12px">
 
   <div class="card rv rv-scale">
     <div class="cbar" style="background:var(--grn)"></div>
+    <span class="cverd cv-win">Scraper won</span>
     <div class="ctag">Ninth Circuit &middot; 2019, reaffirmed 2022</div>
     <div class="cname">hiQ Labs v. LinkedIn</div>
     <div class="csub">Public pages have no lock to pick</div>
-    <div class="cbody">LinkedIn sent a cease and desist over scraping of public profiles. The Ninth Circuit held that scraping publicly accessible data likely does <strong>not</strong> violate the Computer Fraud and Abuse Act, because a page open to anyone has no authorisation gate to breach. It reaffirmed this in April 2022 after the Supreme Court sent the case back in light of Van Buren. <strong>The part people forget:</strong> hiQ still lost. In November 2022 the court found it had breached LinkedIn's User Agreement, which it had accepted by creating accounts, and the case ended in a consent judgment. The CFAA shields you from hacking claims on public pages. It does not shield you from a contract you agreed to.</div>
+    <div class="cwho">Winner: <b>hiQ Labs</b></div>
+    <div class="cbody">LinkedIn sent a cease and desist over scraping of public profiles, and hiQ sued. The Ninth Circuit held that scraping publicly accessible data likely does <strong>not</strong> violate the Computer Fraud and Abuse Act, because a page open to anyone has no authorisation gate to breach. It reaffirmed this in April 2022 after the Supreme Court sent the case back in light of Van Buren. This is the most-cited authority in the field, and every later win leans on it.</div>
   </div>
 
   <div class="card rv rv-scale">
     <div class="cbar" style="background:var(--grn)"></div>
+    <span class="cverd cv-win">Defendant won</span>
     <div class="ctag">US Supreme Court &middot; 2021</div>
     <div class="cname">Van Buren v. United States</div>
     <div class="csub">Breaking a rule is not breaking in</div>
-    <div class="cbody">The Court held that "exceeds authorized access" reaches only information in areas of a system that are <em>off limits to you</em>, not information you may lawfully reach but use for a purpose the owner dislikes. The practical effect is large: violating a site's terms of service is not, by itself, a federal crime, and CFAA exposure now turns on whether you bypassed a real technological gate such as a login. The Ninth Circuit read it in hiQ as confirming that "without authorization" simply does not apply to public websites.</div>
+    <div class="cwho">Winner: <b>Nathan Van Buren</b></div>
+    <div class="cbody">Not a scraping case, but the one that reshaped the ground under all of them. The Court held that &quot;exceeds authorized access&quot; reaches only information in areas of a system that are <em>off limits to you</em>, not information you may lawfully reach but use for a purpose the owner dislikes. So violating a site&rsquo;s terms is not, by itself, a federal crime, and CFAA exposure turns on whether you bypassed a real technological gate such as a login.</div>
   </div>
 
   <div class="card rv rv-scale">
-    <div class="cbar" style="background:var(--cy)"></div>
+    <div class="cbar" style="background:var(--grn)"></div>
+    <span class="cverd cv-win">Scraper won</span>
     <div class="ctag">N.D. California &middot; January 2024</div>
     <div class="cname">Meta v. Bright Data</div>
     <div class="csub">Logged out is the whole ballgame</div>
-    <div class="cbody">Meta sued over the scraping of public Facebook and Instagram pages. The court dismissed the CFAA claim and the parallel California computer-fraud claim outright, following hiQ and Van Buren. The breach-of-contract claim survived only for the window in which Bright Data actually held an account relationship with Meta. The rule that fell out of it is the one worth memorising: <strong>a platform's terms bind its account holders, not logged-out visitors.</strong></div>
+    <div class="cwho">Winner: <b>Bright Data</b></div>
+    <div class="cbody">Meta sued over the scraping of public Facebook and Instagram pages and lost the core of its case. The court dismissed the CFAA claim and the parallel California computer-fraud claim outright. The breach-of-contract claim survived only for the window in which Bright Data actually held an account relationship with Meta. The rule that fell out of it is worth memorising: <strong>a platform&rsquo;s terms bind its account holders, not logged-out visitors.</strong></div>
   </div>
 
   <div class="card rv rv-scale">
-    <div class="cbar" style="background:var(--cy)"></div>
+    <div class="cbar" style="background:var(--grn)"></div>
+    <span class="cverd cv-win">Scraper won</span>
     <div class="ctag">N.D. California &middot; May 2024</div>
     <div class="cname">X Corp. v. Bright Data</div>
     <div class="csub">You cannot fence off what you do not own</div>
-    <div class="cbody">Judge Alsup dismissed every claim X brought: breach of contract, tortious interference, unjust enrichment, trespass to chattels and unfair competition. Two strands of reasoning matter. First, <strong>X's users, not X, hold the rights in the content</strong>, and X holds only a non-exclusive licence, so it cannot use its terms to exclude everyone else from data it does not own. Second, those state-law claims were <strong>preempted by the Copyright Act</strong>. The court warned that letting platforms control access to public data would tend toward "information monopolies".</div>
+    <div class="cwho">Winner: <b>Bright Data</b></div>
+    <div class="cbody">Judge Alsup dismissed every claim X brought: breach of contract, tortious interference, unjust enrichment, trespass to chattels and unfair competition. Two strands matter. <strong>X&rsquo;s users, not X, hold the rights in the content</strong>, and X holds only a non-exclusive licence, so it cannot use its terms to exclude everyone else from data it does not own. And those state-law claims were <strong>preempted by the Copyright Act</strong>. The court warned that letting platforms gate public data tends toward &quot;information monopolies&quot;.</div>
   </div>
 
   <div class="card rv rv-scale">
-    <div class="cbar" style="background:var(--pur)"></div>
+    <div class="cbar" style="background:var(--grn)"></div>
+    <span class="cverd cv-win">Researcher won</span>
     <div class="ctag">N.D. California &middot; March 2024, on appeal</div>
-    <div class="cname">X Corp. v. Center for Countering Digital Hate</div>
+    <div class="cname">X Corp. v. CCDH</div>
     <div class="csub">Research survives a hostile platform</div>
-    <div class="cbody">X sued a non-profit research organisation over scraping of public posts that fed critical reports about the platform. The contract and CFAA claims were dismissed, though the decision is on appeal to the Ninth Circuit. Read it alongside <strong>Sandvig v. Barr</strong> (D.D.C. 2020), which held that breaching terms of service does not turn academic and journalistic auditing into a federal crime, and the pattern is clear: courts have been notably protective of public-interest research, and hostile motive on the plaintiff's side does not help them.</div>
+    <div class="cwho">Winner: <b>Center for Countering Digital Hate</b></div>
+    <div class="cbody">X sued a non-profit research organisation over scraping of public posts that fed critical reports about the platform. The contract and CFAA claims were dismissed, though the decision is on appeal to the Ninth Circuit. Read with <strong>Sandvig v. Barr</strong> (D.D.C. 2020), which held that breaching terms of service does not turn academic and journalistic auditing into a federal crime, courts have been notably protective of public-interest research.</div>
+  </div>
+
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--grn)"></div>
+    <span class="cverd cv-win">Scrapers won</span>
+    <div class="ctag">The claim that keeps failing</div>
+    <div class="cname">Trespass to chattels</div>
+    <div class="csub">Politeness is a legal argument</div>
+    <div class="cwho">Winner: <b>Scrapers, repeatedly</b></div>
+    <div class="cbody">The dot-com era theory from <strong>eBay v. Bidder&rsquo;s Edge</strong> (2000), that a scraper trespasses on the server it queries, has become much harder to run. In X v. Bright Data it was dismissed because X never adequately pleaded any damage, with the court noting the access was no more burdensome than a person using a browser. Unusually actionable: a rate-limited crawl that does not degrade the service gives this claim almost nothing to grip. One that hammers the target hands it over.</div>
+  </div>
+
+</div>
+
+<div class="ib rv" style="margin-top:22px;border-left:3px solid var(--red)"><strong>Losses, and the lines you do not want to cross</strong></div>
+<div class="cards c2 rv" style="margin-top:12px">
+
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--red)"></div>
+    <span class="cverd cv-loss">Platform won</span>
+    <div class="ctag">N.D. California &middot; November 2022</div>
+    <div class="cname">hiQ Labs v. LinkedIn, contract phase</div>
+    <div class="csub">The same case, the other ending</div>
+    <div class="cwho">Winner: <b>LinkedIn</b></div>
+    <div class="cbody">The part usually left out of the hiQ story. After winning on the CFAA, hiQ lost on contract: the court found it had breached LinkedIn&rsquo;s User Agreement, which it had accepted by creating accounts, and the case ended in a consent judgment. hiQ did not survive as a business. <strong>The CFAA shields you from hacking claims on public pages. It does not shield you from a contract you agreed to.</strong></div>
+  </div>
+
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--red)"></div>
+    <span class="cverd cv-loss">Platform won</span>
+    <div class="ctag">Ninth Circuit &middot; 2016</div>
+    <div class="cname">Facebook v. Power Ventures</div>
+    <div class="csub">A cease and desist can revoke permission</div>
+    <div class="cwho">Winner: <b>Facebook</b></div>
+    <div class="cbody">Power Ventures aggregated users&rsquo; social accounts with their consent. Facebook sent a cease and desist and blocked its IPs; Power Ventures kept going. The Ninth Circuit held that once permission is expressly revoked, continued access is &quot;without authorization&quot; under the CFAA, even where the users themselves consented. Still cited today, which is why a cease and desist changes your legal position in a way a robots.txt file does not.</div>
   </div>
 
   <div class="card rv rv-scale">
     <div class="cbar" style="background:var(--orn)"></div>
-    <div class="ctag">The theory that keeps failing</div>
-    <div class="cname">Trespass to chattels needs actual harm</div>
-    <div class="csub">Politeness is a legal argument</div>
-    <div class="cbody">The dot-com era theory from <strong>eBay v. Bidder's Edge</strong> (2000), that a scraper trespasses on the server it queries, has become much harder to run. In X v. Bright Data the claim was dismissed because X never adequately pleaded any damage, with the court observing that the access was no more burdensome than a person using a browser. The lesson is unusually actionable: a crawl that is rate-limited and does not degrade the service gives this claim almost nothing to grip. A crawl that hammers the target hands it over.</div>
+    <span class="cverd cv-split">Split decision</span>
+    <div class="ctag">D. Delaware &middot; 2024 verdict, overturned January 2025</div>
+    <div class="cname">Ryanair v. Booking.com</div>
+    <div class="csub">Won the trial, lost the judgment</div>
+    <div class="cwho">Winner: <b>Booking.com on the verdict, Ryanair on the reasoning</b></div>
+    <div class="cbody">A Delaware jury found in 2024 that Booking.com violated the CFAA by scraping Ryanair, awarding exactly the $5,000 statutory minimum. In January 2025 the court granted Booking.com judgment as a matter of law and <strong>overturned that verdict</strong>, finding Ryanair had not proved the required $5,000 of qualifying loss, since only its anti-bot spend counted and customer-service costs did not. But the same ruling held the CFAA applies extraterritorially, and that access behind a login after a cease and desist can still violate it. The scraper walked away; the reasoning left real exposure behind.</div>
   </div>
 
 </div>
 <div class="ib tip rv" style="margin-top:14px">
-<strong>What this line of cases does not give you.</strong> It is a narrow shield, and reading it as a general licence is how people get hurt. It does not cover <strong>logged-in scraping</strong> against terms you accepted, which is precisely where hiQ lost after winning everything else. It says nothing about <strong>personal data</strong>, where GDPR, CCPA and their equivalents operate on entirely separate logic and have produced real penalties against scraped-face databases. It does not resolve <strong>copyright</strong>, where collecting a work and training on it are separate questions still being litigated. It does not stop a site from <strong>blocking you</strong>: the same judge who dismissed X's claims went out of his way to confirm that a platform may use technological self-help to defend its systems, so none of this obliges anyone to let you in. And it is <strong>jurisdictional</strong>: these are US decisions, several from district courts and at least one under appeal, while the EU adds database rights on top of everything above. Treat the pattern as a way to reason about risk, and take an actual lawyer for anything commercial.
+<strong>The pattern across all of them.</strong> Data collectors win when the data is <em>public</em>, the access is <em>logged out</em>, no cease and desist has landed, and the crawl causes no measurable harm. They lose when they logged in and accepted terms (hiQ), when they kept going after being told to stop (Power Ventures), or when the fight moves to ground the CFAA never covered. What this line of cases does <strong>not</strong> give you: comfort on <strong>personal data</strong>, where GDPR, CCPA and their equivalents run on entirely separate logic and have produced real penalties against scraped-face databases; resolution on <strong>copyright</strong>, where collecting a work and training a model on it are separate questions still being litigated; or any right to <strong>be let in</strong>, since the same judge who dismissed X&rsquo;s claims confirmed a platform may use technological self-help to block you. It is also jurisdictional: these are US decisions, several district-level, at least one on appeal, and the EU stacks database rights on top. Treat the pattern as a way to reason about risk, and take a real lawyer for anything commercial.
 </div>
 
 <h3 class="rh rv">The line is moving: agents, robots.txt, and the end of a clean binary</h3>
