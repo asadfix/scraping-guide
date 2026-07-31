@@ -526,6 +526,24 @@ h3.rh{font-family:var(--serif);font-size:clamp(22px,2.5vw,26px);font-style:itali
 
 /* ── LLM BUTTON ──────────────── */
 #llmw{position:fixed;bottom:26px;right:26px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+/* Persistent ethics note pinned above the ScrapeIQ popup. Not dismissible. */
+#llm-ethics{
+  max-width:252px;background:rgba(20,20,25,.94);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid rgba(245,197,24,.22);border-left:3px solid var(--y);
+  border-radius:8px;padding:8px 11px;
+  font-family:var(--sans);font-size:10.5px;line-height:1.5;
+  color:rgba(240,240,244,.62);
+  display:flex;gap:7px;align-items:flex-start;
+  box-shadow:0 4px 18px rgba(0,0,0,.45);
+  pointer-events:none;
+}
+#llm-ethics b{color:rgba(245,197,24,.92);font-weight:700}
+#llm-ethics code{background:rgba(255,255,255,.06);border-radius:3px;padding:0 3px;font-size:9.5px;color:rgba(240,240,244,.8)}
+#llm-ethics .lne-i{flex-shrink:0;color:var(--y);font-size:12px;line-height:1.25}
+@media(max-width:520px){
+  #llm-ethics{max-width:200px;font-size:9.5px;padding:7px 9px}
+}
 #llmbtn{
   width:56px;height:56px;border-radius:50%;
   background:linear-gradient(135deg,#f5c518,#c49a10);
@@ -10447,6 +10465,10 @@ The payoff scales past the one app. Most apps that protect their API at all push
 
 <!-- LLM ASSISTANT -->
 <div id="llmw">
+  <div id="llm-ethics" role="note" aria-label="Ethical use notice">
+    <span class="lne-i" aria-hidden="true">&#9878;</span>
+    <span><b>Educational answers only.</b> Respect <code>robots.txt</code>, rate limits and each site's Terms of Service.</span>
+  </div>
   <div id="llmp">
     <div class="llmh">
       <div style="display:flex;align-items:center;gap:12px">
