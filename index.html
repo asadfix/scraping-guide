@@ -661,7 +661,7 @@ h3.rh{font-family:var(--serif);font-size:clamp(22px,2.5vw,26px);font-style:itali
 .hero-inner{position:relative;z-index:2;text-align:center;max-width:860px;margin:0 auto;padding:72px 28px 96px}
 .hero-kicker{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--y);font-weight:500;margin-bottom:28px;opacity:0;animation:hfade .6s ease .2s forwards}
 .hero-kicker::before,.hero-kicker::after{content:'';width:24px;height:1px;background:var(--y)}
-.hero-h{font-family:var(--serif);font-size:clamp(52px,8.5vw,110px);font-weight:400;line-height:.88;letter-spacing:-.035em;color:#f0f0f4;margin-bottom:28px;opacity:0;animation:hfade .7s ease .4s forwards}
+.hero-h{font-family:var(--serif);font-size:clamp(52px,8.5vw,110px);font-weight:400;line-height:.88;letter-spacing:-.035em;color:#f0f0f4;margin-bottom:28px;text-wrap:balance;opacity:0;animation:hfade .7s ease .4s forwards}
 .hero-h em{font-style:italic;color:var(--y)}
 .hero-h strong{font-weight:700;display:block}
 .hero-desc{font-size:clamp(15px,1.8vw,18px);color:rgba(240,240,244,.55);max-width:600px;line-height:1.75;margin:0 auto 44px;opacity:0;animation:hfade .7s ease .6s forwards}
@@ -2242,7 +2242,7 @@ function dismissLegalBanner(){
   <div class="hero-inner">
     <div class="hero-kicker">Here is everything I know about scraping</div>
     <h1 class="hero-h">
-      They built walls.<br><em>I spent 7 years finding doors.</em>
+      Every request tells a story.<br><em>I spent 7 years learning to read&nbsp;it.</em>
     </h1>
     <p class="hero-desc">I started scraping in 2018. Since then I have worked across five companies, built hundreds of production spiders, and fought every major anti-bot system that exists. This guide is everything that actually worked.</p>
     <div class="hero-chips">
