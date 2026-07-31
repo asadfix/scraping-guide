@@ -2150,7 +2150,7 @@ section[id], div[id^="self-heal"] {
   "url": "https://web-scraping-guide.com/",
   "jobTitle": "Data Engineer",
   "knowsAbout": ["Web Scraping", "Anti-Bot Bypass", "Browser Fingerprinting", "TLS Fingerprinting", "Proxy Infrastructure", "Reverse Engineering", "Data Engineering"],
-  "description": "Data engineer with 7+ years building production web scrapers at scale, including 500+ scrapers at Dubizzle and 50M+ data points at Fix.com.",
+  "description": "Data engineer with 7+ years building production web scrapers at scale, specialising in anti-bot evasion, TLS fingerprinting and large-scale crawling architecture.",
   "sameAs": [
     "https://www.linkedin.com/in/asad-ikram98/",
     "https://twitter.com/asad_ikram98"
@@ -2166,23 +2166,22 @@ section[id], div[id^="self-heal"] {
 <!-- Legal Disclaimer Toast -->
 <div id="legal-banner" style="position:fixed;top:calc(var(--nh,56px) + 10px);left:50%;transform:translateX(-50%) translateY(-150%);z-index:250;max-width:560px;width:calc(100% - 32px);background:rgba(26,26,15,.97);backdrop-filter:blur(8px);border:1px solid rgba(245,197,24,.3);border-radius:10px;padding:12px 16px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:var(--sans,'DM Sans',sans-serif);font-size:12px;color:#bbb;line-height:1.55;opacity:0;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s ease;display:flex;align-items:flex-start;gap:10px">
   <span style="flex:1"><strong style="color:#f5c518">Educational use only.</strong> This guide covers web scraping for legitimate data collection, research, and education. Always comply with a site's Terms of Service, <code>robots.txt</code>, and applicable laws. It does not condone unauthorized access.</span>
-  <button onclick="dismissLegalBanner()" aria-label="dismiss" style="flex-shrink:0;background:none;border:none;color:#777;cursor:pointer;font-size:16px;line-height:1;padding:0 2px;margin-top:-1px">&times;</button>
+  <button onclick="dismissLegalBanner()" aria-label="Close disclaimer" title="Close" style="flex-shrink:0;background:none;border:none;color:#777;cursor:pointer;font-size:16px;line-height:1;padding:0 2px;margin-top:-1px">&times;</button>
 </div>
 <script>
 (function(){
   var b = document.getElementById('legal-banner');
-  // slide in shortly after load
+  if(!b) return;
+  // Slide in shortly after load and then STAY. No auto-dismiss:
+  // the notice remains until the reader closes it themselves.
   setTimeout(function(){
     b.style.transform = 'translateX(-50%) translateY(0)';
     b.style.opacity = '1';
-  }, 800);
-  // auto-dismiss after 8s of being visible
-  window._legalTimer = setTimeout(dismissLegalBanner, 8800);
+  }, 600);
 })();
 function dismissLegalBanner(){
   var b = document.getElementById('legal-banner');
   if(!b) return;
-  clearTimeout(window._legalTimer);
   b.style.transform = 'translateX(-50%) translateY(-150%)';
   b.style.opacity = '0';
   setTimeout(function(){ if(b) b.style.display = 'none'; }, 600);
@@ -2211,6 +2210,7 @@ function dismissLegalBanner(){
     </a>
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nls" id="mobNav">
+      <a class="nl" href="#legal-ethics" style="color:var(--y)">Legal</a>
       <a class="nl" href="#flow">Flow</a>
       <a class="nl" href="#detect">Detect</a>
       <a class="nl" href="#antibots">Anti-Bots</a>
@@ -2228,7 +2228,6 @@ function dismissLegalBanner(){
   <a class="nl" href="#post-extract">Post-Ext</a>
       <a class="nl" href="#mobile">Mobile</a>
       <a class="nl" href="#jargon">Jargon</a><a class="nl" href="#community">Community</a>
-  <a class="nl" href="#legal-ethics">Legal</a>
       <a class="nl" href="#tl">TL;DR</a>
     </div>
   </div>
@@ -2283,6 +2282,109 @@ function dismissLegalBanner(){
   </div>
 </section>
 
+<!-- ═══ LEGAL & ETHICS (moved to front: read this first) ═══ -->
+<section class="sec" id="legal-ethics">
+<div class="sk rv rv-l"><span class="sn">★</span> Read this first, legal &amp; ethics</div>
+<h2 class="sh">The part most guides<br><em>conveniently skip</em></h2>
+<p class="ss">Bypassing detection is only half the question. The other half is whether you should, whether it is legal where you operate, and whether your approach survives contact with reality. This section comes first on purpose. It is deliberately honest about the limits of everything that follows.</p>
+
+<h3 class="rh rv" style="margin-top:8px">This is not legal advice, but you need to think about these</h3>
+<div class="cards c2 rv">
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:#ff6b6b"></div>
+    <div class="ctag">Legal exposure</div>
+    <div class="cname">Terms of Service &amp; CFAA-style law</div>
+    <div class="cbody">Scraping publicly available data has been broadly upheld in some jurisdictions (e.g. the US hiQ v LinkedIn line of cases), but violating a site's Terms of Service, bypassing an authentication wall, or accessing non-public data can expose you to breach-of-contract or computer-misuse claims (CFAA in the US, the Computer Misuse Act in the UK, and equivalents elsewhere). "Technically possible" and "legally safe" are different questions. Logging in and then scraping is a materially different legal posture than scraping anonymous public pages.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:#22d3ee"></div>
+    <div class="ctag">Privacy law</div>
+    <div class="cname">GDPR, CCPA &amp; personal data</div>
+    <div class="cbody">If your scrape collects personal data of EU/UK residents, GDPR applies regardless of where you operate, and you likely become a data controller with obligations (lawful basis, retention limits, subject rights). The same logic applies to CCPA in California and a growing list of regional laws. Scraping names, profiles, reviews, or contact details is not the same as scraping product prices. Treat personal data as radioactive unless you have a clear lawful basis.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:#f5c518"></div>
+    <div class="ctag">Ethics &amp; sustainability</div>
+    <div class="cname">robots.txt, rate limits &amp; not being a jerk</div>
+    <div class="cbody">robots.txt is not legally binding in most places, but ignoring it is a signal of intent and increasingly cited in disputes. Beyond law: hammering a small site with thousands of requests can degrade service for real users and is the fastest way to get your IP ranges burned across an entire provider. Pace your requests, cache aggressively, scrape during off-peak hours, and take only what you need. Sustainable scraping is slow scraping.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:#a78bfa"></div>
+    <div class="ctag">Jurisdiction</div>
+    <div class="cname">Where you are matters</div>
+    <div class="cbody">The legality of an identical scrape can differ between the country you operate from, the country the target is hosted in, and the country whose residents' data you collect. A technique that is low-risk in one jurisdiction can carry real exposure in another. If you are operating commercially or at scale, this is a question for an actual lawyer in the relevant jurisdictions, not a guide on the internet.</div>
+  </div>
+</div>
+
+<h3 class="rh rv">The line is moving: agents, robots.txt, and the end of a clean binary</h3>
+<div class="ib rv">
+For twenty years the ethical and technical model rested on a tidy split: humans on one side, bots on the other, with <code>robots.txt</code> as the polite fence between them. That split is dissolving, and it changes how you should think about both the ethics and the defences. The scale of the shift is no longer hypothetical: in June 2026 Cloudflare reported that automated traffic had crossed the majority line for the first time in the web's history, at <strong>57.5% of HTTP requests to HTML content</strong> against 42.5% from humans, driven mostly by agentic AI. Read the number carefully, it measures crawlable web content rather than every packet, but the direction is unambiguous: the web is now a machine-to-machine environment as much as a human one, which is the whole reason this skill set stopped being niche.<br><br>There is a second number underneath the first that matters even more for anyone who scrapes. Cloudflare's <strong>crawl-to-refer ratio</strong> measures how many pages a platform crawls for every visitor it sends back. In 2026 the AI crawlers sit at extraordinary imbalances, with Anthropic's reported in the thousands to tens of thousands of pages crawled per referral and other AI operators in the hundreds to low thousands, against a traditional search engine like Google at roughly five to one. Read these as dated, volatile snapshots, the published figure for a single operator has swung from six figures to low five figures inside a year and moves month to month, so treat any specific ratio as a reading rather than a constant. The structure is what is stable: the dominant readers of the web now consume vastly more than they return, which is exactly why so much of the web is hardening against automated reading at the same time as automated reading becomes the majority of traffic. That tension, more machines reading, more defences raised against them, is the backdrop the rest of this guide operates in.<br><br>
+Start with the uncomfortable truth about <code>robots.txt</code>: <strong>it was never a security control</strong>. It is a request, and only the bots that choose to listen ever obeyed it. That was a workable social contract when the only things crawling the web were search engines and the occasional scraper. It breaks the moment an autonomous agent with a set of tools and a goal is involved. Give an agent the instruction to gather something and a browser to do it with, and a blocked default user agent does not stop it, it problem-solves around the block, picks a tool that blends in, and keeps going, without ever being told to evade. The obedience was always voluntary, and agents do not share the assumptions that made it hold.
+</div>
+<div class="cards c2 rv" style="margin-top:18px">
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--cy)"></div>
+    <div class="ctag">The binary is breaking</div>
+    <div class="cname">"Human or bot" no longer maps cleanly</div>
+    <div class="cbody">When an agent browses on behalf of a real person, which is it? The platforms themselves are blurring the line: browser and automation vendors have started shipping agent modes where <code>navigator.webdriver</code> reports <code>false</code>, the same value a human-operated browser returns. The signal that reliably meant "automated" for a decade is being switched off from inside the platform, not defeated from outside. A defender can no longer treat the presence of automation as proof of bad intent, and a scraper can no longer assume that "looking automated" is what gets it blocked.</div>
+  </div>
+  <div class="card rv rv-scale">
+    <div class="cbar" style="background:var(--ylw)"></div>
+    <div class="ctag">What defence now requires</div>
+    <div class="cname">Two layers, not one fence</div>
+    <div class="cbody">If you sit on the defending side of this, a single fence is no longer enough. Protecting content from agentic collection now takes two layers working together: traditional anti-automation (fingerprinting, rate limiting, browser challenges) <em>and</em> behavioural controls that reason about intent rather than identity. Either one alone leaves a gap, and an agent with options is built to find gaps. The honest framing is that this is an adversarial pressure problem, not a classification problem with a clean answer.</div>
+  </div>
+</div>
+<div class="ib warn rv" style="margin-top:18px">
+<strong>Why this matters for you, on either side.</strong> The adversarial dynamic has a cost that lands on real people. When sophisticated operators mimic legitimate browsers well enough to poison a scoring system, the classifier does not just start failing on bots, it starts failing on genuine users too, the Firefox visitor handed an unsolvable puzzle, the real customer who quietly gives up and leaves. The bot did not cost that business the sale, the over-tuned defence did. Whichever side of this you build on, aim for proportionality: collect what you have a defensible reason to collect, defend in a way that does not punish the humans you are trying to serve, and treat the agentic shift as a reason to be more careful, not less.
+</div>
+
+<h3 class="rh rv" style="margin-top:44px">The legislative response: transparency, not technical blocking</h3>
+<div class="ib rv">
+Because robots.txt was never enforceable, the pressure has moved from the <code>robots.txt</code> file to the statute book and the contract. Two 2026 developments mark the direction. In the United States, New York passed a Stealth Crawler Prohibition Act (through the state Senate and Assembly, awaiting the governor's signature at the time of writing), which targets bots that scrape news content while evading detection. It would make it an offence to damage, impair, or burden the operation of a covered news site, let aggrieved publishers subpoena a service provider to identify an alleged violator, and allow them to seek injunctions and damages. In the United Kingdom, a Private Members' Bill, the Automated Online Software (Access and Transparency) Bill, backed by the News Media Association, takes a deliberately narrower line: it does not try to regulate AI models or dictate behaviour, it requires that a bot accessing a site and taking content disclose who it is and what it will do with what it takes. Private Members' Bills rarely become law without government backing, but they shape the bills that follow.
+</div>
+<div class="ib tip rv" style="margin-top:14px">
+The throughline matters more than any single bill. The thing being criminalised or regulated is not scraping, it is <em>deception</em>: a bot that hides its identity or its purpose, that impersonates a human or a legitimate crawler (a fake Googlebot), or that retrieves paywalled articles it was never granted. The same Fastly threat report behind the majority-machine number found that a large share of bot traffic is unwanted or unverifiable, and publishers are not waiting for legislation: some have started replacing robots.txt bans with <strong>search-only contracts in their terms of service</strong>, so they can invoice per article scraped and pursue it as a contract matter rather than fight a long copyright case. For a scraper the practical lesson is concrete and forward-looking: identifying yourself honestly, respecting an explicit licence or paywall, and being able to say what you collect and why is moving from etiquette toward a legal posture. The operators most exposed to the coming rules are precisely the stealth-crawler pattern this guide describes how to detect, not the ones who scrape openly and within terms.
+</div>
+<div class="ib rv" style="margin-top:14px">
+<strong>The civil-liberties case against those same bills, in fairness.</strong> The publisher framing is not the only one, and the counter-argument from digital-rights groups (the EFF prominent among them) is worth stating plainly because it is substantive. Their point is that "stealth crawler" is a loaded name for something ordinary and often valuable: an automated tool that collects <em>public</em> web data without disclosing who is behind it. Anonymous crawling has powered real accountability journalism, investigations into search-ranking and pricing practices that identified themselves as ordinary browsers precisely so they could see what a normal user sees, along with academic research, security monitoring, and privacy tools that audit sites for trackers. The worry is that a bill requiring every crawler to reveal its operator and every future use of the data hands publishers a veto over lawful access, letting them unmask and block not just abusive bots but also researchers, journalists, and critics, with court orders available on no evidence of wrongdoing. And it aims at the wrong target: the genuine harm publishers cite is server strain from <em>over-aggressive</em> crawling, which is a matter of conduct (rate, volume, politeness) that unmasking does nothing to fix. The balanced reading for anyone in this field is that identity and behaviour are different axes: the honest, rate-limited, within-terms crawler described just above is exactly the actor these critics argue should stay free to operate anonymously, and conflating "undisclosed" with "abusive" is the move both the technical detection stack and the proposed laws risk getting wrong.
+</div>
+
+<h3 class="rh rv" style="margin-top:44px">The three tiers of AI access, and where the pressure actually is</h3>
+<div class="ib rv">
+The publisher-facing side of this has stratified into three layers worth knowing, because they explain who the new rules actually touch. At the top are <strong>declared "good bots"</strong> that identify themselves and pass through infrastructure gatekeepers (Cloudflare, Fastly, Akamai). In the middle are <strong>mixed-use crawlers</strong>, bots used for both ordinary search and AI training or agentic tasks, historically waved through as "search" because that was their original purpose. At the bottom, and by volume the largest, is the <strong>gray scraping economy</strong>: traffic that does not declare itself and does not play by robots.txt at all.</div>
+<div class="ib rv" style="margin-top:14px">
+Two shifts in 2026 matter for anyone operating here. First, the gatekeepers are moving against the middle tier: from September 2026 Cloudflare's defaults for mixed crawlers are set to allow search but block AI-training and agent use on pages carrying ads, ending the "free pass" that let a search crawler quietly double as a training crawler. Since roughly a fifth of the web sits behind Cloudflare, even leaving those defaults untouched raises the marginal cost of crawling and puts a soft price on access. Second, and more pointed for this guide, defenders have stopped pretending robots.txt is the battleground. One practitioner who reverse-engineers scraping tools estimates that on major news brands, while 20 to 30 percent of traffic is identified crawlers, roughly a <em>quarter of all traffic</em> is stealth crawlers mimicking human users, traffic most publishers never even classify as bots.</div>
+<div class="ib tip rv" style="margin-top:14px">
+The defensive playbook that follows is explicitly an economic one, and it is the mirror image of everything in this guide. Rather than tweaking robots.txt and hoping, the advice to publishers is to turn on the highest-friction defences available, client-side human-check challenges on first page load, systematic blocking of non-essential crawlers, and hard benchmarking of any vendor claiming over 90 percent detection, with the stated aim of making scraping <em>unreliable and expensive enough</em> that the intermediaries are forced into licensing talks. That is the strategic backdrop to the whole detection stack in this guide: the gray economy exists because access is worth more than the friction currently costs, and both sides are now deliberately trying to move that balance. Reading the room, the durable position for a scraper is the same as the legal section's: declared, within-terms access is the tier the rules are being written to protect, and the stealth tier is the one they are being written to squeeze.
+</div>
+
+<h3 class="rh rv" style="margin-top:44px">The other direction: sites that hand agents a sanctioned door (WebMCP)</h3>
+<div class="ib rv">
+While one half of the web is hardening against undeclared bots, the other half is starting to do the opposite, expose a sanctioned way in for agents. The emerging shape is WebMCP: a small script the site itself ships that registers callable tools on the page, so an agent can search the catalogue, read product details, manage a cart, or start checkout by calling a declared tool instead of scraping the DOM. This is not hypothetical, through mid-2026 Shopify began rolling WebMCP tools onto the storefronts it renders (quietly, no announcement), DoorDash exposed an agent-facing command-line ordering path, and both major assistant vendors moved browsers inside their agents, which pushes the website itself to become part of the agent stack. For anyone doing data work this is a genuinely different acquisition path worth watching: where a sanctioned tool interface exists, it is more stable than any selector, it is explicitly permitted, and it sidesteps the entire detection arms race, because you are being invited through the front door rather than climbing the wall. The catch is coverage and trust, most of the web will not be rebuilt for agents soon, a page-shipped tool can change or vanish without notice, and a tool the site controls can also shape or withhold what it returns, so a declared interface is a gift to take when offered but not something to depend on to the exclusion of the techniques in the rest of this guide. It fits the same three-tier picture: the clean future is declared identity meeting a declared interface, and the gray economy persists wherever that handshake is missing.
+</div>
+
+<h3 class="rh rv" style="margin-top:44px">The missing half of the handshake: proving who you are</h3>
+<div class="ib rv">
+A declared interface only helps if the declaration means something, and today most of them do not. A request that says it comes from a well-known search crawler is making a claim in a header, and anyone can type that string into an HTTP request, so a User-Agent allowlist is an honour system. The traditional hardening step is to verify by IP (reverse-DNS the address, check it against the operator's published ranges), which is real evidence but is getting harder to rely on as legitimate automation spreads across cloud providers and remote-browser infrastructure, where address ranges shift and intermediaries blur who actually owns the connection. That gap is what <strong>Web Bot Auth</strong> is designed to close: the automated client cryptographically <em>signs</em> its request, and the site verifies the signature against a key associated with a known operator. The claim stops being a string anyone can copy and becomes something only the key holder can produce, which finally gives an allowlist a foundation worth building on.</div>
+<div class="ib tip rv" style="margin-top:14px">
+The limit is worth stating as clearly as the promise, because it is where policy actually lives. Authentication establishes <em>who</em> sent the request, and nothing more. The publisher still has to decide whether that operator, for that use case, at that rate, is allowed, which is a separate judgment that no signature can make for them. Identity and authorisation are different questions, and conflating them is how you end up with a verified crawler doing something the site never intended to permit. Read alongside the three tiers and the sanctioned-interface direction above, the shape of the near future is fairly clear: crawler policy converges on <em>reliable identity plus explicit access rules</em>, where a signed request proves the operator and a published policy states what that operator may do. For anyone building scrapers, the practical implication is that the declared tier is becoming both easier to join and harder to fake your way into, so if your use case can be done openly, signing your traffic is likely to become the cheapest possible form of access.
+</div>
+
+<h3 class="rh rv">Read this before you copy anything from this guide</h3>
+<div class="ib warn rv">
+<strong>Anti-bot systems are probabilistic, not deterministic.</strong> Modern systems (Akamai, Cloudflare, DataDome, Kasada, HUMAN) are machine-learning systems running adaptive scoring, per-customer configurations, and continuous experiments. That means: the same fingerprint can pass today and fail tomorrow, two identical sessions can get different treatment, and a technique that worked on one customer of a vendor can fail on the next. Nothing in this guide is a guaranteed bypass. It is a description of what worked, on specific targets, at a specific time.
+</div>
+
+<div class="ib tip rv" style="margin-top:18px">
+<strong>This advice has a shelf life.</strong> The more widely a bypass technique spreads, the faster vendors adapt to it, so the most public techniques are often the first to die. Treat dated case studies (each is timestamped) as a snapshot, not a permanent recipe. The durable value here is the <em>detection theory</em> and the <em>decision process</em>, not any single tool or fingerprint. Understanding <em>why</em> a layer fires lets you adapt when the specific recipe stops working. Copying a fingerprint without understanding it is cargo-cult scraping, and it ages badly.
+</div>
+
+<div class="ib rv" style="margin-top:18px">
+<strong>You probably need less than this guide implies.</strong> This guide is optimised for hardened targets (Akamai v3, Kasada, F5 Shape). Most scraping jobs are not that. A huge number of sites still yield to a plain HTTP client with proper headers, session reuse, and sensible pacing, no patched browser, no mobile proxies, no JA4 spoofing. Always start at the cheapest rung of the ladder (the decision flow near the top of this guide) and only escalate when a target actually forces you to. The expensive stealth stack is a last resort, not a default. Your results will also vary enormously by target category: a strategy tuned for ecommerce can fail completely on airline pricing, ticketing, sneaker drops, or social platforms.
+</div>
+</section>
+
 <!-- ═══ ABOUT ═══ -->
 <section id="about">
   <div class="sk rv rv-l"><span class="sn">★</span> About the author</div>
@@ -2294,8 +2396,8 @@ function dismissLegalBanner(){
       </div>
       <div class="ac-name"><strong>Asad Ikram</strong><br>Data Engineer &amp; Scraping specialist</div>
       <p class="ac-bio">
-        I started scraping the web in <strong>2018</strong>. Since then I have worked at five companies including <strong>Fix.com</strong>, <strong>Dubizzle Labs</strong>and <strong>M+C Saatchi Fluency</strong>building production scrapers at scale across MENA and Europe.<br><br>
-        Currently Data Engineer at M+C Saatchi Fluency and co-founder of ArtemisAI Ltd. Chevening Scholar 2024/25, MSc Data Analytics with Distinction.<br><br>
+        I started scraping the web in <strong>2018</strong>. Since then I have spent <strong>7+ years</strong> building production scrapers at scale, and have gone up against every major anti-bot system in use today.<br><br>
+        Chevening Scholar 2024/25, MSc Data Analytics with Distinction.<br><br>
         I built this guide to share everything I know about scraping properly, the bypasses, the failures, the patterns that hold up in production. No guesswork, no generic tutorials.
       </p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
@@ -7305,7 +7407,7 @@ Two closing notes. Keep the whole chain consistent while you work: the IP your c
 
 <!-- ── 3: AWS Data Lake (EKS) ────────────────────────────────── -->
 <div class="arch-panel hidden" id="arch-3">
-<p class="arch-desc">Enterprise-scale platform: 500+ spiders on Kubernetes (EKS), ingesting to S3 raw data lake, Glue cataloguing, Redshift Spectrum for external tables, Bronze/Silver/Gold data layers. Orchestrated by Apache Airflow. Built at production scale across MENA.</p>
+<p class="arch-desc">Enterprise-scale reference pattern: a large spider fleet on Kubernetes (EKS), ingesting to an S3 raw data lake, Glue cataloguing, Redshift Spectrum for external tables, and Bronze/Silver/Gold data layers, orchestrated by Apache Airflow. This is the shape such platforms typically take, not a description of any particular deployment.</p>
 <div class="arch-diagram">
 <svg viewBox="0 0 920 360" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
   <defs>
@@ -10294,108 +10396,7 @@ The payoff scales past the one app. Most apps that protect their API at all push
 
 </section>
 
-<!-- ═══ LEGAL, ETHICS & REALITY ═══ -->
-<section class="sec" id="legal-ethics">
-<div class="sk rv rv-l"><span class="sn">18</span> Legal, ethics &amp; reality</div>
-<h2 class="sh">The part most guides<br><em>conveniently skip</em></h2>
-<p class="ss">Bypassing detection is only half the question. The other half is whether you should, whether it is legal where you operate, and whether your approach survives contact with reality. This section is deliberately honest about the limits of everything above.</p>
 
-<h3 class="rh rv" style="margin-top:8px">This is not legal advice, but you need to think about these</h3>
-<div class="cards c2 rv">
-  <div class="card rv rv-scale">
-    <div class="cbar" style="background:#ff6b6b"></div>
-    <div class="ctag">Legal exposure</div>
-    <div class="cname">Terms of Service &amp; CFAA-style law</div>
-    <div class="cbody">Scraping publicly available data has been broadly upheld in some jurisdictions (e.g. the US hiQ v LinkedIn line of cases), but violating a site's Terms of Service, bypassing an authentication wall, or accessing non-public data can expose you to breach-of-contract or computer-misuse claims (CFAA in the US, the Computer Misuse Act in the UK, and equivalents elsewhere). "Technically possible" and "legally safe" are different questions. Logging in and then scraping is a materially different legal posture than scraping anonymous public pages.</div>
-  </div>
-  <div class="card rv rv-scale">
-    <div class="cbar" style="background:#22d3ee"></div>
-    <div class="ctag">Privacy law</div>
-    <div class="cname">GDPR, CCPA &amp; personal data</div>
-    <div class="cbody">If your scrape collects personal data of EU/UK residents, GDPR applies regardless of where you operate, and you likely become a data controller with obligations (lawful basis, retention limits, subject rights). The same logic applies to CCPA in California and a growing list of regional laws. Scraping names, profiles, reviews, or contact details is not the same as scraping product prices. Treat personal data as radioactive unless you have a clear lawful basis.</div>
-  </div>
-  <div class="card rv rv-scale">
-    <div class="cbar" style="background:#f5c518"></div>
-    <div class="ctag">Ethics &amp; sustainability</div>
-    <div class="cname">robots.txt, rate limits &amp; not being a jerk</div>
-    <div class="cbody">robots.txt is not legally binding in most places, but ignoring it is a signal of intent and increasingly cited in disputes. Beyond law: hammering a small site with thousands of requests can degrade service for real users and is the fastest way to get your IP ranges burned across an entire provider. Pace your requests, cache aggressively, scrape during off-peak hours, and take only what you need. Sustainable scraping is slow scraping.</div>
-  </div>
-  <div class="card rv rv-scale">
-    <div class="cbar" style="background:#a78bfa"></div>
-    <div class="ctag">Jurisdiction</div>
-    <div class="cname">Where you are matters</div>
-    <div class="cbody">The legality of an identical scrape can differ between the country you operate from, the country the target is hosted in, and the country whose residents' data you collect. A technique that is low-risk in one jurisdiction can carry real exposure in another. If you are operating commercially or at scale, this is a question for an actual lawyer in the relevant jurisdictions, not a guide on the internet.</div>
-  </div>
-</div>
-
-<h3 class="rh rv">The line is moving: agents, robots.txt, and the end of a clean binary</h3>
-<div class="ib rv">
-For twenty years the ethical and technical model rested on a tidy split: humans on one side, bots on the other, with <code>robots.txt</code> as the polite fence between them. That split is dissolving, and it changes how you should think about both the ethics and the defences. The scale of the shift is no longer hypothetical: in June 2026 Cloudflare reported that automated traffic had crossed the majority line for the first time in the web's history, at <strong>57.5% of HTTP requests to HTML content</strong> against 42.5% from humans, driven mostly by agentic AI. Read the number carefully, it measures crawlable web content rather than every packet, but the direction is unambiguous: the web is now a machine-to-machine environment as much as a human one, which is the whole reason this skill set stopped being niche.<br><br>There is a second number underneath the first that matters even more for anyone who scrapes. Cloudflare's <strong>crawl-to-refer ratio</strong> measures how many pages a platform crawls for every visitor it sends back. In 2026 the AI crawlers sit at extraordinary imbalances, with Anthropic's reported in the thousands to tens of thousands of pages crawled per referral and other AI operators in the hundreds to low thousands, against a traditional search engine like Google at roughly five to one. Read these as dated, volatile snapshots, the published figure for a single operator has swung from six figures to low five figures inside a year and moves month to month, so treat any specific ratio as a reading rather than a constant. The structure is what is stable: the dominant readers of the web now consume vastly more than they return, which is exactly why so much of the web is hardening against automated reading at the same time as automated reading becomes the majority of traffic. That tension, more machines reading, more defences raised against them, is the backdrop the rest of this guide operates in.<br><br>
-Start with the uncomfortable truth about <code>robots.txt</code>: <strong>it was never a security control</strong>. It is a request, and only the bots that choose to listen ever obeyed it. That was a workable social contract when the only things crawling the web were search engines and the occasional scraper. It breaks the moment an autonomous agent with a set of tools and a goal is involved. Give an agent the instruction to gather something and a browser to do it with, and a blocked default user agent does not stop it, it problem-solves around the block, picks a tool that blends in, and keeps going, without ever being told to evade. The obedience was always voluntary, and agents do not share the assumptions that made it hold.
-</div>
-<div class="cards c2 rv" style="margin-top:18px">
-  <div class="card rv rv-scale">
-    <div class="cbar" style="background:var(--cy)"></div>
-    <div class="ctag">The binary is breaking</div>
-    <div class="cname">"Human or bot" no longer maps cleanly</div>
-    <div class="cbody">When an agent browses on behalf of a real person, which is it? The platforms themselves are blurring the line: browser and automation vendors have started shipping agent modes where <code>navigator.webdriver</code> reports <code>false</code>, the same value a human-operated browser returns. The signal that reliably meant "automated" for a decade is being switched off from inside the platform, not defeated from outside. A defender can no longer treat the presence of automation as proof of bad intent, and a scraper can no longer assume that "looking automated" is what gets it blocked.</div>
-  </div>
-  <div class="card rv rv-scale">
-    <div class="cbar" style="background:var(--ylw)"></div>
-    <div class="ctag">What defence now requires</div>
-    <div class="cname">Two layers, not one fence</div>
-    <div class="cbody">If you sit on the defending side of this, a single fence is no longer enough. Protecting content from agentic collection now takes two layers working together: traditional anti-automation (fingerprinting, rate limiting, browser challenges) <em>and</em> behavioural controls that reason about intent rather than identity. Either one alone leaves a gap, and an agent with options is built to find gaps. The honest framing is that this is an adversarial pressure problem, not a classification problem with a clean answer.</div>
-  </div>
-</div>
-<div class="ib warn rv" style="margin-top:18px">
-<strong>Why this matters for you, on either side.</strong> The adversarial dynamic has a cost that lands on real people. When sophisticated operators mimic legitimate browsers well enough to poison a scoring system, the classifier does not just start failing on bots, it starts failing on genuine users too, the Firefox visitor handed an unsolvable puzzle, the real customer who quietly gives up and leaves. The bot did not cost that business the sale, the over-tuned defence did. Whichever side of this you build on, aim for proportionality: collect what you have a defensible reason to collect, defend in a way that does not punish the humans you are trying to serve, and treat the agentic shift as a reason to be more careful, not less.
-</div>
-
-<h3 class="rh rv" style="margin-top:44px">The legislative response: transparency, not technical blocking</h3>
-<div class="ib rv">
-Because robots.txt was never enforceable, the pressure has moved from the <code>robots.txt</code> file to the statute book and the contract. Two 2026 developments mark the direction. In the United States, New York passed a Stealth Crawler Prohibition Act (through the state Senate and Assembly, awaiting the governor's signature at the time of writing), which targets bots that scrape news content while evading detection. It would make it an offence to damage, impair, or burden the operation of a covered news site, let aggrieved publishers subpoena a service provider to identify an alleged violator, and allow them to seek injunctions and damages. In the United Kingdom, a Private Members' Bill, the Automated Online Software (Access and Transparency) Bill, backed by the News Media Association, takes a deliberately narrower line: it does not try to regulate AI models or dictate behaviour, it requires that a bot accessing a site and taking content disclose who it is and what it will do with what it takes. Private Members' Bills rarely become law without government backing, but they shape the bills that follow.
-</div>
-<div class="ib tip rv" style="margin-top:14px">
-The throughline matters more than any single bill. The thing being criminalised or regulated is not scraping, it is <em>deception</em>: a bot that hides its identity or its purpose, that impersonates a human or a legitimate crawler (a fake Googlebot), or that retrieves paywalled articles it was never granted. The same Fastly threat report behind the majority-machine number found that a large share of bot traffic is unwanted or unverifiable, and publishers are not waiting for legislation: some have started replacing robots.txt bans with <strong>search-only contracts in their terms of service</strong>, so they can invoice per article scraped and pursue it as a contract matter rather than fight a long copyright case. For a scraper the practical lesson is concrete and forward-looking: identifying yourself honestly, respecting an explicit licence or paywall, and being able to say what you collect and why is moving from etiquette toward a legal posture. The operators most exposed to the coming rules are precisely the stealth-crawler pattern this guide describes how to detect, not the ones who scrape openly and within terms.
-</div>
-<div class="ib rv" style="margin-top:14px">
-<strong>The civil-liberties case against those same bills, in fairness.</strong> The publisher framing is not the only one, and the counter-argument from digital-rights groups (the EFF prominent among them) is worth stating plainly because it is substantive. Their point is that "stealth crawler" is a loaded name for something ordinary and often valuable: an automated tool that collects <em>public</em> web data without disclosing who is behind it. Anonymous crawling has powered real accountability journalism, investigations into search-ranking and pricing practices that identified themselves as ordinary browsers precisely so they could see what a normal user sees, along with academic research, security monitoring, and privacy tools that audit sites for trackers. The worry is that a bill requiring every crawler to reveal its operator and every future use of the data hands publishers a veto over lawful access, letting them unmask and block not just abusive bots but also researchers, journalists, and critics, with court orders available on no evidence of wrongdoing. And it aims at the wrong target: the genuine harm publishers cite is server strain from <em>over-aggressive</em> crawling, which is a matter of conduct (rate, volume, politeness) that unmasking does nothing to fix. The balanced reading for anyone in this field is that identity and behaviour are different axes: the honest, rate-limited, within-terms crawler the last section described is exactly the actor these critics argue should stay free to operate anonymously, and conflating "undisclosed" with "abusive" is the move both the technical detection stack and the proposed laws risk getting wrong.
-</div>
-
-<h3 class="rh rv" style="margin-top:44px">The three tiers of AI access, and where the pressure actually is</h3>
-<div class="ib rv">
-The publisher-facing side of this has stratified into three layers worth knowing, because they explain who the new rules actually touch. At the top are <strong>declared "good bots"</strong> that identify themselves and pass through infrastructure gatekeepers (Cloudflare, Fastly, Akamai). In the middle are <strong>mixed-use crawlers</strong>, bots used for both ordinary search and AI training or agentic tasks, historically waved through as "search" because that was their original purpose. At the bottom, and by volume the largest, is the <strong>gray scraping economy</strong>: traffic that does not declare itself and does not play by robots.txt at all.</div>
-<div class="ib rv" style="margin-top:14px">
-Two shifts in 2026 matter for anyone operating here. First, the gatekeepers are moving against the middle tier: from September 2026 Cloudflare's defaults for mixed crawlers are set to allow search but block AI-training and agent use on pages carrying ads, ending the "free pass" that let a search crawler quietly double as a training crawler. Since roughly a fifth of the web sits behind Cloudflare, even leaving those defaults untouched raises the marginal cost of crawling and puts a soft price on access. Second, and more pointed for this guide, defenders have stopped pretending robots.txt is the battleground. One practitioner who reverse-engineers scraping tools estimates that on major news brands, while 20 to 30 percent of traffic is identified crawlers, roughly a <em>quarter of all traffic</em> is stealth crawlers mimicking human users, traffic most publishers never even classify as bots.</div>
-<div class="ib tip rv" style="margin-top:14px">
-The defensive playbook that follows is explicitly an economic one, and it is the mirror image of everything in this guide. Rather than tweaking robots.txt and hoping, the advice to publishers is to turn on the highest-friction defences available, client-side human-check challenges on first page load, systematic blocking of non-essential crawlers, and hard benchmarking of any vendor claiming over 90 percent detection, with the stated aim of making scraping <em>unreliable and expensive enough</em> that the intermediaries are forced into licensing talks. That is the strategic backdrop to the whole detection stack in this guide: the gray economy exists because access is worth more than the friction currently costs, and both sides are now deliberately trying to move that balance. Reading the room, the durable position for a scraper is the same as the legal section's: declared, within-terms access is the tier the rules are being written to protect, and the stealth tier is the one they are being written to squeeze.
-</div>
-
-<h3 class="rh rv" style="margin-top:44px">The other direction: sites that hand agents a sanctioned door (WebMCP)</h3>
-<div class="ib rv">
-While one half of the web is hardening against undeclared bots, the other half is starting to do the opposite, expose a sanctioned way in for agents. The emerging shape is WebMCP: a small script the site itself ships that registers callable tools on the page, so an agent can search the catalogue, read product details, manage a cart, or start checkout by calling a declared tool instead of scraping the DOM. This is not hypothetical, through mid-2026 Shopify began rolling WebMCP tools onto the storefronts it renders (quietly, no announcement), DoorDash exposed an agent-facing command-line ordering path, and both major assistant vendors moved browsers inside their agents, which pushes the website itself to become part of the agent stack. For anyone doing data work this is a genuinely different acquisition path worth watching: where a sanctioned tool interface exists, it is more stable than any selector, it is explicitly permitted, and it sidesteps the entire detection arms race, because you are being invited through the front door rather than climbing the wall. The catch is coverage and trust, most of the web will not be rebuilt for agents soon, a page-shipped tool can change or vanish without notice, and a tool the site controls can also shape or withhold what it returns, so a declared interface is a gift to take when offered but not something to depend on to the exclusion of the techniques in the rest of this guide. It fits the same three-tier picture: the clean future is declared identity meeting a declared interface, and the gray economy persists wherever that handshake is missing.
-</div>
-
-<h3 class="rh rv" style="margin-top:44px">The missing half of the handshake: proving who you are</h3>
-<div class="ib rv">
-A declared interface only helps if the declaration means something, and today most of them do not. A request that says it comes from a well-known search crawler is making a claim in a header, and anyone can type that string into an HTTP request, so a User-Agent allowlist is an honour system. The traditional hardening step is to verify by IP (reverse-DNS the address, check it against the operator's published ranges), which is real evidence but is getting harder to rely on as legitimate automation spreads across cloud providers and remote-browser infrastructure, where address ranges shift and intermediaries blur who actually owns the connection. That gap is what <strong>Web Bot Auth</strong> is designed to close: the automated client cryptographically <em>signs</em> its request, and the site verifies the signature against a key associated with a known operator. The claim stops being a string anyone can copy and becomes something only the key holder can produce, which finally gives an allowlist a foundation worth building on.</div>
-<div class="ib tip rv" style="margin-top:14px">
-The limit is worth stating as clearly as the promise, because it is where policy actually lives. Authentication establishes <em>who</em> sent the request, and nothing more. The publisher still has to decide whether that operator, for that use case, at that rate, is allowed, which is a separate judgment that no signature can make for them. Identity and authorisation are different questions, and conflating them is how you end up with a verified crawler doing something the site never intended to permit. Read alongside the three tiers and the sanctioned-interface direction above, the shape of the near future is fairly clear: crawler policy converges on <em>reliable identity plus explicit access rules</em>, where a signed request proves the operator and a published policy states what that operator may do. For anyone building scrapers, the practical implication is that the declared tier is becoming both easier to join and harder to fake your way into, so if your use case can be done openly, signing your traffic is likely to become the cheapest possible form of access.
-</div>
-
-<h3 class="rh rv">Read this before you copy anything above</h3>
-<div class="ib warn rv">
-<strong>Anti-bot systems are probabilistic, not deterministic.</strong> Modern systems (Akamai, Cloudflare, DataDome, Kasada, HUMAN) are machine-learning systems running adaptive scoring, per-customer configurations, and continuous experiments. That means: the same fingerprint can pass today and fail tomorrow, two identical sessions can get different treatment, and a technique that worked on one customer of a vendor can fail on the next. Nothing in this guide is a guaranteed bypass. It is a description of what worked, on specific targets, at a specific time.
-</div>
-
-<div class="ib tip rv" style="margin-top:18px">
-<strong>This advice has a shelf life.</strong> The more widely a bypass technique spreads, the faster vendors adapt to it, so the most public techniques are often the first to die. Treat dated case studies (each is timestamped) as a snapshot, not a permanent recipe. The durable value here is the <em>detection theory</em> and the <em>decision process</em>, not any single tool or fingerprint. Understanding <em>why</em> a layer fires lets you adapt when the specific recipe stops working. Copying a fingerprint without understanding it is cargo-cult scraping, and it ages badly.
-</div>
-
-<div class="ib rv" style="margin-top:18px">
-<strong>You probably need less than this guide implies.</strong> This guide is optimised for hardened targets (Akamai v3, Kasada, F5 Shape). Most scraping jobs are not that. A huge number of sites still yield to a plain HTTP client with proper headers, session reuse, and sensible pacing, no patched browser, no mobile proxies, no JA4 spoofing. Always start at the cheapest rung of the ladder (the decision flow near the top of this guide) and only escalate when a target actually forces you to. The expensive stealth stack is a last resort, not a default. Your results will also vary enormously by target category: a strategy tuned for ecommerce can fail completely on airline pricing, ticketing, sneaker drops, or social platforms.
-</div>
-</section>
 
 
 <!-- ═══ 09 TIMELINE ═══ -->
