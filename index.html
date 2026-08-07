@@ -1970,6 +1970,25 @@ section[id], div[id^="self-heal"] {
 }
 
 
+
+/* ScrapeIQ answer rendering */
+.iq-think{color:var(--t3);font-style:italic;opacity:.85}
+.iq-ans{font-size:13.6px;line-height:1.62;color:var(--t1)}
+.iq-hl{background:rgba(245,197,24,.19);color:#ffe27a;border-radius:3px;padding:0 2px}
+.iq-src{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.09);
+  font-size:11px;color:var(--t3);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.iq-src strong{color:var(--y);font-weight:600}
+.iq-conf{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  text-transform:uppercase;padding:2px 7px;border-radius:99px;border:1px solid var(--b2)}
+.iq-strong{color:#6fd39a;border-color:rgba(111,211,154,.42);background:rgba(111,211,154,.09)}
+.iq-good{color:var(--y);border-color:rgba(245,197,24,.42);background:rgba(245,197,24,.09)}
+.iq-partial{color:#c9a227;border-color:rgba(201,162,39,.35);background:rgba(201,162,39,.07)}
+.iq-more{margin-top:12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--t3)}
+.iq-sup{margin-top:7px;padding:8px 10px;background:rgba(255,255,255,.03);
+  border-left:2px solid var(--b2);border-radius:0 6px 6px 0;font-size:12.4px;
+  line-height:1.55;color:var(--t2)}
+.iq-supsrc{margin-top:5px;font-size:10px;color:var(--t3)}
 </style>
 
   <script type="application/ld+json">
@@ -10641,7 +10660,7 @@ The payoff scales past the one app. Most apps that protect their API at all push
         <span class="llmtitle" style="font-weight:800;letter-spacing:.02em">ScrapeIQ</span>
       </div>
       <div>
-        <div class="llmsub">Smart navigator · jumps to the right section</div>
+        <div class="llmsub">Answers from the guide · no API, nothing invented</div>
       </div>
       <button class="llmx" onclick="toggleLLM()">✕</button>
     </div>
@@ -10654,10 +10673,10 @@ The payoff scales past the one app. Most apps that protect their API at all push
       <button class="llmchip" onclick="askQ('How to use Camoufox with Scrapy?')">Camoufox + Scrapy</button>
     </div>
     <div class="llmmsgs" id="llmmsgs">
-      <div class="msg a">Ask me anything about web scraping, anti-bot bypass, library selection, proxy strategy, TLS fingerprinting, AI scraping, or production architecture. I have full context from this guide.</div>
+      <div class="msg a">Ask me anything about web scraping, anti-bot bypass, library selection, proxy strategy, TLS fingerprinting, AI scraping, or production architecture. I answer from the text of this guide and nothing else, so if it is not covered here I will tell you that rather than guess.</div>
     </div>
     <div class="llminw">
-      <textarea class="llmin" id="llmin" placeholder="Ask about any scraping technique..." rows="1" onkeydown="llmkey(event)" oninput="llmresize(this)"></textarea>
+      <textarea class="llmin" id="llmin" placeholder="Ask a question, or search the guide..." rows="1" onkeydown="llmkey(event)" oninput="llmresize(this)"></textarea>
       <button class="llmsend" id="llmsend" onclick="sendMsg()">Ask</button>
     </div>
   </div>
@@ -11028,15 +11047,11 @@ function askQ(q) { document.getElementById('llmin').value = q; if (!llmOpen) tog
 
 
 // ══════════════════════════════════════════════════════════════
-// ScrapeIQ, Gemini RAG Engine
-// Reads ALL visible text from the page, sends as context to
-// Gemini 1.5 Flash. Answers ONLY from website content.
-// ══════════════════════════════════════════════════════════════
-
-
-// ══════════════════════════════════════════════════════════════
-// ScrapeIQ, Smart Navigator (zero API, instant, no hallucination)
-// Maps questions to guide sections and scrolls there directly.
+// ScrapeIQ, local retrieval engine (zero API, no hallucination)
+// Indexes this page's own text into passages at first question,
+// ranks them with BM25, and answers by quoting the guide back
+// with a link to where it came from. If nothing scores well
+// enough it says so instead of inventing an answer.
 // ══════════════════════════════════════════════════════════════
 
 const SECTION_MAP = [
@@ -11152,60 +11167,252 @@ const QUICK_CHIPS = [
   'Is web scraping legal?',
 ];
 
-const STOPWORDS = new Set(['the','and','for','with','about','tell','show','know','want','need','find','please','what','where','how','can','you','this','that','from','into','more','give','take']);
-function scoreSection(section, words) {
-  let score = 0;
-  const fullQ = words.join(' ');
-  // Phrase match (strong): if a keyword phrase appears in the full question
-  for (const kw of section.keywords) {
-    if (kw.length > 3 && fullQ.includes(kw)) {
-      score += kw.length > 6 ? 10 : 5;
-    }
-  }
-  // Word-level scoring, ignoring generic stopwords
-  for (const w of words) {
-    if (STOPWORDS.has(w) || w.length < 3) continue;
-    for (const kw of section.keywords) {
-      if (kw === w) score += kw.length <= 8 ? 8 : 5;  // boost short primary-name matches
-      else if (kw.split(/\s+/).includes(w)) score += 3;
-      else if (kw.length > 4 && (kw.includes(w) || w.includes(kw))) score += 1;
-    }
-  }
-  return score;
+const STOPWORDS = new Set(['the','and','for','with','about','tell','show','know','want','need','find','please','what','where','how','can','you','this','that','from','into','more','give','take','does','doe','are','was','were','has','have','had','will','would','should','could','when','which','who','whom','why','there','their','them','they','its','it','a','an','of','to','in','on','at','by','be','is','as','or','if','so','do','my','me','i','we','us','your','our','but','not','than','then','also','any','all','some','one','two','get','got','use','used','using','make','made','good','work','works','way','ways','thing','things','really','just','much','many','most','other','same','own','out','up','off','over','still','even','because','while','after','before','been','being','both','each','here','now','only','very']);
+
+const ALIASES = {
+  cf:['cloudflare'], dd:['datadome'], px:['perimeterx','human'],
+  ja3:['tls','fingerprint','handshake','clienthello'], ja4:['tls','fingerprint','handshake','clienthello'],
+  tls:['handshake','clienthello','ja4','cipher'], captcha:['turnstile','recaptcha','hcaptcha','challenge','solver'],
+  block:['detection','blocked','403','flagged'], blocked:['detection','403','flagged','bypass'],
+  bypass:['pass','clear','defeat','blocked'], ban:['blocked','detection'], banned:['blocked','detection'],
+  legal:['cfaa','hiq','law','court','gdpr','tos'], legality:['cfaa','hiq','law','gdpr'],
+  proxy:['residential','datacenter','isp','exit','asn'], proxies:['residential','datacenter','isp','exit','asn'],
+  cheap:['cost','price','budget','economics'], cheapest:['cost','price','budget','economics'],
+  cost:['price','spend','budget','economics','bill'], expensive:['cost','price','budget'],
+  scale:['production','volume','throughput','million'], fast:['speed','performance','latency'],
+  browser:['chromium','chrome','playwright','headless','camoufox'],
+  headless:['browser','xvfb','chromium','chrome'],
+  stealth:['patched','camoufox','cloakbrowser','undetected','patchright'],
+  mobile:['app','android','apk','frida','httptoolkit'], api:['endpoint','graphql','xhr','json'],
+  agent:['llm','autonomous','agentic'], ai:['llm','model','agentic'],
+  parse:['parser','extraction','selector'], parsing:['parser','extraction','selector'],
+  selector:['xpath','css','extraction','parser'],
+  slow:['throttle','delay','rate','pacing'], rate:['throttle','limit','delay','pacing'],
+  fingerprint:['canvas','webgl','signature','entropy'], canvas:['fingerprint','webgl','rendering'],
+  behaviour:['behavioural','mouse','timing','rhythm'], behavior:['behavioural','mouse','timing','rhythm'],
+  library:['libraries','tool','package'], libraries:['library','tool','package'],
+  start:['first','begin','approach','flow','priority'], beginner:['start','first','learn'],
+  architecture:['production','pipeline','deploy'], store:['storage','parquet','database'],
+  validate:['validation','poisoning','quality'], quality:['validation','poisoning','validate']
+};
+
+function tok(s){
+  return (s||'').toLowerCase()
+    .replace(/[^a-z0-9_.\-+/# ]+/g,' ')
+    .split(/\s+/)
+    .map(w=>w.replace(/^[.\-/#]+|[.\-/#]+$/g,''))
+    .filter(w=>w.length>1 && !STOPWORDS.has(w))
+    .map(w=>(w.length>4 && w.endsWith('s') && !w.endsWith('ss') && !w.endsWith('us')) ? w.slice(0,-1) : w);
 }
 
-function findSections(question) {
-  const q = question.toLowerCase().trim();
-  const words = q.split(/\s+/).filter(w => w.length > 2);
-  
-  const scored = SECTION_MAP.map(s => ({ ...s, score: scoreSection(s, words) }))
-    .filter(s => s.score > 0)
-    .sort((a, b) => b.score - a.score);
-  
-  return scored.slice(0, 3); // top 3 matches
+let IDX = null;
+
+function linearize(el){
+  const parts = [];
+  let heading = '';
+  let buf = '';
+  const flush = () => {
+    const t = buf.replace(/\s+/g,' ').trim();
+    if (t.length > 40) parts.push({ heading, text: t });
+    buf = '';
+  };
+  const walk = node => {
+    for (const ch of node.childNodes) {
+      if (ch.nodeType === 3) { buf += ch.nodeValue + ' '; continue; }
+      if (ch.nodeType !== 1) continue;
+      const tg = ch.tagName;
+      if (tg === 'SCRIPT' || tg === 'STYLE' || tg === 'BUTTON' || tg === 'NAV') continue;
+      if (/^H[2-6]$/.test(tg)) {
+        flush();
+        heading = (ch.textContent||'').replace(/\s+/g,' ').trim().slice(0,130);
+        continue;
+      }
+      const isBlock = /^(P|LI|TR|DIV|SECTION|TABLE|UL|OL|BLOCKQUOTE|PRE)$/.test(tg);
+      if (isBlock && buf.length > 620) flush();
+      walk(ch);
+      if (isBlock) buf += '  ';
+    }
+  };
+  walk(el);
+  flush();
+  return parts;
 }
 
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const navH = document.getElementById('nav')?.offsetHeight || 56;
-  const top = el.getBoundingClientRect().top + window.scrollY - navH - 12;
-  window.scrollTo({ top, behavior: 'smooth' });
-  // Flash highlight
-  el.style.outline = '2px solid rgba(245,197,24,.6)';
-  el.style.outlineOffset = '8px';
-  setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 2000);
+function chunk(text, heading, sectionId, sectionLabel, out){
+  const clean = text.replace(//g,' ').replace(/\s+/g,' ').trim();
+  if (clean.length < 80) return;
+  if (clean.length <= 900) { out.push({ text: clean, heading, sectionId, sectionLabel }); return; }
+  const sents = [];
+  const re = /[.!?]\s+(?=[A-Z"(\u201c])/g;
+  let last = 0, mm;
+  while ((mm = re.exec(clean))) { sents.push(clean.slice(last, mm.index + 1)); last = mm.index + mm[0].length; }
+  sents.push(clean.slice(last));
+  let cur = '';
+  for (const s of sents) {
+    if (cur.length + s.length > 820 && cur.length > 200) {
+      out.push({ text: cur.trim(), heading, sectionId, sectionLabel });
+      let tail = cur.slice(-220);
+      const sp = tail.search(/[.!?]\s+/);
+      tail = sp >= 0 ? tail.slice(sp + 2) : '';
+      cur = tail + s;
+    } else cur += s;
+  }
+  if (cur.trim().length > 120) out.push({ text: cur.trim(), heading, sectionId, sectionLabel });
+}
+
+function buildIndex(){
+  if (IDX) return IDX;
+  const raw = [];
+  SECTION_MAP.forEach(sec => {
+    const el = document.getElementById(sec.id);
+    if (!el) return;
+    try {
+      linearize(el).forEach(p => chunk(p.text, p.heading, sec.id, sec.label, raw));
+    } catch(e){}
+  });
+
+  try {
+    if (typeof KNOWLEDGE_BASE === 'string') {
+      KNOWLEDGE_BASE.split('\n').forEach(line => {
+        const t = line.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+        if (t.length < 140) return;
+        let best = null, bestScore = 0;
+        const lt = t.toLowerCase();
+        SECTION_MAP.forEach(sec => {
+          let sc = 0;
+          sec.keywords.forEach(k => { if (k.length > 5 && lt.includes(k)) sc += k.length; });
+          if (sc > bestScore) { bestScore = sc; best = sec; }
+        });
+        if (best) chunk(t, 'Reference note', best.id, best.label, raw);
+      });
+    }
+  } catch(e){}
+
+  const seen = new Set();
+  const passages = [];
+  raw.forEach(p => {
+    const key = p.text.slice(0,90).toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    passages.push(p);
+  });
+
+  const df = Object.create(null);
+  let totalLen = 0;
+  passages.forEach(p => {
+    const tokens = tok(p.text);
+    const tf = Object.create(null);
+    tokens.forEach(w => { tf[w] = (tf[w]||0)+1; });
+    p.tf = tf; p.len = tokens.length || 1;
+    totalLen += p.len;
+    Object.keys(tf).forEach(w => { df[w] = (df[w]||0)+1; });
+  });
+
+  IDX = { passages, df, avg: totalLen/(passages.length||1), N: passages.length };
+  return IDX;
+}
+
+function expand(tokens){
+  const out = tokens.slice();
+  tokens.forEach(t => { if (ALIASES[t]) ALIASES[t].forEach(a => { if (!out.includes(a)) out.push(a); }); });
+  return out;
+}
+
+function sectionPrior(query){
+  const q = ' ' + query.toLowerCase().replace(/\s+/g,' ') + ' ';
+  const qt = tok(query);
+  const prior = Object.create(null);
+  let max = 0;
+  SECTION_MAP.forEach(sec => {
+    let sc = 0;
+    sec.keywords.forEach(k => {
+      const kl = k.toLowerCase();
+      if (kl.length > 3 && q.includes(kl)) sc += kl.includes(' ') ? 3.2 : 2.0;
+      else if (qt.includes(kl)) sc += 1.6;
+    });
+    prior[sec.id] = sc;
+    if (sc > max) max = sc;
+  });
+  if (max > 0) Object.keys(prior).forEach(k => { prior[k] = 1 + 0.7 * (prior[k]/max); });
+  else Object.keys(prior).forEach(k => { prior[k] = 1; });
+  return prior;
+}
+
+function search(query, limit){
+  const idx = buildIndex();
+  const base = tok(query);
+  if (!base.length) return [];
+  const qt = expand(base);
+  const prior = sectionPrior(query);
+  const phrase = query.toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+  const k1 = 1.4, b = 0.82;
+  const scored = [];
+
+  idx.passages.forEach(p => {
+    let s = 0, matched = 0;
+    qt.forEach((w, i) => {
+      const f = p.tf[w]; if (!f) return;
+      if (i < base.length) matched++;
+      const n = idx.df[w] || 1;
+      const idf = Math.log(1 + (idx.N - n + 0.5)/(n + 0.5));
+      const boost = i < base.length ? 1 : 0.4;
+      s += idf * boost * (f*(k1+1)) / (f + k1*(1 - b + b*p.len/idx.avg));
+    });
+    if (s <= 0) return;
+    if (base.length > 1) s *= 0.55 + 0.45 * (matched / base.length);
+    const lower = p.text.toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ');
+    if (phrase.length > 11 && lower.includes(phrase)) s *= 2.0;
+    if (p.heading) {
+      const ht = tok(p.heading);
+      const hits = base.filter(w => ht.includes(w)).length;
+      if (hits) s *= 1 + 0.22*hits;
+    }
+    s *= prior[p.sectionId] || 1;
+    if (p.heading === 'Reference note') s *= 0.86;
+    scored.push({ p, s });
+  });
+
+  scored.sort((a,b2) => b2.s - a.s);
+  return scored.slice(0, limit || 8);
+}
+
+function esc(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function highlight(text, terms){
+  let out = esc(text);
+  const uniq = [...new Set(terms)].filter(t => t.length > 3).slice(0, 9);
+  uniq.forEach(t => {
+    const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+    out = out.replace(re, '<mark class="iq-hl">$1</mark>');
+  });
+  return out;
+}
+
+function trimTo(text, terms, max){
+  if (text.length <= max) return text;
+  const lower = text.toLowerCase();
+  let at = -1;
+  for (const t of terms) { if (t.length > 3) { const i = lower.indexOf(t); if (i >= 0 && (at < 0 || i < at)) at = i; } }
+  if (at < 0) at = 0;
+  let start = Math.max(0, at - Math.floor(max*0.28));
+  if (start > 0) {
+    const re2 = /[.!?]\s+(?=[A-Z"(\u201c])/g; re2.lastIndex = start;
+    const m2 = re2.exec(text);
+    if (m2 && m2.index - start < 150) start = m2.index + m2[0].length;
+  }
+  let out = text.slice(start, start + max);
+  const lastDot = out.lastIndexOf('. ');
+  if (lastDot > max*0.5) out = out.slice(0, lastDot + 1);
+  return (start > 0 ? '... ' : '') + out.trim();
 }
 
 function sendMsg() {
   const inp = document.getElementById('llmin');
-  const btn = document.getElementById('llmsend');
   const msgs = document.getElementById('llmmsgs');
   const text = inp.value.trim();
   if (!text) return;
   if (!llmOpen) toggleLLM();
 
-  // User message
   const um = document.createElement('div');
   um.className = 'msg u';
   um.textContent = text;
@@ -11214,41 +11421,74 @@ function sendMsg() {
   inp.style.height = 'auto';
   msgs.scrollTop = msgs.scrollHeight;
 
-  // Find matching sections
-  const matches = findSections(text);
   const tm = document.createElement('div');
   tm.className = 'msg a';
-
-  if (matches.length === 0) {
-    tm.innerHTML = `I couldn't find a specific section for that. Try asking about:<br><br>
-      <span class="nav-chips">
-        ${QUICK_CHIPS.map(c => `<button class="nav-chip" onclick="rephrase('${c.replace(/'/g,"\\'")}')">&#8594; ${c}</button>`).join('')}
-      </span>`;
-  } else {
-    const primary = matches[0];
-    let html = `Found ${matches.length > 1 ? matches.length + ' relevant sections' : 'a section'} for that:<br><br>`;
-    
-    html += matches.map((m, i) => `
-      <div class="nav-result ${i === 0 ? 'primary' : ''}" onclick="scrollToSection('${m.id}');this.closest('.msg').querySelectorAll('.nav-result').forEach(r=>r.classList.remove('active'));this.classList.add('active')">
-        <span class="nav-result-arrow">&#8594;</span>
-        <div>
-          <div class="nav-result-label">${m.label}</div>
-          <div class="nav-result-sub">#${m.id} section</div>
-        </div>
-      </div>`).join('');
-    
-    if (matches.length > 0) {
-      html += `<div class="nav-auto-note">Click any result to jump there ↑</div>`;
-    }
-    
-    tm.innerHTML = html;
-    
-    // Auto-scroll to primary match after short delay
-    setTimeout(() => scrollToSection(primary.id), 400);
-  }
-
+  tm.innerHTML = '<span class="iq-think">Reading the guide...</span>';
   msgs.appendChild(tm);
   msgs.scrollTop = msgs.scrollHeight;
+
+  setTimeout(() => {
+    let hits;
+    try { hits = search(text, 10); } catch(e) { hits = []; }
+    const terms = tok(text);
+
+    let coverage = 1;
+    try {
+      const ix = buildIndex();
+      const known = terms.filter(w => (ix.df[w] || 0) > 0).length;
+      coverage = terms.length ? known / terms.length : 1;
+    } catch(e){}
+
+    let discriminative = false;
+    try {
+      const ix2 = buildIndex();
+      discriminative = terms.some(w => { const d = ix2.df[w] || 0; return d > 0 && d < ix2.N / 6; });
+    } catch(e){ discriminative = true; }
+
+    if (!hits.length || hits[0].s < 6 || (terms.length >= 2 && coverage < 0.5) || !discriminative) {
+      tm.innerHTML = 'I could not find anything solid on that in the guide, and I would rather say so than invent an answer.<br><br>'
+        + '<span class="nav-chips">'
+        + QUICK_CHIPS.map(c => `<button class="nav-chip" onclick="rephrase('${c.replace(/'/g,"\\'")}')">&#8594; ${esc(c)}</button>`).join('')
+        + '</span>';
+      msgs.scrollTop = msgs.scrollHeight;
+      return;
+    }
+
+    const top = hits[0];
+    const support = [];
+    const usedSec = new Set([top.p.sectionId]);
+    for (const h of hits.slice(1)) {
+      if (support.length >= 2) break;
+      if (h.s < top.s * 0.34) break;
+      if (h.p.text.slice(0,70) === top.p.text.slice(0,70)) continue;
+      support.push(h);
+      usedSec.add(h.p.sectionId);
+    }
+
+    const conf = top.s > 14 ? 'strong' : (top.s > 8.5 ? 'good' : 'partial');
+    let html = '';
+    html += `<div class="iq-ans">${highlight(trimTo(top.p.text, terms, 640), terms)}</div>`;
+    html += `<div class="iq-src">From <strong>${esc(top.p.sectionLabel)}</strong>${top.p.heading ? ' &middot; ' + esc(top.p.heading) : ''}`
+          + `<span class="iq-conf iq-${conf}">${conf} match</span></div>`;
+
+    if (support.length) {
+      html += '<div class="iq-more">Also relevant</div>';
+      support.forEach(h => {
+        html += `<div class="iq-sup">${highlight(trimTo(h.p.text, terms, 265), terms)}`
+              + `<div class="iq-supsrc">${esc(h.p.sectionLabel)}${h.p.heading ? ' &middot; ' + esc(h.p.heading) : ''}</div></div>`;
+      });
+    }
+
+    html += '<div class="nav-chips" style="margin-top:10px">'
+          + [...usedSec].map(id => {
+              const s = SECTION_MAP.find(x => x.id === id);
+              return `<button class="nav-chip" onclick="scrollToSection('${id}')">&#8594; Read ${esc(s ? s.label : id)}</button>`;
+            }).join('')
+          + '</div>';
+
+    tm.innerHTML = html;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 60);
 }
 
 function rephrase(q) {
