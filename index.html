@@ -137,9 +137,14 @@
   --w: 1200px;
   --nh:    56px;
   --th:    30px;
+  --chrome: calc(var(--nh) + var(--th));
+  --measure:    580px;
+  --measure-lg: 645px;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{font-size:16px;scroll-behavior:smooth;scroll-padding-top:60px}
+:where(a,button,summary,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid rgba(245,197,24,.75);outline-offset:2px}
+html{font-size:16px;scroll-behavior:smooth;scroll-padding-top:calc(var(--chrome) + 12px)}
 body{background:var(--bg);color:var(--t1);font-family:var(--sans);
   line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 
@@ -280,9 +285,17 @@ main{max-width:var(--w);margin:0 auto;padding:0 28px;overflow-x:hidden}
 
 /* ── INFO BOX ────────────────── */
 .ib{
-  border-left:3px solid;padding:16px 20px;margin:20px 0;
-  font-size:14px;line-height:1.8;color:var(--t2);border-radius:0 8px 8px 0;
+  border-left:3px solid var(--b2);padding:16px 20px;margin:20px 0;
+  font-size:15.5px;line-height:1.72;color:var(--t2);border-radius:0 8px 8px 0;
+  background:rgba(255,255,255,.022);max-width:var(--measure-lg);
 }
+/* The measure cap is for page-width callouts. These three contexts are already
+   narrower than it, and capping them again reads as a misaligned slab. */
+.wapp-left .ib,.wapp-right .ib,div[style*="max-width:680px"] .ib,
+.cards .ib,.card .ib,.ptcard .ib{max-width:none}
+/* A handful of callouts are nested inside an h3, where they would otherwise
+   inherit the serif italic display face. */
+h3.rh > .ib{font-family:var(--sans);font-style:normal;background:none;max-width:none}
 .ib.tip{border-color:var(--grn);background:var(--gl)}
 .ib.warn{border-color:var(--y);background:var(--yl)}
 .ib.danger{border-color:var(--red);background:var(--rl)}
@@ -309,7 +322,7 @@ main{max-width:var(--w);margin:0 auto;padding:0 28px;overflow-x:hidden}
 .cbc.ok{color:var(--grn);border-color:var(--grn)}
 pre{padding:20px 18px;overflow-x:auto;font-family:var(--mono);font-size:14px;line-height:1.78;color:#cdd6f4}
 .kw{color:#cba6f7}.fn{color:#89b4fa}.st{color:#a6e3a1}
-.cm{color:#4a4a6a}.nb2{color:#fab387}.at{color:#f9e2af}.py{color:#89dceb}.df{color:#cdd6f4}
+.cm{color:#7a7a9c}.nb2{color:#fab387}.at{color:#f9e2af}.py{color:#89dceb}.df{color:#cdd6f4}
 
 /* ── TOGGLE ──────────────────── */
 .tog{
@@ -591,7 +604,8 @@ h3.rh{font-family:var(--serif);font-size:clamp(22px,2.5vw,26px);font-style:itali
 .msg.a code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
 .msg.a em{color:var(--t3);font-style:italic;font-size:11px}
 .llminw{padding:11px;border-top:1px solid var(--b1);display:flex;gap:8px;background:var(--bg)}
-.llmin{flex:1;background:var(--s1);border:1px solid var(--b1);padding:8px 12px;font-family:var(--sans);font-size:13px;color:var(--t1);outline:none;border-radius:5px;resize:none;line-height:1.4;max-height:78px;transition:border-color .15s}
+.llmin:focus:not(:focus-visible){outline:none}
+.llmin{flex:1;background:var(--s1);border:1px solid var(--b1);padding:8px 12px;font-family:var(--sans);font-size:13px;color:var(--t1);border-radius:5px;resize:none;line-height:1.4;max-height:78px;transition:border-color .15s}
 .llmin:focus{border-color:rgba(245,197,24,.5);box-shadow:0 0 0 3px rgba(245,197,24,.1)}
 .llmsend{background:var(--y);border:none;color:#0a0a0a;font-family:var(--sans);font-size:12px;font-weight:700;padding:0 16px;cursor:pointer;border-radius:5px;transition:background .15s;white-space:nowrap}
 .llmsend:hover{background:var(--yd)}
@@ -610,13 +624,13 @@ h3.rh{font-family:var(--serif);font-size:clamp(22px,2.5vw,26px);font-style:itali
 
 
 /* ── TOOLTIPS ─────────────────────────── */
-.tip{
+.tip[data-tip]{
   position:relative;cursor:help;
   border-bottom:1px dashed var(--b2);
   transition:border-color .15s;
 }
-.tip:hover{border-bottom-color:var(--y)}
-.tip::after{
+.tip[data-tip]:hover{border-bottom-color:var(--y)}
+.tip[data-tip]::after{
   content:attr(data-tip);
   position:absolute;bottom:calc(100% + 8px);left:50%;
   transform:translateX(-50%);
@@ -630,13 +644,13 @@ h3.rh{font-family:var(--serif);font-size:clamp(22px,2.5vw,26px);font-style:itali
   line-height:1.55;transition:opacity .18s;
   box-shadow:0 4px 20px rgba(0,0,0,.4);
 }
-.tip::before{
+.tip[data-tip]::before{
   content:'';position:absolute;bottom:calc(100% + 2px);left:50%;
   transform:translateX(-50%);
   border:5px solid transparent;border-top-color:var(--b2);
   opacity:0;pointer-events:none;z-index:100;transition:opacity .18s;
 }
-.tip:hover::after,.tip:hover::before{opacity:1}
+.tip[data-tip]:hover::after,.tip[data-tip]:hover::before{opacity:1}
 
 /* ── REVEAL ───────────────────── */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1)}
@@ -987,6 +1001,7 @@ h3.rh{font-family:var(--serif);font-size:clamp(22px,2.5vw,26px);font-style:itali
 .sec, section {
   content-visibility: auto;
   contain-intrinsic-size: 0 600px;
+  contain-intrinsic-size: auto 600px;
 }
 /* but not hero/nav */
 #hero, #about { content-visibility: visible; }
@@ -1528,7 +1543,7 @@ html { scroll-behavior: smooth; }
 
 /* Anchor scroll offset for fixed nav */
 section[id], div[id^="self-heal"] {
-  scroll-margin-top: 72px;
+  scroll-margin-top: calc(var(--chrome) + 12px);
 }
 #hero { scroll-margin-top: 0; }
 
@@ -1647,7 +1662,7 @@ section[id], div[id^="self-heal"] {
   border: 1px solid rgba(167,139,250,.25);
   border-radius: 14px;
   position: relative;
-  scroll-margin-top: 80px;  /* fixed-nav offset so anchor click lands cleanly */
+  scroll-margin-top: calc(var(--chrome) + 12px);  /* fixed-nav offset so anchor click lands cleanly */
 }
 .aiwf-block::before {
   content: '';
@@ -1927,9 +1942,12 @@ section[id], div[id^="self-heal"] {
 .card,.icard,.ptcard,.mob-step-card,.aiwf-handle-card{
   transition:transform .22s cubic-bezier(.22,.61,.36,1),box-shadow .22s ease,border-color .22s ease;
 }
-.card:hover,.ptcard:hover,.mob-step-card:hover{
+.ptcard:hover{
   transform:translateY(-3px);
   box-shadow:0 10px 30px -12px rgba(0,0,0,.5);
+}
+.card:hover{
+  box-shadow:inset 0 0 0 1px rgba(245,197,24,.22),inset 0 1px 0 rgba(255,255,255,.05);
 }
 
 /* Nav active underline: animate transform scaleX (GPU) instead of the
@@ -2053,6 +2071,91 @@ section[id], div[id^="self-heal"] {
   .tk-win::-webkit-scrollbar{display:none}
 }
 @media print{#ticker{display:none}}
+
+/* ── READING CONTROLS + READER MODE ───────────────── */
+:root{--rz:1}
+html.rz main > section:not(#hero),
+html.rz main > div:not(#confetti-sentinel),
+html.rz #rd-body > section{zoom:var(--rz,1)}
+
+#rd-rail{
+  position:fixed;right:14px;top:calc(var(--chrome) + 18px);z-index:480;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:6px;border-radius:11px;
+  background:rgba(17,17,24,.93);border:1px solid var(--b1);
+  box-shadow:0 6px 24px rgba(0,0,0,.45);
+}
+.rd-b{
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  background:none;border:1px solid transparent;border-radius:8px;cursor:pointer;
+  color:var(--t3);font-family:var(--sans);font-size:13.5px;font-weight:600;line-height:1;
+  transition:color .15s,border-color .15s,background .15s;
+}
+.rd-b:hover{color:var(--y);border-color:rgba(245,197,24,.28);background:rgba(245,197,24,.07)}
+.rd-b[aria-disabled="true"]{opacity:.45;cursor:default}
+.rd-b[aria-disabled="true"]:hover{color:var(--t3);border-color:transparent;background:none}
+.rd-b-go{color:var(--y);font-size:15px}
+.rd-lvl{
+  font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.02em;
+  min-width:30px;text-align:center;user-select:none;
+}
+.rd-sep{width:20px;height:1px;background:var(--b1);margin:1px 0}
+
+#rd-over{position:fixed;inset:0;z-index:900;background:var(--bg);display:none;flex-direction:column}
+#rd-over.open{display:flex}
+html.rd-open,html.rd-open body{overflow:hidden}
+html.rd-open #llmw,html.rd-open #rd-rail{display:none}
+#rd-bar{
+  flex:0 0 auto;height:54px;display:flex;align-items:center;gap:10px;padding:0 16px;
+  background:rgba(10,10,10,.97);border-bottom:1px solid var(--b1);
+}
+#rd-title{
+  font-family:var(--sans);font-size:14px;font-weight:600;color:var(--t1);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;
+}
+#rd-sel{
+  background:var(--s1);border:1px solid var(--b1);color:var(--t2);
+  font-family:var(--sans);font-size:12px;padding:6px 9px;border-radius:6px;max-width:210px;cursor:pointer;
+}
+#rd-close{
+  background:none;border:1px solid var(--b2);color:var(--t2);font-family:var(--sans);
+  font-size:12px;padding:6px 13px;border-radius:6px;cursor:pointer;transition:.15s;
+}
+#rd-close:hover{border-color:var(--y);color:var(--y)}
+#rd-scroll{flex:1;overflow-y:auto;overscroll-behavior:contain}
+#rd-body{max-width:var(--w);margin:0 auto;padding:0 28px 90px}
+.rd-ph{display:none}
+
+/* The moved section must not arrive still hidden by its reveal state */
+#rd-body .rv,#rd-body .rv-l,#rd-body .rv-r,#rd-body .rv-scale{
+  opacity:1!important;transform:none!important;transition:none!important}
+#rd-body .sk.rv .sn{transform:none!important;opacity:1!important}
+#rd-body > section{
+  content-visibility:visible!important;contain-intrinsic-size:none!important;
+  padding:26px 0 0!important;border-bottom:none!important;min-height:0!important}
+/* Anything genuinely wider than the column scrolls inside itself rather than
+   forcing the overlay sideways. */
+#rd-scroll{overflow-x:hidden}
+#rd-body .arch-diagram,#rd-body .lt-wrap,#rd-body table,#rd-body .aitools{overflow-x:auto;max-width:100%}
+
+@media(max-width:1279px){
+  #rd-rail{
+    top:auto;bottom:26px;right:auto;left:20px;
+    flex-direction:row;border-radius:99px;padding:5px 7px;gap:3px;
+  }
+  .rd-sep{width:1px;height:18px;margin:0 2px}
+  .rd-b{width:30px;height:30px;font-size:12.5px}
+}
+@media(max-width:600px){
+  #rd-body{padding:0 15px 80px}
+  #rd-bar{height:48px;padding:0 11px;gap:7px}
+  #rd-sel{max-width:120px;font-size:11px}
+}
+@media print{#rd-rail,#rd-over{display:none!important}}
+
+/* ScrapeIQ: block boundaries recovered from the source markup */
+.iq-seg{display:block;margin:0 0 6px}
+.iq-seg:last-child{margin-bottom:0}
 </style>
 
   <script type="application/ld+json">
@@ -2269,6 +2372,7 @@ section[id], div[id^="self-heal"] {
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4015695435596819" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-4015695435596819">
   <meta name="google-site-verification" content="AhwepuPibycUIw_P5phLA5fdoCs0nps9IssziAqogFs" />
+<script>try{var z=+localStorage.getItem('wsg:readzoom');if(z&&z!==100&&z>=90&&z<=160){document.documentElement.style.setProperty('--rz',z/100);document.documentElement.classList.add('rz');}}catch(e){}</script>
 </head>
 <body>
 <!-- Legal Disclaimer Toast -->
@@ -10750,6 +10854,29 @@ The payoff scales past the one app. Most apps that protect their API at all push
   <button id="llmbtn" onclick="toggleLLM()" title="Ask the scraping assistant">🕷️</button>
 </div>
 
+<span id="rd-say" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap"></span>
+<div id="rd-rail" role="group" aria-label="Reading controls">
+  <button type="button" class="rd-b" id="rd-plus" onclick="rdZoom(1)" aria-label="Larger text" title="Larger text">A+</button>
+  <span class="rd-lvl" id="rd-lvl" role="status" aria-live="polite" aria-atomic="true">100%</span>
+  <button type="button" class="rd-b" id="rd-minus" onclick="rdZoom(-1)" aria-label="Smaller text" title="Smaller text">A&#8722;</button>
+  <span class="rd-sep"></span>
+  <button type="button" class="rd-b rd-b-go" id="rd-go" onclick="rdOpen()" aria-haspopup="dialog" aria-label="Read one section full screen" title="Read one section full screen">&#9707;</button>
+</div>
+
+<div id="rd-over" role="dialog" aria-modal="true" aria-labelledby="rd-title">
+  <div id="rd-bar">
+    <h2 id="rd-title">Reader</h2>
+    <select id="rd-sel" onchange="rdMount(this.value)" aria-label="Choose a section to read"></select>
+    <button type="button" class="rd-b" onclick="rdZoom(-1)" aria-label="Smaller text" title="Smaller text">A&#8722;</button>
+    <span class="rd-lvl" id="rd-lvl2">100%</span>
+    <button type="button" class="rd-b" onclick="rdZoom(1)" aria-label="Larger text" title="Larger text">A+</button>
+    <button type="button" id="rd-close" onclick="rdExit()" aria-label="Close reader">Close</button>
+  </div>
+  <div id="rd-scroll" tabindex="0" role="region" aria-label="Section content">
+    <div id="rd-body"></div>
+  </div>
+</div>
+
 <footer id="footer">
 <div class="fi">
   <div class="ft">
@@ -11077,13 +11204,9 @@ _onScrollFrame(); // initial paint
 const ob = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('vi'); }), {threshold:.08, rootMargin:'0px 0px -36px 0px'});
 document.querySelectorAll('.rv').forEach(el => ob.observe(el));
 
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const el = document.querySelector(a.getAttribute('href'));
-    if (el) window.scrollTo({top: el.offsetTop - 60, behavior:'smooth'});
-  });
-});
+// Anchor scrolling is handled by the delegated smoothScrollTo listener below.
+// A second per-element handler used to run first and start a smooth scroll that
+// the delegated one then cancelled with an instant jump 38px away.
 
 function tog(btn, id) {
   const el = document.getElementById(id);
@@ -11215,7 +11338,12 @@ const SECTION_MAP = [
   {
     id: 'jargon',
     label: 'Jargon Dictionary',
-    keywords: ['jargon','glossary','definition','define','what is','what does','term','acronym','meaning','explain'],
+    keywords: ['jargon','glossary','definition','define','acronym','terminology'],
+  },
+  {
+    id: 'about',
+    label: 'About This Guide',
+    keywords: ['about','who wrote','who made','author','asad','why this guide','background','experience','credentials','who are you','what is this','trust','how do you know'],
   },
   {
     id: 'tl',
@@ -11306,7 +11434,7 @@ function linearize(el){
 }
 
 function chunk(text, heading, sectionId, sectionLabel, out){
-  const clean = text.replace(//g,' ').replace(/\s+/g,' ').trim();
+  const clean = text.replace(/(?:\s*\s*)+/g,'  ').replace(/[^\S]+/g,' ').trim();
   if (clean.length < 80) return;
   if (clean.length <= 900) { out.push({ text: clean, heading, sectionId, sectionLabel }); return; }
   const sents = [];
@@ -11371,6 +11499,7 @@ function buildIndex(){
     const tf = Object.create(null);
     tokens.forEach(w => { tf[w] = (tf[w]||0)+1; });
     p.tf = tf; p.len = tokens.length || 1;
+    p.lower = p.text.toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ');
     totalLen += p.len;
     Object.keys(tf).forEach(w => { df[w] = (df[w]||0)+1; });
   });
@@ -11427,8 +11556,13 @@ function search(query, limit){
     });
     if (s <= 0) return;
     if (base.length > 1) s *= 0.55 + 0.45 * (matched / base.length);
-    const lower = p.text.toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ');
+    const lower = p.lower || '';
     if (phrase.length > 11 && lower.includes(phrase)) s *= 2.0;
+    // Adjacent-pair bonus: "session stickiness" should beat two loose hits on
+    // "session" and "stickiness" in unrelated sentences.
+    let nb = 0;
+    for (let i = 0; i + 1 < base.length; i++) { if (lower.includes(base[i] + ' ' + base[i+1])) nb++; }
+    if (nb) s *= Math.min(2.1, 1 + 0.35 * nb);
     if (p.heading) {
       const ht = tok(p.heading);
       const hits = base.filter(w => ht.includes(w)).length;
@@ -11446,13 +11580,26 @@ function search(query, limit){
 function esc(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 function highlight(text, terms){
-  let out = esc(text);
-  const uniq = [...new Set(terms)].filter(t => t.length > 3).slice(0, 9);
-  uniq.forEach(t => {
-    const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-    out = out.replace(re, '<mark class="iq-hl">$1</mark>');
-  });
-  return out;
+  const out = esc(text);
+  const uniq = [...new Set(terms)]
+    .filter(t => t.length > 3 && !/^(amp|quot|lt|gt|mark|class|span)$/.test(t))
+    .slice(0, 9)
+    .sort((a,b) => b.length - a.length)
+    .map(t => t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+  if (!uniq.length) return out;
+  // One pass with an alternation: a sequence of passes can match inside the
+  // <mark> markup an earlier pass just inserted.
+  return out.replace(new RegExp('(' + uniq.join('|') + ')', 'gi'), '<mark class="iq-hl">$1</mark>');
+}
+
+// Renders a quoted passage, restoring the block boundaries linearize() recorded
+// so a run of stat chips reads as separate lines instead of one run-on string.
+function renderQuote(text, terms, max){
+  const segs = highlight(trimTo(text, terms, max), terms)
+    .split(/\s*\u0001\s*/).map(s => s.trim())
+    .filter(s => s.length > 0 && !/^[+\u2212\u2013\u2192\u2191\u25C6-]$/.test(s));
+  if (segs.length < 2) return segs.join(' ');
+  return segs.map(s => '<span class="iq-seg">' + s + '</span>').join('');
 }
 
 function trimTo(text, terms, max){
@@ -11470,12 +11617,24 @@ function trimTo(text, terms, max){
   let out = text.slice(start, start + max);
   const lastDot = out.lastIndexOf('. ');
   if (lastDot > max*0.5) out = out.slice(0, lastDot + 1);
-  return (start > 0 ? '... ' : '') + out.trim();
+  out = out.trim();
+  // A window that stops mid-sentence must say so, or a fragment reads as a
+  // finished claim. The word after the cut is sometimes the negation.
+  const ended = /[.!?:"\u201d)]$/.test(out);
+  return (start > 0 ? '... ' : '') + out + (ended ? '' : ' ...');
 }
 
 function scrollToSection(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  // With the reader open the document underneath is scroll-locked, so a jump
+  // request means "read that section instead", not "scroll behind the overlay".
+  if (document.documentElement.classList.contains('rd-open')) {
+    if (el.tagName === 'SECTION' && el.parentElement && el.parentElement.closest('main, #rd-body')) {
+      rdMount(id);
+      return;
+    }
+  }
   const chrome = () => (document.getElementById('nav')?.offsetHeight || 56)
                      + (document.getElementById('ticker')?.offsetHeight || 0) + 12;
   const aim = () => el.getBoundingClientRect().top + window.scrollY - chrome();
@@ -11558,16 +11717,17 @@ function sendMsg() {
       usedSec.add(h.p.sectionId);
     }
 
-    const conf = top.s > 14 ? 'strong' : (top.s > 8.5 ? 'good' : 'partial');
+    // Thresholds account for the adjacent-pair bonus, which can multiply by 2.1.
+    const conf = top.s > 20 ? 'strong' : (top.s > 12 ? 'good' : 'partial');
     let html = '';
-    html += `<div class="iq-ans">${highlight(trimTo(top.p.text, terms, 640), terms)}</div>`;
+    html += `<div class="iq-ans">${renderQuote(top.p.text, terms, 760)}</div>`;
     html += `<div class="iq-src">From <strong>${esc(top.p.sectionLabel)}</strong>${top.p.heading ? ' &middot; ' + esc(top.p.heading) : ''}`
           + `<span class="iq-conf iq-${conf}">${conf} match</span></div>`;
 
     if (support.length) {
       html += '<div class="iq-more">Also relevant</div>';
       support.forEach(h => {
-        html += `<div class="iq-sup">${highlight(trimTo(h.p.text, terms, 265), terms)}`
+        html += `<div class="iq-sup">${renderQuote(h.p.text, terms, 300)}`
               + `<div class="iq-supsrc">${esc(h.p.sectionLabel)}${h.p.heading ? ' &middot; ' + esc(h.p.heading) : ''}</div></div>`;
       });
     }
@@ -11591,14 +11751,8 @@ function rephrase(q) {
 }
 
 // Update quick chips in panel on open
-function updateChips() {
-  const chipsEl = document.querySelector('.llmchips');
-  if (!chipsEl) return;
-  chipsEl.innerHTML = QUICK_CHIPS.map(c =>
-    `<button class="llmchip" onclick="document.getElementById('llmin').value='${c.replace(/'/g,"\\'")}';sendMsg()">${c}</button>`
-  ).join('');
-}
-document.addEventListener('DOMContentLoaded', updateChips);
+// updateChips() removed: it overwrote the six curated panel chips on every load.
+
 
 // Fade banner logic
 function dismissBanner(){
@@ -12063,5 +12217,153 @@ function downloadLLMContext() {
     document.addEventListener('DOMContentLoaded', syncLibCount);
   } else { syncLibCount(); }
 })();
+
+// ══════════════════════════════════════════════════════════════
+// READING CONTROLS: text zoom, and one section at a time full screen.
+// Zoom uses CSS zoom on section elements rather than html font-size,
+// because the page is authored almost entirely in px and would not
+// respond to a root font-size change.
+// ══════════════════════════════════════════════════════════════
+const RD_STEPS = [90, 100, 110, 125, 140, 160];
+let RD = { id:null, node:null, ph:null, prevFocus:null };
+
+function rdLevel(){
+  let z = 100;
+  try { z = +localStorage.getItem('wsg:readzoom') || 100; } catch(e){}
+  return RD_STEPS.includes(z) ? z : 100;
+}
+let rdQuiet = false;
+function rdZoomSet(z){
+  z = RD_STEPS.includes(z) ? z : 100;
+  const root = document.documentElement;
+  root.style.setProperty('--rz', z / 100);
+  root.classList.toggle('rz', z !== 100);
+  try { localStorage.setItem('wsg:readzoom', String(z)); } catch(e){}
+  ['rd-lvl','rd-lvl2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = z + '%'; el.setAttribute('aria-hidden','true'); }
+  });
+  const i = RD_STEPS.indexOf(z);
+  // aria-disabled rather than disabled: disabling the button the user just
+  // pressed drops focus to the top of the document.
+  const minus = document.getElementById('rd-minus'), plus = document.getElementById('rd-plus');
+  if (minus) minus.setAttribute('aria-disabled', String(i <= 0));
+  if (plus) plus.setAttribute('aria-disabled', String(i >= RD_STEPS.length - 1));
+  if (!rdQuiet) {
+    const say = document.getElementById('rd-say');
+    if (say) say.textContent = 'Text size ' + z + ' percent'
+      + (i >= RD_STEPS.length - 1 ? ', largest' : (i <= 0 ? ', smallest' : ''));
+  }
+}
+function rdZoom(dir){
+  const i = RD_STEPS.indexOf(rdLevel());
+  rdZoomSet(RD_STEPS[Math.max(0, Math.min(RD_STEPS.length - 1, i + dir))]);
+}
+
+function rdSections(){ return Array.from(document.querySelectorAll('main > section[id]')).filter(s => s.id !== 'hero'); }
+function rdLabel(s){
+  const m = SECTION_MAP.find(x => x.id === s.id);
+  if (m) return m.label;
+  const h3 = s.querySelector('.sh, h2, h3');
+  return h3 ? h3.textContent.replace(/\s+/g,' ').trim().slice(0, 60) : s.id;
+}
+function rdCurrent(){
+  const line = (document.getElementById('nav')?.offsetHeight || 56) + 40;
+  const secs = rdSections();
+  let best = secs[0];
+  for (const s of secs) { if (s.getBoundingClientRect().top <= line) best = s; }
+  return (best || secs[0]).id;
+}
+
+function rdMount(id){
+  const s = document.getElementById(id);
+  if (!s) return;
+  rdUnmount();
+  RD.ph = document.createElement('div');
+  RD.ph.className = 'rd-ph';
+  s.parentNode.insertBefore(RD.ph, s);
+  // Commit the reveal state rather than masking it. If this section had not been
+  // scrolled into view yet, its .rv children are still at opacity 0, and the
+  // observer will not fire for them inside the overlay, so they would return to
+  // the page invisible.
+  if (s.classList.contains('rv')) s.classList.add('vi');
+  s.querySelectorAll('.rv,.rv-l,.rv-r,.rv-scale').forEach(e => e.classList.add('vi'));
+  document.getElementById('rd-body').appendChild(s);
+  RD.id = id; RD.node = s;
+  document.getElementById('rd-scroll').scrollTop = 0;
+  document.getElementById('rd-title').textContent = rdLabel(s);
+  document.getElementById('rd-sel').value = id;
+}
+// The live node is moved, not cloned, so every id, handler and observer it
+// carries keeps working. A placeholder holds its place in the document.
+function rdUnmount(){
+  if (RD.node && RD.ph && RD.ph.parentNode) RD.ph.parentNode.replaceChild(RD.node, RD.ph);
+  RD.node = null; RD.ph = null;
+}
+
+const RD_HAS_INERT = 'inert' in HTMLElement.prototype;
+function rdTrap(e){
+  if (e.key !== 'Tab' || !document.documentElement.classList.contains('rd-open')) return;
+  const over = document.getElementById('rd-over');
+  const f = [...over.querySelectorAll('a[href],button,select,textarea,input,[tabindex]:not([tabindex="-1"])')]
+    .filter(el => el.offsetParent !== null || el === document.activeElement);
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+function rdInert(n){
+  const el = (typeof n === 'string') ? document.getElementById(n) : n;
+  if (!el) return;
+  if (RD_HAS_INERT) el.inert = true;
+  el.dataset.rdInert = '1';
+}
+function rdUninert(){
+  document.querySelectorAll('[data-rd-inert]').forEach(el => {
+    if (RD_HAS_INERT) el.inert = false;
+    delete el.dataset.rdInert;
+  });
+}
+
+function rdOpen(id){
+  const sel = document.getElementById('rd-sel');
+  if (!sel.options.length) {
+    rdSections().forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = rdLabel(s); sel.appendChild(o); });
+  }
+  RD.prevFocus = document.activeElement;
+  rdMount(id || rdCurrent());
+  document.documentElement.classList.add('rd-open');
+  ['nav','ticker','fade-banner','legal-banner'].forEach(rdInert);
+  rdInert(document.querySelector('main'));
+  rdInert(document.getElementById('footer'));
+  document.getElementById('rd-over').classList.add('open');
+  if (!RD_HAS_INERT) document.addEventListener('keydown', rdTrap, true);
+  document.getElementById('rd-scroll').focus();
+}
+function rdExit(){
+  const back = RD.id;
+  document.getElementById('rd-over').classList.remove('open');
+  rdUnmount();
+  document.documentElement.classList.remove('rd-open');
+  rdUninert();
+  document.removeEventListener('keydown', rdTrap, true);
+  if (RD.prevFocus && RD.prevFocus.isConnected) RD.prevFocus.focus();
+  else document.getElementById('rd-go')?.focus();
+  RD.id = null;
+  if (back) scrollToSection(back);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.documentElement.classList.contains('rd-open')) {
+    e.preventDefault(); rdExit(); return;
+  }
+  if ((e.ctrlKey || e.metaKey) && e.altKey) {
+    if (e.code === 'Equal') { e.preventDefault(); rdZoom(1); }
+    else if (e.code === 'Minus') { e.preventDefault(); rdZoom(-1); }
+    else if (e.code === 'Digit0') { e.preventDefault(); rdZoomSet(100); }
+  }
+});
+
+rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
 </script>
 </body></html>
