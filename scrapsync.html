@@ -247,6 +247,61 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
 /* progress bar */
 .scroll-prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--grad);z-index:300;box-shadow:0 0 10px var(--cyan)}
 
+/* ── site-wide continuity layer ── */
+:root{--ease:cubic-bezier(.22,.61,.36,1)}
+#ambient{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+/* mouse-follow glow on every card */
+[data-glow]{position:relative;will-change:transform}
+[data-glow]::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s var(--ease);z-index:0;
+  background:radial-gradient(360px circle at var(--mx,50%) var(--my,50%),rgba(52,229,255,.12),transparent 62%)}
+[data-glow]:hover::after{opacity:1}
+[data-glow]>*{position:relative;z-index:1}
+/* heading word reveal (site-wide) */
+.wl{display:inline-block;overflow:hidden;vertical-align:top}
+.wl i{display:inline-block;font-style:normal;transform:translateY(112%)}
+/* consistent button press */
+.btn:active{transform:translateY(0) scale(.97)}
+
+/* ── principles carousel ── */
+#voice{padding:120px 0;overflow:hidden}
+.carou{position:relative;max-width:940px;margin:0 auto;min-height:230px}
+.quote{position:absolute;inset:0;opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;pointer-events:none}
+.quote.on{opacity:1;transform:none;pointer-events:auto}
+.quote .qmark{font-family:var(--disp);font-size:56px;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px}
+.quote p{font-family:var(--disp);font-weight:500;font-size:clamp(22px,3.1vw,34px);line-height:1.32;letter-spacing:-.01em;max-width:26ch}
+.quote .qby{font-family:var(--mono);font-size:13px;color:var(--t3);margin-top:22px}
+.dots{display:flex;gap:9px;justify-content:center;margin-top:40px;position:relative;z-index:2}
+.dot2{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.18);border:none;cursor:pointer;transition:.35s var(--ease);padding:0}
+.dot2.on{background:var(--grad);width:28px}
+
+/* ── engagement timeline ── */
+.tl{position:relative;max-width:720px;margin:0 auto;padding-left:44px}
+.tl-line{position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--line);overflow:hidden;border-radius:2px}
+.tl-line i{position:absolute;left:0;top:0;width:100%;height:0;background:var(--grad);box-shadow:0 0 14px var(--cyan)}
+.tl-item{position:relative;padding-bottom:42px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:"";position:absolute;left:-38px;top:3px;width:16px;height:16px;border-radius:50%;background:var(--bg2);border:2px solid var(--line2);transition:.45s var(--ease)}
+.tl-item.on::before{border-color:transparent;background:var(--grad);box-shadow:0 0 20px -2px var(--cyan)}
+.tl-item .tw{font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;margin-bottom:7px}
+.tl-item h4{font-family:var(--disp);font-weight:600;font-size:20px;margin-bottom:7px}
+.tl-item p{color:var(--t2);font-size:15px;max-width:52ch}
+
+/* ── contact form ── */
+.form{max-width:580px;margin:36px auto 0;display:grid;gap:18px;text-align:left}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{position:relative}
+.field label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:8px}
+.field input,.field textarea{width:100%;background:rgba(8,11,20,.72);border:1px solid var(--line);border-radius:11px;padding:13px 15px;
+  color:var(--t1);font-family:var(--sans);font-size:15px;transition:border-color .25s var(--ease),box-shadow .25s var(--ease);resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 4px rgba(52,229,255,.12)}
+.field .uline{position:absolute;left:14px;right:14px;bottom:0;height:2px;width:0;background:var(--grad);transition:width .4s var(--ease);border-radius:2px}
+.field input:focus~.uline,.field textarea:focus~.uline{width:calc(100% - 28px)}
+.form .btn{justify-self:start;justify-content:center}
+.form-note{font-family:var(--mono);font-size:12px;color:var(--t3);margin-top:2px}
+
+@media(max-width:560px){.frow{grid-template-columns:1fr}}
+
 @media(max-width:900px){
   .nav-links{display:none} .burger{display:flex}
   .pillars,.abgrid,.steps,.stats,.team,.plans{grid-template-columns:1fr}
@@ -266,6 +321,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
 </style>
 </head>
 <body>
+<canvas id="ambient"></canvas>
 <div class="grid-bg"></div>
 <div class="scroll-prog" id="prog"></div>
 <div class="cur" id="cur"></div>
@@ -341,11 +397,11 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">What we do</div>
-      <h2 class="sh">Three things, done to a production standard.</h2>
+      <h2 class="sh" data-reveal>Three things, done to a production standard.</h2>
       <p class="sh-sub">Most scraping breaks the moment a site changes or a vendor ships a new sensor. We build the version that keeps running when you are not looking.</p>
     </div>
     <div class="pillars">
-      <div class="pill reveal" data-hot>
+      <div class="pill reveal" data-hot data-glow>
         <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4"/></svg></div>
         <h3>Architecture design</h3>
         <p>We design the pipeline before the first request: queueing, proxies, storage, monitoring, and the failure paths nobody plans for.</p>
@@ -356,7 +412,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
           <li>Cost modelled per usable record</li>
         </ul>
       </div>
-      <div class="pill reveal" data-hot>
+      <div class="pill reveal" data-hot data-glow>
         <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/><path d="M9.5 12l2 2 4-4.5"/></svg></div>
         <h3>Anti-bot bypass</h3>
         <p>TLS and JA4 fingerprinting, sensor scripts, behavioural scoring, mobile signing. We work at the layer that actually decides the outcome.</p>
@@ -367,7 +423,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
           <li>Residential and mobile IP strategy</li>
         </ul>
       </div>
-      <div class="pill reveal" data-hot>
+      <div class="pill reveal" data-hot data-glow>
         <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3Z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
         <h3>Any data, at scale</h3>
         <p>Millions of records a day, validated and shaped to a schema you can actually load. Not a clean 200, a clean dataset.</p>
@@ -387,16 +443,16 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">The walls</div>
-      <h2 class="sh">Every major vendor, mapped and beaten.</h2>
+      <h2 class="sh" data-reveal>Every major vendor, mapped and beaten.</h2>
       <p class="sh-sub">We know where each one concentrates its scrutiny, because we have shipped against all of them. The bar is the real one: clean data flowing at volume, not a single lucky request.</p>
     </div>
     <div class="abgrid" id="abgrid">
-      <div class="ab reveal" style="--w:96%"><div class="abtop"><h4>Cloudflare</h4><span class="status">cleared</span></div><p>JA4 at the edge, Turnstile, ML bot score. Beaten with real handshakes and coherent identity.</p><div class="bar"><i></i></div></div>
-      <div class="ab reveal" style="--w:94%"><div class="abtop"><h4>Akamai v3</h4><span class="status">cleared</span></div><p>sensor.js, _abck, 60 extension probes, multi-request trust. Solved at the TLS layer first.</p><div class="bar"><i></i></div></div>
-      <div class="ab reveal" style="--w:90%"><div class="abtop"><h4>DataDome</h4><span class="status">cleared</span></div><p>85k per-customer models and header scoring. Lean, correctly ordered requests win here.</p><div class="bar"><i></i></div></div>
-      <div class="ab reveal" style="--w:88%"><div class="abtop"><h4>Kasada</h4><span class="status">cleared</span></div><p>Polymorphic proof-of-work, real-browser-only by design. Patched engines and residential exits.</p><div class="bar"><i></i></div></div>
-      <div class="ab reveal" style="--w:85%"><div class="abtop"><h4>F5 Shape</h4><span class="status">cleared</span></div><p>Custom JS VM, minute-scale token expiry. The hardest enterprise tier, handled with a real budget.</p><div class="bar"><i></i></div></div>
-      <div class="ab reveal" style="--w:92%"><div class="abtop"><h4>PerimeterX</h4><span class="status">cleared</span></div><p>Behavioural scoring over time, first-party cloaking. Session realism beats a perfect fingerprint.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:96%" data-glow><div class="abtop"><h4>Cloudflare</h4><span class="status">cleared</span></div><p>JA4 at the edge, Turnstile, ML bot score. Beaten with real handshakes and coherent identity.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:94%" data-glow><div class="abtop"><h4>Akamai v3</h4><span class="status">cleared</span></div><p>sensor.js, _abck, 60 extension probes, multi-request trust. Solved at the TLS layer first.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:90%" data-glow><div class="abtop"><h4>DataDome</h4><span class="status">cleared</span></div><p>85k per-customer models and header scoring. Lean, correctly ordered requests win here.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:88%" data-glow><div class="abtop"><h4>Kasada</h4><span class="status">cleared</span></div><p>Polymorphic proof-of-work, real-browser-only by design. Patched engines and residential exits.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:85%" data-glow><div class="abtop"><h4>F5 Shape</h4><span class="status">cleared</span></div><p>Custom JS VM, minute-scale token expiry. The hardest enterprise tier, handled with a real budget.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:92%" data-glow><div class="abtop"><h4>PerimeterX</h4><span class="status">cleared</span></div><p>Behavioural scoring over time, first-party cloaking. Session realism beats a perfect fingerprint.</p><div class="bar"><i></i></div></div>
     </div>
   </div>
 </section>
@@ -406,7 +462,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">How an engagement runs</div>
-      <h2 class="sh">Recon, bypass, extract, deliver.</h2>
+      <h2 class="sh" data-reveal>Recon, bypass, extract, deliver.</h2>
       <p class="sh-sub">Scroll through the pipeline. Every step is a place other scrapers quietly fail, and where we spend our time.</p>
     </div>
     <div class="proc">
@@ -426,11 +482,11 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">Selected work</div>
-      <h2 class="sh">Systems we built and still run.</h2>
+      <h2 class="sh" data-reveal>Systems we built and still run.</h2>
       <p class="sh-sub">Real production engagements, described by what they had to survive. Targets are kept generic on purpose.</p>
     </div>
     <div class="cases">
-      <div class="case big reveal" data-hot><span class="glowline"></span>
+      <div class="case big reveal" data-hot data-glow><span class="glowline"></span>
         <div class="case-tag">Self-healing crawler · automotive data</div>
         <h3>An auto-healer for 44 forum domains</h3>
         <p>Forty-four car-forum domains, each with a different layout, feeding one dataset. When a selector broke, an agent read the error and the live page, diffed the structure, patched the spider and re-tested, with no human in the loop. The failure that used to page an engineer at 3am became a self-closing ticket.</p>
@@ -441,7 +497,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
         </div>
         <div class="case-stack"><span class="chip">Claude agents</span><span class="chip">FastAPI MCP</span><span class="chip">ECS Fargate</span><span class="chip">Aurora</span><span class="chip">Django</span></div>
       </div>
-      <div class="case reveal" data-hot><span class="glowline"></span>
+      <div class="case reveal" data-hot data-glow><span class="glowline"></span>
         <div class="case-tag">Classifieds · scale</div>
         <h3>500+ spiders on a distributed fleet</h3>
         <p>Large classifieds and property portals, crawled continuously with a distributed Scrapy fleet on Kubernetes, feeding a search index and a warehouse.</p>
@@ -451,7 +507,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
         </div>
         <div class="case-stack"><span class="chip">Scrapy</span><span class="chip">EKS</span><span class="chip">Elasticsearch</span><span class="chip">Redshift</span></div>
       </div>
-      <div class="case reveal" data-hot><span class="glowline"></span>
+      <div class="case reveal" data-hot data-glow><span class="glowline"></span>
         <div class="case-tag">Control plane</div>
         <h3>A cockpit for 86 crawler projects</h3>
         <p>One control plane to schedule, deploy and monitor an entire crawler fleet. Non-engineers ran the operation from a browser, with zero SSH access to anything.</p>
@@ -461,7 +517,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
         </div>
         <div class="case-stack"><span class="chip">FastAPI</span><span class="chip">APScheduler</span><span class="chip">GitHub Actions</span></div>
       </div>
-      <div class="case big reveal" data-hot><span class="glowline"></span>
+      <div class="case big reveal" data-hot data-glow><span class="glowline"></span>
         <div class="case-tag">AI-native pipeline · media</div>
         <h3>A lakehouse that reads what it scrapes</h3>
         <p>Thirty-plus brand pages a day pulled into a lakehouse, then read by fine-tuned models that classified and routed the content instead of a wall of brittle rules. The scraping was the easy fifth of the job; the reliability around the model was the rest.</p>
@@ -494,19 +550,56 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
   <div class="tmarq rev" id="tm2"></div>
 </div>
 
+<!-- PRINCIPLES CAROUSEL -->
+<section id="voice">
+  <div class="wrap">
+    <div class="sec-head reveal" style="text-align:center;margin:0 auto 40px">
+      <div class="eyebrow">How we think</div>
+      <h2 class="sh" data-reveal style="margin:0 auto">The rules we actually work by.</h2>
+    </div>
+    <div class="carou" id="carou" data-hot>
+      <div class="quote on"><div class="qmark">&ldquo;</div><p>You do not get blocked for looking like a bot. You get blocked for being incoherent across layers.</p><div class="qby">The thesis behind every bypass we ship</div></div>
+      <div class="quote"><div class="qmark">&ldquo;</div><p>A clean 200 is not a clean dataset. We validate the shape and the statistics, never the status code.</p><div class="qby">Why our data does not quietly rot</div></div>
+      <div class="quote"><div class="qmark">&ldquo;</div><p>Infrastructure beats code. A clean residential IP outperforms a perfectly patched browser on a flagged one.</p><div class="qby">Where we spend the budget first</div></div>
+      <div class="quote"><div class="qmark">&ldquo;</div><p>If a target is not worth doing, we tell you before you pay. An honest no is cheaper than a slow failure.</p><div class="qby">How the first call goes</div></div>
+      <div class="quote"><div class="qmark">&ldquo;</div><p>The bill is mostly waste. We model cost per usable record, not per gigabyte, and the biggest cost is the engineer who keeps a scraper alive.</p><div class="qby">Why buying beats building</div></div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+</section>
+
+<!-- ENGAGEMENT TIMELINE -->
+<section class="sec" id="timeline">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">What working together looks like</div>
+      <h2 class="sh" data-reveal>From your first email to data flowing.</h2>
+      <p class="sh-sub">No long procurement dance. Most engagements are delivering inside two weeks.</p>
+    </div>
+    <div class="tl" id="tl">
+      <div class="tl-line"><i id="tlFill"></i></div>
+      <div class="tl-item reveal"><div class="tw">DAY 0 · SCOPE CALL</div><h4>You tell us the target</h4><p>A free call. We look at the site live, tell you which anti-bot it runs, and whether the data is obtainable and worth it. Sometimes the honest answer is no.</p></div>
+      <div class="tl-item reveal"><div class="tw">DAYS 1 TO 3 · RECON &amp; BYPASS</div><h4>We get past the wall</h4><p>Session capture, cookie tracing, the mobile API behind the site. We match a real client end to end and prove clean responses at a small scale first.</p></div>
+      <div class="tl-item reveal"><div class="tw">WEEK 1 · FIRST DATA</div><h4>You see real records</h4><p>A sample dataset in your format, validated against a schema, so you can check the shape before we scale. No surprises at volume.</p></div>
+      <div class="tl-item reveal"><div class="tw">WEEK 2 · AT SCALE</div><h4>The pipeline runs</h4><p>Full volume on a self-healing fleet, into your warehouse, API or webhook, with monitoring and drift alerts wired in.</p></div>
+      <div class="tl-item reveal"><div class="tw">ONGOING · WE KEEP IT ALIVE</div><h4>It stays running</h4><p>When a vendor ships a new sensor or a site redesigns, that is our problem to fix, not yours. You keep getting data.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- TEAM -->
 <section class="sec" id="team">
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">Who you work with</div>
-      <h2 class="sh">A small team of actual scrapers.</h2>
+      <h2 class="sh" data-reveal>A small team of actual scrapers.</h2>
       <p class="sh-sub">Not account managers. The people who read the sensor script are the people who answer your email.</p>
     </div>
     <div class="team">
-      <div class="mem reveal" data-hot><div class="ava">A</div><h4>Asad</h4><div class="role">Founder · architecture</div><p>Seven years across six countries. Chevening Scholar, MSc Data Analytics with distinction. Designs the pipeline and owns the hard bypasses.</p></div>
-      <div class="mem reveal" data-hot><div class="ava">M</div><h4>Muteeb</h4><div class="role">Anti-bot · reverse engineering</div><p>Lives at the network layer. TLS and JA4, sensor scripts, mobile signers, the parts of a target that decide whether you get in at all.</p></div>
-      <div class="mem reveal" data-hot><div class="ava">F</div><h4>Faheem</h4><div class="role">Infrastructure · pipelines</div><p>Fleets that stay up. Queues, proxies, autoscaling and the monitoring that catches a drift before the client does.</p></div>
-      <div class="mem reveal" data-hot><div class="ava">M</div><h4>Muneeb</h4><div class="role">Data · delivery</div><p>Turns raw crawls into datasets you can load. Schema contracts, dedup, validation, and the last-mile shape that makes data usable.</p></div>
+      <div class="mem reveal" data-hot data-glow><div class="ava">A</div><h4>Asad</h4><div class="role">Founder · architecture</div><p>Seven years across six countries. Chevening Scholar, MSc Data Analytics with distinction. Designs the pipeline and owns the hard bypasses.</p></div>
+      <div class="mem reveal" data-hot data-glow><div class="ava">M</div><h4>Muteeb</h4><div class="role">Anti-bot · reverse engineering</div><p>Lives at the network layer. TLS and JA4, sensor scripts, mobile signers, the parts of a target that decide whether you get in at all.</p></div>
+      <div class="mem reveal" data-hot data-glow><div class="ava">F</div><h4>Faheem</h4><div class="role">Infrastructure · pipelines</div><p>Fleets that stay up. Queues, proxies, autoscaling and the monitoring that catches a drift before the client does.</p></div>
+      <div class="mem reveal" data-hot data-glow><div class="ava">M</div><h4>Muneeb</h4><div class="role">Data · delivery</div><p>Turns raw crawls into datasets you can load. Schema contracts, dedup, validation, and the last-mile shape that makes data usable.</p></div>
     </div>
   </div>
 </section>
@@ -516,11 +609,11 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">Ways to work together</div>
-      <h2 class="sh">Priced on the value of the data, not the hours.</h2>
+      <h2 class="sh" data-reveal>Priced on the value of the data, not the hours.</h2>
       <p class="sh-sub">Every engagement starts with a free scope call. If a target is not worth doing, we will tell you before you pay anything.</p>
     </div>
     <div class="plans">
-      <div class="plan reveal" data-hot>
+      <div class="plan reveal" data-hot data-glow>
         <div class="ptag">One-off</div>
         <h3>The extraction</h3>
         <div class="price">from <b>$1.5k</b></div>
@@ -533,7 +626,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
         </ul>
         <a href="#contact" class="btn btn-g" data-hot>Scope it free</a>
       </div>
-      <div class="plan feat reveal" data-hot>
+      <div class="plan feat reveal" data-hot data-glow>
         <div class="ptag">Most engagements</div>
         <h3>The pipeline</h3>
         <div class="price">from <b>$3k</b><span style="font-size:16px;color:var(--t3)">/mo</span></div>
@@ -547,7 +640,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
         </ul>
         <a href="#contact" class="btn btn-p" data-hot>Start a pipeline</a>
       </div>
-      <div class="plan reveal" data-hot>
+      <div class="plan reveal" data-hot data-glow>
         <div class="ptag">Advisory</div>
         <h3>The architecture</h3>
         <div class="price">custom</div>
@@ -570,10 +663,16 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
     <div class="cta reveal">
       <h2>Tell us the site.<br>We will tell you if we can beat it.</h2>
       <p>Free scope call, honest answer. If the data is not obtainable, or not worth it, we say so before you spend a rupee or a dollar.</p>
-      <div class="hero-cta">
-        <a href="mailto:asad.ikram53@gmail.com?subject=ScrapeSync%20project" class="btn btn-p" data-hot>Email the team <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a href="https://www.linkedin.com/company/scrapesync/" target="_blank" rel="noopener" class="btn btn-g" data-hot>ScrapeSync on LinkedIn</a>
-      </div>
+      <form class="form" id="scform" novalidate>
+        <div class="frow">
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" placeholder="Jane Doe" autocomplete="name"><span class="uline"></span></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="jane@company.com" autocomplete="email"><span class="uline"></span></div>
+        </div>
+        <div class="field"><label for="f-target">Target site</label><input id="f-target" name="target" type="text" placeholder="the site you need data from"><span class="uline"></span></div>
+        <div class="field"><label for="f-msg">What do you need?</label><textarea id="f-msg" name="msg" rows="3" placeholder="The fields, the volume, how often. As much or as little as you have."></textarea><span class="uline"></span></div>
+        <button type="submit" class="btn btn-p" data-hot>Send it to the team <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="form-note">Opens your mail app with everything filled in. Prefer to just email? <a href="mailto:asad.ikram53@gmail.com?subject=ScrapeSync%20project" style="color:var(--cyan)" data-hot>asad.ikram53@gmail.com</a> · or <a href="https://www.linkedin.com/company/scrapesync/" target="_blank" rel="noopener" style="color:var(--cyan)" data-hot>LinkedIn</a></div>
+      </form>
       <div class="hero-note" style="justify-content:center;margin-top:28px"><span>Typical first reply within <b>24 hours</b></span><span>Based in <b>Lahore</b>, working <b>worldwide</b></span></div>
     </div>
   </div>
@@ -785,6 +884,99 @@ footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-
       renderer.setSize(innerWidth,innerHeight);
     });
     document.addEventListener('visibilitychange',function(){ running=!document.hidden; if(running) clock.getDelta(); });
+  })();
+
+  /* ---------- ambient particle field (continuity behind every section) ---------- */
+  (function(){
+    var cv=document.getElementById('ambient'); if(!cv||reduce) return;
+    var ctx=cv.getContext('2d'), W,H,DPR=Math.min(devicePixelRatio,2), pts=[], N;
+    var mx=0,my=0, tmx=0,tmy=0, scrollY0=0;
+    function size(){ W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
+      N=innerWidth<680?34:innerWidth<1100?54:72; if(pts.length!==N){ pts=[]; for(var i=0;i<N;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.12*DPR,vy:(Math.random()-.5)*.12*DPR}); } }
+    size(); addEventListener('resize',size);
+    addEventListener('mousemove',function(e){ tmx=(e.clientX/innerWidth-.5); tmy=(e.clientY/innerHeight-.5); },{passive:true});
+    addEventListener('scroll',function(){ scrollY0=scrollY||0; },{passive:true});
+    var run=true;
+    document.addEventListener('visibilitychange',function(){ run=!document.hidden; });
+    function draw(){
+      requestAnimationFrame(draw); if(!run) return;
+      mx+=(tmx-mx)*.04; my+=(tmy-my)*.04;
+      var ox=mx*26*DPR - (scrollY0*.02*DPR), oy=my*20*DPR;
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<N;i++){ var p=pts[i]; p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0; }
+      for(var a=0;a<N;a++){ for(var b=a+1;b<N;b++){
+        var dx=pts[a].x-pts[b].x, dy=pts[a].y-pts[b].y, d=dx*dx+dy*dy, max=(150*DPR)*(150*DPR);
+        if(d<max){ var al=(1-d/max)*.16; ctx.strokeStyle='rgba(124,150,255,'+al+')'; ctx.lineWidth=DPR;
+          ctx.beginPath(); ctx.moveTo(pts[a].x+ox,pts[a].y+oy); ctx.lineTo(pts[b].x+ox,pts[b].y+oy); ctx.stroke(); } } }
+      ctx.fillStyle='rgba(52,229,255,.55)';
+      for(var k=0;k<N;k++){ ctx.beginPath(); ctx.arc(pts[k].x+ox,pts[k].y+oy,1.4*DPR,0,6.283); ctx.fill(); }
+    }
+    draw();
+  })();
+
+  /* ---------- card mouse-follow glow + subtle tilt ---------- */
+  (function(){
+    if(!fine || reduce) return;
+    var cards=document.querySelectorAll('[data-glow]');
+    cards.forEach(function(c){
+      var qx=window.gsap?gsap.quickTo(c,'rotationY',{duration:.5,ease:'power3'}):null;
+      var qy=window.gsap?gsap.quickTo(c,'rotationX',{duration:.5,ease:'power3'}):null;
+      if(window.gsap) gsap.set(c,{transformPerspective:900,transformStyle:'preserve-3d'});
+      c.addEventListener('pointermove',function(e){
+        var r=c.getBoundingClientRect(), px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+        c.style.setProperty('--mx',(px*100)+'%'); c.style.setProperty('--my',(py*100)+'%');
+        if(qx){ qx((px-.5)*5); qy((.5-py)*5); }
+      });
+      c.addEventListener('pointerleave',function(){ if(qx){ qx(0); qy(0); } });
+    });
+  })();
+
+  /* ---------- principles carousel ---------- */
+  (function(){
+    var carou=document.getElementById('carou'), dots=document.getElementById('dots'); if(!carou) return;
+    var qs=[].slice.call(carou.querySelectorAll('.quote')), i=0, timer;
+    qs.forEach(function(_,n){ var b=document.createElement('button'); b.className='dot2'+(n===0?' on':''); b.setAttribute('aria-label','Principle '+(n+1)); b.onclick=function(){ go(n); reset(); }; dots.appendChild(b); });
+    var dl=[].slice.call(dots.children);
+    function go(n){ qs[i].classList.remove('on'); dl[i].classList.remove('on'); i=n; qs[i].classList.add('on'); dl[i].classList.add('on'); }
+    function next(){ go((i+1)%qs.length); }
+    function reset(){ clearInterval(timer); if(!reduce) timer=setInterval(next,4800); }
+    if(!reduce) reset();
+    carou.addEventListener('mouseenter',function(){ clearInterval(timer); });
+    carou.addEventListener('mouseleave',reset);
+  })();
+
+  /* ---------- site-wide heading reveal + timeline draw ---------- */
+  if(window.gsap && !reduce){
+    document.querySelectorAll('[data-reveal]').forEach(function(el){
+      if(el.dataset.done) return; el.dataset.done=1;
+      var words=el.textContent.split(' ');
+      el.innerHTML=words.map(function(w){return '<span class="wl"><i>'+w+'</i></span>';}).join(' ');
+      gsap.to(el.querySelectorAll('.wl i'),{y:'0%',duration:.85,ease:'expo.out',stagger:.06,
+        scrollTrigger:{trigger:el,start:'top 88%'}});
+    });
+    var tlFill=document.getElementById('tlFill'), tlItems=document.querySelectorAll('#tl .tl-item');
+    if(tlFill){
+      ScrollTrigger.create({trigger:'#tl',start:'top 66%',end:'bottom 78%',scrub:.6,
+        onUpdate:function(self){ var p=self.progress; tlFill.style.height=(p*100)+'%';
+          var act=Math.floor(p*tlItems.length+0.25); tlItems.forEach(function(it,n){ it.classList.toggle('on', n<=act && p>0.01); }); }});
+    }
+    ScrollTrigger.refresh();
+  } else {
+    document.querySelectorAll('#tl .tl-item').forEach(function(it){it.classList.add('on');});
+  }
+
+  /* ---------- contact form -> mailto ---------- */
+  (function(){
+    var f=document.getElementById('scform'); if(!f) return;
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var g=function(id){ return (document.getElementById(id).value||'').trim(); };
+      var name=g('f-name'), email=g('f-email'), target=g('f-target'), msg=g('f-msg');
+      var subj='ScrapeSync project'+(target?(' · '+target):'');
+      var body='Name: '+name+'\nEmail: '+email+'\nTarget: '+target+'\n\n'+msg;
+      location.href='mailto:asad.ikram53@gmail.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+    });
   })();
 })();
 </script>
