@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScrapeSync — Scraping architecture, anti-bot bypass, any data at scale</title>
+<meta name="description" content="ScrapeSync builds production scraping systems: architecture design, anti-bot bypass (Cloudflare, Akamai, DataDome, Kasada, F5, PerimeterX) and clean data at scale. A team of practitioners with 7 years and a sub 1% block rate.">
+<meta property="og:title" content="ScrapeSync — We sync the web to you">
+<meta property="og:description" content="Scraping architecture, anti-bot bypass, and any data you want, delivered clean at scale.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060810; --bg2:#0a0e1a; --panel:#0e1322; --panel2:#121829;
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+  --t1:#eaf0ff; --t2:#9aa8c7; --t3:#5e6c8c;
+  --cyan:#34e5ff; --vio:#7c5cff; --grn:#3ff5a3; --orn:#ff8a3d; --red:#ff5d6c;
+  --glow:0 0 40px rgba(52,229,255,.35);
+  --grad:linear-gradient(115deg,var(--cyan),var(--vio));
+  --grad2:linear-gradient(115deg,var(--cyan),var(--grn));
+  --disp:'Space Grotesk',system-ui,sans-serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --nh:74px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+::selection{background:rgba(124,92,255,.35);color:#fff}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--t1);font-family:var(--sans);font-size:16px;line-height:1.6;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1100px 600px at 78% -8%,rgba(124,92,255,.14),transparent 60%),
+    radial-gradient(900px 520px at 8% 10%,rgba(52,229,255,.10),transparent 60%);
+  background-attachment:fixed;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+section{position:relative}
+
+/* faint global grid */
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(circle at 50% 30%,#000 0,transparent 78%)}
+
+/* ── custom cursor ── */
+.cur,.curr{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;mix-blend-mode:screen}
+.cur{width:7px;height:7px;background:var(--cyan);transform:translate(-50%,-50%)}
+.curr{width:34px;height:34px;border:1px solid rgba(124,92,255,.6);transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s,background .2s}
+.curr.hot{width:56px;height:56px;border-color:var(--cyan);background:rgba(52,229,255,.08)}
+@media(hover:none),(pointer:coarse){.cur,.curr{display:none}}
+
+/* ── nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nh);
+  display:flex;align-items:center;transition:height .3s ease,background .3s ease,border-color .3s ease;
+  border-bottom:1px solid transparent}
+nav.small{height:58px;background:rgba(8,10,18,.82);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+.nav-in{width:100%;max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:-.01em}
+.logo{width:30px;height:30px;flex:none}
+.nav-links{margin-left:auto;display:flex;gap:6px;align-items:center}
+.nav-links a{font-size:13.5px;color:var(--t2);padding:8px 12px;border-radius:8px;transition:color .15s,background .15s}
+.nav-links a:hover{color:var(--t1);background:rgba(255,255,255,.05)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:600;font-size:14px;
+  padding:11px 20px;border-radius:11px;cursor:pointer;border:1px solid transparent;transition:transform .18s,box-shadow .18s,background .18s;white-space:nowrap}
+.btn-p{background:var(--grad);color:#05070e;box-shadow:0 6px 24px -6px rgba(52,229,255,.5)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 34px -8px rgba(124,92,255,.65)}
+.btn-g{border-color:var(--line2);color:var(--t1);background:rgba(255,255,255,.02)}
+.btn-g:hover{border-color:var(--cyan);background:rgba(52,229,255,.06);transform:translateY(-2px)}
+.nav-cta{margin-left:4px}
+.burger{display:none;margin-left:auto;width:40px;height:40px;border:1px solid var(--line2);border-radius:10px;background:none;cursor:pointer;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+.burger span{width:16px;height:2px;background:var(--t1);border-radius:2px}
+
+/* ── hero ── */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:var(--nh);position:relative;overflow:hidden;z-index:1}
+#webgl{position:absolute;inset:0;z-index:0}
+.hero-fade{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,transparent 55%,var(--bg) 100%)}
+.hero-in{position:relative;z-index:2;width:100%}
+.tagpill{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;color:var(--t2);
+  border:1px solid var(--line2);background:rgba(10,14,26,.6);padding:7px 14px;border-radius:99px;margin-bottom:26px}
+.tagpill .dot{width:7px;height:7px;border-radius:50%;background:var(--grn);box-shadow:0 0 10px var(--grn);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1.hero{font-family:var(--disp);font-weight:700;font-size:clamp(38px,6.4vw,80px);line-height:1.02;letter-spacing:-.03em;max-width:16ch}
+h1.hero .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{color:var(--t2);font-size:clamp(16px,1.7vw,20px);max-width:56ch;margin:26px 0 34px;line-height:1.65}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hero-note{font-family:var(--mono);font-size:12px;color:var(--t3);margin-top:26px;display:flex;gap:22px;flex-wrap:wrap}
+.hero-note b{color:var(--cyan);font-weight:500}
+.word{display:inline-block;overflow:hidden;vertical-align:top}
+.word i{display:inline-block;font-style:normal;transform:translateY(110%)}
+/* gradient survives the word-split: paint it on the glyph carriers */
+h1.hero .g .word i{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ── marquee ── */
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(8,11,20,.6);
+  padding:20px 0;overflow:hidden;position:relative;z-index:2}
+.strip-lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);text-align:center;margin-bottom:16px}
+.marq{display:flex;gap:52px;width:max-content;animation:marq 26s linear infinite}
+.marq:hover{animation-play-state:paused}
+@keyframes marq{to{transform:translateX(-50%)}}
+.mv{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:600;font-size:19px;color:var(--t2);opacity:.85;white-space:nowrap}
+.mv .x{font-family:var(--mono);font-size:11px;color:var(--grn);border:1px solid rgba(63,245,163,.3);border-radius:5px;padding:2px 7px}
+
+/* ── section shell ── */
+.sec{padding:110px 0;position:relative;z-index:2}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500;margin-bottom:16px}
+h2.sh{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.2vw,50px);line-height:1.08;letter-spacing:-.02em;max-width:20ch}
+.sh-sub{color:var(--t2);font-size:17px;max-width:60ch;margin-top:18px}
+.sec-head{margin-bottom:56px;max-width:760px}
+
+/* ── reveal ── */
+.reveal{opacity:0;transform:translateY(30px)}
+.in .reveal,.reveal.in{opacity:1;transform:none}
+.reveal{transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+
+/* ── service pillars ── */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pill{position:relative;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);
+  border-radius:18px;padding:30px 26px 28px;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s}
+.pill::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:var(--grad);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .3s}
+.pill:hover{transform:translateY(-6px);box-shadow:0 24px 60px -30px rgba(52,229,255,.5)}
+.pill:hover::before{opacity:1}
+.pico{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:rgba(52,229,255,.08);border:1px solid var(--line2);margin-bottom:20px;transition:transform .3s}
+.pill:hover .pico{transform:rotate(-8deg) scale(1.06)}
+.pico svg{width:26px;height:26px}
+.pill h3{font-family:var(--disp);font-weight:600;font-size:21px;margin-bottom:10px}
+.pill p{color:var(--t2);font-size:15px}
+.pill ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:9px}
+.pill li{font-size:13.5px;color:var(--t2);display:flex;gap:9px;align-items:flex-start;font-family:var(--mono)}
+.pill li::before{content:"→";color:var(--cyan);flex:none}
+
+/* ── anti-bot grid ── */
+.abgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ab{position:relative;border:1px solid var(--line);border-radius:14px;padding:22px;background:var(--panel);overflow:hidden;transition:border-color .3s,transform .3s}
+.ab:hover{border-color:var(--line2);transform:translateY(-4px)}
+.ab .abtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.ab h4{font-family:var(--disp);font-weight:600;font-size:18px}
+.status{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--grn);border:1px solid rgba(63,245,163,.3);background:rgba(63,245,163,.06);border-radius:99px;padding:3px 9px}
+.ab p{font-size:13px;color:var(--t2);font-family:var(--mono);line-height:1.55}
+.ab .bar{height:4px;border-radius:99px;background:rgba(255,255,255,.06);margin-top:16px;overflow:hidden}
+.ab .bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--grad2);transition:width 1.4s cubic-bezier(.22,.61,.36,1)}
+.ab.in .bar i{width:var(--w,92%)}
+
+/* ── process ── */
+.proc{position:relative}
+.proc-track{position:absolute;left:0;right:0;top:46px;height:2px;background:var(--line);z-index:0}
+.proc-track i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--grad);box-shadow:0 0 14px var(--cyan)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative;z-index:1}
+.step{text-align:left}
+.snode{width:56px;height:56px;border-radius:14px;background:var(--bg2);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:20px;color:var(--t3);
+  margin-bottom:20px;transition:.4s}
+.step.on .snode{color:#05070e;background:var(--grad);border-color:transparent;box-shadow:0 0 30px -4px rgba(52,229,255,.7)}
+.step h4{font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:8px}
+.step p{font-size:14px;color:var(--t2)}
+
+/* ── case studies ── */
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.case{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--panel);
+  padding:30px;transition:transform .3s,border-color .3s}
+.case:hover{transform:translateY(-5px);border-color:var(--line2)}
+.case.big{grid-column:span 2}
+.case-tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
+.case h3{font-family:var(--disp);font-weight:600;font-size:23px;margin-bottom:12px;letter-spacing:-.01em}
+.case p{color:var(--t2);font-size:15px;max-width:62ch}
+.case-metrics{display:flex;gap:34px;margin-top:22px;flex-wrap:wrap}
+.cm .n{font-family:var(--disp);font-weight:700;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.02em}
+.cm .l{font-family:var(--mono);font-size:11.5px;color:var(--t3);margin-top:2px}
+.case-stack{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.chip{font-family:var(--mono);font-size:11.5px;color:var(--t2);border:1px solid var(--line);border-radius:7px;padding:4px 9px}
+.case .glowline{position:absolute;left:0;top:0;height:3px;width:100%;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.case:hover .glowline{transform:scaleX(1)}
+
+/* ── stats ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border:1px solid var(--line);border-radius:20px;
+  padding:44px 30px;background:linear-gradient(180deg,var(--panel),var(--bg2));position:relative;overflow:hidden}
+.stat{text-align:center}
+.stat .n{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4vw,52px);letter-spacing:-.03em;line-height:1}
+.stat .n .u{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .l{font-family:var(--mono);font-size:12px;color:var(--t3);margin-top:10px}
+
+/* ── tech marquee ── */
+.tech{padding:26px 0;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(8,11,20,.4)}
+.tmarq{display:flex;gap:16px;width:max-content;animation:marq 40s linear infinite}
+.tmarq.rev{animation-direction:reverse;margin-top:14px}
+.tt{font-family:var(--mono);font-size:14px;color:var(--t2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;white-space:nowrap;background:var(--panel)}
+
+/* ── team ── */
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.mem{border:1px solid var(--line);border-radius:16px;padding:26px 22px;background:var(--panel);transition:transform .3s,border-color .3s;position:relative;overflow:hidden}
+.mem:hover{transform:translateY(-5px);border-color:var(--line2)}
+.ava{width:64px;height:64px;border-radius:16px;margin-bottom:18px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:700;font-size:24px;color:#05070e;background:var(--grad);box-shadow:0 8px 24px -8px rgba(52,229,255,.6)}
+.mem:nth-child(2) .ava{background:var(--grad2)}
+.mem:nth-child(3) .ava{background:linear-gradient(115deg,var(--vio),var(--orn))}
+.mem:nth-child(4) .ava{background:linear-gradient(115deg,var(--orn),var(--cyan))}
+.mem h4{font-family:var(--disp);font-weight:600;font-size:19px}
+.mem .role{font-family:var(--mono);font-size:12px;color:var(--cyan);margin:4px 0 12px}
+.mem p{font-size:13.5px;color:var(--t2)}
+
+/* ── pricing ── */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.plan{border:1px solid var(--line);border-radius:18px;padding:32px 28px;background:var(--panel);display:flex;flex-direction:column;transition:transform .3s,border-color .3s}
+.plan:hover{transform:translateY(-6px)}
+.plan.feat{border-color:transparent;background:linear-gradient(180deg,rgba(52,229,255,.08),var(--panel));position:relative}
+.plan.feat::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:var(--grad);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.plan .ptag{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.plan.feat .ptag{color:var(--cyan)}
+.plan h3{font-family:var(--disp);font-weight:600;font-size:24px;margin-bottom:6px}
+.plan .price{font-family:var(--disp);font-weight:700;font-size:20px;color:var(--t2);margin:14px 0 4px}
+.plan .price b{font-size:34px;color:var(--t1)}
+.plan .pdesc{font-size:14px;color:var(--t2);margin-bottom:20px;min-height:44px}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px;flex:1}
+.plan li{font-size:14px;color:var(--t2);display:flex;gap:10px;align-items:flex-start}
+.plan li svg{width:17px;height:17px;flex:none;margin-top:2px;color:var(--grn)}
+.plan .btn{width:100%;justify-content:center}
+
+/* ── CTA ── */
+.cta{border:1px solid var(--line);border-radius:26px;padding:64px 44px;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(700px 320px at 50% 0%,rgba(124,92,255,.16),transparent 70%),linear-gradient(180deg,var(--panel),var(--bg2))}
+.cta h2{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.4vw,54px);letter-spacing:-.02em;line-height:1.06;max-width:20ch;margin:0 auto}
+.cta p{color:var(--t2);font-size:18px;margin:20px auto 34px;max-width:52ch}
+.cta .hero-cta{justify-content:center}
+
+/* ── footer ── */
+footer{border-top:1px solid var(--line);padding:54px 0 40px;position:relative;z-index:2;margin-top:40px}
+.foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:34px}
+.foot-brand{max-width:320px}
+.foot-brand p{color:var(--t2);font-size:14px;margin-top:14px}
+.foot-cols{display:flex;gap:60px;flex-wrap:wrap}
+.fcol h5{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:14px}
+.fcol a{display:block;color:var(--t2);font-size:14px;margin-bottom:9px;transition:color .15s}
+.fcol a:hover{color:var(--cyan)}
+.foot-bot{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:12px;color:var(--t3)}
+
+/* progress bar */
+.scroll-prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--grad);z-index:300;box-shadow:0 0 10px var(--cyan)}
+
+@media(max-width:900px){
+  .nav-links{display:none} .burger{display:flex}
+  .pillars,.abgrid,.steps,.stats,.team,.plans{grid-template-columns:1fr}
+  .cases{grid-template-columns:1fr}.case.big{grid-column:span 1}
+  .proc-track{display:none}
+  .sec{padding:80px 0}
+}
+@media(max-width:560px){
+  .wrap{padding:0 18px}.nav-in{padding:0 18px}
+  .hero-note{gap:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .reveal{opacity:1;transform:none}
+  .word i{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="scroll-prog" id="prog"></div>
+<div class="cur" id="cur"></div>
+<div class="curr" id="curr"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand" data-hot>
+      <svg class="logo" viewBox="0 0 32 32" fill="none">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34e5ff"/><stop offset="1" stop-color="#7c5cff"/></linearGradient></defs>
+        <circle cx="16" cy="16" r="4" fill="url(#lg)"/>
+        <circle cx="16" cy="16" r="13" stroke="url(#lg)" stroke-width="1.4" opacity=".5"/>
+        <g stroke="url(#lg)" stroke-width="1.4">
+          <path d="M16 12V4M16 20v8M12 16H4M20 16h8M12.5 12.5 7 7M19.5 12.5 25 7M12.5 19.5 7 25M19.5 19.5 25 25"/>
+        </g>
+        <g fill="#34e5ff"><circle cx="16" cy="4" r="2"/><circle cx="16" cy="28" r="2"/><circle cx="4" cy="16" r="2"/><circle cx="28" cy="16" r="2"/></g>
+      </svg>
+      ScrapeSync
+    </a>
+    <div class="nav-links">
+      <a href="#services" data-hot>Services</a>
+      <a href="#antibot" data-hot>Anti-bot</a>
+      <a href="#work" data-hot>Work</a>
+      <a href="#process" data-hot>Process</a>
+      <a href="#team" data-hot>Team</a>
+      <a href="#pricing" data-hot>Pricing</a>
+    </div>
+    <a href="#contact" class="btn btn-p nav-cta" data-hot>Start a project</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" data-top><a id="top"></a>
+  <div id="webgl"></div>
+  <div class="hero-fade"></div>
+  <div class="hero-in wrap">
+    <div class="tagpill reveal"><span class="dot"></span> Available for new engagements · Q3 2026</div>
+    <h1 class="hero" id="heroTitle">
+      <span class="line" data-split>We sync the</span><br>
+      <span class="line g" data-split>entire web to you.</span>
+    </h1>
+    <p class="hero-sub reveal">Scraping architecture, anti-bot bypass, and any data you want, delivered clean and at scale. A small team of practitioners who have spent seven years getting past the walls other people give up on.</p>
+    <div class="hero-cta reveal">
+      <a href="#contact" class="btn btn-p" data-hot>Get your data <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="#work" class="btn btn-g" data-hot>See the work</a>
+    </div>
+    <div class="hero-note reveal">
+      <span>Defeating <b>Cloudflare</b>, <b>Akamai</b>, <b>DataDome</b>, <b>Kasada</b>, <b>F5</b>, <b>PerimeterX</b></span>
+      <span><b>&lt;1%</b> block rate at scale</span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="strip">
+  <div class="strip-lab">Anti-bot systems we get past in production</div>
+  <div class="marq" id="marq">
+    <span class="mv">Cloudflare <span class="x">cleared</span></span>
+    <span class="mv">Akamai v3 <span class="x">cleared</span></span>
+    <span class="mv">DataDome <span class="x">cleared</span></span>
+    <span class="mv">Kasada <span class="x">cleared</span></span>
+    <span class="mv">F5 Shape <span class="x">cleared</span></span>
+    <span class="mv">PerimeterX <span class="x">cleared</span></span>
+    <span class="mv">Imperva <span class="x">cleared</span></span>
+    <span class="mv">reCAPTCHA v3 <span class="x">cleared</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">What we do</div>
+      <h2 class="sh">Three things, done to a production standard.</h2>
+      <p class="sh-sub">Most scraping breaks the moment a site changes or a vendor ships a new sensor. We build the version that keeps running when you are not looking.</p>
+    </div>
+    <div class="pillars">
+      <div class="pill reveal" data-hot>
+        <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4"/></svg></div>
+        <h3>Architecture design</h3>
+        <p>We design the pipeline before the first request: queueing, proxies, storage, monitoring, and the failure paths nobody plans for.</p>
+        <ul>
+          <li>Pub/sub and distributed crawl fleets</li>
+          <li>AWS ECS, EKS, Lambda, Aurora, Redshift</li>
+          <li>Self-healing spiders that patch themselves</li>
+          <li>Cost modelled per usable record</li>
+        </ul>
+      </div>
+      <div class="pill reveal" data-hot>
+        <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/><path d="M9.5 12l2 2 4-4.5"/></svg></div>
+        <h3>Anti-bot bypass</h3>
+        <p>TLS and JA4 fingerprinting, sensor scripts, behavioural scoring, mobile signing. We work at the layer that actually decides the outcome.</p>
+        <ul>
+          <li>Real Chrome JA4 at the network layer</li>
+          <li>curl_cffi, Camoufox, patched Chromium</li>
+          <li>Mobile API and native signer reversing</li>
+          <li>Residential and mobile IP strategy</li>
+        </ul>
+      </div>
+      <div class="pill reveal" data-hot>
+        <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3Z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+        <h3>Any data, at scale</h3>
+        <p>Millions of records a day, validated and shaped to a schema you can actually load. Not a clean 200, a clean dataset.</p>
+        <ul>
+          <li>Schema contracts and shape validation</li>
+          <li>Parquet, warehouses, APIs, webhooks</li>
+          <li>Dedup, enrichment, poisoning checks</li>
+          <li>Alerting when a source quietly drifts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANTI-BOT -->
+<section class="sec" id="antibot" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">The walls</div>
+      <h2 class="sh">Every major vendor, mapped and beaten.</h2>
+      <p class="sh-sub">We know where each one concentrates its scrutiny, because we have shipped against all of them. The bar is the real one: clean data flowing at volume, not a single lucky request.</p>
+    </div>
+    <div class="abgrid" id="abgrid">
+      <div class="ab reveal" style="--w:96%"><div class="abtop"><h4>Cloudflare</h4><span class="status">cleared</span></div><p>JA4 at the edge, Turnstile, ML bot score. Beaten with real handshakes and coherent identity.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:94%"><div class="abtop"><h4>Akamai v3</h4><span class="status">cleared</span></div><p>sensor.js, _abck, 60 extension probes, multi-request trust. Solved at the TLS layer first.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:90%"><div class="abtop"><h4>DataDome</h4><span class="status">cleared</span></div><p>85k per-customer models and header scoring. Lean, correctly ordered requests win here.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:88%"><div class="abtop"><h4>Kasada</h4><span class="status">cleared</span></div><p>Polymorphic proof-of-work, real-browser-only by design. Patched engines and residential exits.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:85%"><div class="abtop"><h4>F5 Shape</h4><span class="status">cleared</span></div><p>Custom JS VM, minute-scale token expiry. The hardest enterprise tier, handled with a real budget.</p><div class="bar"><i></i></div></div>
+      <div class="ab reveal" style="--w:92%"><div class="abtop"><h4>PerimeterX</h4><span class="status">cleared</span></div><p>Behavioural scoring over time, first-party cloaking. Session realism beats a perfect fingerprint.</p><div class="bar"><i></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">How an engagement runs</div>
+      <h2 class="sh">Recon, bypass, extract, deliver.</h2>
+      <p class="sh-sub">Scroll through the pipeline. Every step is a place other scrapers quietly fail, and where we spend our time.</p>
+    </div>
+    <div class="proc">
+      <div class="proc-track"><i id="procFill"></i></div>
+      <div class="steps" id="steps">
+        <div class="step"><div class="snode">01</div><h4>Recon</h4><p>Capture the real session, trace the cookie lifecycle, find the sensor endpoints and the mobile API behind the site.</p></div>
+        <div class="step"><div class="snode">02</div><h4>Bypass</h4><p>Match a real client end to end. TLS, HTTP/2 frames, headers, behaviour, and the network identity that has to agree.</p></div>
+        <div class="step"><div class="snode">03</div><h4>Extract</h4><p>Run at volume on a self-healing fleet. Validate the shape, not the status code. Catch poisoning and silent drift.</p></div>
+        <div class="step"><div class="snode">04</div><h4>Deliver</h4><p>Clean, deduplicated, schema-checked data into your warehouse, API or webhook, with alerting when a source changes.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="sec" id="work">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Selected work</div>
+      <h2 class="sh">Systems we built and still run.</h2>
+      <p class="sh-sub">Real production engagements, described by what they had to survive. Targets are kept generic on purpose.</p>
+    </div>
+    <div class="cases">
+      <div class="case big reveal" data-hot><span class="glowline"></span>
+        <div class="case-tag">Self-healing crawler · automotive data</div>
+        <h3>An auto-healer for 44 forum domains</h3>
+        <p>Forty-four car-forum domains, each with a different layout, feeding one dataset. When a selector broke, an agent read the error and the live page, diffed the structure, patched the spider and re-tested, with no human in the loop. The failure that used to page an engineer at 3am became a self-closing ticket.</p>
+        <div class="case-metrics">
+          <div class="cm"><div class="n">70</div><div class="l">spiders, one brain</div></div>
+          <div class="cm"><div class="n">0</div><div class="l">manual escalations</div></div>
+          <div class="cm"><div class="n">$400/mo</div><div class="l">cost removed</div></div>
+        </div>
+        <div class="case-stack"><span class="chip">Claude agents</span><span class="chip">FastAPI MCP</span><span class="chip">ECS Fargate</span><span class="chip">Aurora</span><span class="chip">Django</span></div>
+      </div>
+      <div class="case reveal" data-hot><span class="glowline"></span>
+        <div class="case-tag">Classifieds · scale</div>
+        <h3>500+ spiders on a distributed fleet</h3>
+        <p>Large classifieds and property portals, crawled continuously with a distributed Scrapy fleet on Kubernetes, feeding a search index and a warehouse.</p>
+        <div class="case-metrics">
+          <div class="cm"><div class="n">+60%</div><div class="l">ETL throughput</div></div>
+          <div class="cm"><div class="n">-45%</div><div class="l">incidents</div></div>
+        </div>
+        <div class="case-stack"><span class="chip">Scrapy</span><span class="chip">EKS</span><span class="chip">Elasticsearch</span><span class="chip">Redshift</span></div>
+      </div>
+      <div class="case reveal" data-hot><span class="glowline"></span>
+        <div class="case-tag">Control plane</div>
+        <h3>A cockpit for 86 crawler projects</h3>
+        <p>One control plane to schedule, deploy and monitor an entire crawler fleet. Non-engineers ran the operation from a browser, with zero SSH access to anything.</p>
+        <div class="case-metrics">
+          <div class="cm"><div class="n">86</div><div class="l">projects managed</div></div>
+          <div class="cm"><div class="n">0</div><div class="l">shell access needed</div></div>
+        </div>
+        <div class="case-stack"><span class="chip">FastAPI</span><span class="chip">APScheduler</span><span class="chip">GitHub Actions</span></div>
+      </div>
+      <div class="case big reveal" data-hot><span class="glowline"></span>
+        <div class="case-tag">AI-native pipeline · media</div>
+        <h3>A lakehouse that reads what it scrapes</h3>
+        <p>Thirty-plus brand pages a day pulled into a lakehouse, then read by fine-tuned models that classified and routed the content instead of a wall of brittle rules. The scraping was the easy fifth of the job; the reliability around the model was the rest.</p>
+        <div class="case-metrics">
+          <div class="cm"><div class="n">6</div><div class="l">fine-tuned models</div></div>
+          <div class="cm"><div class="n">+40%</div><div class="l">content monetised</div></div>
+          <div class="cm"><div class="n">30+</div><div class="l">sources daily</div></div>
+        </div>
+        <div class="case-stack"><span class="chip">Custom LLMs</span><span class="chip">Redshift</span><span class="chip">Step Functions</span><span class="chip">QuickSight</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="stats reveal" id="stats">
+      <div class="stat"><div class="n"><span class="u" data-count="7">0</span></div><div class="l">years in production</div></div>
+      <div class="stat"><div class="n"><span class="u">&lt;</span><span class="u" data-count="1">0</span><span class="u">%</span></div><div class="l">block rate at scale</div></div>
+      <div class="stat"><div class="n"><span class="u" data-count="500">0</span><span class="u">+</span></div><div class="l">spiders shipped</div></div>
+      <div class="stat"><div class="n"><span class="u" data-count="6">0</span></div><div class="l">anti-bot vendors beaten</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<div class="tech">
+  <div class="tmarq" id="tm1"></div>
+  <div class="tmarq rev" id="tm2"></div>
+</div>
+
+<!-- TEAM -->
+<section class="sec" id="team">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Who you work with</div>
+      <h2 class="sh">A small team of actual scrapers.</h2>
+      <p class="sh-sub">Not account managers. The people who read the sensor script are the people who answer your email.</p>
+    </div>
+    <div class="team">
+      <div class="mem reveal" data-hot><div class="ava">A</div><h4>Asad</h4><div class="role">Founder · architecture</div><p>Seven years across six countries. Chevening Scholar, MSc Data Analytics with distinction. Designs the pipeline and owns the hard bypasses.</p></div>
+      <div class="mem reveal" data-hot><div class="ava">M</div><h4>Muteeb</h4><div class="role">Anti-bot · reverse engineering</div><p>Lives at the network layer. TLS and JA4, sensor scripts, mobile signers, the parts of a target that decide whether you get in at all.</p></div>
+      <div class="mem reveal" data-hot><div class="ava">F</div><h4>Faheem</h4><div class="role">Infrastructure · pipelines</div><p>Fleets that stay up. Queues, proxies, autoscaling and the monitoring that catches a drift before the client does.</p></div>
+      <div class="mem reveal" data-hot><div class="ava">M</div><h4>Muneeb</h4><div class="role">Data · delivery</div><p>Turns raw crawls into datasets you can load. Schema contracts, dedup, validation, and the last-mile shape that makes data usable.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Ways to work together</div>
+      <h2 class="sh">Priced on the value of the data, not the hours.</h2>
+      <p class="sh-sub">Every engagement starts with a free scope call. If a target is not worth doing, we will tell you before you pay anything.</p>
+    </div>
+    <div class="plans">
+      <div class="plan reveal" data-hot>
+        <div class="ptag">One-off</div>
+        <h3>The extraction</h3>
+        <div class="price">from <b>$1.5k</b></div>
+        <div class="pdesc">A single dataset, delivered clean. You tell us the target and the fields, we hand you the data.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>One target, one clean dataset</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Any format: CSV, Parquet, JSON, API</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Anti-bot handled, whatever the vendor</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Validated shape, not just a 200</li>
+        </ul>
+        <a href="#contact" class="btn btn-g" data-hot>Scope it free</a>
+      </div>
+      <div class="plan feat reveal" data-hot>
+        <div class="ptag">Most engagements</div>
+        <h3>The pipeline</h3>
+        <div class="price">from <b>$3k</b><span style="font-size:16px;color:var(--t3)">/mo</span></div>
+        <div class="pdesc">A running system we build and maintain. New data on your schedule, alerting when a source breaks.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Multiple sources, continuous crawl</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Self-healing spiders, we fix the breaks</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Into your warehouse, API or webhook</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Monitoring, dedup, drift detection</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Direct line to the engineers</li>
+        </ul>
+        <a href="#contact" class="btn btn-p" data-hot>Start a pipeline</a>
+      </div>
+      <div class="plan reveal" data-hot>
+        <div class="ptag">Advisory</div>
+        <h3>The architecture</h3>
+        <div class="price">custom</div>
+        <div class="pdesc">You have a team. We design the system, defeat the hard vendor, and hand it over documented.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Architecture and cost modelling</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>The one bypass your team is stuck on</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>AWS, Kubernetes, warehouse layering</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>Handover, docs and a working demo</li>
+        </ul>
+        <a href="#contact" class="btn btn-g" data-hot>Talk architecture</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / CTA -->
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2>Tell us the site.<br>We will tell you if we can beat it.</h2>
+      <p>Free scope call, honest answer. If the data is not obtainable, or not worth it, we say so before you spend a rupee or a dollar.</p>
+      <div class="hero-cta">
+        <a href="mailto:asad.ikram53@gmail.com?subject=ScrapeSync%20project" class="btn btn-p" data-hot>Email the team <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="https://www.linkedin.com/company/scrapesync/" target="_blank" rel="noopener" class="btn btn-g" data-hot>ScrapeSync on LinkedIn</a>
+      </div>
+      <div class="hero-note" style="justify-content:center;margin-top:28px"><span>Typical first reply within <b>24 hours</b></span><span>Based in <b>Lahore</b>, working <b>worldwide</b></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand" style="font-size:20px">
+          <svg class="logo" viewBox="0 0 32 32" fill="none"><use href="#lg"/><circle cx="16" cy="16" r="4" fill="url(#lg)"/><circle cx="16" cy="16" r="13" stroke="url(#lg)" stroke-width="1.4" opacity=".5"/><g stroke="url(#lg)" stroke-width="1.4"><path d="M16 12V4M16 20v8M12 16H4M20 16h8"/></g></svg>
+          ScrapeSync
+        </div>
+        <p>We sync the entire web to you. Scraping architecture, anti-bot bypass, and any data you want, at scale.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="fcol"><h5>Services</h5><a href="#services" data-hot>Architecture</a><a href="#antibot" data-hot>Anti-bot bypass</a><a href="#work" data-hot>Data at scale</a><a href="#pricing" data-hot>Pricing</a></div>
+        <div class="fcol"><h5>Company</h5><a href="#team" data-hot>Team</a><a href="#work" data-hot>Work</a><a href="https://www.linkedin.com/company/scrapesync/" target="_blank" rel="noopener" data-hot>LinkedIn</a></div>
+        <div class="fcol"><h5>More</h5><a href="https://web-scraping-guide.com" data-hot>The scraping guide</a><a href="mailto:asad.ikram53@gmail.com" data-hot>Email us</a></div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 ScrapeSync. Built by people who read the sensor script.</span>
+      <span>Educational and legitimate data collection only. We respect the law.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* ---------- custom cursor ---------- */
+  (function(){
+    if(!fine) return;
+    var cur=document.getElementById('cur'), curr=document.getElementById('curr');
+    var x=innerWidth/2,y=innerHeight/2,rx=x,ry=y;
+    addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;cur.style.transform='translate('+x+'px,'+y+'px) translate(-50%,-50%)';});
+    (function loop(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;curr.style.transform='translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+    document.addEventListener('mouseover',function(e){ if(e.target.closest('[data-hot]')) curr.classList.add('hot'); });
+    document.addEventListener('mouseout',function(e){ if(e.target.closest('[data-hot]')) curr.classList.remove('hot'); });
+  })();
+
+  /* ---------- nav shrink + scroll progress ---------- */
+  var nav=document.getElementById('nav'), prog=document.getElementById('prog');
+  function onScroll(){
+    var s=scrollY||document.documentElement.scrollTop;
+    nav.classList.toggle('small', s>40);
+    var h=document.documentElement.scrollHeight-innerHeight;
+    prog.style.width=(h>0?(s/h*100):0)+'%';
+  }
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* ---------- burger (simple jump menu) ---------- */
+  var burger=document.getElementById('burger');
+  if(burger) burger.addEventListener('click',function(){ location.hash='#services'; });
+
+  /* ---------- tech marquee fill ---------- */
+  var tech=['curl_cffi','Scrapy','Playwright','Camoufox','JA4 / JA3','Frida','Ghidra','Patched Chromium','AWS ECS','EKS','Lambda','Aurora','Redshift','Kafka','ClickHouse','Airflow','DBT','Elasticsearch','Parquet','Kubernetes','Claude agents','FastAPI','Residential proxies','Playwright stealth'];
+  function fillMarq(el,arr){ if(!el)return; var h=arr.map(function(t){return '<span class="tt">'+t+'</span>';}).join(''); el.innerHTML=h+h; }
+  fillMarq(document.getElementById('tm1'),tech);
+  fillMarq(document.getElementById('tm2'),tech.slice().reverse());
+
+  /* ---------- GSAP reveals + counters + process ---------- */
+  if(window.gsap && !reduce){
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* hero word reveal */
+    document.querySelectorAll('[data-split]').forEach(function(el,i){
+      var words=el.textContent.split(' ');
+      el.innerHTML=words.map(function(w){return '<span class="word"><i>'+w+'</i></span>';}).join(' ');
+      gsap.to(el.querySelectorAll('.word i'),{y:'0%',duration:.9,ease:'expo.out',stagger:.08,delay:.15+i*.12});
+    });
+
+    /* generic reveals */
+    gsap.utils.toArray('.reveal').forEach(function(el){
+      gsap.to(el,{opacity:1,y:0,duration:.85,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 86%'}});
+    });
+
+    /* anti-bot bars */
+    ScrollTrigger.batch('.ab',{start:'top 85%',onEnter:function(b){b.forEach(function(x){x.classList.add('in');});}});
+
+    /* counters, fire from either scroll direction, once */
+    gsap.utils.toArray('[data-count]').forEach(function(el){
+      var end=parseFloat(el.getAttribute('data-count')), done=false;
+      function run(){
+        if(done) return; done=true;
+        gsap.to({v:0},{v:end,duration:1.6,ease:'power2.out',onUpdate:function(){
+          el.textContent = Math.round(this.targets()[0].v);
+        }});
+      }
+      ScrollTrigger.create({trigger:el.closest('.stat')||el,start:'top 88%',onEnter:run,onEnterBack:run});
+    });
+
+    /* process scrub */
+    var fill=document.getElementById('procFill');
+    var steps=document.querySelectorAll('#steps .step');
+    ScrollTrigger.create({
+      trigger:'#process', start:'top 60%', end:'bottom 70%', scrub:.6,
+      onUpdate:function(self){
+        var p=self.progress;
+        if(fill) fill.style.width=(p*100)+'%';
+        var active=Math.floor(p*steps.length+0.15);
+        steps.forEach(function(s,i){ s.classList.toggle('on', i<=active && p>0.02); });
+      }
+    });
+
+    /* hero canvas parallax on scroll */
+    gsap.to('#webgl',{yPercent:18,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');});
+    document.querySelectorAll('.ab').forEach(function(e){e.classList.add('in');});
+    document.querySelectorAll('[data-split] ').forEach(function(e){e.querySelectorAll('.word i').forEach(function(i){i.style.transform='none';});});
+    document.querySelectorAll('#steps .step').forEach(function(s){s.classList.add('on');});
+    document.querySelectorAll('[data-count]').forEach(function(e){e.textContent=e.getAttribute('data-count');});
+  }
+
+  /* ---------- THREE.JS hero: the living web ---------- */
+  (function(){
+    var mount=document.getElementById('webgl');
+    if(!mount || !window.THREE || reduce) return;
+    var renderer, scene, camera, group, packets, raf, running=true;
+    try{
+      renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
+    }catch(e){ return; }
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.setSize(innerWidth,innerHeight);
+    mount.appendChild(renderer.domElement);
+
+    scene=new THREE.Scene();
+    camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,0.1,100);
+    camera.position.z=15.5;
+
+    group=new THREE.Group(); scene.add(group);
+
+    /* nodes on a sphere */
+    var N=240, R=8.4, pos=[], nodeGeo=new THREE.BufferGeometry(), nodeArr=new Float32Array(N*3);
+    for(var i=0;i<N;i++){
+      var t=Math.acos(2*Math.random()-1), f=2*Math.PI*Math.random();
+      var r=R*(0.72+Math.random()*0.28);
+      var x=r*Math.sin(t)*Math.cos(f), y=r*Math.sin(t)*Math.sin(f), z=r*Math.cos(t);
+      pos.push(new THREE.Vector3(x,y,z));
+      nodeArr[i*3]=x; nodeArr[i*3+1]=y; nodeArr[i*3+2]=z;
+    }
+    nodeGeo.setAttribute('position',new THREE.BufferAttribute(nodeArr,3));
+    var nodeMat=new THREE.PointsMaterial({color:0x34e5ff,size:0.11,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false});
+    group.add(new THREE.Points(nodeGeo,nodeMat));
+
+    /* edges between near nodes */
+    var segs=[], edges=[];
+    for(var a=0;a<N;a++){ for(var b=a+1;b<N;b++){
+      if(pos[a].distanceTo(pos[b])<3.1){
+        segs.push(pos[a].x,pos[a].y,pos[a].z,pos[b].x,pos[b].y,pos[b].z);
+        edges.push([pos[a],pos[b]]);
+      }
+    }}
+    var edgeGeo=new THREE.BufferGeometry();
+    edgeGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(segs),3));
+    var edgeMat=new THREE.LineBasicMaterial({color:0x7c5cff,transparent:true,opacity:0.18,blending:THREE.AdditiveBlending,depthWrite:false});
+    group.add(new THREE.LineSegments(edgeGeo,edgeMat));
+
+    /* core */
+    var core=new THREE.Mesh(new THREE.IcosahedronGeometry(1.5,1),
+      new THREE.MeshBasicMaterial({color:0x34e5ff,wireframe:true,transparent:true,opacity:0.55}));
+    group.add(core);
+    var coreGlow=new THREE.Mesh(new THREE.IcosahedronGeometry(1.5,1),
+      new THREE.MeshBasicMaterial({color:0x7c5cff,wireframe:true,transparent:true,opacity:0.25}));
+    coreGlow.scale.set(1.35,1.35,1.35); group.add(coreGlow);
+
+    /* data packets travelling edges into the core */
+    var P=46, pGeo=new THREE.BufferGeometry(), pArr=new Float32Array(P*3), pState=[];
+    for(var k=0;k<P;k++){ pState.push(newPacket()); write(k); }
+    function newPacket(){ var e=edges.length?edges[(Math.random()*edges.length)|0]:[new THREE.Vector3(),core.position]; return {a:e[0], b:Math.random()<0.5?e[1]:core.position, t:Math.random(), sp:0.004+Math.random()*0.01}; }
+    function write(k){ var s=pState[k]; var v=s.a.clone().lerp(s.b,s.t); pArr[k*3]=v.x; pArr[k*3+1]=v.y; pArr[k*3+2]=v.z; }
+    pGeo.setAttribute('position',new THREE.BufferAttribute(pArr,3));
+    var pMat=new THREE.PointsMaterial({color:0x3ff5a3,size:0.22,transparent:true,opacity:1,blending:THREE.AdditiveBlending,depthWrite:false});
+    packets=new THREE.Points(pGeo,pMat); group.add(packets);
+
+    /* mouse parallax */
+    var mx=0,my=0,tx=0,ty=0;
+    addEventListener('mousemove',function(e){ tx=(e.clientX/innerWidth-0.5); ty=(e.clientY/innerHeight-0.5); });
+
+    var clock=new THREE.Clock();
+    function frame(){
+      raf=requestAnimationFrame(frame);
+      if(!running) return;
+      var dt=Math.min(clock.getDelta(),0.05), el=clock.elapsedTime;
+      group.rotation.y+=dt*0.11; group.rotation.x=Math.sin(el*0.2)*0.12;
+      core.rotation.y-=dt*0.4; core.rotation.x+=dt*0.2;
+      coreGlow.rotation.y+=dt*0.25;
+      var ps=1+Math.sin(el*2)*0.06; core.scale.set(ps,ps,ps);
+      mx+=(tx-mx)*0.05; my+=(ty-my)*0.05;
+      camera.position.x=mx*3.2; camera.position.y=-my*2.4; camera.lookAt(0,0,0);
+      for(var k=0;k<P;k++){ var s=pState[k]; s.t+=s.sp; if(s.t>=1){ pState[k]=newPacket(); } write(k); }
+      pGeo.attributes.position.needsUpdate=true;
+      renderer.render(scene,camera);
+    }
+    frame();
+
+    addEventListener('resize',function(){
+      camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth,innerHeight);
+    });
+    document.addEventListener('visibilitychange',function(){ running=!document.hidden; if(running) clock.getDelta(); });
+  })();
+})();
+</script>
+</body>
+</html>
