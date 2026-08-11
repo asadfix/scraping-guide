@@ -2165,11 +2165,12 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 .disc-pill::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--y)}
 .mineno{font-size:11px;opacity:.6;font-weight:400}
 .outro-link .mineno{font-size:9px}
-#ss-rail{position:fixed;left:20px;bottom:96px;width:190px;z-index:470;display:none;
+#ss-rail{position:fixed;left:20px;top:50%;width:190px;z-index:470;display:none;
   background:rgba(17,17,24,.94);border:1px solid var(--b1);border-left:2px solid rgba(245,197,24,.5);
   border-radius:10px;padding:14px 14px 12px;backdrop-filter:blur(8px);
-  opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
-#ss-rail.on{opacity:1;transform:none}
+  opacity:0;transform:translateY(-50%) translateX(-8px);
+  transition:opacity .5s ease,transform .5s ease}
+#ss-rail.on{opacity:1;transform:translateY(-50%)}
 #ss-rail .ssr-k{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--y);
   display:flex;align-items:center;gap:6px;margin-bottom:8px}
 #ss-rail .ssr-k::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--y)}
@@ -12419,9 +12420,8 @@ rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
   try{ if(localStorage.getItem(KEY)==='1'){ el.style.display='none'; return; } }catch(e){}
   window.ssRailClose=function(){ el.classList.remove('on'); setTimeout(function(){el.style.display='none';},400);
     try{ localStorage.setItem(KEY,'1'); }catch(e){} };
-  // hold it back until the reader is past the hero, so it never lands on a first impression
-  function tick(){ if(scrollY>900){ el.classList.add('on'); removeEventListener('scroll',tick); } }
-  addEventListener('scroll',tick,{passive:true}); tick();
+  // constant: fade in shortly after load and stay for the whole session
+  setTimeout(function(){ el.classList.add('on'); }, 700);
 })();
 </script>
 </body></html>
