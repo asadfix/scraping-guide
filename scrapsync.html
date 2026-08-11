@@ -421,7 +421,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   .reveal,.d3{opacity:1;transform:none}.word i{transform:none}
 }
 /* ── automated run: pinned, one visible stage per step ──────────────── */
-.nstrack{position:relative;height:340vh;margin:44px 0 8px}
+.nstrack{position:relative;height:430vh;margin:44px 0 8px}
 .nsstick{position:sticky;top:84px;height:auto}
 .nshift{border:1px solid var(--line2);border-radius:18px;background:var(--card);box-shadow:var(--shadow);overflow:hidden}
 .ns-head{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);
@@ -489,8 +489,26 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .ns-tot b{display:block;font-family:var(--disp);font-size:34px;font-weight:700;color:var(--teal-d);
   font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
 .ns-tot span{display:block;font-family:var(--mono);font-size:11.5px;color:var(--ink2);margin-top:7px;line-height:1.5}
+/* scene 5 — self-healing */
+.ns-heal{display:flex;flex-direction:column;gap:9px;max-width:660px}
+.ns-hstep{display:flex;align-items:flex-start;gap:13px;border:1px solid var(--line);border-radius:11px;
+  background:var(--panel);padding:11px 14px;opacity:0;transform:translateX(-8px);
+  transition:opacity .38s var(--ease),transform .38s var(--ease),border-color .38s,background .38s}
+.ns-hstep.in{opacity:1;transform:none}
+.ns-hstep.in.ok{border-color:var(--teal-line);background:var(--teal-t)}
+.ns-hi{width:26px;height:26px;flex:none;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;font-weight:600;background:var(--card);border:1px solid var(--line2);color:var(--ink2)}
+.ns-hi.warn{background:#fdf1e3;border-color:#e8c99a;color:var(--amber)}
+.ns-hi.ai{background:var(--teal-t);border-color:var(--teal-line);color:var(--teal-d)}
+.ns-hi.ok{background:var(--grn);border-color:var(--grn);color:#fff}
+.ns-hstep b{display:block;font-family:var(--disp);font-weight:600;font-size:14px;color:var(--ink);margin-bottom:2px}
+.ns-hstep i{font-family:var(--mono);font-size:11.5px;font-style:normal;color:var(--ink3);line-height:1.5}
+.ns-loop{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-family:var(--mono);font-size:11.5px;
+  color:var(--teal-d);border:1px solid var(--teal-line);background:var(--teal-t);padding:6px 13px;border-radius:99px;
+  opacity:0;transition:opacity .4s}
+.ns-loop.in{opacity:1}
 /* step rail */
-.ns-steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--panel)}
+.ns-steps{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--panel)}
 .ns-step{padding:12px 14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink3);text-align:center;border-right:1px solid var(--line);transition:color .3s,background .3s;position:relative}
 .ns-step:last-child{border-right:none}
@@ -696,6 +714,18 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
             <div class="ns-tot"><b id="nsCount">0</b><span>rows collected overnight, with nobody watching</span></div>
           </div>
         </div>
+
+        <div class="ns-scene" data-i="4">
+          <div class="ns-t">And when the site changes, it heals itself</div>
+          <div class="ns-s">This is the part that usually wakes someone up. Here the agent reads the failure, rewrites the selector, proves the fix, and the schedule carries on.</div>
+          <div class="ns-heal" id="nsHeal">
+            <div class="ns-hstep"><span class="ns-hi warn">!</span><div><b>The site redesigns overnight</b><i>.price returns null on 41 of 44 domains</i></div></div>
+            <div class="ns-hstep"><span class="ns-hi ai">AI</span><div><b>The agent reads the error and the live page</b><i>diffs last-good markup against what shipped today</i></div></div>
+            <div class="ns-hstep"><span class="ns-hi">&#9998;</span><div><b>It writes the patch</b><i>.price &rarr; [data-testid="price"]</i></div></div>
+            <div class="ns-hstep ok"><span class="ns-hi ok">&#10003;</span><div><b>Re-tested, shipped, run resumes</b><i>zero human escalations, nobody woken</i></div></div>
+          </div>
+          <span class="ns-loop" id="nsLoop">&#8635; back on schedule &middot; next run 01:12</span>
+        </div>
       </div>
 
       <div class="ns-steps">
@@ -703,8 +733,9 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
         <span class="ns-step" data-i="1">Find the API</span>
         <span class="ns-step" data-i="2">Call it</span>
         <span class="ns-step" data-i="3">Clean data</span>
+        <span class="ns-step" data-i="4">It heals itself</span>
       </div>
-      <div class="ns-foot">That is one run at <b>3am</b>. When the site changes, the agent patches the spider and the next run goes out anyway.</div>
+      <div class="ns-foot">One run at <b>3am</b>, and a system that repairs itself before you wake up. That is what <b>zero maintenance</b> actually means.</div>
     </div>
    </div>
   </div>
@@ -1297,7 +1328,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   function hhmm(m){var h=Math.floor(m/60)%24,mm=Math.floor(m%60);
     return (h<10?'0':'')+h+':'+(mm<10?'0':'')+mm;}
 
-  var N=4;
+  var N=5;
   function render(p){
     p=clamp(p);
     var raw=p*N, idx=Math.min(N-1,Math.floor(raw)), k=clamp(raw-idx); // k = progress inside the step
@@ -1326,6 +1357,12 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
     var j=idx===3?k:(idx>3?1:0);
     lines.forEach(function(l,i){ l.classList.toggle('in', j>(i*0.09)); });
     elCount.textContent=Math.round(clamp(j*1.1)*12480).toLocaleString();
+
+    // 5 · it repairs itself and rejoins the schedule
+    var hs=track.querySelectorAll('.ns-hstep'), loop=document.getElementById('nsLoop');
+    var s5=idx===4?k:(idx>4?1:0);
+    hs.forEach(function(el,i){ el.classList.toggle('in', s5>(i*0.19)); });
+    if(loop) loop.classList.toggle('in', s5>0.82);
 
     // the night passes while it runs
     elClock.textContent=hhmm(72+p*205);
