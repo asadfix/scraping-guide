@@ -8,7 +8,7 @@
 <meta property="og:title" content="ScrapeSync — They built the wall. We know the way through.">
 <meta property="og:description" content="Anti-bot bypass and scraping architecture, at scale. From the person behind web-scraping-guide.com.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%231f9db5' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpolygon points='44,24 34,41.32 14,41.32 4,24 14,6.68 34,6.68'/%3E%3Cpath d='M44,24 29,24 M14,6.68 21.5,19.6 M14,41.32 21.5,28.4'/%3E%3Cpolygon points='29,24 21.5,19.6 21.5,28.4'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -35,19 +35,19 @@ section{position:relative;z-index:2}
 .scroll-prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--teal);z-index:300}
 
 /* logo */
-.logo-tile{width:34px;height:34px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(150deg,var(--teal-t),#fff);border:1px solid var(--teal-line);box-shadow:var(--shadow-sm)}
-.logo-tile svg{width:22px;height:22px}
+.logo-tile{width:40px;height:40px;flex:none;border-radius:11px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:#fff;border:1px solid var(--line2);box-shadow:var(--shadow-sm)}
+.logo-tile img{width:30px;height:30px;object-fit:contain;display:block}
 
 /* nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nh);display:flex;align-items:center;transition:height .3s,background .3s,border-color .3s,box-shadow .3s;border-bottom:1px solid transparent}
-nav.small{height:58px;background:rgba(244,242,236,.82);backdrop-filter:blur(14px);border-bottom-color:var(--line);box-shadow:0 1px 0 rgba(255,255,255,.6)}
-.nav-in{width:100%;max-width:1160px;margin:0 auto;padding:0 26px;display:flex;align-items:center;gap:20px}
-.brand{display:flex;align-items:center;gap:12px;font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:-.015em;color:var(--ink)}
-.nav-links{margin-left:auto;display:flex;gap:2px}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nh);display:flex;align-items:center;background:rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid var(--line);box-shadow:0 6px 26px -22px rgba(24,38,46,.5);transition:height .3s,background .3s,box-shadow .3s}
+nav.small{height:62px;background:rgba(255,255,255,.94);box-shadow:0 10px 28px -20px rgba(24,38,46,.55)}
+.nav-in{width:100%;max-width:1160px;margin:0 auto;padding:0 30px;display:flex;align-items:center;gap:22px}
+.brand{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:12px;font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:-.015em;color:var(--ink)}
+.nav-links{flex:0 0 auto;display:flex;gap:4px;justify-content:center}
 .nav-links a{font-size:14px;color:var(--ink2);padding:8px 13px;border-radius:9px;transition:.15s;font-weight:500}
 .nav-links a:hover{color:var(--ink);background:rgba(20,22,28,.05)}
-.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-actions{flex:1 1 0;display:flex;align-items:center;justify-content:flex-end;gap:10px}
 .nav-ic{width:38px;height:38px;flex:none;border-radius:10px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--ink2);background:var(--card);transition:color .18s,background .18s,border-color .18s,transform .18s}
 .nav-ic:hover{color:#fff;background:var(--teal-d);border-color:var(--teal-d);transform:translateY(-1px)}
 .nav-ic svg{width:17px;height:17px}
@@ -324,7 +324,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .arch-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:16px}
 .arch-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-d);margin-bottom:8px}
 .arch-title{font-family:var(--disp);font-weight:700;font-size:clamp(20px,2.4vw,26px);letter-spacing:-.02em;color:var(--ink)}
-.arch-tabs{display:flex;gap:6px;background:var(--bg-warm);border:1px solid var(--line);border-radius:12px;padding:5px}
+.arch-tabs{display:flex;flex-wrap:wrap;gap:6px;background:var(--bg-warm);border:1px solid var(--line);border-radius:12px;padding:5px}
 .arch-tab{font-family:var(--disp);font-weight:600;font-size:13.5px;color:var(--ink2);padding:8px 16px;border-radius:9px;border:none;background:transparent;cursor:pointer;transition:.15s}
 .arch-tab:hover{color:var(--ink)}
 .arch-tab.is-on{background:var(--card);color:var(--teal-d);box-shadow:var(--shadow-sm)}
@@ -361,7 +361,8 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 @media(max-width:920px){
   .flow{grid-template-columns:1fr 1fr}.fline{display:none}
   .vprops{grid-template-columns:1fr 1fr}
-  .nav-links{display:none}.burger{display:flex}.nav-ic{display:none}
+  .nav-links{display:none}.burger{display:flex}.nav-actions{display:none}
+  .brand{flex:1 1 auto}.nav-in{padding:0 20px;gap:12px}
   .hero-grid{grid-template-columns:1fr}.hero-vis{height:320px;order:-1;margin-bottom:6px}
   .stats{grid-template-columns:1fr 1fr}
   .scrape-demo{grid-template-columns:1fr;gap:16px}
@@ -398,7 +399,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 
 <nav id="nav"><div class="nav-in">
   <a href="#top" class="brand" data-hot>
-    <span class="logo-tile"><svg viewBox="0 0 48 48" fill="none" stroke="#1f9db5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><polygon points="44,24 34,41.32 14,41.32 4,24 14,6.68 34,6.68"/><path d="M44,24 29,24 M14,6.68 21.5,19.6 M14,41.32 21.5,28.4"/><polygon points="29,24 21.5,19.6 21.5,28.4"/></svg></span>
+    <span class="logo-tile"><img src="logo.png" alt="ScrapeSync" width="30" height="30"></span>
     ScrapeSync
   </a>
   <div class="nav-links">
@@ -419,12 +420,12 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
       <a class="cred-b" href="https://artemisai.co.uk" target="_blank" rel="noopener" data-hot>Team behind <b>artemisai.co.uk</b></a>
     </div>
     <h1 class="hero"><span data-split>They built the wall.</span><br><span class="g" data-split>We know the way through.</span></h1>
-    <p class="hero-sub reveal">Anti-bot bypass and scraping architecture for teams that need data from sites built to keep them out. Cloudflare, Akamai, DataDome, Kasada, F5. Clean, at scale, delivered.</p>
+    <p class="hero-sub reveal">Anti-bot bypass and scraping architecture for teams that need data from sites built to keep them out. Self-healing agentic crawlers, zero maintenance. Cloudflare, Akamai, DataDome, Kasada, F5 &mdash; cleared, at scale, delivered.</p>
     <div class="hero-cta reveal">
       <a href="#contact" class="btn btn-p" data-hot>Get your data <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a href="#work" class="btn btn-g" data-hot>See the work</a>
     </div>
-    <div class="hero-note reveal"><span><b>&lt;1%</b> block rate</span><span class="sep">·</span><span><b>7</b> years</span><span class="sep">·</span><span><b>500+</b> spiders shipped</span><span class="sep">·</span><span><b>50M+</b> rows delivered</span></div>
+    <div class="hero-note reveal"><span><b>&lt;1%</b> block rate</span><span class="sep">·</span><span><b>7</b> years</span><span class="sep">·</span><span><b>500+</b> spiders shipped</span><span class="sep">·</span><span><b>50M+</b> rows delivered</span><span class="sep">·</span><span><b>0</b> maintenance</span></div>
   </div>
   <div class="hero-vis reveal"><div id="webgl"></div></div>
 </div></div></section>
@@ -525,12 +526,12 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
     <div class="fstep d3"><div class="fnum"><span class="ficon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 3v-3H4V5Z"/><path d="M8 9.5h8M8 12.5h5"/></svg></span><span class="fbadge">1</span></div><h4>Gather requirements</h4><p>What data, from where, how much, how often. We learn the goal, not just the fields.</p></div>
     <div class="fstep d3"><div class="fnum"><span class="ficon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.6 15.6 21 21"/><path d="M11 7.8v3.4l2.3 1.4"/></svg></span><span class="fbadge">2</span></div><h4>Analyze the site</h4><p>We load the target live, map its anti-bot, and find the cheapest reliable route in.</p></div>
     <div class="fstep d3"><div class="fnum"><span class="ficon"><svg viewBox="0 0 24 24"><rect x="4.5" y="3" width="15" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><span class="fbadge">3</span></div><h4>Quote &amp; design</h4><p>A fixed quote and an architecture built to scale, cut cost, and survive change.</p></div>
-    <div class="fstep d3"><div class="fnum"><span class="ficon"><svg viewBox="0 0 24 24"><path d="M4 20V11M9.3 20V6M14.7 20V14M20 20V8"/></svg></span><span class="fbadge">4</span></div><h4>Build &amp; scale</h4><p>We ship it, run it, and keep it alive as the site and its defenses shift.</p></div>
+    <div class="fstep d3"><div class="fnum"><span class="ficon"><svg viewBox="0 0 24 24"><path d="M4 20V11M9.3 20V6M14.7 20V14M20 20V8"/></svg></span><span class="fbadge">4</span></div><h4>Build &amp; scale</h4><p>We ship self-healing agentic crawlers that patch themselves as the site and its defenses shift. Zero maintenance on you.</p></div>
   </div>
   <div class="vprops stage">
     <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div><h5>Scales to billions</h5><p>Architecture that handles millions of rows a day and does not fall over at billions.</p></div>
     <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.2c0-1.2 1.1-2 2.5-2s2.5.8 2.5 2-1.1 1.6-2.5 1.9-2.5.7-2.5 1.9 1.1 2 2.5 2 2.5-.8 2.5-2"/></svg></div><h5>Costs less</h5><p>Priced per usable record, not per gigabyte. We cut the retries and waste that bloat the bill.</p></div>
-    <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/><path d="M9.5 12l2 2 4-4.5"/></svg></div><h5>Reliable</h5><p>Self-healing spiders, monitoring and drift alerts. It keeps running while you sleep.</p></div>
+    <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/><path d="M9.5 12l2 2 4-4.5"/></svg></div><h5>Zero maintenance</h5><p>Agentic crawlers heal themselves when a site changes &mdash; read the break, patch, re-test, keep running. Nothing for you to babysit.</p></div>
     <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 5v4h-4M4 19v-4h4"/></svg></div><h5>Built for change</h5><p>Modular by design, so a site redesign or a new sensor is a patch, not a rebuild.</p></div>
   </div>
   <div class="about-line reveal">
@@ -553,12 +554,13 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   <!-- ANIMATED ARCHITECTURE EXPLORER -->
   <div class="arch reveal">
     <div class="arch-head">
-      <div><div class="arch-kicker">Architectures we deploy &middot; live</div><h3 class="arch-title" id="archTitle">AWS production pipeline</h3></div>
+      <div><div class="arch-kicker">Architectures &amp; agentic workflows &middot; live</div><h3 class="arch-title" id="archTitle">AWS production pipeline</h3></div>
       <div class="arch-tabs" id="archTabs" role="tablist" aria-label="Architecture examples">
         <button class="arch-tab is-on" data-k="aws" role="tab" aria-selected="true">AWS</button>
         <button class="arch-tab" data-k="azure" role="tab" aria-selected="false">Azure</button>
         <button class="arch-tab" data-k="vps" role="tab" aria-selected="false">VPS</button>
-        <button class="arch-tab" data-k="agentic" role="tab" aria-selected="false">Agentic</button>
+        <button class="arch-tab" data-k="agentic" role="tab" aria-selected="false">Self-heal</button>
+        <button class="arch-tab" data-k="aiagent" role="tab" aria-selected="false">Agentic AI</button>
       </div>
     </div>
     <div class="arch-stage" id="archStage"></div>
@@ -782,7 +784,10 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
       edges:[['cron','sc',1,0],['sc','pg',1,0],['pg','bk',1,1],['pg','api',1,0],['api','ngx',1,0],['ngx','cl',1,0]]},
     agentic:{title:'Agentic self-healing loop',cap:'When selectors break, an LLM agent reads the live page, patches the spider, re-tests, and loops back.',
       nodes:[{id:'sh',label:'Scheduler',sub:'Trigger',col:0,row:1},{id:'sp',label:'Spider',sub:'Crawl',col:1,row:1,accent:1},{id:'dt',label:'Break detector',sub:'Selector errors',col:2,row:1},{id:'ag',label:'LLM agent',sub:'Reads page+error',col:3,row:0,accent:1},{id:'pt',label:'Patch spider',sub:'Rewrite selectors',col:4,row:0},{id:'rt',label:'Re-test',sub:'Validate fix',col:4,row:1},{id:'wh',label:'Warehouse',sub:'Clean data',col:2,row:2}],
-      edges:[['sh','sp',1,0],['sp','dt',1,0],['dt','wh',1,0],['dt','ag',1,1],['ag','pt',1,0],['pt','rt',1,0],['rt','sp',1,1]]}
+      edges:[['sh','sp',1,0],['sp','dt',1,0],['dt','wh',1,0],['dt','ag',1,1],['ag','pt',1,0],['pt','rt',1,0],['rt','sp',1,1]]},
+    aiagent:{title:'Agentic AI intelligence',cap:'Self-healing crawl agents feed a lakehouse; fine-tuned models read it and an LLM agent orchestrates and routes the intelligence — ArtemisAI-style.',
+      nodes:[{id:'src',label:'Social & web',sub:'Sources',col:0,row:1},{id:'ag',label:'Crawl agents',sub:'Self-healing',col:1,row:1,accent:1},{id:'lk',label:'Lakehouse',sub:'Raw + features',col:2,row:1},{id:'ml',label:'Fine-tuned NLP',sub:'6 models',col:3,row:1,accent:1},{id:'orc',label:'LLM agent',sub:'Orchestrate + route',col:3,row:0,accent:1},{id:'pr',label:'Predictions',sub:'Intelligence',col:4,row:0},{id:'api',label:'Dashboard · API',sub:'Consumers',col:4,row:1}],
+      edges:[['src','ag',1,0],['ag','lk',1,0],['lk','ml',1,0],['ml','orc',1,0],['orc','pr',1,0],['ml','api',1,0],['pr','api',1,0],['orc','ag',1,1]]}
   };
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
   function render(key){
