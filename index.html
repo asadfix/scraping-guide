@@ -2165,7 +2165,7 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 .disc-pill::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--y)}
 .mineno{font-size:11px;opacity:.6;font-weight:400}
 .outro-link .mineno{font-size:9px}
-#ss-rail{position:fixed;left:16px;top:50%;width:230px;z-index:470;display:none;
+#ss-rail{position:fixed;left:16px;top:50%;width:242px;z-index:470;display:none;
   background:linear-gradient(180deg,rgba(26,26,34,.97),rgba(15,15,21,.97));
   border:1px solid var(--b1);border-top:2px solid var(--y);
   border-radius:14px;padding:16px 17px 14px;backdrop-filter:blur(10px);
@@ -2196,9 +2196,13 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 #ss-rail .ssr-x{position:absolute;top:8px;right:9px;background:none;border:0;color:var(--t3);font-size:15px;
   line-height:1;cursor:pointer;padding:3px 5px;border-radius:4px}
 #ss-rail .ssr-x:hover{color:var(--t1);background:rgba(255,255,255,.07)}
+#ss-rail .ssr-tags{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 13px}
+#ss-rail .ssr-tags span{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--t2);
+  border:1px solid var(--b1);background:rgba(255,255,255,.035);padding:3px 7px;border-radius:5px;white-space:nowrap}
+#ss-rail .ssr-also{font-size:12.4px;line-height:1.55;color:var(--t3);margin:0 0 9px}
 .ss-inline{width:14px;height:14px;vertical-align:-3px;margin-right:5px}
 /* only where the 1200px column actually leaves empty margin */
-@media(min-width:1700px){#ss-rail{display:block}}
+@media(min-width:1720px){#ss-rail{display:block}}
 @media print{#ss-rail{display:none!important}}
 </style>
 
@@ -10857,7 +10861,7 @@ The payoff scales past the one app. Most apps that protect their API at all push
       <br><br>
       Build something interesting with this. And if you do, I'd genuinely love to hear about it.
       <br><br>
-      And if you are stuck rather than shipping, write to me at <a href="mailto:scrapesync@gmail.com?subject=Stuck%20on%20a%20target" style="color:var(--y)">scrapesync@gmail.com</a>. I answer scraping questions for free, including from people who'll never hire me. It is also what I do for a living, at <a href="https://scrapesync.io" target="_blank" rel="noopener" style="color:var(--y)">ScrapeSync</a>, but that's context for who is replying, not a pitch.
+      And if you are stuck rather than shipping, write to me at <a href="mailto:scrapesync@gmail.com?subject=Stuck%20on%20a%20target" style="color:var(--y)">scrapesync@gmail.com</a>. I answer scraping questions for free, including from people who'll never hire me. It is also what I do for a living, at <a href="https://scrapesync.io" target="_blank" rel="noopener" style="color:var(--y)">ScrapeSync</a>, but that's context for who is replying, not a pitch. If you want a pipeline designed, an agentic workflow built, or an architecture review rather than just an opinion, that is the paid version and the same address works.
     </p>
     <div class="outro-sig">
       <div class="outro-sig-name">Asad Ikram</div>
@@ -12427,6 +12431,8 @@ rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
   </div>
   <h4>Still stuck?</h4>
   <p>Send me the URL and what you have tried. I will tell you which rung it is on and what I would try next.</p>
+  <div class="ssr-also">Building something bigger? I also do:</div>
+  <div class="ssr-tags"><span>Pipeline design</span><span>Agentic workflows</span><span>Architecture review</span></div>
   <a class="ssr-cta" href="mailto:scrapesync@gmail.com?subject=Stuck%20on%20a%20target">Ask me &#8594;</a>
   <a class="ssr-mail" href="mailto:scrapesync@gmail.com?subject=Stuck%20on%20a%20target">scrapesync@gmail.com</a>
   <div class="ssr-f">Free either way. I run <a href="https://scrapesync.io" target="_blank" rel="noopener">scrapesync.io</a> <span class="mineno">(my company)</span></div>
