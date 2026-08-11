@@ -610,16 +610,33 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   transition:height .45s cubic-bezier(.2,.8,.2,1)}
 .ns-chart i.hot{opacity:1;box-shadow:0 0 10px -1px rgba(31,157,181,.6)}
 .ns-chl{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink3);margin-top:7px}
-.ns-runs{display:flex;flex-direction:column;gap:5px}
-.ns-run{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;color:var(--ink3);
-  border:1px solid var(--line);border-radius:7px;background:var(--panel);padding:6px 10px;
-  opacity:0;transform:translateY(5px);transition:opacity .3s var(--ease),transform .3s var(--ease)}
-.ns-run.in{opacity:1;transform:none}
-.ns-run em{width:14px;height:14px;border-radius:50%;background:var(--grn);color:#fff;font-style:normal;
-  font-size:8px;display:flex;align-items:center;justify-content:center;flex:none}
-.ns-run em.heal{background:var(--teal)}
-.ns-run .rt{flex:1;color:var(--ink2)}
-.ns-run .rn{color:var(--teal-d);font-weight:500}
+/* scene 6b — data quality + auto-healing panels */
+.ns-panes{display:grid;grid-template-columns:1fr 1fr;gap:10px;min-height:0}
+.ns-pane{border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:9px 11px;display:flex;flex-direction:column}
+.ns-pane.q{border-color:var(--teal-line);background:var(--teal-t)}
+.ns-ph{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.ns-pane.q .ns-ph{color:var(--teal-d)}
+.ns-ph b{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:0;text-transform:none}
+.ns-dq{display:flex;flex-direction:column;gap:4px}
+.ns-dqr{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;color:var(--ink2);
+  background:var(--card);border-radius:6px;padding:4px 8px;opacity:0;transform:translateX(-6px);
+  transition:opacity .28s var(--ease),transform .28s var(--ease)}
+.ns-dqr.in{opacity:1;transform:none}
+.ns-dqr em{width:13px;height:13px;border-radius:50%;background:var(--grn);color:#fff;font-style:normal;
+  font-size:7.5px;display:flex;align-items:center;justify-content:center;flex:none}
+.ns-dqr em.warn{background:var(--amber)}
+.ns-dqr .n{flex:1}
+.ns-dqr .v{color:var(--teal-d);font-weight:500}
+.ns-hl{display:flex;flex-direction:column;gap:4px}
+.ns-hlr{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:10.5px;
+  color:var(--ink3);padding:3px 2px;opacity:0;transition:opacity .3s}
+.ns-hlr.in{opacity:1}
+.ns-hlr b{font-family:var(--disp);font-size:13px;font-weight:700;color:var(--teal-d);font-variant-numeric:tabular-nums}
+.ns-quar{margin-top:auto;padding-top:7px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:9.5px;
+  color:var(--ink3);opacity:0;transition:opacity .3s}
+.ns-quar.in{opacity:1}
+.ns-quar b{color:var(--amber)}
 /* step rail */
 .ns-steps{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line);background:var(--panel)}
 .ns-step{padding:12px 14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
@@ -645,6 +662,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   .ns-app{grid-template-columns:1fr}
   .ns-side{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--line)}
   .ns-tiles{grid-template-columns:1fr 1fr}
+  .ns-panes{grid-template-columns:1fr}
   .ns-steps{grid-template-columns:1fr 1fr}
 }
 }
@@ -859,17 +877,28 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
           <div class="ns-app">
             <div class="ns-side">
               <span class="lg"><i></i>ScrapeSync</span>
-              <a class="sel">Runs</a><a>Sources</a><a>Schedules</a><a>Data</a><a>Alerts</a>
+              <a class="sel">Runs</a><a>Sources</a><a>Quality</a><a>Healing</a><a>Alerts</a>
             </div>
             <div class="ns-main">
               <div class="ns-tiles">
                 <div class="ns-tile"><b id="nsT1">0</b><span>rows today</span></div>
                 <div class="ns-tile"><b id="nsT2">0</b><span>sources live</span></div>
-                <div class="ns-tile"><b id="nsT3">0</b><span>% success</span></div>
+                <div class="ns-tile"><b id="nsT3">0</b><span>% DQ pass</span></div>
                 <div class="ns-tile"><b id="nsT4">0</b><span>auto-heals</span></div>
               </div>
               <div class="ns-chartwrap"><div class="ns-chart" id="nsChart"></div><span class="ns-chl">rows per night &middot; last 14</span></div>
-              <div class="ns-runs" id="nsRuns"></div>
+              <div class="ns-panes">
+                <div class="ns-pane q">
+                  <div class="ns-ph">Data quality <b id="nsDqB">&mdash;</b></div>
+                  <div class="ns-dq" id="nsDq"></div>
+                  <div class="ns-quar" id="nsQuar"><b>412</b> rows quarantined, never shipped downstream</div>
+                </div>
+                <div class="ns-pane">
+                  <div class="ns-ph">Auto-healing <b>last 7 nights</b></div>
+                  <div class="ns-hl" id="nsHl"></div>
+                  <div class="ns-quar" id="nsHlF">last patch <b>03:31</b> &middot; <code>.price &rarr; [data-testid]</code></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1501,19 +1530,28 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 
   // the control plane: bar chart + recent runs
   var BARS=[52,61,48,70,66,74,58,81,77,69,88,84,92,96];
-  var RUNS=[['01:12','catalog · 6 sources','4,208 rows',0],
-            ['02:47','marketplace · 11 sources','5,190 rows',0],
-            ['03:31','selector patched automatically','re-ran clean',1],
-            ['04:37','pricing · 9 sources','3,082 rows',0]];
-  var elChart=document.getElementById('nsChart'), elRuns=document.getElementById('nsRuns');
+  var DQ=[['Schema conformance','100%',0],['Required fields present','99.8%',0],
+          ['Duplicate rows','0',0],['Price parses as number','100%',0],
+          ['Row count vs last night','+2.4%',0],['Freshness','4 min',0]];
+  var HEAL=[['Selector breaks caught','7'],['Patched automatically','7'],
+            ['Human escalations','0'],['Mean time to fix','4 min']];
+  var elChart=document.getElementById('nsChart'), elDq=document.getElementById('nsDq'),
+      elHl=document.getElementById('nsHl'), elQuar=document.getElementById('nsQuar'),
+      elHlF=document.getElementById('nsHlF'), elDqB=document.getElementById('nsDqB');
   BARS.forEach(function(){ elChart.appendChild(document.createElement('i')); });
-  RUNS.forEach(function(r){
-    var d=document.createElement('div'); d.className='ns-run';
-    d.innerHTML='<em class="'+(r[3]?'heal':'')+'">'+(r[3]?'\u21bb':'\u2713')+'</em>'+
-      '<span class="rt">'+r[0]+' &middot; '+r[1]+'</span><span class="rn">'+r[2]+'</span>';
-    elRuns.appendChild(d);
+  DQ.forEach(function(r){
+    var d=document.createElement('div'); d.className='ns-dqr';
+    d.innerHTML='<em class="'+(r[2]?'warn':'')+'">'+(r[2]?'!':'\u2713')+'</em>'+
+      '<span class="n">'+r[0]+'</span><span class="v">'+r[1]+'</span>';
+    elDq.appendChild(d);
   });
-  var bars=elChart.querySelectorAll('i'), runs=elRuns.querySelectorAll('.ns-run'),
+  HEAL.forEach(function(r){
+    var d=document.createElement('div'); d.className='ns-hlr';
+    d.innerHTML='<span>'+r[0]+'</span><b>'+r[1]+'</b>';
+    elHl.appendChild(d);
+  });
+  var bars=elChart.querySelectorAll('i'), dqr=elDq.querySelectorAll('.ns-dqr'),
+      hlr=elHl.querySelectorAll('.ns-hlr'),
       navs=track.querySelectorAll('.ns-side a'), tiles=track.querySelectorAll('.ns-tile'),
       T=[document.getElementById('nsT1'),document.getElementById('nsT2'),
          document.getElementById('nsT3'),document.getElementById('nsT4')];
@@ -1607,7 +1645,11 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
       b.style.height=on?(BARS[i]+'%'):'0%';
       b.classList.toggle('hot', on && i>=BARS.length-3);
     });
-    runs.forEach(function(r,i){ r.classList.toggle('in', s6>0.62+(i*0.07)); });
+    dqr.forEach(function(r,i){ r.classList.toggle('in', s6>0.56+(i*0.045)); });
+    hlr.forEach(function(r,i){ r.classList.toggle('in', s6>0.60+(i*0.05)); });
+    if(elDqB) elDqB.textContent = s6>0.84 ? '6 / 6 passed' : (s6>0.56 ? 'checking\u2026' : '\u2014');
+    if(elQuar) elQuar.classList.toggle('in', s6>0.88);
+    if(elHlF) elHlF.classList.toggle('in', s6>0.88);
 
     // the night passes while it runs
     elClock.textContent=hhmm(72+p*205);
