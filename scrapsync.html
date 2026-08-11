@@ -8,7 +8,7 @@
 <meta property="og:title" content="ScrapeSync — You're blocked. We get the data.">
 <meta property="og:description" content="Anti-bot bypass and scraping architecture, at scale. From the person behind web-scraping-guide.com.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%231f9db5' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpolygon points='24,4 41.3,14 41.3,34 24,44 6.7,34 6.7,14'/%3E%3Cpath d='M24,24 L24,4 M24,24 L41.3,34 M24,24 L6.7,34'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%231f9db5' stroke-width='2.3' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpolygon points='44,24 34,41.3 14,41.3 4,24 14,6.7 34,6.7'/%3E%3Cpolygon points='36,24 30,34.4 18,34.4 12,24 18,13.6 30,13.6'/%3E%3Cpath d='M44,24 36,24 M34,41.3 30,34.4 M14,41.3 18,34.4 M4,24 12,24 M14,6.7 18,13.6 M34,6.7 30,13.6'/%3E%3Cpath d='M24,20 27.5,26 20.5,26 Z'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 ::selection{background:var(--teal-t);color:var(--teal-d)}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
 body{background:var(--bg);color:var(--ink2);font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(1200px 620px at 88% -6%,rgba(31,157,181,.10),transparent 60%),radial-gradient(900px 520px at -6% 8%,rgba(31,157,181,.06),transparent 60%)}
 a{color:inherit;text-decoration:none}
@@ -189,7 +189,64 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
 .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;font-family:var(--mono);font-size:12.5px;color:var(--ink3)}
 .foot a{color:var(--ink2)}.foot a:hover{color:var(--teal-d)}
 
+/* credential badges */
+.creds{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.cred-b{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--ink2);border:1px solid var(--line2);background:var(--card);padding:6px 12px;border-radius:99px}
+.cred-b b{color:var(--teal-d);font-weight:600}
+
+/* how we work: workflow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:relative;margin-bottom:20px}
+.fline{position:absolute;top:26px;left:12.5%;right:12.5%;height:2px;background:var(--line);z-index:0}
+.fline i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--teal)}
+.fstep{position:relative;padding:0 14px;z-index:1}
+.fnum{width:52px;height:52px;border-radius:15px;background:var(--card);border:1px solid var(--teal-line);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:20px;color:var(--teal-d);margin-bottom:17px;box-shadow:var(--shadow-sm)}
+.fstep h4{font-family:var(--disp);font-weight:600;font-size:18px;color:var(--ink);margin-bottom:7px}
+.fstep p{font-size:14px;color:var(--ink2)}
+.vprops{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+.vp{padding:22px;border-radius:16px}
+.vp .vpi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--teal-t);border:1px solid var(--teal-line);margin-bottom:14px}
+.vp .vpi svg{width:19px;height:19px}
+.vp h5{font-family:var(--disp);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:5px}
+.vp p{font-size:13px;color:var(--ink2)}
+.about-line{margin-top:32px;padding:22px 26px;border:1px solid var(--teal-line);border-radius:16px;background:var(--teal-t);
+  font-size:15.5px;color:var(--ink);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.about-line b{color:var(--teal-d)}
+.about-line .al-ico{width:40px;height:40px;flex:none;border-radius:11px;background:var(--card);border:1px solid var(--teal-line);display:flex;align-items:center;justify-content:center}
+.about-line .al-ico svg{width:22px;height:22px}
+.about-line span{flex:1;min-width:240px;line-height:1.5}
+
+/* how we build it: scroll assembly */
+#build{padding-top:96px}
+.build-track{position:relative;height:280vh}
+.build-stick{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+.build-svg{width:100%;max-width:1000px;margin:0 auto;display:block}
+.bnode-r{fill:var(--card);stroke:var(--line2);stroke-width:1.5}
+.bt{font-family:var(--disp);font-weight:600;font-size:15px;fill:var(--ink)}
+.bs{font-family:var(--mono);font-size:11px;fill:var(--ink3)}
+.btt{font-family:var(--mono);font-size:11px;fill:var(--teal-d);font-weight:500}
+.bwire{fill:none;stroke:var(--teal);stroke-width:2;opacity:.55}
+.bwire-d{fill:none;stroke:var(--ink3);stroke-width:1.6;stroke-dasharray:5 5;opacity:.6}
+.blayer{fill:#efece3;stroke:var(--line2);stroke-width:1.5}
+.blayer-on{fill:var(--teal-t);stroke:var(--teal);stroke-width:1.6}
+.build-cap{text-align:center;font-family:var(--mono);font-size:12.5px;color:var(--ink3);margin-top:6px}
+
+/* architecture mini-diagram in cases */
+.archdiag{margin:18px 0 4px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:16px 18px}
+.archdiag svg{width:100%;height:auto;display:block}
+.adt{font-family:var(--mono);font-size:12px;fill:var(--ink2)}
+.adl{font-family:var(--mono);font-size:10.5px;fill:var(--ink3)}
+.adbox{fill:var(--card);stroke:var(--line2);stroke-width:1.4}
+.adbox-a{fill:var(--teal-t);stroke:var(--teal);stroke-width:1.4}
+.adwire{fill:none;stroke:var(--teal);stroke-width:1.6;opacity:.7}
+.adwire-d{fill:none;stroke:var(--ink3);stroke-width:1.4;stroke-dasharray:4 4;opacity:.65}
+.adarrow{fill:var(--teal)}
+
 @media(max-width:920px){
+  .flow{grid-template-columns:1fr 1fr}.fline{display:none}
+  .vprops{grid-template-columns:1fr 1fr}
+  .build-track{height:auto}.build-stick{position:static;height:auto;padding:20px 0}
+  .build-stick .wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .build-svg{min-width:680px}
   .nav-links{display:none}.burger{display:flex}
   .hero-grid{grid-template-columns:1fr}.hero-vis{height:320px;order:-1;margin-bottom:6px}
   .pillars,.abgrid,.stats,.sites{grid-template-columns:1fr 1fr}
@@ -198,7 +255,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
 }
 @media(max-width:560px){
   .wrap{padding:0 18px}.nav-in{padding:0 18px}
-  .pillars,.abgrid,.stats,.sites,.frow{grid-template-columns:1fr}
+  .pillars,.abgrid,.stats,.sites,.frow,.flow,.vprops{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;transition-duration:.001s!important}
@@ -211,11 +268,11 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
 
 <nav id="nav"><div class="nav-in">
   <a href="#top" class="brand" data-hot>
-    <span class="logo-tile"><svg viewBox="0 0 48 48" fill="none" stroke="#1f9db5" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><polygon points="24,4 41.3,14 41.3,34 24,44 6.7,34 6.7,14"/><path d="M24,24 L24,4 M24,24 L41.3,34 M24,24 L6.7,34"/></svg></span>
+    <span class="logo-tile"><svg viewBox="0 0 48 48" fill="none" stroke="#1f9db5" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"><polygon points="44,24 34,41.3 14,41.3 4,24 14,6.7 34,6.7"/><polygon points="36,24 30,34.4 18,34.4 12,24 18,13.6 30,13.6"/><path d="M44,24 36,24 M34,41.3 30,34.4 M14,41.3 18,34.4 M4,24 12,24 M14,6.7 18,13.6 M34,6.7 30,13.6"/><path d="M24,20 27.5,26 20.5,26 Z"/></svg></span>
     ScrapeSync
   </a>
   <div class="nav-links">
-    <a href="#sites" data-hot>What we scrape</a><a href="#antibot" data-hot>Anti-bot</a><a href="#work" data-hot>Work</a>
+    <a href="#sites" data-hot>What we scrape</a><a href="#services" data-hot>How we work</a><a href="#build" data-hot>How we build</a><a href="#work" data-hot>Work</a>
   </div>
   <a href="#contact" class="btn btn-p" data-hot>Start a project</a>
   <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -224,7 +281,10 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
 <!-- HERO -->
 <section id="hero"><a id="top"></a><div class="wrap"><div class="hero-grid">
   <div>
-    <div class="badge reveal in"><span class="dot"></span> The person behind web-scraping-guide.com</div>
+    <div class="creds reveal in">
+      <span class="cred-b"><span class="dot" style="width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(31,157,181,.16)"></span> Behind <b>web-scraping-guide.com</b></span>
+      <span class="cred-b">Team behind <b>artemisai.co.uk</b></span>
+    </div>
     <h1 class="hero"><span data-split>You're blocked.</span><br><span class="g" data-split>We get the data.</span></h1>
     <p class="hero-sub reveal">Anti-bot bypass and scraping architecture for teams that need data from sites built to keep them out. Cloudflare, Akamai, DataDome, Kasada, F5. Clean, at scale, delivered.</p>
     <div class="hero-cta reveal">
@@ -285,40 +345,70 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
   <p class="sites-note reveal">Do not see your target? That is usually the fun one. <a href="#contact" data-hot>Tell us the site &rarr;</a></p>
 </div></section>
 
-<!-- SERVICES -->
+<!-- HOW WE WORK -->
 <section class="sec" id="services"><div class="wrap">
-  <div class="sec-head reveal"><div class="eyebrow">How we do it</div><h2 class="sh" data-reveal>Three things, done to a production standard.</h2></div>
-  <div class="pillars stage">
-    <div class="pill3 card-base d3" data-glow data-hot>
-      <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4"/></svg></div>
-      <h3>Architecture</h3><p>The whole pipeline, designed before the first request. Queues, proxies, storage, and the failure paths nobody plans for.</p>
-      <ul><li>Distributed crawl fleets</li><li>Self-healing spiders</li><li>Cost per usable record</li></ul>
-    </div>
-    <div class="pill3 card-base d3" data-glow data-hot>
-      <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/><path d="M9.5 12l2 2 4-4.5"/></svg></div>
-      <h3>Anti-bot bypass</h3><p>TLS and JA4, sensor scripts, behavioural scoring, mobile signing. We work at the layer that actually decides the outcome.</p>
-      <ul><li>Real Chrome JA4</li><li>Mobile API reversing</li><li>Residential IP strategy</li></ul>
-    </div>
-    <div class="pill3 card-base d3" data-glow data-hot>
-      <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3Z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
-      <h3>Data at scale</h3><p>Millions of records a day, validated and shaped to a schema you can load. Not a clean 200, a clean dataset.</p>
-      <ul><li>Schema validation</li><li>Dedup and drift alerts</li><li>Warehouse, API, webhook</li></ul>
-    </div>
+  <div class="sec-head reveal"><div class="eyebrow">How we work</div><h2 class="sh" data-reveal>From your first message to data that scales.</h2>
+  <p class="sh-sub">We mostly sell the architecture, the design that makes data reliable and cheap at billions of rows. We also build the scrapers and deliver the data itself.</p></div>
+  <div class="flow stage"><div class="fline"><i></i></div>
+    <div class="fstep d3"><div class="fnum">1</div><h4>Gather requirements</h4><p>What data, from where, how much, how often. We learn the goal, not just the fields.</p></div>
+    <div class="fstep d3"><div class="fnum">2</div><h4>Analyze the site</h4><p>We load the target live, map its anti-bot, and find the cheapest reliable route in.</p></div>
+    <div class="fstep d3"><div class="fnum">3</div><h4>Quote &amp; design</h4><p>A fixed quote and an architecture built to scale, cut cost, and survive change.</p></div>
+    <div class="fstep d3"><div class="fnum">4</div><h4>Build &amp; scale</h4><p>We ship it, run it, and keep it alive as the site and its defenses shift.</p></div>
+  </div>
+  <div class="vprops stage">
+    <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div><h5>Scales to billions</h5><p>Architecture that handles millions of rows a day and does not fall over at billions.</p></div>
+    <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.2c0-1.2 1.1-2 2.5-2s2.5.8 2.5 2-1.1 1.6-2.5 1.9-2.5.7-2.5 1.9 1.1 2 2.5 2 2.5-.8 2.5-2"/></svg></div><h5>Costs less</h5><p>Priced per usable record, not per gigabyte. We cut the retries and waste that bloat the bill.</p></div>
+    <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/><path d="M9.5 12l2 2 4-4.5"/></svg></div><h5>Reliable</h5><p>Self-healing spiders, monitoring and drift alerts. It keeps running while you sleep.</p></div>
+    <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 5v4h-4M4 19v-4h4"/></svg></div><h5>Built for change</h5><p>Modular by design, so a site redesign or a new sensor is a patch, not a rebuild.</p></div>
+  </div>
+  <div class="about-line reveal">
+    <span class="al-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+    <span>We are also the team behind <b>ArtemisAI</b> (artemisai.co.uk), with deep expertise in <b>AI models and agentic workflows</b>. That is why our scrapers can heal themselves and our pipelines can read what they collect.</span>
   </div>
 </div></section>
 
-<!-- ANTI-BOT + STATS -->
-<section class="sec" id="antibot"><div class="wrap">
-  <div class="sec-head reveal"><div class="eyebrow">The walls</div><h2 class="sh" data-reveal>Every major vendor, mapped and beaten.</h2></div>
-  <div class="abgrid stage">
-    <div class="ab card-base d3" data-glow><div class="abtop"><div class="abname"><span class="abico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/></svg></span><h4>Cloudflare</h4></div><span class="status">✅ cleared</span></div><p>JA4 at the edge, Turnstile, ML bot score. Real handshakes, coherent identity.</p></div>
-    <div class="ab card-base d3" data-glow><div class="abtop"><div class="abname"><span class="abico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/></svg></span><h4>Akamai v3</h4></div><span class="status">✅ cleared</span></div><p>sensor.js, _abck, extension probes. Solved at the TLS layer first.</p></div>
-    <div class="ab card-base d3" data-glow><div class="abtop"><div class="abname"><span class="abico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><h4>DataDome</h4></div><span class="status">✅ cleared</span></div><p>Per-customer models, header scoring. Lean, correctly ordered requests win.</p></div>
-    <div class="ab card-base d3" data-glow><div class="abtop"><div class="abname"><span class="abico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><h4>Kasada</h4></div><span class="status">✅ cleared</span></div><p>Polymorphic proof-of-work. Patched engines, residential exits.</p></div>
-    <div class="ab card-base d3" data-glow><div class="abtop"><div class="abname"><span class="abico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/></svg></span><h4>F5 Shape</h4></div><span class="status">✅ cleared</span></div><p>Custom JS VM, minute-scale tokens. The hardest enterprise tier.</p></div>
-    <div class="ab card-base d3" data-glow><div class="abtop"><div class="abname"><span class="abico"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3c-2.5 2.7-2.5 15.3 0 18M12 3c2.5 2.7 2.5 15.3 0 18"/></svg></span><h4>PerimeterX</h4></div><span class="status">✅ cleared</span></div><p>Behavioural scoring over time. Session realism beats a perfect fingerprint.</p></div>
-  </div>
-  <div class="stats">
+<!-- HOW WE BUILD IT: scroll assembly -->
+<section id="build">
+  <div class="wrap"><div class="sec-head reveal" style="margin-bottom:0"><div class="eyebrow">How we build it</div><h2 class="sh" data-reveal>The system that walks through the wall.</h2><p class="sh-sub">Scroll to watch it assemble. Every defense layer a site puts up, and the piece of our stack that clears it, coherent end to end.</p></div></div>
+  <div class="build-track"><div class="build-stick"><div class="wrap">
+    <svg class="build-svg" viewBox="0 0 960 520" role="img" aria-label="Diagram of the ScrapeSync system clearing each anti-bot defense layer">
+      <text class="bs" x="122" y="30" text-anchor="middle">OUR STACK</text>
+      <text class="bs" x="838" y="30" text-anchor="middle">THE WALL</text>
+      <!-- wires (drawn on scroll) -->
+      <path id="lw1" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M220,81 C340,81 372,234 424,234"/>
+      <path id="lw2" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M220,171 C340,171 384,248 424,248"/>
+      <path id="lw3" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M220,261 C340,261 384,262 424,262"/>
+      <path id="lw4" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M220,351 C340,351 372,276 424,276"/>
+      <path id="rw1" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M536,234 C640,234 640,81 740,81"/>
+      <path id="rw2" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M536,248 C640,248 660,171 740,171"/>
+      <path id="rw3" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M536,262 C640,262 660,261 740,261"/>
+      <path id="rw4" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M536,276 C640,276 640,351 740,351"/>
+      <path id="ow" class="bwire" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" d="M480,307 L480,416"/>
+      <path id="mw" class="bwire-d" pathLength="1" stroke-dasharray="6 6" d="M220,447 L360,447"/>
+      <!-- walls -->
+      <g id="w1"><rect class="blayer" x="740" y="50" width="196" height="62" rx="13"/><rect id="wl1" class="blayer-on" x="740" y="50" width="196" height="62" rx="13"/><text class="bt" x="758" y="77">TCP / TLS</text><text class="bs" x="758" y="95">JA4 fingerprint</text><g id="ck1" transform="translate(910,81)"><circle r="11" fill="#1a9e6a"/><path d="M-5,0 L-1.5,3.5 L5,-4" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+      <g id="w2"><rect class="blayer" x="740" y="140" width="196" height="62" rx="13"/><rect id="wl2" class="blayer-on" x="740" y="140" width="196" height="62" rx="13"/><text class="bt" x="758" y="167">Network</text><text class="bs" x="758" y="185">IP reputation</text><g id="ck2" transform="translate(910,171)"><circle r="11" fill="#1a9e6a"/><path d="M-5,0 L-1.5,3.5 L5,-4" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+      <g id="w3"><rect class="blayer" x="740" y="230" width="196" height="62" rx="13"/><rect id="wl3" class="blayer-on" x="740" y="230" width="196" height="62" rx="13"/><text class="bt" x="758" y="257">JavaScript</text><text class="bs" x="758" y="275">canvas · WebGL</text><g id="ck3" transform="translate(910,261)"><circle r="11" fill="#1a9e6a"/><path d="M-5,0 L-1.5,3.5 L5,-4" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+      <g id="w4"><rect class="blayer" x="740" y="320" width="196" height="62" rx="13"/><rect id="wl4" class="blayer-on" x="740" y="320" width="196" height="62" rx="13"/><text class="bt" x="758" y="347">Behaviour</text><text class="bs" x="758" y="365">mouse · timing</text><g id="ck4" transform="translate(910,351)"><circle r="11" fill="#1a9e6a"/><path d="M-5,0 L-1.5,3.5 L5,-4" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+      <!-- tools -->
+      <g id="t1"><rect class="bnode-r" x="24" y="50" width="196" height="62" rx="13"/><text class="bt" x="42" y="77">curl_cffi</text><text class="btt" x="42" y="95">real Chrome JA4</text></g>
+      <g id="t2"><rect class="bnode-r" x="24" y="140" width="196" height="62" rx="13"/><text class="bt" x="42" y="167">Residential proxies</text><text class="btt" x="42" y="185">clean exits</text></g>
+      <g id="t3"><rect class="bnode-r" x="24" y="230" width="196" height="62" rx="13"/><text class="bt" x="42" y="257">Camoufox · Cloak</text><text class="btt" x="42" y="275">C++ patched engines</text></g>
+      <g id="t4"><rect class="bnode-r" x="24" y="320" width="196" height="62" rx="13"/><text class="bt" x="42" y="347">AI session realism</text><text class="btt" x="42" y="365">human pacing</text></g>
+      <!-- engine -->
+      <g id="bengine">
+        <polygon fill="#e7f3f6" stroke="#1f9db5" stroke-width="2" points="540,255 510,306.9 450,306.9 420,255 450,203.1 510,203.1"/>
+        <polygon fill="none" stroke="#1f9db5" stroke-width="1.6" points="519,255 499.5,288.8 460.5,288.8 441,255 460.5,221.2 499.5,221.2"/>
+        <path stroke="#1f9db5" stroke-width="1.4" d="M540,255 519,255 M510,306.9 499.5,288.8 M450,306.9 460.5,288.8 M420,255 441,255 M450,203.1 460.5,221.2 M510,203.1 499.5,221.2"/>
+        <text class="btt" x="480" y="336" text-anchor="middle" style="font-size:12px">ScrapeSync engine</text>
+      </g>
+      <!-- mobile route + data out -->
+      <g id="bmob"><rect class="bnode-r" x="24" y="416" width="196" height="58" rx="13"/><text class="bt" x="42" y="440">Mobile API route</text><text class="btt" x="42" y="458">skip the wall</text></g>
+      <g id="bdata"><rect x="360" y="416" width="240" height="58" rx="13" fill="#1f9db5"/><text x="480" y="440" text-anchor="middle" style="font-family:var(--disp);font-weight:600;font-size:16px;fill:#fff">Clean data</text><text x="480" y="459" text-anchor="middle" style="font-family:var(--mono);font-size:11px;fill:rgba(255,255,255,.85)">→ your warehouse, API, webhook</text></g>
+    </svg>
+    <div class="build-cap">Coherent across every layer. That is why it does not get blocked.</div>
+  </div></div></div>
+  <div class="wrap"><div class="stats">
     <div class="stat reveal"><div class="n"><span class="u" data-count="7">0</span></div><div class="l">years in production</div></div>
     <div class="stat reveal"><div class="n"><span class="u">&lt;</span><span class="u" data-count="1">0</span><span class="u">%</span></div><div class="l">block rate at scale</div></div>
     <div class="stat reveal"><div class="n"><span class="u" data-count="500">0</span><span class="u">+</span></div><div class="l">spiders shipped</div></div>
@@ -334,6 +424,17 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
       <div class="case-tag">Self-healing crawler · automotive</div>
       <h3>An auto-healer for 44 forum domains</h3>
       <p>Forty-four domains, each a different layout, one dataset. When a selector broke, an agent read the error and the live page, patched the spider and re-tested, with no human in the loop. The 3am page became a self-closing ticket.</p>
+      <div class="archdiag"><svg viewBox="0 0 600 104" role="img" aria-label="Self-healing loop: spiders detect a broken selector, an AI agent reads the live page, patches and re-tests, no human in the loop">
+        <text class="adl" x="302" y="16" text-anchor="middle">no human in the loop</text>
+        <path class="adwire" d="M531,52 V26 H73 V50"/><polygon class="adarrow" points="73,52 69,44 77,44"/>
+        <path class="adwire" d="M136,72 H166"/><polygon class="adarrow" points="168,72 161,68 161,76"/>
+        <path class="adwire" d="M288,72 H318"/><polygon class="adarrow" points="320,72 313,68 313,76"/>
+        <path class="adwire" d="M440,72 H470"/><polygon class="adarrow" points="472,72 465,68 465,76"/>
+        <rect class="adbox" x="10" y="52" width="126" height="40" rx="9"/><text class="adt" x="73" y="70" text-anchor="middle">Spiders ×70</text><text class="adl" x="73" y="84" text-anchor="middle">live crawl</text>
+        <rect class="adbox" x="168" y="52" width="120" height="40" rx="9"/><text class="adt" x="228" y="76" text-anchor="middle">Selector breaks</text>
+        <rect class="adbox-a" x="320" y="52" width="120" height="40" rx="9"/><text class="adt" x="380" y="70" text-anchor="middle">AI reads page</text><text class="adl" x="380" y="84" text-anchor="middle">error + live DOM</text>
+        <rect class="adbox" x="472" y="52" width="118" height="40" rx="9"/><text class="adt" x="531" y="76" text-anchor="middle">Patch + re-test</text>
+      </svg></div>
       <div class="case-metrics"><div class="cm"><div class="n">70</div><div class="l">spiders, one brain</div></div><div class="cm"><div class="n">0</div><div class="l">manual escalations</div></div><div class="cm"><div class="n">$400/mo</div><div class="l">cost removed</div></div></div>
       <div class="chips"><span class="chip">Claude agents</span><span class="chip">FastAPI MCP</span><span class="chip">ECS Fargate</span><span class="chip">Aurora</span></div>
     </div>
@@ -341,6 +442,15 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
       <div class="case-tag">Classifieds · scale</div>
       <h3>500+ spiders on a distributed fleet</h3>
       <p>Large classifieds and property portals, crawled continuously on Kubernetes, feeding a search index and a warehouse.</p>
+      <div class="archdiag"><svg viewBox="0 0 600 108" role="img" aria-label="Distributed fleet: an ingest queue feeds 500 worker pods on Kubernetes, which write to a warehouse and a search index">
+        <path class="adwire" d="M124,67 H198"/><polygon class="adarrow" points="200,67 193,63 193,71"/>
+        <path class="adwire" d="M352,60 C395,60 400,46 428,46"/><polygon class="adarrow" points="430,46 423,42 423,50"/>
+        <path class="adwire" d="M352,74 C395,74 400,88 428,88"/><polygon class="adarrow" points="430,88 423,84 423,92"/>
+        <rect class="adbox" x="14" y="48" width="110" height="38" rx="9"/><text class="adt" x="69" y="64" text-anchor="middle">Ingest queue</text><text class="adl" x="69" y="78" text-anchor="middle">Kafka</text>
+        <rect class="adbox" x="214" y="40" width="150" height="38" rx="9"/><rect class="adbox" x="208" y="44" width="150" height="38" rx="9"/><rect class="adbox-a" x="202" y="48" width="150" height="38" rx="9"/><text class="adt" x="277" y="64" text-anchor="middle">Worker pods</text><text class="adl" x="277" y="78" text-anchor="middle">×500 · K8s</text>
+        <rect class="adbox" x="430" y="30" width="156" height="32" rx="9"/><text class="adt" x="508" y="50" text-anchor="middle">Warehouse</text>
+        <rect class="adbox" x="430" y="72" width="156" height="32" rx="9"/><text class="adt" x="508" y="92" text-anchor="middle">Search index</text>
+      </svg></div>
       <div class="case-metrics"><div class="cm"><div class="n">+60%</div><div class="l">ETL throughput</div></div><div class="cm"><div class="n">-45%</div><div class="l">incidents</div></div></div>
       <div class="chips"><span class="chip">Scrapy</span><span class="chip">EKS</span><span class="chip">Elasticsearch</span></div>
     </div>
@@ -348,6 +458,16 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
       <div class="case-tag">AI-native pipeline · media</div>
       <h3>A lakehouse that reads what it scrapes</h3>
       <p>Thirty-plus sources a day into a lakehouse, then read by fine-tuned models that classified and routed the content instead of brittle rules.</p>
+      <div class="archdiag"><svg viewBox="0 0 600 100" role="img" aria-label="AI-native pipeline: thirty-plus daily sources land in a lakehouse, then fine-tuned models classify and route the content instead of brittle rules">
+        <text class="adl" x="376" y="20" text-anchor="middle">read, not rule-matched</text>
+        <path class="adwire" d="M120,68 H146"/><polygon class="adarrow" points="148,68 141,64 141,72"/>
+        <path class="adwire" d="M278,68 H312"/><polygon class="adarrow" points="314,68 307,64 307,72"/>
+        <path class="adwire" d="M436,68 H470"/><polygon class="adarrow" points="472,68 465,64 465,72"/>
+        <rect class="adbox" x="8" y="48" width="112" height="40" rx="9"/><text class="adt" x="64" y="66" text-anchor="middle">30+ sources</text><text class="adl" x="64" y="80" text-anchor="middle">per day</text>
+        <rect class="adbox" x="150" y="48" width="128" height="40" rx="9"/><text class="adt" x="214" y="66" text-anchor="middle">Lakehouse</text><text class="adl" x="214" y="80" text-anchor="middle">S3 · Iceberg</text>
+        <rect class="adbox-a" x="316" y="48" width="120" height="40" rx="9"/><text class="adt" x="376" y="66" text-anchor="middle">Fine-tuned</text><text class="adl" x="376" y="80" text-anchor="middle">models ×6</text>
+        <rect class="adbox" x="474" y="48" width="118" height="40" rx="9"/><text class="adt" x="533" y="66" text-anchor="middle">Classified</text><text class="adl" x="533" y="80" text-anchor="middle">&amp; routed</text>
+      </svg></div>
       <div class="case-metrics"><div class="cm"><div class="n">6</div><div class="l">fine-tuned models</div></div><div class="cm"><div class="n">+40%</div><div class="l">content monetised</div></div></div>
       <div class="chips"><span class="chip">Custom LLMs</span><span class="chip">Redshift</span><span class="chip">Step Functions</span></div>
     </div>
@@ -416,6 +536,42 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
       function run(){if(done)return;done=true;gsap.to({v:0},{v:end,duration:1.5,ease:'power2.out',onUpdate:function(){el.textContent=Math.round(this.targets()[0].v);}});}
       ScrollTrigger.create({trigger:el.closest('.stat')||el,start:'top 92%',onEnter:run,onEnterBack:run});
     });
+
+    // workflow connector line fills as the steps arrive
+    var fline=document.querySelector('.fline i');
+    if(fline){gsap.to(fline,{width:'100%',duration:1.2,ease:'power2.inOut',scrollTrigger:{trigger:'.flow',start:'top 78%'}});}
+
+    // "How we build it": scroll-scrubbed assembly. Desktop only — the track is
+    // static below 920px, so there is no scroll to drive it; matchMedia reverts the
+    // set() calls there and the diagram stays in its assembled default state.
+    var track=document.querySelector('.build-track');
+    if(track && document.getElementById('bengine') && gsap.matchMedia){
+      gsap.matchMedia().add('(min-width: 921px)',function(){
+        var tools=['#t1','#t2','#t3','#t4'],lwires=['#lw1','#lw2','#lw3','#lw4'],
+            overlays=['#wl1','#wl2','#wl3','#wl4'],checks=['#ck1','#ck2','#ck3','#ck4'],
+            rwires=['#rw1','#rw2','#rw3','#rw4'],allw=lwires.concat(rwires,['#ow','#mw']);
+        gsap.set('#bengine',{opacity:0,scale:.55,transformOrigin:'50% 50%'});
+        gsap.set(tools,{opacity:0,x:-26});
+        gsap.set(overlays,{opacity:0});
+        gsap.set(checks,{opacity:0,scale:0,transformOrigin:'50% 50%'});
+        gsap.set(['#bmob','#bdata'],{opacity:0,y:14});
+        allw.forEach(function(w){gsap.set(w,{strokeDashoffset:1});});
+        var tl=gsap.timeline({scrollTrigger:{trigger:track,start:'top top',end:'bottom bottom',scrub:.6}});
+        tl.to('#bengine',{opacity:1,scale:1,duration:1,ease:'back.out(1.6)'})
+          .to(tools,{opacity:1,x:0,duration:1,stagger:.3,ease:'power2.out'},'-=.3')
+          .to(lwires,{strokeDashoffset:0,duration:1,stagger:.3,ease:'none'},'<');
+        [0,1,2,3].forEach(function(i){
+          tl.to(rwires[i],{strokeDashoffset:0,duration:.6,ease:'none'})
+            .to(overlays[i],{opacity:1,duration:.35},'<+.25')
+            .to(checks[i],{opacity:1,scale:1,duration:.4,ease:'back.out(2.2)'},'<');
+        });
+        tl.to('#bdata',{opacity:1,y:0,duration:.6},'+=.15')
+          .to('#ow',{strokeDashoffset:0,duration:.55,ease:'none'},'<')
+          .to('#bmob',{opacity:1,y:0,duration:.5})
+          .to('#mw',{strokeDashoffset:0,duration:.55,ease:'none'},'<');
+      });
+    }
+
     ScrollTrigger.refresh();
     setTimeout(function(){
       document.querySelectorAll('#hero .reveal').forEach(function(e){gsap.killTweensOf(e);e.classList.add('in');e.style.opacity='1';e.style.transform='none';});
@@ -426,6 +582,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;margin-top:40px;backgroun
     document.querySelectorAll('.reveal,.d3').forEach(function(e){e.classList.add('in');});
     document.querySelectorAll('.word i').forEach(function(i){i.style.transform='none';});
     document.querySelectorAll('[data-count]').forEach(function(e){e.textContent=e.getAttribute('data-count');});
+    var fl=document.querySelector('.fline i');if(fl)fl.style.width='100%';
   }
 
   /* subtle card lift toward cursor */
