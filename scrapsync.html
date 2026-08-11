@@ -174,6 +174,20 @@ h2.sh{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.4vw,52px);l
 .mem h4{font-family:var(--disp);font-weight:600;font-size:16px}
 .mem .role{font-family:var(--mono);font-size:11.5px;color:var(--cyan)}
 
+/* sites we scrape */
+.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.site{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--panel);overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.site:hover{border-color:var(--line2);box-shadow:0 20px 50px -34px rgba(52,229,255,.5)}
+.site .si{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(52,229,255,.08);border:1px solid var(--line2);margin-bottom:16px;transition:transform .3s}
+.site:hover .si{transform:rotate(-8deg) scale(1.06)}
+.site .si svg{width:21px;height:21px}
+.site h3{font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:11px}
+.site .plat{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.site .plat span{font-family:var(--mono);font-size:11.5px;color:var(--t2);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+.site p{font-size:12.5px;color:var(--t3);font-family:var(--mono);line-height:1.5}
+.sites-note{text-align:center;margin-top:28px;color:var(--t2);font-size:15.5px}
+.sites-note a{color:var(--cyan)}
+
 /* CTA + form */
 .cta{border:1px solid var(--line);border-radius:24px;padding:56px 40px;text-align:center;overflow:hidden;
   background:radial-gradient(700px 320px at 50% 0%,rgba(124,92,255,.16),transparent 70%),linear-gradient(180deg,var(--panel),var(--bg2))}
@@ -198,13 +212,13 @@ footer{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index
 
 @media(max-width:900px){
   .nav-links{display:none}.burger{display:flex}
-  .pillars,.abgrid,.stats,.steps{grid-template-columns:1fr 1fr}
+  .pillars,.abgrid,.stats,.steps,.sites{grid-template-columns:1fr 1fr}
   .cases{grid-template-columns:1fr}.case.big{grid-column:span 1}
   .sec{padding:72px 0}
 }
 @media(max-width:560px){
   .wrap{padding:0 18px}.nav-in{padding:0 18px}
-  .pillars,.abgrid,.stats,.steps,.frow{grid-template-columns:1fr}
+  .pillars,.abgrid,.stats,.steps,.frow,.sites{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;transition-duration:.001s!important}
@@ -224,7 +238,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index
     ScrapeSync
   </a>
   <div class="nav-links">
-    <a href="#services" data-hot>Services</a><a href="#antibot" data-hot>Anti-bot</a><a href="#work" data-hot>Work</a><a href="#process" data-hot>Process</a>
+    <a href="#sites" data-hot>What we scrape</a><a href="#antibot" data-hot>Anti-bot</a><a href="#work" data-hot>Work</a>
   </div>
   <a href="#contact" class="btn btn-p" data-hot>Start a project</a>
   <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -250,9 +264,53 @@ footer{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index
   <span class="mv">Cloudflare <span class="x">cleared</span></span><span class="mv">Akamai v3 <span class="x">cleared</span></span><span class="mv">DataDome <span class="x">cleared</span></span><span class="mv">Kasada <span class="x">cleared</span></span><span class="mv">F5 Shape <span class="x">cleared</span></span><span class="mv">PerimeterX <span class="x">cleared</span></span><span class="mv">Imperva <span class="x">cleared</span></span><span class="mv">reCAPTCHA v3 <span class="x">cleared</span></span>
 </div></div>
 
+<!-- WHAT WE SCRAPE -->
+<section class="sec" id="sites"><div class="wrap">
+  <div class="sec-head reveal"><div class="eyebrow">What we scrape</div><h2 class="sh" data-reveal>You name the site. We deliver the data.</h2><p class="sh-sub">If a browser can load it, we can turn it into a clean, structured feed. Public data, collected responsibly, at any scale.</p></div>
+  <div class="sites stage">
+    <div class="site d3" data-glow data-hot>
+      <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.7"><path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7V5.5a3 3 0 0 1 6 0V7"/></svg></div>
+      <h3>E-commerce &amp; retail</h3>
+      <div class="plat"><span>Amazon</span><span>Shopify</span><span>Home Depot</span><span>Walmart</span><span>any store</span></div>
+      <p>Prices, stock, variants, reviews, sellers, and full catalog, monitored on your schedule.</p>
+    </div>
+    <div class="site d3" data-glow data-hot>
+      <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.7"><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></div>
+      <h3>Maps &amp; local</h3>
+      <div class="plat"><span>Google Maps</span><span>listings</span><span>reviews</span></div>
+      <p>Businesses, ratings, hours, phone numbers and geolocation, city by city.</p>
+    </div>
+    <div class="site d3" data-glow data-hot>
+      <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.7"><path d="M2 13l9-2 4-8 2 1-2 8 6 3v2l-8-1-3 5-2-1 1-5-6-1v-1l-1 3-2-1 4-5Z"/></svg></div>
+      <h3>Travel &amp; flights</h3>
+      <div class="plat"><span>Google Flights</span><span>fares</span><span>OTAs</span></div>
+      <p>Routes, live fares, availability and schedules, tracked in near real time.</p>
+    </div>
+    <div class="site d3" data-glow data-hot>
+      <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.7"><path d="M3 11l9-7 9 7"/><path d="M5 10v9h5v-5h4v5h5v-9"/></svg></div>
+      <h3>Real estate</h3>
+      <div class="plat"><span>Portals worldwide</span><span>listings</span><span>agents</span></div>
+      <p>Listings, prices, photos, agents and full price history, across any portal.</p>
+    </div>
+    <div class="site d3" data-glow data-hot>
+      <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.5a3 3 0 0 1 0 5.6M18 19a5.5 5.5 0 0 0-3-4.9"/></svg></div>
+      <h3>Social platforms</h3>
+      <div class="plat"><span>LinkedIn</span><span>Facebook</span><span>Instagram</span><span>X</span></div>
+      <p>Public profiles, posts, engagement and audience signals, structured for analysis.</p>
+    </div>
+    <div class="site d3" data-glow data-hot>
+      <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></div>
+      <h3>Regional &amp; hard targets</h3>
+      <div class="plat"><span>Vietnam &amp; SEA</span><span>classifieds</span><span>gov data</span></div>
+      <p>Wherever the data lives, in any language, behind whatever is guarding it.</p>
+    </div>
+  </div>
+  <p class="sites-note reveal">Do not see your target? That is usually the fun one. <a href="#contact" data-hot>Tell us the site &rarr;</a></p>
+</div></section>
+
 <!-- SERVICES -->
 <section class="sec" id="services"><div class="wrap">
-  <div class="sec-head reveal"><div class="eyebrow">What we do</div><h2 class="sh" data-reveal>Three things, done to a production standard.</h2></div>
+  <div class="sec-head reveal"><div class="eyebrow">How we do it</div><h2 class="sh" data-reveal>Three things, done to a production standard.</h2></div>
   <div class="pillars stage">
     <div class="pill3 d3" data-glow data-hot>
       <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4"/></svg></div>
@@ -319,33 +377,17 @@ footer{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index
   </div>
 </div></section>
 
-<!-- PROCESS -->
-<section class="sec" id="process"><div class="wrap">
-  <div class="sec-head reveal"><div class="eyebrow">How it runs</div><h2 class="sh" data-reveal>Recon, bypass, extract, deliver.</h2></div>
-  <div class="steps stage">
-    <div class="step d3" data-glow><div class="snode">01</div><h4>Recon</h4><p>Trace the session, find the sensor endpoints and the mobile API behind the site.</p></div>
-    <div class="step d3" data-glow><div class="snode">02</div><h4>Bypass</h4><p>Match a real client end to end. TLS, headers, behaviour, and the identity that has to agree.</p></div>
-    <div class="step d3" data-glow><div class="snode">03</div><h4>Extract</h4><p>Run at volume on a self-healing fleet. Validate the shape, not the status code.</p></div>
-    <div class="step d3" data-glow><div class="snode">04</div><h4>Deliver</h4><p>Clean, deduplicated data into your warehouse, API or webhook, with drift alerts.</p></div>
-  </div>
-</div></section>
-
-<!-- TEAM -->
-<section class="sec" id="team" style="padding-top:0"><div class="wrap">
-  <div class="sec-head reveal" style="margin-bottom:28px"><div class="eyebrow">Who you work with</div><h2 class="sh" data-reveal>Actual scrapers, not account managers.</h2></div>
-  <div class="team stage">
-    <div class="mem d3" data-hot><div class="ava">A</div><div><h4>Asad</h4><div class="role">Founder · architecture</div></div></div>
-    <div class="mem d3" data-hot><div class="ava">M</div><div><h4>Muteeb</h4><div class="role">Anti-bot · reversing</div></div></div>
-    <div class="mem d3" data-hot><div class="ava">F</div><div><h4>Faheem</h4><div class="role">Infra · pipelines</div></div></div>
-    <div class="mem d3" data-hot><div class="ava">M</div><div><h4>Muneeb</h4><div class="role">Data · delivery</div></div></div>
-  </div>
-</div></section>
-
 <!-- CONTACT -->
 <section class="sec" id="contact"><div class="wrap">
   <div class="cta reveal">
     <h2>Tell us the site. We tell you if we can beat it.</h2>
     <p>Free scope call, honest answer. If the data is not worth it, we say so before you pay.</p>
+    <div class="team stage" style="margin-top:30px">
+      <div class="mem d3" data-hot><div class="ava">A</div><div><h4>Asad</h4><div class="role">Founder · architecture</div></div></div>
+      <div class="mem d3" data-hot><div class="ava">M</div><div><h4>Muteeb</h4><div class="role">Anti-bot · reversing</div></div></div>
+      <div class="mem d3" data-hot><div class="ava">F</div><div><h4>Faheem</h4><div class="role">Infra · pipelines</div></div></div>
+      <div class="mem d3" data-hot><div class="ava">M</div><div><h4>Muneeb</h4><div class="role">Data · delivery</div></div></div>
+    </div>
     <form class="form" id="scform" novalidate>
       <div class="frow">
         <div class="field"><label for="f-name">Name</label><input id="f-name" type="text" placeholder="Jane Doe" autocomplete="name"><span class="uline"></span></div>
