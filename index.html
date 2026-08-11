@@ -2174,11 +2174,11 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
   transition:opacity .5s ease,transform .5s ease}
 #ss-rail.on{opacity:1;transform:translateY(-50%)}
 #ss-rail .ssr-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-right:18px}
-#ss-rail .ssr-logo{width:36px;height:36px;flex:none;border-radius:10px;background:rgba(255,255,255,.06);
+#ss-rail .ssr-logo{width:40px;height:40px;flex:none;border-radius:10px;background:rgba(255,255,255,.06);
   border:1px solid var(--b1);display:flex;align-items:center;justify-content:center}
-#ss-rail .ssr-logo img{width:25px;height:25px;display:block}
+#ss-rail .ssr-logo img{width:28px;height:28px;display:block;image-rendering:auto}
 #ss-rail .ssr-name{font-size:15.5px;font-weight:700;color:var(--t1);letter-spacing:-.01em;line-height:1.12}
-#ss-rail .ssr-name em{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+#ss-rail .ssr-name em{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--t3);font-weight:400;font-style:normal;margin-top:3px}
 #ss-rail h4{font-size:17.5px;color:var(--y);margin:0 0 9px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
 #ss-rail p{font-size:13.4px;line-height:1.62;color:var(--t2);margin:0 0 14px}
@@ -12426,7 +12426,7 @@ rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
 <aside id="ss-rail" aria-label="Help with a scraping target">
   <button class="ssr-x" type="button" aria-label="Dismiss" onclick="ssRailClose()">&times;</button>
   <div class="ssr-brand">
-    <span class="ssr-logo"><img src="/logo.png" alt="" width="25" height="25"></span>
+    <span class="ssr-logo"><img src="/logo.png" alt="" width="28" height="28" decoding="async"></span>
     <span class="ssr-name">ScrapeSync<em>Anti-bot &amp; data</em></span>
   </div>
   <h4>Still stuck?</h4>
