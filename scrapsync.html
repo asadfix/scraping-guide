@@ -267,6 +267,9 @@ h2.sh{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.2vw,50px);l
 .field input::placeholder,.field textarea::placeholder{color:var(--ink3)}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px rgba(31,157,181,.14)}
 .form .btn{justify-self:center;justify-content:center}
+.form-status{font-family:var(--mono);font-size:12.5px;margin-top:12px;min-height:18px;color:var(--ink2)}
+.form-status.ok{color:var(--grn)}
+.form-status.err{color:#c0392b}
 .form-note{font-family:var(--mono);font-size:12px;color:var(--ink3);text-align:center}
 .form-note a{color:var(--teal-d)}
 
@@ -700,8 +703,10 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
       </div>
       <div class="field"><label for="f-target">Target site</label><input id="f-target" type="text" placeholder="the site you need data from"></div>
       <div class="field"><label for="f-msg">What do you need?</label><textarea id="f-msg" rows="3" placeholder="Fields, volume, how often."></textarea></div>
+      <input type="checkbox" name="botcheck" id="f-bot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">
       <button type="submit" class="btn btn-p" data-hot>Send it to the team <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      <div class="form-note">Opens your mail app, prefilled. Or just <a href="mailto:scrapesync@gmail.com?subject=ScrapeSync%20project" data-hot>email us</a> · <a href="https://www.linkedin.com/company/scrapesync/" target="_blank" rel="noopener" data-hot>LinkedIn</a></div>
+      <div class="form-status" id="fstatus" role="status" aria-live="polite"></div>
+      <div class="form-note">I usually reply within a couple of days. Or just <a href="mailto:scrapesync@gmail.com?subject=ScrapeSync%20project" data-hot>email us</a> · <a href="https://www.linkedin.com/company/scrapesync/" target="_blank" rel="noopener" data-hot>LinkedIn</a></div>
     </form>
   </div>
 </div></section>
@@ -774,10 +779,45 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
     c.addEventListener('pointerleave',function(){if(qx){qx(0);qy(0);}});
   });}
 
+  // Contact form. Paste your Web3Forms access key below and submissions post
+  // straight to scrapesync@gmail.com. While it is empty the form falls back to
+  // opening the visitor's mail app, exactly as before, so nothing breaks.
+  var W3F_KEY = '';
   var f=document.getElementById('scform');
-  if(f)f.addEventListener('submit',function(e){e.preventDefault();var g=function(id){return (document.getElementById(id).value||'').trim();};
-    var t=g('f-target'),body='Name: '+g('f-name')+'\nEmail: '+g('f-email')+'\nTarget: '+t+'\n\n'+g('f-msg');
-    location.href='mailto:scrapesync@gmail.com?subject='+encodeURIComponent('ScrapeSync project'+(t?' · '+t:''))+'&body='+encodeURIComponent(body);});
+  if(f){
+    var btn=f.querySelector('button[type=submit]'), st=document.getElementById('fstatus');
+    var g=function(id){var el=document.getElementById(id);return el?(el.value||'').trim():'';};
+    function say(m,k){ if(st){ st.textContent=m||''; st.className='form-status'+(k?' '+k:''); } }
+    function mailtoFallback(){
+      var t=g('f-target'),body='Name: '+g('f-name')+'\nEmail: '+g('f-email')+'\nTarget: '+t+'\n\n'+g('f-msg');
+      location.href='mailto:scrapesync@gmail.com?subject='+encodeURIComponent('ScrapeSync project'+(t?' · '+t:''))+'&body='+encodeURIComponent(body);
+    }
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var bot=document.getElementById('f-bot');
+      if(bot && bot.checked) return;
+      var name=g('f-name'), email=g('f-email'), target=g('f-target'), msg=g('f-msg');
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ say('Add a valid email so I can reply.','err'); var ee=document.getElementById('f-email'); if(ee)ee.focus(); return; }
+      if(!target && !msg){ say('Tell me the site, or what you need.','err'); var te=document.getElementById('f-target'); if(te)te.focus(); return; }
+      if(!W3F_KEY){ mailtoFallback(); return; }
+      if(btn) btn.disabled=true;
+      say('Sending\u2026');
+      fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body:JSON.stringify({access_key:W3F_KEY,subject:'ScrapeSync project'+(target?' \u00b7 '+target:''),
+          from_name:'ScrapeSync site',name:name||'(no name given)',email:email,
+          target_site:target||'(not given)',message:msg||'(no message)'})
+      }).then(function(r){return r.json();}).then(function(d){
+        if(btn) btn.disabled=false;
+        if(d && d.success){ f.reset(); say('Thanks \u2014 that reached me. I usually reply within a couple of days.','ok'); }
+        else { say('That did not go through. Opening your mail app instead\u2026','err'); setTimeout(mailtoFallback,1000); }
+      }).catch(function(){
+        if(btn) btn.disabled=false;
+        say('Network problem. Opening your mail app instead\u2026','err'); setTimeout(mailtoFallback,1000);
+      });
+    });
+  }
 
   /* THREE.js hero: a slow teal geode, on light */
   (function(){var mount=document.getElementById('webgl');if(!mount||!window.THREE||reduce)return;var renderer;try{renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});}catch(e){return;}
