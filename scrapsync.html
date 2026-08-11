@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ScrapeSync — You're blocked. We get the data.</title>
+<title>ScrapeSync — They built the wall. We know the way through.</title>
 <meta name="description" content="Scraping architecture and anti-bot bypass for teams that need data from sites built to keep them out. Cloudflare, Akamai, DataDome, Kasada, F5. Clean data at scale, from the person behind web-scraping-guide.com.">
-<meta property="og:title" content="ScrapeSync — You're blocked. We get the data.">
+<meta property="og:title" content="ScrapeSync — They built the wall. We know the way through.">
 <meta property="og:description" content="Anti-bot bypass and scraping architecture, at scale. From the person behind web-scraping-guide.com.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%231f9db5' stroke-width='2.3' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpolygon points='44,24 34,41.3 14,41.3 4,24 14,6.7 34,6.7'/%3E%3Cpolygon points='36,24 30,34.4 18,34.4 12,24 18,13.6 30,13.6'/%3E%3Cpath d='M44,24 36,24 M34,41.3 30,34.4 M14,41.3 18,34.4 M4,24 12,24 M14,6.7 18,13.6 M34,6.7 30,13.6'/%3E%3Cpath d='M24,20 27.5,26 20.5,26 Z'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%231f9db5' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpolygon points='44,24 34,41.32 14,41.32 4,24 14,6.68 34,6.68'/%3E%3Cpath d='M44,24 29,24 M14,6.68 21.5,19.6 M14,41.32 21.5,28.4'/%3E%3Cpolygon points='29,24 21.5,19.6 21.5,28.4'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -47,6 +47,10 @@ nav.small{height:58px;background:rgba(244,242,236,.82);backdrop-filter:blur(14px
 .nav-links{margin-left:auto;display:flex;gap:2px}
 .nav-links a{font-size:14px;color:var(--ink2);padding:8px 13px;border-radius:9px;transition:.15s;font-weight:500}
 .nav-links a:hover{color:var(--ink);background:rgba(20,22,28,.05)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-ic{width:38px;height:38px;flex:none;border-radius:10px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--ink2);background:var(--card);transition:color .18s,background .18s,border-color .18s,transform .18s}
+.nav-ic:hover{color:#fff;background:var(--teal-d);border-color:var(--teal-d);transform:translateY(-1px)}
+.nav-ic svg{width:17px;height:17px}
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:600;font-size:14px;padding:11px 20px;border-radius:11px;cursor:pointer;border:1px solid transparent;transition:transform .18s,box-shadow .18s,background .18s,border-color .18s;white-space:nowrap}
 .btn svg{transition:transform .2s}
 .btn:hover svg{transform:translateX(3px)}
@@ -357,7 +361,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 @media(max-width:920px){
   .flow{grid-template-columns:1fr 1fr}.fline{display:none}
   .vprops{grid-template-columns:1fr 1fr}
-  .nav-links{display:none}.burger{display:flex}
+  .nav-links{display:none}.burger{display:flex}.nav-ic{display:none}
   .hero-grid{grid-template-columns:1fr}.hero-vis{height:320px;order:-1;margin-bottom:6px}
   .stats{grid-template-columns:1fr 1fr}
   .scrape-demo{grid-template-columns:1fr;gap:16px}
@@ -394,13 +398,16 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 
 <nav id="nav"><div class="nav-in">
   <a href="#top" class="brand" data-hot>
-    <span class="logo-tile"><svg viewBox="0 0 48 48" fill="none" stroke="#1f9db5" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"><polygon points="44,24 34,41.3 14,41.3 4,24 14,6.7 34,6.7"/><polygon points="36,24 30,34.4 18,34.4 12,24 18,13.6 30,13.6"/><path d="M44,24 36,24 M34,41.3 30,34.4 M14,41.3 18,34.4 M4,24 12,24 M14,6.7 18,13.6 M34,6.7 30,13.6"/><path d="M24,20 27.5,26 20.5,26 Z"/></svg></span>
+    <span class="logo-tile"><svg viewBox="0 0 48 48" fill="none" stroke="#1f9db5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><polygon points="44,24 34,41.32 14,41.32 4,24 14,6.68 34,6.68"/><path d="M44,24 29,24 M14,6.68 21.5,19.6 M14,41.32 21.5,28.4"/><polygon points="29,24 21.5,19.6 21.5,28.4"/></svg></span>
     ScrapeSync
   </a>
   <div class="nav-links">
     <a href="#scene" data-hot>The wall</a><a href="#sites" data-hot>What we scrape</a><a href="#services" data-hot>How we work</a><a href="#work" data-hot>Systems</a><a href="#team" data-hot>Team</a>
   </div>
-  <a href="#contact" class="btn btn-p" data-hot>Start a project</a>
+  <div class="nav-actions">
+    <a class="nav-ic" href="https://www.linkedin.com/company/scrapesync/" target="_blank" rel="noopener" aria-label="ScrapeSync on LinkedIn" data-hot><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
+    <a href="#contact" class="btn btn-p" data-hot>Start a project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
   <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
 </div></nav>
 
@@ -411,7 +418,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
       <a class="cred-b" href="https://web-scraping-guide.com" target="_blank" rel="noopener" data-hot><span class="dot" style="width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(31,157,181,.16)"></span> Behind <b>web-scraping-guide.com</b></a>
       <a class="cred-b" href="https://artemisai.co.uk" target="_blank" rel="noopener" data-hot>Team behind <b>artemisai.co.uk</b></a>
     </div>
-    <h1 class="hero"><span data-split>You're blocked.</span><br><span class="g" data-split>We get the data.</span></h1>
+    <h1 class="hero"><span data-split>They built the wall.</span><br><span class="g" data-split>We know the way through.</span></h1>
     <p class="hero-sub reveal">Anti-bot bypass and scraping architecture for teams that need data from sites built to keep them out. Cloudflare, Akamai, DataDome, Kasada, F5. Clean, at scale, delivered.</p>
     <div class="hero-cta reveal">
       <a href="#contact" class="btn btn-p" data-hot>Get your data <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
