@@ -420,6 +420,73 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   *{animation-duration:.001s!important;transition-duration:.001s!important}
   .reveal,.d3{opacity:1;transform:none}.word i{transform:none}
 }
+/* ── automated run: scroll-driven "while you sleep" console ─────────── */
+.nshift{margin:44px 0 8px;border:1px solid var(--line2);border-radius:18px;background:var(--card);
+  box-shadow:var(--shadow);overflow:hidden}
+.ns-head{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);
+  background:var(--panel);font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.ns-live{width:7px;height:7px;border-radius:50%;background:var(--grn);animation:nspulse 1.8s ease infinite}
+@keyframes nspulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(26,158,106,.45)}50%{opacity:.5;box-shadow:0 0 0 6px rgba(26,158,106,0)}}
+.ns-clock{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--teal-d);font-weight:500;letter-spacing:.06em}
+.ns-sleep{display:inline-flex;align-items:center;gap:6px;color:var(--ink3);text-transform:none;letter-spacing:.02em}
+.ns-sleep svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7}
+.ns-body{display:grid;grid-template-columns:1fr 92px 1fr;gap:0;align-items:stretch}
+.ns-col{padding:18px}
+.ns-col+.ns-col{border-left:1px solid var(--line)}
+.ns-cap{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:11px}
+.ns-bar{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);
+  padding:7px 11px;font-family:var(--mono);font-size:11.5px;color:var(--ink2);margin-bottom:13px;min-height:32px}
+.ns-bar svg{width:12px;height:12px;flex:none;color:var(--grn)}
+.ns-url{white-space:nowrap;overflow:hidden}
+.ns-caret{width:6px;height:13px;background:var(--teal);opacity:.85;animation:nsblink 1s steps(1) infinite}
+@keyframes nsblink{50%{opacity:0}}
+.ns-net{display:flex;flex-direction:column;gap:5px}
+.ns-row{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;color:var(--ink3);
+  border:1px solid transparent;border-radius:7px;padding:5px 8px;opacity:0;transform:translateY(5px);
+  transition:opacity .35s var(--ease),transform .35s var(--ease),background .3s,border-color .3s,color .3s}
+.ns-row.in{opacity:1;transform:none}
+.ns-row .m{color:var(--ink2);font-weight:500}
+.ns-row .p{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ns-row .t{font-size:9.5px;opacity:.75}
+.ns-row.hit{background:var(--teal-t);border-color:var(--teal-line);color:var(--teal-d)}
+.ns-row.hit .m,.ns-row.hit .p{color:var(--teal-d);font-weight:500}
+.ns-found{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;
+  background:var(--grn);color:#fff;padding:2px 7px;border-radius:99px;opacity:0;transition:opacity .3s}
+.ns-found.in{opacity:1}
+.ns-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line);
+  border-right:1px solid var(--line);background:var(--panel);position:relative;overflow:hidden}
+.ns-track{position:relative;width:2px;height:64%;background:var(--line2);border-radius:2px}
+.ns-pip{position:absolute;left:-4px;width:10px;height:10px;border-radius:50%;background:var(--teal);
+  box-shadow:0 0 0 4px rgba(31,157,181,.16);top:0;opacity:0;transition:opacity .25s}
+.ns-mid .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--ink3);margin-top:10px;text-align:center}
+.ns-status{font-family:var(--mono);font-size:11px;color:var(--grn);margin-bottom:10px;opacity:0;transition:opacity .35s}
+.ns-status.in{opacity:1}
+.ns-json{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:var(--ink2);margin:0;
+  background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 13px;min-height:150px;overflow:hidden}
+.ns-json .l{display:block;opacity:0;transform:translateX(6px);transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.ns-json .l.in{opacity:1;transform:none}
+.ns-json .k{color:var(--ink3)}
+.ns-json .v{color:var(--teal-d)}
+.ns-total{display:flex;align-items:baseline;gap:8px;margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
+.ns-total b{font-family:var(--disp);font-size:23px;font-weight:700;color:var(--teal-d);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.ns-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);background:var(--panel)}
+.ns-step{padding:11px 14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;border-right:1px solid var(--line);transition:color .3s,background .3s;position:relative}
+.ns-step:last-child{border-right:none}
+.ns-step.on{color:var(--teal-d);background:var(--teal-t)}
+.ns-step.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--teal)}
+.ns-foot{padding:13px 18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink2);text-align:center}
+.ns-foot b{color:var(--ink)}
+@media(max-width:920px){
+  .ns-body{grid-template-columns:1fr}
+  .ns-col+.ns-col{border-left:none;border-top:1px solid var(--line)}
+  .ns-mid{flex-direction:row;gap:12px;border-left:none;border-right:none;border-top:1px solid var(--line);padding:12px}
+  .ns-track{width:64%;height:2px}
+  .ns-pip{top:-4px;left:0}
+  .ns-mid .lbl{margin-top:0}
+  .ns-steps{grid-template-columns:1fr 1fr}
+  .ns-step:nth-child(2){border-right:none}
+}
 </style>
 </head>
 <body>
@@ -558,6 +625,42 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
     <div class="fstep d3"><div class="fnum"><span class="ficon"><svg viewBox="0 0 24 24"><rect x="4.5" y="3" width="15" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><span class="fbadge">3</span></div><h4>Quote &amp; design</h4><p>A fixed quote and an architecture built to scale, cut cost, and survive change.</p></div>
     <div class="fstep d3"><div class="fnum"><span class="ficon"><svg viewBox="0 0 24 24"><path d="M4 20V11M9.3 20V6M14.7 20V14M20 20V8"/></svg></span><span class="fbadge">4</span></div><h4>Build &amp; scale</h4><p>We ship self-healing agentic crawlers that patch themselves as the site and its defenses shift. Zero maintenance on you.</p></div>
   </div>
+  <div class="nshift reveal" id="nshift">
+    <div class="ns-head">
+      <span class="ns-live"></span> Automated run
+      <span class="ns-sleep"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> you: asleep</span>
+      <span class="ns-clock" id="nsClock">01:12</span>
+    </div>
+    <div class="ns-body">
+      <div class="ns-col">
+        <div class="ns-cap">1 &middot; Open the target</div>
+        <div class="ns-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          <span class="ns-url" id="nsUrl"></span><span class="ns-caret"></span>
+        </div>
+        <div class="ns-cap">2 &middot; Read the network, find the API</div>
+        <div class="ns-net" id="nsNet"></div>
+      </div>
+      <div class="ns-mid">
+        <div class="ns-track"><span class="ns-pip" id="nsPip"></span></div>
+        <div class="lbl" id="nsMidLbl">GET</div>
+      </div>
+      <div class="ns-col">
+        <div class="ns-cap">4 &middot; Structured sample back</div>
+        <div class="ns-status" id="nsStatus">200 OK &middot; application/json</div>
+        <pre class="ns-json" id="nsJson"></pre>
+        <div class="ns-total"><b id="nsCount">0</b> rows collected, no one watching</div>
+      </div>
+    </div>
+    <div class="ns-steps">
+      <span class="ns-step" data-i="0">Open target</span>
+      <span class="ns-step" data-i="1">Find the API</span>
+      <span class="ns-step" data-i="2">Call it</span>
+      <span class="ns-step" data-i="3">Clean data</span>
+    </div>
+    <div class="ns-foot">That is a run at <b>3am</b>, with nobody awake. When the site changes, the agent patches the spider and the run continues.</div>
+  </div>
+
   <div class="vprops stage">
     <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div><h5>Scales to billions</h5><p>Architecture that handles millions of rows a day and does not fall over at billions.</p></div>
     <div class="vp card-base d3" data-glow><div class="vpi"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9db5" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.2c0-1.2 1.1-2 2.5-2s2.5.8 2.5 2-1.1 1.6-2.5 1.9-2.5.7-2.5 1.9 1.1 2 2.5 2 2.5-.8 2.5-2"/></svg></div><h5>Costs less</h5><p>Priced per usable record, not per gigabyte. We cut the retries and waste that bloat the bill.</p></div>
@@ -1103,5 +1206,84 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   raf=requestAnimationFrame(frame);
 })();
 </script>
+<script>
+/* "Automated run" console — one scroll-scrubbed progress value drives it all */
+(function(){
+  'use strict';
+  var root=document.getElementById('nshift'); if(!root) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var URL_TEXT='https://target-site.com/catalog';
+  var NET=[
+    {m:'GET',p:'/catalog?page=1',t:'document'},
+    {m:'GET',p:'/static/app.bundle.js',t:'script'},
+    {m:'GET',p:'/cdn/sensor.js',t:'script'},
+    {m:'GET',p:'/api/v2/catalog?limit=100',t:'xhr',hit:1},
+    {m:'GET',p:'/img/hero.webp',t:'image'}
+  ];
+  var JSONL=[
+    ['{',''],['  "sku"','"B0CX7QF2P1",'],['  "title"','"Wireless Earbuds Pro",'],
+    ['  "price"','129.00,'],['  "in_stock"','true,'],['  "rating"','4.6,'],
+    ['  "seller"','"Prime"'],['}','']
+  ];
+  var elUrl=document.getElementById('nsUrl'), elNet=document.getElementById('nsNet'),
+      elJson=document.getElementById('nsJson'), elCount=document.getElementById('nsCount'),
+      elClock=document.getElementById('nsClock'), elPip=document.getElementById('nsPip'),
+      elStatus=document.getElementById('nsStatus'), elMid=document.getElementById('nsMidLbl'),
+      steps=root.querySelectorAll('.ns-step');
+
+  NET.forEach(function(r){
+    var d=document.createElement('div');
+    d.className='ns-row'+(r.hit?' hit':'');
+    d.innerHTML='<span class="m">'+r.m+'</span><span class="p">'+r.p+'</span><span class="t">'+r.t+'</span>'+
+      (r.hit?'<span class="ns-found">found</span>':'');
+    elNet.appendChild(d);
+  });
+  JSONL.forEach(function(l){
+    var s=document.createElement('span'); s.className='l';
+    s.innerHTML=l[1]?'<span class="k">'+l[0]+'</span>: <span class="v">'+l[1]+'</span>':'<span class="k">'+l[0]+'</span>';
+    elJson.appendChild(s);
+  });
+  var rows=elNet.querySelectorAll('.ns-row'), lines=elJson.querySelectorAll('.l'),
+      found=elNet.querySelector('.ns-found');
+
+  function clamp(v){return v<0?0:(v>1?1:v);}
+  function seg(p,a,b){return clamp((p-a)/(b-a));}
+  function hhmm(mins){var h=Math.floor(mins/60)%24,m=Math.floor(mins%60);
+    return (h<10?'0':'')+h+':'+(m<10?'0':'')+m;}
+
+  function render(p){
+    // 1 · type the URL
+    var t=seg(p,0,.22);
+    elUrl.textContent=URL_TEXT.slice(0,Math.round(URL_TEXT.length*t));
+    // 2 · network rows stream in, the xhr endpoint lights up
+    var n=seg(p,.18,.48);
+    rows.forEach(function(r,i){ r.classList.toggle('in', n>(i+0.5)/rows.length*0.9); });
+    if(found) found.classList.toggle('in', p>.46);
+    // 3 · the request travels
+    var q=seg(p,.5,.68);
+    elPip.style.opacity=q>0?'1':'0';
+    elPip.style.top=(q*100)+'%';
+    if(elMid) elMid.textContent = p<.5?'GET':(p<.7?'GET · sending':'200 OK');
+    elStatus.classList.toggle('in', p>.66);
+    // 4 · clean rows come back
+    var j=seg(p,.68,.95);
+    lines.forEach(function(l,i){ l.classList.toggle('in', j>(i+0.5)/lines.length); });
+    elCount.textContent=Math.round(seg(p,.7,1)*12480).toLocaleString();
+    // ambience: the clock runs 01:12 -> 04:37 across the whole run
+    elClock.textContent=hhmm(72+p*205);
+    // step chips
+    var idx=p<.22?0:(p<.5?1:(p<.68?2:3));
+    steps.forEach(function(s,i){ s.classList.toggle('on', i===idx); });
+  }
+
+  if(reduce || !window.gsap || !window.ScrollTrigger){ render(1); return; }
+  render(0);
+  ScrollTrigger.create({
+    trigger:root, start:'top 78%', end:'bottom 42%', scrub:.5,
+    onUpdate:function(self){ render(self.progress); }
+  });
+})();
+</script>
+
 </body>
 </html>
