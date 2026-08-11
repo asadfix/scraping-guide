@@ -2204,6 +2204,20 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 /* only where the 1200px column actually leaves empty margin */
 @media(min-width:1720px){#ss-rail{display:block}}
 @media print{#ss-rail{display:none!important}}
+
+/* ── content interactions: shareable headings, back to top, toast ── */
+.rh .hlink{opacity:0;margin-left:9px;font-size:.6em;color:var(--t3);text-decoration:none;
+  vertical-align:middle;transition:opacity .18s,color .18s;cursor:pointer;user-select:none}
+.rh:hover .hlink,.rh .hlink:focus-visible{opacity:1}
+.rh .hlink:hover{color:var(--y)}
+#rd-top{display:none}
+#rd-top.on{display:flex}
+#gtoast{position:fixed;left:50%;bottom:28px;z-index:600;transform:translateX(-50%) translateY(12px);
+  opacity:0;pointer-events:none;background:rgba(17,17,24,.97);border:1px solid var(--b2);
+  border-left:2px solid var(--y);border-radius:9px;padding:10px 16px;font-size:13.5px;color:var(--t1);
+  box-shadow:0 14px 34px -16px rgba(0,0,0,.9);transition:opacity .25s ease,transform .25s ease}
+#gtoast.on{opacity:1;transform:translateX(-50%)}
+@media print{#gtoast,#rd-top,.rh .hlink{display:none!important}}
 </style>
 
   <script type="application/ld+json">
@@ -12446,6 +12460,64 @@ rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
     try{ localStorage.setItem(KEY,'1'); }catch(e){} };
   // constant: fade in shortly after load and stay for the whole session
   setTimeout(function(){ el.classList.add('on'); }, 700);
+})();
+</script>
+
+<div id="gtoast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  'use strict';
+  var toastEl=document.getElementById('gtoast'), tt;
+  function toast(msg){
+    if(!toastEl) return;
+    toastEl.textContent=msg; toastEl.classList.add('on');
+    clearTimeout(tt); tt=setTimeout(function(){ toastEl.classList.remove('on'); },1900);
+  }
+
+  // 1. shareable section headings — a quiet # on hover copies a deep link
+  function slug(s){
+    return s.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').slice(0,60);
+  }
+  var used={};
+  document.querySelectorAll('h3.rh').forEach(function(hd){
+    if(hd.querySelector('.hlink')) return;
+    var id=hd.id;
+    if(!id){
+      id=slug(hd.textContent||'section') || 'section';
+      if(used[id]){ used[id]++; id=id+'-'+used[id]; } else { used[id]=1; }
+      hd.id=id;
+    }
+    var a=document.createElement('a');
+    a.className='hlink'; a.href='#'+id; a.textContent='#';
+    a.setAttribute('aria-label','Copy link to this section');
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var url=location.origin+location.pathname+'#'+id;
+      history.replaceState(null,'','#'+id);
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(function(){ toast('Link to this section copied'); },
+                                               function(){ toast('Press Cmd/Ctrl+C to copy'); });
+      } else { toast('Press Cmd/Ctrl+C to copy'); }
+    });
+    hd.appendChild(a);
+  });
+
+  // 2. back to top, tucked into the existing reading rail so nothing new floats
+  var rail=document.getElementById('rd-rail');
+  if(rail){
+    var b=document.createElement('button');
+    b.type='button'; b.className='rd-b'; b.id='rd-top';
+    b.setAttribute('aria-label','Back to top'); b.title='Back to top';
+    b.innerHTML='&#8593;';
+    b.addEventListener('click',function(){
+      window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    });
+    rail.appendChild(b);
+    var ticking=false;
+    function upd(){ b.classList.toggle('on', scrollY>800); ticking=false; }
+    addEventListener('scroll',function(){ if(!ticking){ ticking=true; requestAnimationFrame(upd); } },{passive:true});
+    upd();
+  }
 })();
 </script>
 </body></html>
