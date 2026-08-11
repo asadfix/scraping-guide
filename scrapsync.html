@@ -421,8 +421,15 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   .reveal,.d3{opacity:1;transform:none}.word i{transform:none}
 }
 /* ── automated run: pinned, one visible stage per step ──────────────── */
-.nstrack{position:relative;height:430vh;margin:44px 0 8px}
-.nsstick{position:sticky;top:84px;height:auto}
+.nstrack{position:relative;margin:44px 0 8px}
+.nsstick{position:static}
+.ns-prog{height:2px;background:var(--line);position:relative;overflow:hidden}
+.ns-prog i{position:absolute;inset:0 auto 0 0;width:0;background:var(--teal);transition:width .12s linear}
+.ns-replay{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;color:var(--teal-d);
+  border:1px solid var(--teal-line);background:var(--teal-t);padding:6px 13px;border-radius:99px;cursor:pointer;
+  margin-left:10px;opacity:0;pointer-events:none;transition:opacity .35s}
+.ns-replay.in{opacity:1;pointer-events:auto}
+.ns-replay:hover{background:var(--card)}
 .nshift{border:1px solid var(--line2);border-radius:18px;background:var(--card);box-shadow:var(--shadow);overflow:hidden}
 .ns-head{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);
   background:var(--panel);font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
@@ -432,7 +439,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .ns-sleep{display:inline-flex;align-items:center;gap:6px;color:var(--ink3);text-transform:none;letter-spacing:.02em}
 .ns-sleep svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7}
 /* the stage: exactly one scene visible at a time */
-.ns-stage{position:relative;height:340px;overflow:hidden}
+.ns-stage{position:relative;height:456px;overflow:hidden}
 .ns-scene{position:absolute;inset:0;padding:26px 30px;opacity:0;transform:translateY(14px);
   transition:opacity .45s var(--ease),transform .45s var(--ease);pointer-events:none}
 .ns-scene.on{opacity:1;transform:none;pointer-events:auto}
@@ -507,6 +514,14 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   color:var(--teal-d);border:1px solid var(--teal-line);background:var(--teal-t);padding:6px 13px;border-radius:99px;
   opacity:0;transition:opacity .4s}
 .ns-loop.in{opacity:1}
+/* reduced motion: keep the stepping, drop the movement */
+.ns-noanim .ns-scene,.ns-noanim .ns-row,.ns-noanim .ns-json .l,.ns-noanim .ns-hstep,
+.ns-noanim .ns-found,.ns-noanim .ns-skel i,.ns-noanim .ns-badge200,.ns-noanim .ns-loop,
+.ns-noanim .ns-pip,.ns-noanim .ns-step{transition:none!important}
+.ns-noanim .ns-scene{transform:none!important}
+.ns-noanim .ns-row,.ns-noanim .ns-json .l,.ns-noanim .ns-hstep{transform:none!important}
+.ns-noanim .ns-live,.ns-noanim .ns-caret{animation:none!important}
+.scene--noanim .sbeat{transition:none!important;transform:none!important}
 /* step rail */
 .ns-steps{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--panel)}
 .ns-step{padding:12px 14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
@@ -677,6 +692,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
         <span class="ns-sleep"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> you: asleep</span>
         <span class="ns-clock" id="nsClock">01:12</span>
       </div>
+      <div class="ns-prog"><i id="nsProg"></i></div>
 
       <div class="ns-stage" id="nsStage">
         <div class="ns-scene" data-i="0">
@@ -735,7 +751,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
         <span class="ns-step" data-i="3">Clean data</span>
         <span class="ns-step" data-i="4">It heals itself</span>
       </div>
-      <div class="ns-foot">One run at <b>3am</b>, and a system that repairs itself before you wake up. That is what <b>zero maintenance</b> actually means.</div>
+      <div class="ns-foot">One run at <b>3am</b>, and a system that repairs itself before you wake up. That is what <b>zero maintenance</b> actually means.<button class="ns-replay" id="nsReplay" type="button">&#8635; replay</button></div>
     </div>
    </div>
   </div>
@@ -1127,8 +1143,11 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 
   if(!window.THREE||!webglOK()||reduce){
     section.classList.add('scene--fallback');
-    if(reduce){beats.forEach(function(b){b.classList.add('on');});}
-    else{updateBeats(0);addEventListener('scroll',function(){updateBeats(progress());},{passive:true});}
+    // Reduced motion removes ANIMATION, not the content. Stepping is driven by the
+    // reader's own scroll, so keep it — showing every beat at once just stacks the text.
+    if(reduce) section.classList.add('scene--noanim');
+    updateBeats(0);
+    addEventListener('scroll',function(){updateBeats(progress());},{passive:true});
     return;
   }
 
@@ -1368,12 +1387,44 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
     elClock.textContent=hhmm(72+p*205);
   }
 
-  if(reduce || !window.gsap || !window.ScrollTrigger || innerWidth<=920){ render(1); return; }
-  render(0);
-  ScrollTrigger.create({
-    trigger:track, start:'top top', end:'bottom bottom', scrub:.45,
-    onUpdate:function(self){ render(self.progress); }
-  });
+  // It runs on its own. Starts when the panel comes into view, plays the five
+  // steps at its own pace, then holds the finished result.
+  var prog=document.getElementById('nsProg'), replay=document.getElementById('nsReplay');
+  var DUR=[3000,3800,2600,3600,4400], TOTAL=DUR.reduce(function(a,b){return a+b;},0);
+
+  function paint(p){
+    render(p);
+    if(prog) prog.style.width=(p*100).toFixed(2)+'%';
+    if(replay) replay.classList.toggle('in', p>=1);
+  }
+
+  // Auto-motion is not something the reader asked for, so honour reduce by
+  // showing the finished run straight away instead of animating to it.
+  if(reduce || innerWidth<=920){ track.classList.add('ns-noanim'); paint(1); return; }
+
+  var t0=null, raf=0, running=false, done=false;
+  function frame(ts){
+    if(t0===null) t0=ts;
+    var el=ts-t0, acc=0, idx=0, k=0;
+    for(var i=0;i<DUR.length;i++){
+      if(el < acc+DUR[i]){ idx=i; k=(el-acc)/DUR[i]; break; }
+      acc+=DUR[i]; idx=i; k=1;
+    }
+    paint(Math.min(1,(idx+k)/DUR.length));
+    if(el<TOTAL){ raf=requestAnimationFrame(frame); }
+    else { paint(1); running=false; done=true; }
+  }
+  function start(){ if(running||done) return; running=true; t0=null; raf=requestAnimationFrame(frame); }
+  function stop(){ if(raf) cancelAnimationFrame(raf); raf=0; running=false; }
+
+  paint(0);
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting) start(); else if(!done) stop(); });
+    },{threshold:0.35}).observe(track);
+  } else { start(); }
+
+  if(replay) replay.addEventListener('click',function(){ stop(); done=false; paint(0); start(); });
 })();
 </script>
 
