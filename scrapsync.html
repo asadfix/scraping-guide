@@ -439,7 +439,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .ns-sleep{display:inline-flex;align-items:center;gap:6px;color:var(--ink3);text-transform:none;letter-spacing:.02em}
 .ns-sleep svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7}
 /* the stage: exactly one scene visible at a time */
-.ns-stage{position:relative;height:508px;overflow:hidden}
+.ns-stage{position:relative;height:536px;overflow:hidden}
 .ns-stage::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.5;
   background-image:linear-gradient(rgba(31,157,181,.055) 1px,transparent 1px),
     linear-gradient(90deg,rgba(31,157,181,.055) 1px,transparent 1px);background-size:34px 34px;
@@ -585,8 +585,43 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .ns-noanim .ns-row,.ns-noanim .ns-crow,.ns-noanim .ns-hstep,.ns-noanim .ns-fly{transform:none!important}
 .ns-noanim .ns-live,.ns-noanim .ns-caret{animation:none!important}
 .scene--noanim .sbeat{transition:none!important;transform:none!important}
+/* scene 6 — the front end */
+.ns-app{display:grid;grid-template-columns:132px 1fr;border:1px solid var(--line2);border-radius:12px;
+  background:var(--card);overflow:hidden;box-shadow:var(--shadow-sm)}
+.ns-side{background:var(--panel);border-right:1px solid var(--line);padding:13px 11px;display:flex;flex-direction:column;gap:3px}
+.ns-side .lg{display:flex;align-items:center;gap:7px;font-family:var(--disp);font-weight:700;font-size:12.5px;
+  color:var(--ink);margin-bottom:11px}
+.ns-side .lg i{width:15px;height:15px;border-radius:5px;background:var(--teal);display:block}
+.ns-side a{font-family:var(--mono);font-size:10.5px;color:var(--ink3);padding:5px 8px;border-radius:6px;
+  opacity:0;transform:translateX(-5px);transition:opacity .3s var(--ease),transform .3s var(--ease),background .3s,color .3s}
+.ns-side a.in{opacity:1;transform:none}
+.ns-side a.sel{background:var(--teal-t);color:var(--teal-d);font-weight:500}
+.ns-main{padding:13px 15px;display:flex;flex-direction:column;gap:11px;min-width:0}
+.ns-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.ns-tile{border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:9px 11px;
+  opacity:0;transform:translateY(7px);transition:opacity .32s var(--ease),transform .32s var(--ease)}
+.ns-tile.in{opacity:1;transform:none}
+.ns-tile b{display:block;font-family:var(--disp);font-size:19px;font-weight:700;color:var(--teal-d);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.1}
+.ns-tile span{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink3);margin-top:3px}
+.ns-chartwrap{border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:10px 12px 8px}
+.ns-chart{display:flex;align-items:flex-end;gap:5px;height:62px}
+.ns-chart i{flex:1;background:var(--teal);border-radius:3px 3px 0 0;height:0;opacity:.75;
+  transition:height .45s cubic-bezier(.2,.8,.2,1)}
+.ns-chart i.hot{opacity:1;box-shadow:0 0 10px -1px rgba(31,157,181,.6)}
+.ns-chl{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink3);margin-top:7px}
+.ns-runs{display:flex;flex-direction:column;gap:5px}
+.ns-run{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;color:var(--ink3);
+  border:1px solid var(--line);border-radius:7px;background:var(--panel);padding:6px 10px;
+  opacity:0;transform:translateY(5px);transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.ns-run.in{opacity:1;transform:none}
+.ns-run em{width:14px;height:14px;border-radius:50%;background:var(--grn);color:#fff;font-style:normal;
+  font-size:8px;display:flex;align-items:center;justify-content:center;flex:none}
+.ns-run em.heal{background:var(--teal)}
+.ns-run .rt{flex:1;color:var(--ink2)}
+.ns-run .rn{color:var(--teal-d);font-weight:500}
 /* step rail */
-.ns-steps{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--panel)}
+.ns-steps{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line);background:var(--panel)}
 .ns-step{padding:12px 14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink3);text-align:center;border-right:1px solid var(--line);transition:color .3s,background .3s;position:relative}
 .ns-step:last-child{border-right:none}
@@ -607,6 +642,9 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   .ns-wire-l{position:static;transform:none;display:block;text-align:center;margin-bottom:6px}
   .ns-pull{grid-template-columns:1fr}
   .ns-fly{display:none}
+  .ns-app{grid-template-columns:1fr}
+  .ns-side{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--line)}
+  .ns-tiles{grid-template-columns:1fr 1fr}
   .ns-steps{grid-template-columns:1fr 1fr}
 }
 }
@@ -814,6 +852,27 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
           </div>
           <span class="ns-loop" id="nsLoop">&#8635; back on schedule &middot; next run 01:12</span>
         </div>
+
+        <div class="ns-scene" data-i="5">
+          <div class="ns-t">And you get a front end for all of it</div>
+          <div class="ns-s">Every run, source and row in one control plane. Schedules, health, exports and alerts &mdash; you are not SSH-ing into anything at 3am.</div>
+          <div class="ns-app">
+            <div class="ns-side">
+              <span class="lg"><i></i>ScrapeSync</span>
+              <a class="sel">Runs</a><a>Sources</a><a>Schedules</a><a>Data</a><a>Alerts</a>
+            </div>
+            <div class="ns-main">
+              <div class="ns-tiles">
+                <div class="ns-tile"><b id="nsT1">0</b><span>rows today</span></div>
+                <div class="ns-tile"><b id="nsT2">0</b><span>sources live</span></div>
+                <div class="ns-tile"><b id="nsT3">0</b><span>% success</span></div>
+                <div class="ns-tile"><b id="nsT4">0</b><span>auto-heals</span></div>
+              </div>
+              <div class="ns-chartwrap"><div class="ns-chart" id="nsChart"></div><span class="ns-chl">rows per night &middot; last 14</span></div>
+              <div class="ns-runs" id="nsRuns"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="ns-steps">
@@ -822,6 +881,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
         <span class="ns-step" data-i="2">Call it</span>
         <span class="ns-step" data-i="3">Clean data</span>
         <span class="ns-step" data-i="4">It heals itself</span>
+        <span class="ns-step" data-i="5">You watch it</span>
       </div>
       <div class="ns-foot">One run at <b>3am</b>, and a system that repairs itself before you wake up. That is what <b>zero maintenance</b> actually means.<button class="ns-replay" id="nsReplay" type="button">&#8635; replay</button></div>
     </div>
@@ -1438,6 +1498,26 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   });
   var cards=elGrid.querySelectorAll('.ns-card'), crows=elCrows.querySelectorAll('.ns-crow'),
       flies=elPull.querySelectorAll('.ns-fly');
+
+  // the control plane: bar chart + recent runs
+  var BARS=[52,61,48,70,66,74,58,81,77,69,88,84,92,96];
+  var RUNS=[['01:12','catalog · 6 sources','4,208 rows',0],
+            ['02:47','marketplace · 11 sources','5,190 rows',0],
+            ['03:31','selector patched automatically','re-ran clean',1],
+            ['04:37','pricing · 9 sources','3,082 rows',0]];
+  var elChart=document.getElementById('nsChart'), elRuns=document.getElementById('nsRuns');
+  BARS.forEach(function(){ elChart.appendChild(document.createElement('i')); });
+  RUNS.forEach(function(r){
+    var d=document.createElement('div'); d.className='ns-run';
+    d.innerHTML='<em class="'+(r[3]?'heal':'')+'">'+(r[3]?'\u21bb':'\u2713')+'</em>'+
+      '<span class="rt">'+r[0]+' &middot; '+r[1]+'</span><span class="rn">'+r[2]+'</span>';
+    elRuns.appendChild(d);
+  });
+  var bars=elChart.querySelectorAll('i'), runs=elRuns.querySelectorAll('.ns-run'),
+      navs=track.querySelectorAll('.ns-side a'), tiles=track.querySelectorAll('.ns-tile'),
+      T=[document.getElementById('nsT1'),document.getElementById('nsT2'),
+         document.getElementById('nsT3'),document.getElementById('nsT4')];
+  var TEND=[12480,26,99.4,3];
   var rows=elNet.querySelectorAll('.ns-row'),
       found=elNet.querySelector('.ns-found'), hitRow=elNet.querySelector('.ns-row.hit'),
       elScan=document.getElementById('nsScan'), elTrail=document.getElementById('nsTrail'),
@@ -1447,7 +1527,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   function hhmm(m){var h=Math.floor(m/60)%24,mm=Math.floor(m%60);
     return (h<10?'0':'')+h+':'+(mm<10?'0':'')+mm;}
 
-  var N=5;
+  var N=6;
   function render(p){
     p=clamp(p);
     var raw=p*N, idx=Math.min(N-1,Math.floor(raw)), k=clamp(raw-idx); // k = progress inside the step
@@ -1513,6 +1593,22 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
     }
     if(loop) loop.classList.toggle('in', s5>0.8);
 
+    // 6 · the control plane fills in
+    var s6=idx===5?k:(idx>5?1:0);
+    navs.forEach(function(a,i){ a.classList.toggle('in', s6>(i*0.05)); });
+    tiles.forEach(function(t,i){ t.classList.toggle('in', s6>0.10+(i*0.05)); });
+    T.forEach(function(el,i){
+      if(!el) return;
+      var v=clamp((s6-0.12)/0.45)*TEND[i];
+      el.textContent = i===2 ? v.toFixed(1) : Math.round(v).toLocaleString();
+    });
+    bars.forEach(function(b,i){
+      var on=s6>0.30+(i*0.026);
+      b.style.height=on?(BARS[i]+'%'):'0%';
+      b.classList.toggle('hot', on && i>=BARS.length-3);
+    });
+    runs.forEach(function(r,i){ r.classList.toggle('in', s6>0.62+(i*0.07)); });
+
     // the night passes while it runs
     elClock.textContent=hhmm(72+p*205);
   }
@@ -1520,7 +1616,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   // It runs on its own. Starts when the panel comes into view, plays the five
   // steps at its own pace, then holds the finished result.
   var prog=document.getElementById('nsProg'), replay=document.getElementById('nsReplay');
-  var DUR=[1900,2700,1800,2500,2700], TOTAL=DUR.reduce(function(a,b){return a+b;},0);
+  var DUR=[1700,2400,1600,2300,2400,2600], TOTAL=DUR.reduce(function(a,b){return a+b;},0);
 
   function paint(p){
     render(p);
