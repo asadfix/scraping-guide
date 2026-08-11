@@ -439,7 +439,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .ns-sleep{display:inline-flex;align-items:center;gap:6px;color:var(--ink3);text-transform:none;letter-spacing:.02em}
 .ns-sleep svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7}
 /* the stage: exactly one scene visible at a time */
-.ns-stage{position:relative;height:456px;overflow:hidden}
+.ns-stage{position:relative;height:508px;overflow:hidden}
 .ns-stage::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.5;
   background-image:linear-gradient(rgba(31,157,181,.055) 1px,transparent 1px),
     linear-gradient(90deg,rgba(31,157,181,.055) 1px,transparent 1px);background-size:34px 34px;
@@ -511,19 +511,49 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .ns-badge200.in{opacity:1}
 /* scene 4 — clean data */
 .ns-out{display:grid;grid-template-columns:1fr 240px;gap:20px;align-items:start}
-.ns-json{font-family:var(--mono);font-size:13px;line-height:1.8;color:var(--ink2);margin:0;
-  background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 17px;min-height:190px;overflow:hidden}
-.ns-json .l{display:block;opacity:0;transform:translateX(7px);transition:opacity .28s var(--ease),transform .28s var(--ease)}
-.ns-json .l.in{opacity:1;transform:none}
-.ns-json .l.fresh{background:linear-gradient(90deg,rgba(31,157,181,.16),transparent);border-radius:4px}
 .ns-tot b{transition:transform .2s ease}
 .ns-tot.hot b{transform:scale(1.045)}
-.ns-json .k{color:var(--ink3)}
-.ns-json .v{color:var(--teal-d)}
 .ns-tot{border:1px solid var(--teal-line);background:var(--teal-t);border-radius:12px;padding:18px}
 .ns-tot b{display:block;font-family:var(--disp);font-size:34px;font-weight:700;color:var(--teal-d);
   font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
 .ns-tot span{display:block;font-family:var(--mono);font-size:11.5px;color:var(--ink2);margin-top:7px;line-height:1.5}
+/* scene 4 — the harvest: data lifting off the page */
+.ns-pull{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:2px}
+.ns-site{border:1px solid var(--line2);border-radius:12px;background:var(--panel);overflow:hidden;position:relative}
+.ns-sitebar{display:flex;align-items:center;gap:7px;padding:7px 11px;border-bottom:1px solid var(--line);
+  background:var(--card);font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+.ns-sitebar em{width:6px;height:6px;border-radius:50%;background:var(--line2);font-style:normal}
+.ns-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px}
+.ns-card{border:1px solid var(--line);border-radius:9px;background:var(--card);padding:8px;position:relative;
+  transition:border-color .25s,box-shadow .25s,transform .25s}
+.ns-card .th{display:block;height:34px;border-radius:5px;background:var(--bg-warm)}
+.ns-card .ln{display:block;height:5px;border-radius:3px;background:var(--bg-warm);margin:7px 0 5px}
+.ns-card .ln.s{width:62%}
+.ns-card b{font-family:var(--mono);font-size:11px;color:var(--ink2);transition:opacity .2s}
+.ns-card.grab{border-color:var(--teal);box-shadow:0 0 0 3px rgba(31,157,181,.13);transform:translateY(-2px)}
+.ns-card.taken b{opacity:.18}
+.ns-sweep{position:absolute;left:0;right:0;height:44px;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:linear-gradient(180deg,transparent,rgba(31,157,181,.16),transparent)}
+.ns-sweep.on{opacity:1}
+.ns-fly{position:absolute;z-index:4;font-family:var(--mono);font-size:10.5px;font-weight:500;color:#fff;
+  background:var(--teal);padding:2px 8px;border-radius:99px;opacity:0;pointer-events:none;white-space:nowrap;
+  box-shadow:0 4px 14px -4px rgba(31,157,181,.7);
+  transition:left .62s cubic-bezier(.4,0,.2,1),top .62s cubic-bezier(.4,0,.2,1),opacity .3s}
+.ns-fly.go{opacity:1}
+.ns-fly.done{opacity:0}
+.ns-collect{border:1px solid var(--teal-line);border-radius:12px;background:var(--teal-t);padding:13px;
+  display:flex;flex-direction:column}
+.ns-ch{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--teal-d);margin-bottom:9px}
+.ns-crows{display:flex;flex-direction:column;gap:4px;flex:1}
+.ns-crow{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:11px;
+  background:var(--card);border-radius:6px;padding:5px 9px;opacity:0;transform:translateX(8px);
+  transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.ns-crow.in{opacity:1;transform:none}
+.ns-crow span:first-child{color:var(--ink3)}
+.ns-crow span:last-child{color:var(--teal-d);font-weight:500}
+.ns-cfoot{margin-top:10px;padding-top:9px;border-top:1px solid var(--teal-line);font-family:var(--mono);font-size:11px;color:var(--ink2)}
+.ns-cfoot b{font-family:var(--disp);font-size:24px;font-weight:700;color:var(--teal-d);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-right:6px}
 /* scene 5 — self-healing */
 .ns-heal{display:flex;flex-direction:column;gap:9px;max-width:660px;position:relative}
 .ns-heal::before{content:"";position:absolute;left:26px;top:14px;width:2px;height:0;background:var(--teal);
@@ -532,7 +562,7 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 .ns-heal.f3::before{height:75%}.ns-heal.f4::before{height:calc(100% - 28px)}
 .ns-hstep.in.ok{box-shadow:0 0 0 3px rgba(26,158,106,.14)}
 .ns-hstep{display:flex;align-items:flex-start;gap:13px;border:1px solid var(--line);border-radius:11px;
-  background:var(--panel);padding:11px 14px;opacity:0;transform:translateX(-8px);
+  background:var(--panel);padding:9px 13px;opacity:0;transform:translateX(-8px);
   transition:opacity .38s var(--ease),transform .38s var(--ease),border-color .38s,background .38s}
 .ns-hstep.in{opacity:1;transform:none}
 .ns-hstep.in.ok{border-color:var(--teal-line);background:var(--teal-t)}
@@ -548,11 +578,11 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   opacity:0;transition:opacity .4s}
 .ns-loop.in{opacity:1}
 /* reduced motion: keep the stepping, drop the movement */
-.ns-noanim .ns-scene,.ns-noanim .ns-row,.ns-noanim .ns-json .l,.ns-noanim .ns-hstep,
+.ns-noanim .ns-scene,.ns-noanim .ns-row,.ns-noanim .ns-crow,.ns-noanim .ns-hstep,
 .ns-noanim .ns-found,.ns-noanim .ns-skel i,.ns-noanim .ns-badge200,.ns-noanim .ns-loop,
 .ns-noanim .ns-pip,.ns-noanim .ns-step{transition:none!important}
 .ns-noanim .ns-scene{transform:none!important}
-.ns-noanim .ns-row,.ns-noanim .ns-json .l,.ns-noanim .ns-hstep{transform:none!important}
+.ns-noanim .ns-row,.ns-noanim .ns-crow,.ns-noanim .ns-hstep,.ns-noanim .ns-fly{transform:none!important}
 .ns-noanim .ns-live,.ns-noanim .ns-caret{animation:none!important}
 .scene--noanim .sbeat{transition:none!important;transform:none!important}
 /* step rail */
@@ -575,7 +605,8 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
   .ns-wire{height:44px;width:2px;margin:0 auto}
   .ns-pip{top:0;left:-5px}
   .ns-wire-l{position:static;transform:none;display:block;text-align:center;margin-bottom:6px}
-  .ns-out{grid-template-columns:1fr}
+  .ns-pull{grid-template-columns:1fr}
+  .ns-fly{display:none}
   .ns-steps{grid-template-columns:1fr 1fr}
 }
 }
@@ -757,14 +788,21 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
         </div>
 
         <div class="ns-scene" data-i="3">
-          <div class="ns-t">Clean rows land in your warehouse</div>
-          <div class="ns-s">Structured, deduplicated, typed. Ready to query when you wake up.</div>
-          <div class="ns-out">
-            <pre class="ns-json" id="nsJson"></pre>
-            <div class="ns-tot"><b id="nsCount">0</b><span>rows collected overnight, with nobody watching</span></div>
+          <div class="ns-t">It lifts the data off the page</div>
+          <div class="ns-s">Every record on the live listing, pulled and typed while the site sits there none the wiser.</div>
+          <div class="ns-pull">
+            <div class="ns-site">
+              <div class="ns-sitebar"><em></em><em></em><em></em> target-site.com/catalog</div>
+              <div class="ns-grid" id="nsGrid"></div>
+              <span class="ns-sweep" id="nsSweep"></span>
+            </div>
+            <div class="ns-collect">
+              <div class="ns-ch">Your warehouse</div>
+              <div class="ns-crows" id="nsCrows"></div>
+              <div class="ns-cfoot"><b id="nsCount">0</b>rows tonight</div>
+            </div>
           </div>
         </div>
-
         <div class="ns-scene" data-i="4">
           <div class="ns-t">And when the site changes, it heals itself</div>
           <div class="ns-s">This is the part that usually wakes someone up. Here the agent reads the failure, rewrites the selector, proves the fix, and the schedule carries on.</div>
@@ -1362,11 +1400,14 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
     {m:'GET',p:'/api/v2/catalog?limit=100',t:'34 kB',hit:1,w:'22%'},
     {m:'GET',p:'/img/hero.webp',t:'88 kB',w:'34%'}
   ];
-  var JSONL=[['{',''],['  "sku"','"B0CX7QF2P1",'],['  "title"','"Wireless Earbuds Pro",'],
-    ['  "price"','129.00,'],['  "in_stock"','true,'],['  "rating"','4.6,'],['  "seller"','"Prime"'],['}','']];
+  var LOOT=[
+    {t:'Wireless Earbuds Pro',v:'$129.00'},{t:'Studio Monitor 5"',v:'$249.00'},
+    {t:'USB-C Dock 11-in-1',v:'$89.90'},{t:'Mechanical Keyboard',v:'$164.00'},
+    {t:'4K Capture Card',v:'$199.00'},{t:'Ring Light 18"',v:'$74.50'}
+  ];
 
   var elUrl=document.getElementById('nsUrl'), elNet=document.getElementById('nsNet'),
-      elJson=document.getElementById('nsJson'), elCount=document.getElementById('nsCount'),
+      elCount=document.getElementById('nsCount'),
       elClock=document.getElementById('nsClock'), elPip=document.getElementById('nsPip'),
       elStatus=document.getElementById('nsStatus'), elWireL=document.getElementById('nsWireL'),
       scenes=track.querySelectorAll('.ns-scene'), steps=track.querySelectorAll('.ns-step'),
@@ -1381,15 +1422,26 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
       (r.hit?'<span class="ns-found">found</span>':'');
     elNet.appendChild(d);
   });
-  JSONL.forEach(function(l){
-    var s=document.createElement('span'); s.className='l';
-    s.innerHTML=l[1]?'<span class="k">'+l[0]+'</span>: <span class="v">'+l[1]+'</span>':'<span class="k">'+l[0]+'</span>';
-    elJson.appendChild(s);
+  // build the mock listing, the warehouse rows, and one flying chip per record
+  var elGrid=document.getElementById('nsGrid'), elCrows=document.getElementById('nsCrows'),
+      elSweep=document.getElementById('nsSweep'), elPull=track.querySelector('.ns-pull');
+  LOOT.forEach(function(r,i){
+    var c=document.createElement('div'); c.className='ns-card';
+    c.innerHTML='<i class="th"></i><i class="ln"></i><i class="ln s"></i><b>'+r.v+'</b>';
+    elGrid.appendChild(c);
+    var w=document.createElement('div'); w.className='ns-crow';
+    w.innerHTML='<span>'+r.t.slice(0,16)+'</span><span>'+r.v+'</span>';
+    elCrows.appendChild(w);
+    var f=document.createElement('span'); f.className='ns-fly'; f.textContent=r.v;
+    f.style.left=(6+(i%3)*19)+'%'; f.style.top=(30+Math.floor(i/3)*30)+'%';
+    elPull.appendChild(f);
   });
-  var rows=elNet.querySelectorAll('.ns-row'), lines=elJson.querySelectorAll('.l'),
+  var cards=elGrid.querySelectorAll('.ns-card'), crows=elCrows.querySelectorAll('.ns-crow'),
+      flies=elPull.querySelectorAll('.ns-fly');
+  var rows=elNet.querySelectorAll('.ns-row'),
       found=elNet.querySelector('.ns-found'), hitRow=elNet.querySelector('.ns-row.hit'),
       elScan=document.getElementById('nsScan'), elTrail=document.getElementById('nsTrail'),
-      elHeal=document.getElementById('nsHeal'), elTot=track.querySelector('.ns-tot');
+      elHeal=document.getElementById('nsHeal');
 
   function clamp(v){return v<0?0:(v>1?1:v);}
   function hhmm(m){var h=Math.floor(m/60)%24,mm=Math.floor(m%60);
@@ -1429,13 +1481,27 @@ a.cred-b:hover{border-color:var(--teal);color:var(--ink);transform:translateY(-1
 
     // 4 · clean rows + the count
     var j=idx===3?k:(idx>3?1:0);
-    var lead=Math.floor(j/0.085);
-    lines.forEach(function(l,i){
-      l.classList.toggle('in', j>(i*0.085));
-      l.classList.toggle('fresh', idx===3 && i===lead);
+    // each record is scanned, lifted off the page, and lands in the warehouse
+    var step=0.15;
+    cards.forEach(function(c,i){
+      var s=i*step, grabbed=j>s, taken=j>s+0.10;
+      c.classList.toggle('grab', grabbed && !taken);
+      c.classList.toggle('taken', taken);
     });
+    flies.forEach(function(f,i){
+      var s=i*step;
+      if(j>s+0.02 && j<s+0.42){
+        f.classList.add('go'); f.classList.remove('done');
+        f.style.left='72%'; f.style.top=(22+i*9)+'%';
+      } else if(j>=s+0.42){ f.classList.remove('go'); f.classList.add('done'); }
+      else { f.classList.remove('go','done'); f.style.left=(6+(i%3)*19)+'%'; f.style.top=(30+Math.floor(i/3)*30)+'%'; }
+    });
+    crows.forEach(function(w,i){ w.classList.toggle('in', j>(i*step)+0.30); });
+    if(elSweep){
+      elSweep.classList.toggle('on', idx===3 && j<0.92);
+      elSweep.style.top=(18+clamp(j)*62)+'%';
+    }
     elCount.textContent=Math.round(clamp(j*1.15)*12480).toLocaleString();
-    if(elTot) elTot.classList.toggle('hot', idx===3 && j>0.05 && j<0.99);
 
     // 5 · it repairs itself and rejoins the schedule
     var hs=track.querySelectorAll('.ns-hstep'), loop=document.getElementById('nsLoop');
