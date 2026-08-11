@@ -2156,6 +2156,36 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 /* ScrapeIQ: block boundaries recovered from the source markup */
 .iq-seg{display:block;margin:0 0 6px}
 .iq-seg:last-child{margin-bottom:0}
+
+/* ── ScrapeSync disclosure + left rail ─────────────────────────── */
+.ib.selfdisc{border-left-color:var(--y);background:rgba(245,197,24,.045)}
+.disc-pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--y);border:1px solid rgba(245,197,24,.3);background:rgba(245,197,24,.07);
+  padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.disc-pill::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--y)}
+.mineno{font-size:11px;opacity:.6;font-weight:400}
+.outro-link .mineno{font-size:9px}
+#ss-rail{position:fixed;left:20px;bottom:96px;width:190px;z-index:470;display:none;
+  background:rgba(17,17,24,.94);border:1px solid var(--b1);border-left:2px solid rgba(245,197,24,.5);
+  border-radius:10px;padding:14px 14px 12px;backdrop-filter:blur(8px);
+  opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
+#ss-rail.on{opacity:1;transform:none}
+#ss-rail .ssr-k{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--y);
+  display:flex;align-items:center;gap:6px;margin-bottom:8px}
+#ss-rail .ssr-k::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--y)}
+#ss-rail p{font-size:12.3px;line-height:1.6;color:var(--t2);margin:0 0 10px}
+#ss-rail a.ssr-mail{display:block;font-family:var(--mono);font-size:11px;color:var(--y);text-decoration:none;
+  word-break:break-all;margin-bottom:9px}
+#ss-rail a.ssr-mail:hover{text-decoration:underline}
+#ss-rail .ssr-f{font-size:10.5px;color:var(--t3);border-top:1px solid var(--b1);padding-top:8px}
+#ss-rail .ssr-f a{color:var(--t3);text-decoration:none;border-bottom:1px dotted var(--b2)}
+#ss-rail .ssr-f a:hover{color:var(--y)}
+#ss-rail .ssr-x{position:absolute;top:6px;right:7px;background:none;border:0;color:var(--t3);font-size:14px;
+  line-height:1;cursor:pointer;padding:3px 5px;border-radius:4px}
+#ss-rail .ssr-x:hover{color:var(--t1);background:rgba(255,255,255,.06)}
+/* only where the page actually has empty margin beside the 1200px column */
+@media(min-width:1620px){#ss-rail{display:block}}
+@media print{#ss-rail{display:none!important}}
 </style>
 
   <script type="application/ld+json">
@@ -6550,6 +6580,11 @@ The uncomfortable part for a buyer is that strong vetting does not remove the ri
 <tr><td>F5 Shape</td><td>Custom VM + minute expiry</td><td><span class="bdg br">No</span></td><td>Managed API</td><td>DIY not practical</td></tr>
 </tbody>
 </table>
+
+<div class="ib selfdisc rv">
+<span class="disc-pill">Disclosure &middot; my company</span><br>
+If your target sits on a <strong>Sometimes</strong>, <strong>Rarely</strong> or <strong>No</strong> row, email me at <a href="mailto:scrapesync@gmail.com?subject=Stuck%20on%20a%20target">scrapesync@gmail.com</a> before you lose a weekend to it. Send the URL and a note on what you have already tried, and I will tell you which rung it is actually on and what I would try next. I usually reply within a couple of days, slower when I am mid-job. Most of the time the answer is a section further up this page and I will point you at it. Sometimes it is one of the managed APIs in the Best tool column, in which case I will name Zyte or Scrapfly rather than myself. The interest I should declare, since this is a table of vendors and I sell on the same rung: scraping is my day job, I run <a href="https://scrapesync.io" target="_blank" rel="noopener">ScrapeSync</a> <span class="mineno">(my company)</span>. The answer is free either way.
+</div>
 </section>
 
 <!-- ═══ INNOVATION ═══ -->
@@ -10807,6 +10842,8 @@ The payoff scales past the one app. Most apps that protect their API at all push
       If even one section saved you a late night of debugging, that's why I wrote it.
       <br><br>
       Build something interesting with this. And if you do, I'd genuinely love to hear about it.
+      <br><br>
+      And if you are stuck rather than shipping, write to me at <a href="mailto:scrapesync@gmail.com?subject=Stuck%20on%20a%20target" style="color:var(--y)">scrapesync@gmail.com</a>. I answer scraping questions for free, including from people who'll never hire me. It is also what I do for a living, at <a href="https://scrapesync.io" target="_blank" rel="noopener" style="color:var(--y)">ScrapeSync</a>, but that's context for who is replying, not a pitch.
     </p>
     <div class="outro-sig">
       <div class="outro-sig-name">Asad Ikram</div>
@@ -10815,7 +10852,7 @@ The payoff scales past the one app. Most apps that protect their API at all push
     <div class="outro-links">
       <a href="https://www.linkedin.com/in/asad-ikram98/" target="_blank" class="outro-link">LinkedIn ↗</a>
       <a href="https://asad-ikram-mc.github.io/portfolio" target="_blank" class="outro-link">Portfolio ↗</a>
-      <a href="mailto:asad.ikram53@gmail.com" class="outro-link">Email ↗</a>
+      <a href="mailto:asad.ikram53@gmail.com" class="outro-link">Email ↗</a><a href="https://scrapesync.io" target="_blank" rel="noopener" class="outro-link">ScrapeSync ↗ <span class="mineno">(my company)</span></a>
     </div>
   </div>
 </section>
@@ -10895,7 +10932,7 @@ The payoff scales past the one app. Most apps that protect their API at all push
   <span>Asad's Scraping Guide 2026</span>
   <span style="color:#fff">Updated July 2026</span>
   <span><a href="/privacy.html" style="color:#666;text-decoration:none;font-size:11px" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#666'">Privacy Policy</a></span>
-  <span><a href="/privacy.html#affiliate" style="color:#666;text-decoration:none;font-size:11px" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#666'">Affiliate Disclosure</a></span>
+  <span><a href="/privacy.html#affiliate" style="color:#666;text-decoration:none;font-size:11px" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#666'">Affiliate &amp; Company Disclosure</a></span>
 </div>
 </div>
 </footer>
@@ -12365,5 +12402,26 @@ document.addEventListener('keydown', e => {
 });
 
 rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
+</script>
+
+<!-- persistent soft offer, wide screens only, dismissible -->
+<aside id="ss-rail" aria-label="Help with a scraping target">
+  <button class="ssr-x" type="button" aria-label="Dismiss" onclick="ssRailClose()">&times;</button>
+  <div class="ssr-k">Stuck on a target?</div>
+  <p>Send me the URL and what you have tried. I will tell you which rung it is on and what I would try next. Free either way.</p>
+  <a class="ssr-mail" href="mailto:scrapesync@gmail.com?subject=Stuck%20on%20a%20target">scrapesync@gmail.com</a>
+  <div class="ssr-f">I run <a href="https://scrapesync.io" target="_blank" rel="noopener">ScrapeSync&nbsp;&#8599;</a> <span class="mineno">(my company)</span></div>
+</aside>
+<script>
+(function(){
+  var el=document.getElementById('ss-rail'); if(!el) return;
+  var KEY='ss-rail-dismissed';
+  try{ if(localStorage.getItem(KEY)==='1'){ el.style.display='none'; return; } }catch(e){}
+  window.ssRailClose=function(){ el.classList.remove('on'); setTimeout(function(){el.style.display='none';},400);
+    try{ localStorage.setItem(KEY,'1'); }catch(e){} };
+  // hold it back until the reader is past the hero, so it never lands on a first impression
+  function tick(){ if(scrollY>900){ el.classList.add('on'); removeEventListener('scroll',tick); } }
+  addEventListener('scroll',tick,{passive:true}); tick();
+})();
 </script>
 </body></html>
