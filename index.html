@@ -12716,11 +12716,13 @@ rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
 <script>
 (function(){
   var el=document.getElementById('ss-rail'); if(!el) return;
-  var KEY='ss-rail-dismissed';
-  try{ if(localStorage.getItem(KEY)==='1'){ el.style.display='none'; return; } }catch(e){}
-  window.ssRailClose=function(){ el.classList.remove('on'); setTimeout(function(){el.style.display='none';},400);
-    try{ localStorage.setItem(KEY,'1'); }catch(e){} };
-  // constant: fade in shortly after load and stay for the whole session
+  // Dismissal lasts for this page view only — a reload brings the rail back.
+  // It used to write a permanent localStorage flag, which meant one stray click
+  // on one device hid it forever, silently. Clear that old key on the way past
+  // so anyone already stuck with it hidden gets the rail back on next load.
+  try{ localStorage.removeItem('ss-rail-dismissed'); }catch(e){}
+  window.ssRailClose=function(){ el.classList.remove('on'); setTimeout(function(){el.style.display='none';},400); };
+  // fade in shortly after load and stay for the rest of the page view
   setTimeout(function(){ el.classList.add('on'); }, 700);
 })();
 </script>
