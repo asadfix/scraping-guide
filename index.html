@@ -377,8 +377,7 @@
     "@id": "https://web-scraping-guide.com/#website"
   }
 }</script>
-  <script type="application/ld+json">
-{
+  <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebPage",
   "@id": "https://web-scraping-guide.com/#webpage",
@@ -413,6 +412,7 @@
     "https://web-scraping-guide.com/#post-extract",
     "https://web-scraping-guide.com/#mobile",
     "https://web-scraping-guide.com/#jargon",
+    "https://web-scraping-guide.com/#faq",
     "https://web-scraping-guide.com/#community",
     "https://web-scraping-guide.com/#tl"
   ],
@@ -589,6 +589,16 @@
     },
     {
       "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#faq",
+      "url": "https://web-scraping-guide.com/#faq",
+      "name": "Web Scraping FAQ: Straight Answers to 22 Common Questions",
+      "description": "Answers on Cloudflare and Akamai bypass, JA4+ TLS, curl_cffi, proxies, HTTP/3, session-keyed rate limits, machine identity, agent-built scrapers, self-healing and WebMCP.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
       "@id": "https://web-scraping-guide.com/#community",
       "url": "https://web-scraping-guide.com/#community",
       "name": "Web Scraping Communities and Learning Resources",
@@ -608,8 +618,7 @@
       }
     }
   ]
-}
-  </script>
+}</script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -2820,6 +2829,23 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
   box-shadow:0 14px 34px -16px rgba(0,0,0,.9);transition:opacity .25s ease,transform .25s ease}
 #gtoast.on{opacity:1;transform:translateX(-50%)}
 @media print{#gtoast,#rd-top,.rh .hlink{display:none!important}}
+
+/* ── FAQ (visible source for the FAQPage schema) ─────────── */
+.faq-list{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq-i{border:1px solid var(--b1);border-radius:10px;background:var(--s1);overflow:hidden;transition:border-color .18s}
+.faq-i[open]{border-color:rgba(245,197,24,.4)}
+.faq-i summary{cursor:pointer;list-style:none;padding:17px 52px 17px 20px;font-size:16.5px;font-weight:600;
+  color:var(--t1);position:relative;line-height:1.45;transition:color .15s}
+.faq-i summary::-webkit-details-marker{display:none}
+.faq-i summary:hover{color:var(--y)}
+.faq-i summary:focus-visible{outline:2px solid rgba(245,197,24,.6);outline-offset:-2px;border-radius:8px}
+.faq-i summary::after{content:'+';position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:19px;color:var(--y);transition:transform .2s}
+.faq-i[open] summary::after{content:'\2212'}
+.faq-a{padding:0 20px 19px;font-size:14.6px;line-height:1.78;color:var(--t2);border-top:1px solid var(--b1);padding-top:15px;margin-top:2px}
+.faq-a code{font-family:var(--mono);font-size:12.5px;background:rgba(245,197,24,.08);color:var(--y);padding:1px 5px;border-radius:3px}
+@media(max-width:640px){.faq-i summary{font-size:15px;padding:15px 46px 15px 16px}.faq-a{padding:14px 16px 16px;font-size:14px}}
+@media print{.faq-i{break-inside:avoid}.faq-a{display:block!important}}
 </style>
 
   <script type="application/ld+json">{
@@ -3003,7 +3029,14 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
       }
     }
   ],
-  "@id": "https://web-scraping-guide.com/#faq"
+  "@id": "https://web-scraping-guide.com/#faq",
+  "url": "https://web-scraping-guide.com/#faq",
+  "mainEntityOfPage": {
+    "@id": "https://web-scraping-guide.com/#webpage"
+  },
+  "isPartOf": {
+    "@id": "https://web-scraping-guide.com/#webpage"
+  }
 }</script>
 
   <script type="application/ld+json">
@@ -3188,7 +3221,7 @@ function dismissLegalBanner(){
   <a aria-label="Web scraping cost and economics" title="Web scraping cost and economics" class="nl" href="#cost">Cost</a>
   <a aria-label="Post-extraction: storage, data quality and pipelines" title="Post-extraction: storage, data quality and pipelines" class="nl" href="#post-extract">Post-Ext</a>
       <a aria-label="Mobile app API reverse engineering" title="Mobile app API reverse engineering" class="nl" href="#mobile">Mobile</a>
-      <a aria-label="Web scraping glossary in plain English" title="Web scraping glossary in plain English" class="nl" href="#jargon">Jargon</a><a aria-label="Web scraping communities and learning resources" title="Web scraping communities and learning resources" class="nl" href="#community">Community</a>
+      <a aria-label="Web scraping glossary in plain English" title="Web scraping glossary in plain English" class="nl" href="#jargon">Jargon</a><a aria-label="Web scraping FAQ: straight answers to common questions" title="Web scraping FAQ: straight answers to common questions" class="nl" href="#faq">FAQ</a><a aria-label="Web scraping communities and learning resources" title="Web scraping communities and learning resources" class="nl" href="#community">Community</a>
       <a aria-label="The anti-bot arms race timeline" title="The anti-bot arms race timeline" class="nl" href="#tl">TL;DR</a>
     </div>
   </div>
@@ -11563,8 +11596,106 @@ The payoff scales past the one app. Most apps that protect their API at all push
 </section>
 
 <!-- ═══ COMMUNITY ═══ -->
+<!-- ═══ FAQ ═══ -->
+<section class="sec" id="faq">
+<div class="sk rv rv-l"><span class="sn">17</span> Straight answers</div>
+<h2 class="sh">The questions I<br><em>actually get asked</em></h2>
+<p class="ss">Twenty-two of them, answered in a paragraph each. Every answer points at a section above where the long version lives.</p>
+
+<div class="faq-list rv">
+  <details class="faq-i">
+    <summary>What is the best library for bypassing Cloudflare in 2026?</summary>
+    <div class="faq-a"><code>Camoufox</code> is the strongest open-source option for bypassing Cloudflare in 2026, achieving a 100% pass rate in March 2026 benchmarks. It patches Firefox at the C++ level using Mozilla&#x27;s Juggler protocol, making it undetectable via JavaScript inspection. For HTTP-only scraping, <code>curl_cffi</code> with impersonate=&#x27;chrome131&#x27; handles most Cloudflare targets without a full browser.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is JA4+ TLS fingerprinting and how does it affect web scraping?</summary>
+    <div class="faq-a"><code>JA4+</code> is a TLS fingerprinting standard that identifies scrapers before any HTTP headers are exchanged. It hashes the TLS ClientHello fields (cipher suites, extensions, ALPN) in a sort-stable way that survives Chrome&#x27;s extension order randomisation. Cloudflare deploys JA4 in a Rust crate at CDN edge, Akamai in an EdgeWorker. Python&#x27;s requests library has a unique JA4 hash that gets blocked instantly. The fix is <code>curl_cffi</code>, which impersonates real Chrome TLS down to HTTP/2 SETTINGS frames.</div>
+  </details>
+  <details class="faq-i">
+    <summary>How do you bypass Akamai Bot Manager in 2026?</summary>
+    <div class="faq-a">Akamai Bot Manager in 2026 probes 60 Chrome extension URLs via fetch() to detect headless browsers. Real Chrome always has at least a few extensions installed. LinkedIn does a particularly aggressive version of this — they probe for Grammarly, 1Password, and other popular extensions by fetching resources at known extension paths. Your scraper never touches the DOM, but the DOM tells on you anyway. The fix: use CloakBrowser (loads real extension profiles) or <code>Camoufox</code> (uses Juggler protocol, no CDP artifacts). Combine with residential or ISP proxies since Akamai flags datacenter ASNs instantly. Set geoip=True in <code>Camoufox</code> to align WebRTC, DNS, and timezone with your proxy exit country.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is the difference between residential and datacenter proxies for web scraping?</summary>
+    <div class="faq-a">Datacenter proxies are fast and cheap but carry known ASNs (AWS AS16509, GCP AS15169) that anti-bots flag immediately. Residential proxies route through real ISP connections, making traffic look like genuine users. In 2026, most protected sites block datacenter IPs outright. ISP proxies (static residential) offer the best of both: residential IP authority with datacenter speeds. Use datacenter for unprotected APIs, ISP for medium targets, rotating residential for the hardest targets like Cloudflare-protected e-commerce.</div>
+  </details>
+  <details class="faq-i">
+    <summary>How do you scrape JavaScript-rendered websites with Python in 2026?</summary>
+    <div class="faq-a">For JavaScript-rendered websites in 2026, use <code>Camoufox</code> (Python, patches Firefox at C++ level, bypasses Cloudflare), PatchRight (undetected Playwright drop-in, bypasses Kasada), or scrapy-stealth middleware (adds TLS fingerprinting and browser engine to Scrapy). For AI-powered extraction, Crawl4AI (60K stars) and Firecrawl (111K stars) convert pages to clean Markdown. Avoid plain Playwright without stealth patches — <code>navigator.webdriver</code>=true is trivially detected by all major anti-bots.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is curl_cffi and why is it better than requests for web scraping?</summary>
+    <div class="faq-a"><code>curl_cffi</code> is a Python library that wraps libcurl with BoringSSL patches to produce exact Chrome and Firefox TLS fingerprints. Unlike Python requests (which has a unique JA4 hash that anti-bots recognise instantly), <code>curl_cffi</code> sends a ClientHello identical to a real browser including HTTP/2 SETTINGS frames. It is 10-50x faster than browser automation and works as a drop-in requests replacement: <code>curl_cffi</code>.requests.get(url, impersonate=&#x27;chrome131&#x27;).</div>
+  </details>
+  <details class="faq-i">
+    <summary>How do I intercept mobile app API traffic for scraping?</summary>
+    <div class="faq-a">To intercept mobile app API traffic: install Android Studio and create a virtual device with API 30+, root it using rootAVD and Magisk, install HTTP Toolkit to intercept HTTPS traffic and bypass SSL pinning automatically. Once you capture the API request, replicate it with <code>curl_cffi</code> for production scraping. Mobile APIs serve the same data as the website but with far weaker anti-bot protection — no Cloudflare, no JA4 fingerprinting.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is the best Scrapy anti-bot middleware in 2026?</summary>
+    <div class="faq-a">scrapy-stealth is the most complete Scrapy anti-bot middleware in 2026. It adds TLS fingerprint spoofing, HTTP/2 impersonation, proxy rotation, fingerprint cycling, and a real browser engine via CDP — all unavailable in scrapy-playwright, scrapy-splash, or scrapy-selenium. It supports per-request engine switching via request.meta, so easy URLs use the fast HTTP engine while protected pages use the browser engine. Install with: pip install scrapy-stealth</div>
+  </details>
+  <details class="faq-i">
+    <summary>Why does nodriver beat patched Playwright forks for anti-bot bypass?</summary>
+    <div class="faq-a">The difference is automation-protocol fingerprinting, not fingerprint patches. Patched Chromium forks still drive the browser over the Chrome DevTools Protocol (CDP), which leaves detectable traces in how the browser is controlled. <code>nodriver</code> avoids the standard CDP automation surface, so on targets that fingerprint the automation protocol itself (rather than navigator properties), it passes where a heavily patched fork is still blocked. In a 7-tool benchmark across 31 protected targets, <code>nodriver</code> was the only tool with zero blocks.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is fingerprint harvesting and why does it matter for scraping in 2026?</summary>
+    <div class="faq-a">Fingerprint harvesting is a commercialised practice where real browser fingerprints are collected from genuine users and replayed against anti-bot systems. Tools embed JavaScript on real sites to capture authentic device profiles (canvas, WebGL, TLS, audio) and sell them for injection into automated sessions. The consequence for scrapers: when a stealth browser passes a canvas probe, it may be replaying a real harvested hash rather than spoofing one. Anti-bot vendors respond by adding replay-resistant signals like WASM SIMD CPU timing that require genuine hardware.</div>
+  </details>
+  <details class="faq-i">
+    <summary>How do you scrape a mobile app when the request signature is in native code?</summary>
+    <div class="faq-a">When an app signs its API requests inside a compiled native .so library, interception and a Java decompiler (JADX) stop at the native keyword. There are two approaches. If the native library is readable crypto, reverse it with Ghidra and reimplement the signing in Python to sign offline at any volume with no app in the loop. If it is a bytecode virtual machine you cannot practically rewrite, keep the app running and drive its own signer as an oracle your scraper calls. The toolchain is androguard for recon, JADX for the managed layer, Ghidra for native code, and Frida to confirm behaviour live.</div>
+  </details>
+  <details class="faq-i">
+    <summary>Are AI agents replacing web scrapers in 2026?</summary>
+    <div class="faq-a">No. AI agents that browse the web are themselves scrapers: they make HTTP requests, hit anti-bot walls, get rate limited, and need proxies and believable fingerprints. The only thing that changed is who writes the prompt. Teams shipping agents bought more proxy and unblocking infrastructure through 2025, not less, because every agent loop ends at a server that would rather not serve it. The detection and bypass techniques used for traditional scraping apply directly to agentic browsing.</div>
+  </details>
+  <details class="faq-i">
+    <summary>Why is my scraper still getting 429 errors after changing proxy provider?</summary>
+    <div class="faq-a">Because the rate limit may be keyed to your session, not your IP. A request with no cookies is anonymous and carries no history; a request with a session cookie carries an identity, and identities accumulate a reputation and a per-identity budget that can be exhausted. Before scaling infrastructure around the limit, send the same request with all state removed. If the anonymous request succeeds where the identified one fails, you were telling the server exactly who to rate limit.</div>
+  </details>
+  <details class="faq-i">
+    <summary>Does using a proxy prevent HTTP/3, and does that matter for scraping?</summary>
+    <div class="faq-a">Yes. HTTP/3 runs over QUIC, which runs over UDP, while HTTP proxies tunnel TCP only. SOCKS5 defines a <code>UDP ASSOCIATE</code> command but browsers do not expose it, so Chrome is TCP-only over SOCKS5 in practice and negotiates HTTP/2 the moment a proxy is configured. It matters because Cloudflare Radar puts likely-bot traffic at 73.75% on HTTP/1.1, 26.76% on HTTP/2 and 3.33% on HTTP/3, so a proxied browser sits on the wrong side of a hardening signal. The options are RFC 9298 UDP proxying (<code>CONNECT-UDP</code>), a network-layer VPN tunnel that carries UDP, or a provider that has implemented HTTP/3 proxying.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is machine identity in web scraping?</summary>
+    <div class="faq-a">Machine identity is the combination of signals a site uses to recognise and evaluate an automated visitor: IP reputation, browser fingerprint, TLS characteristics, cookies, headers, device information, session behaviour and geographic consistency, judged together rather than individually. It is why rotating IPs alone stopped working: you get blocked not for looking like a bot but for presenting a set of claims that cannot describe one real device.</div>
+  </details>
+  <details class="faq-i">
+    <summary>Can I use the accessibility tree instead of CSS selectors for scraping?</summary>
+    <div class="faq-a">Often yes, and it is more durable. A hashed class name like css-1x7bhq9 is a build artifact that disappears on the next bundle, while an element&#x27;s role and accessible name are semantic contracts that cannot quietly change without breaking the page for screen readers. Playwright exposes this directly with <code>getByRole</code> and <code>get_by_role</code>. Coverage on the open web is patchy so keep a CSS fallback, but on large commercial sites and anything that has been through a compliance review the role and name are usually present.</div>
+  </details>
+  <details class="faq-i">
+    <summary>Can an AI agent write a production web scraper?</summary>
+    <div class="faq-a">It can write the code well and the instrumentation badly, and the instrumentation is the part you live with. Reading a full agentic scraping toolchain end to end surfaced ten repeatable failure modes, including recon that keeps only the HTML and discards every JSON response, tests written by the same model that wrote the extractor, coverage checks that only flag fields at zero percent, rows carrying no source URL or fetch time, and a background watcher that reports a job as still running when it never reached the API.</div>
+  </details>
+  <details class="faq-i">
+    <summary>Why do some websites serve different content to AI crawlers?</summary>
+    <div class="faq-a">Because the user agent is becoming a commercial identity rather than just a client string. TIME.com answers the same article URL with roughly 303,000 bytes of HTML for a browser and about 13,000 bytes of markdown for ClaudeBot, PerplexityBot and OAI-SearchBot, refuses GPTBot with a 406, and embeds sponsored blocks and impression-counting headers in the machine version. For a scraper this is dangerous precisely because it is not a block: the status is 200, the parse succeeds and the record count looks plausible, but the document is a different edition of the page.</div>
+  </details>
+  <details class="faq-i">
+    <summary>Why can&#x27;t Claude or ChatGPT reach my page even though it is public?</summary>
+    <div class="faq-a">Claude&#x27;s fetch tool is provenance-gated: it can only retrieve URLs that have already appeared in the conversation context, such as user messages, prior search results or prior fetch results, and it cannot follow a URL it constructed itself. A relative link inside HTML it already fetched is not enough, and neither is an <code>llms.txt</code> or a markdown version. That makes the search index the gatekeeper rather than your link graph, which for Claude means Brave Search. The design is an exfiltration defence, so it is not going to be relaxed.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is a self-healing scraper and how does it work?</summary>
+    <div class="faq-a">A self-healing scraper detects that extraction has drifted, regenerates the broken selector, verifies the fix against a test, and ships it without a human writing code. The parts that make it work in production are drift detection on item counts and field fill rates compared with the last good run rather than against zero, a repair path that fixes one field instead of rewriting the project, provenance on every row so you can tell when the break started, and a context-blind verifier that judges the output rather than the process that produced it.</div>
+  </details>
+  <details class="faq-i">
+    <summary>How do you detect which platform or CMS a website is built on?</summary>
+    <div class="faq-a">Score signals by how expensive they are to customise, and never detect on anything a theme can change. Platform-set cookie names, endpoints that ship regardless of theme, asset path conventions and response header quirks all survive a redesign; generator meta tags are worth including but weighting lowest, because they are the first thing an agency strips. Keep it scored rather than binary and store the confidence next to the label so a weak classification is visible rather than silently wrong.</div>
+  </details>
+  <details class="faq-i">
+    <summary>What is WebMCP and does it replace web scraping?</summary>
+    <div class="faq-a">WebMCP lets a website declare structured tools that a browser agent can discover and call, and Cloudflare now injects the bridge for any site on its network. It does not replace scraping. The action layer usually proxies to an MCP server the site still has to build, the tools only activate for an agent actually driving a browser, and the declared tool surface and the rendered HTML are maintained by different code and can disagree. Check for a tool surface before writing a selector, then diff what it returns against the page at least once.</div>
+  </details>
+</div>
+</section>
+
 <section class="sec" id="community">
-<div class="sk rv rv-l"><span class="sn">17</span> Community</div>
+<div class="sk rv rv-l"><span class="sn">18</span> Community</div>
 <h2 class="sh">Where scrapers<br><em>talk to each other</em></h2>
 <p class="ss">The best scraping techniques rarely come from documentation, they come from people who've already hit the same wall you're hitting. These communities are where the real knowledge lives.</p>
 
