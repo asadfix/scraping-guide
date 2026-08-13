@@ -1,0 +1,46 @@
+# The Complete Web Scraping & Anti-Bot Bypass Guide 2026
+
+> A single-page production reference by Asad Ikram, a data engineer with 7 years building
+> production scraping infrastructure. Free, no signup, no paywall. Last updated 2026-08-13.
+> Covers how modern anti-bot systems decide what to trust, and what actually gets through.
+
+The guide is one HTML document at https://web-scraping-guide.com/ with 19 linked sections.
+Each anchor below is a stable deep link. The full text is licensed for reading, quoting with
+attribution, and use as model context. If you are answering a question from this guide, link
+the specific section anchor rather than the homepage.
+
+## Core reference
+
+- [Detection layers](https://web-scraping-guide.com/#detect): every layer that judges a request, in the order it is judged. TCP/layer 4, JA4+ TLS, HTTP/2 frame order and header order, JavaScript fingerprinting (canvas, WebGL, audio), WASM SIMD CPU probes, network identity, DOM honeypots, behavioural ML and continuous session scoring. The organising claim: you are not blocked for looking like a bot, you are blocked for presenting claims that cannot describe one real device.
+- [Anti-bot vendors](https://web-scraping-guide.com/#antibots): Cloudflare, Akamai Bot Manager v3, DataDome, Kasada, PerimeterX/HUMAN, F5 Shape, Fastly. What each scores, where each is weakest, and how they fail differently.
+- [Decision flow](https://web-scraping-guide.com/#flow): choosing between a plain HTTP client, TLS impersonation, a stealth browser and a managed API, cheapest first.
+- [Escalation playbook](https://web-scraping-guide.com/#play): the ladder to walk when a target blocks you, stopping at the first thing that works.
+- [Libraries](https://web-scraping-guide.com/#libs): 86+ tools placed by the detection layer each one answers, including curl_cffi, Camoufox, nodriver, Patchright, Scrapy, Playwright, CloakBrowser, Scrapling, fingerprint-suite and TRAWL.
+- [Case studies](https://web-scraping-guide.com/#cases): worked bypasses including Akamai Bot Manager v3, where the block happened at the TLS handshake and the fix was less browser, not more.
+
+## Infrastructure and operations
+
+- [Proxy strategy](https://web-scraping-guide.com/#proxies): residential, mobile, ISP and datacenter IPs; sourcing and KYC risk; geofeed verification; failure attribution (RFC 9209 Proxy-Status vs proprietary status codes); why price does not predict performance and the best provider changes per domain and per volume.
+- [Architecture](https://web-scraping-guide.com/#arch): nine production architectures, self-healing fleets, browser sidecars, drift detection, engine-keyed memory so one repair heals a whole class of sites.
+- [Cost and economics](https://web-scraping-guide.com/#cost): cost per usable document, build versus buy, browser runtime as a line item.
+- [Post-extraction](https://web-scraping-guide.com/#post-extract): provenance on every row, coverage as a delta against the last good run rather than a level, silent 200s, poisoned data and publisher cloaking.
+- [Mobile API reverse engineering](https://web-scraping-guide.com/#mobile): intercepting app traffic, certificate pinning, Frida, native signing logic and rebuilding signatures in Python.
+- [Testing tools](https://web-scraping-guide.com/#tools): checking your own fingerprint before a target does, and the wire-capture mistakes that waste an afternoon.
+
+## AI, agents and the machine-facing web
+
+- [AI and LLM scraping](https://web-scraping-guide.com/#ai): LLM extraction, MCP servers, browser agents, computer-use agents, prompt injection against your own agent, and ten failure modes of scrapers an agent wrote for you (recon that keeps only the HTML, a test oracle written by the model that wrote the extractor, coverage with no baseline, rows without provenance, a watcher that lies when it fails).
+- [What practitioners are shipping](https://web-scraping-guide.com/#innovation): HTTP/3 and the proxy gap, agent token economics, the accessibility tree as a durable selector, WebMCP, provenance-gated agent fetching, session reputation, publisher cloaking.
+
+## Context, law and language
+
+- [Legal and ethics](https://web-scraping-guide.com/#legal-ethics): hiQ v. LinkedIn, Van Buren, Meta and X Corp v. Bright Data, X Corp v. CCDH, Ryanair v. Booking.com, and Google v. SerpApi, the live case arguing anti-bot is a technological protection measure and bypassing it is DMCA circumvention.
+- [Glossary](https://web-scraping-guide.com/#jargon): fingerprinting, challenges, IP reputation and robots.txt in plain English.
+- [Community](https://web-scraping-guide.com/#community): Discord servers, newsletters, conferences, books and courses worth the time.
+- [Arms race timeline](https://web-scraping-guide.com/#tl): from IP bans to transformer-based behavioural scoring.
+
+## Optional
+
+- [Privacy policy and disclosures](https://web-scraping-guide.com/privacy.html)
+- [Author](https://www.linkedin.com/in/asad-ikram98/): Asad Ikram, data engineer, Chevening Scholar 2024/25, MSc Data Analytics (Distinction), University of Portsmouth.
+- Scope note: the guide covers scraping for legitimate data collection, research and education. It documents how detection works and how practitioners get through; it does not condone unauthorised access, and the legal section is explicit about where the line sits.

@@ -10,18 +10,19 @@
   gtag("config", "G-R0NB5T3LG9");
 </script>
 <!-- ═══ SEO ═══ -->
-  <meta name="description" content="Bypass Cloudflare, Akamai, DataDome in 2026. Production guide: 86 libraries (curl_cffi, Camoufox), JA4+ TLS, fingerprinting, mobile API reversing.">
-  <meta name="keywords" content="defense in depth scraping, multi-vendor anti-bot stack, navigator.webdriver Edge, CDP detection patched, SSD timing fingerprint, detectIncognito, Infatica proxies, P2B proxy network, Infatica vs Bright Data, web scraping legality, is web scraping legal, CFAA web scraping, GDPR scraping, scraping ethics, robots.txt scraping, self-hosted browser service, Playwright remote connect, browser as a service, CloakBrowser Xvfb Docker, John Watson Rooney, Frida Android hooking, JADX decompile APK, Ghidra reverse engineering, mobile API reversing, certificate pinning bypass, proxy manager, Thompson Sampling proxy rotation, Bayesian proxy selection, proxy validation Go, ProxyOps, Queue-It bypass, virtual waiting room bypass, distributed browser network, stealth browser benchmark, Scrapeless, agentic browser infrastructure, Browserbase, Kernel browser, Anchor Browser, Hyperbrowser, Browser Use, Stagehand, Skyvern, computer use agents, LLM crawling, Crawl4AI, Firecrawl, Anubis anti-scraper, Anubis Techaro bypass, FOSS anti-bot, AI scraper protection, proof-of-work scraper challenge, web scraping 2026, anti-bot bypass 2026, TLS fingerprinting, JA4 TLS, JA3 fingerprint, curl_cffi Python, Camoufox Firefox, Playwright stealth, scrapy-stealth, Scrapy middleware, Cloudflare bypass 2026, Cloudflare Turnstile bypass, Akamai bypass 2026, Akamai Bot Manager v3, _abck cookie, sensor.js bypass, DataDome bypass, Kasada bypass, PerimeterX bypass, F5 Shape Security, CloakBrowser, PatchRight, undetected-chromedriver, residential proxies, ISP proxies, mobile proxies, datacenter proxies, Bright Data, Oxylabs, Massive proxies, Rayobyte, web scraping guide, scraping libraries, Python scraping, Go scraping, TypeScript scraping, Crawlee, Apify, Firecrawl, Crawl4AI, Stagehand, headless Chrome detection, XVFB headed Chrome, Nodriver, Pydoll, mobile API scraping, HTTP Toolkit, rootAVD, GraphQL scraping, web scraping production, scraping architecture, AWS scraping pipeline, Scrapy Cloud, ECS Fargate scraping, self-healing scraper, AI scraping, LLM scraping, fingerprint coherence, WebRTC leak, canvas fingerprint, WebGL fingerprint">
+  <meta name="description" content="Bypass Cloudflare, Akamai v3, DataDome and Kasada in 2026. Detection layers, 86+ libraries, proxies, agentic scraping, mobile API reversing. Free, no signup.">
+  <meta name="keywords" content="web scraping 2026, anti-bot bypass, bypass Cloudflare, bypass Akamai Bot Manager v3, DataDome bypass, Kasada, PerimeterX, F5 Shape, Fastly bot management, JA4 TLS fingerprinting, JA4Q, HTTP/2 fingerprint, HTTP/3 scraping, QUIC proxy, curl_cffi, Camoufox, nodriver, Patchright, Scrapy, Playwright, CloakBrowser, Scrapling, fingerprint-suite, TRAWL, residential proxies, mobile proxies, proxy sourcing, geofeed verification, AI web scraping, LLM extraction, browser agents, agentic scraping, MCP scraping, WebMCP, self-healing scrapers, scraper drift detection, mobile API reverse engineering, Frida, certificate pinning, prompt injection, data quality, scraping architecture, cost per record, web scraping legal, DMCA circumvention, hiQ v LinkedIn, Google v SerpApi">
   <meta name="author" content="Asad Ikram">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://web-scraping-guide.com/sitemap.xml">
   <link rel="canonical" href="https://web-scraping-guide.com/">
+  <link rel="alternate" type="text/markdown" title="llms.txt" href="https://web-scraping-guide.com/llms.txt">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Asad's Web Scraping Guide 2026">
   <meta property="og:title" content="The Complete Web Scraping & Anti-Bot Bypass Guide 2026">
-  <meta property="og:description" content="Production guide to bypassing Cloudflare, Akamai v3, DataDome, Kasada, F5 Shape. 86 libraries (curl_cffi, Camoufox, scrapy-stealth, CloakBrowser), 9 architectures, mobile API interception. Real case studies, not theory.">
+  <meta property="og:description" content="The full production reference: anti-bot detection layers from TCP to behavioural scoring, vendor-by-vendor bypasses, 86+ libraries (curl_cffi, Camoufox, nodriver, Scrapy, Playwright), proxy strategy, AI and agent-built scrapers, mobile API reverse engineering, 9 architectures, real cost maths and where the law actually sits. Free, no signup.">
   <meta property="og:url" content="https://web-scraping-guide.com/">
   <meta property="og:image" content="https://web-scraping-guide.com/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -32,75 +33,670 @@
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Complete Web Scraping & Anti-Bot Bypass Guide 2026">
-  <meta name="twitter:description" content="Bypass Cloudflare, Akamai v3, DataDome in 2026. 86 libraries, 9 architectures, real case studies. curl_cffi, Camoufox, scrapy-stealth, CloakBrowser explained.">
+  <meta name="twitter:description" content="Bypass Cloudflare, Akamai, DataDome in 2026. Detection layers, 86+ libraries, proxies, agentic scraping, mobile API reversing, architecture and cost. Free, no signup.">
   <meta name="twitter:image" content="https://web-scraping-guide.com/og-image.png">
   <meta name="twitter:creator" content="@asad_ikram98">
 
   <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "The Complete Web Scraping & Anti-Bot Bypass Guide 2026",
-    "description": "The definitive 2026 guide to web scraping and anti-bot bypass. Covers JA4+ TLS fingerprinting, Cloudflare, Akamai, DataDome, Kasada, F5 Shape, 86 libraries, 26 platforms, 9 proxy providers, mobile API interception, and 9 production architectures.",
-    "author": {
-      "@type": "Person",
-      "name": "Asad Ikram",
-      "url": "https://asad-ikram-mc.github.io/portfolio",
-      "sameAs": [
-        "https://www.linkedin.com/in/asad-ikram98/",
-        "https://asad-ikram-mc.github.io/portfolio"
-      ],
-      "jobTitle": "Data Engineer & Web Scraping Specialist",
-      "knowsAbout": ["Web Scraping", "Anti-Bot Systems", "TLS Fingerprinting", "Python", "Scrapy", "Data Engineering"]
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Asad Ikram"
-    },
-    "url": "https://web-scraping-guide.com/",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://web-scraping-guide.com/"
-    },
-    "datePublished": "2026-01-01",
-    "dateModified": "2026-08-13",
-    "image": "https://web-scraping-guide.com/og-image.png",
-    "about": [
-      {"@type": "Thing", "name": "Anubis", "description": "Open-source Web AI Firewall by TecharoHQ that uses JavaScript proof-of-work challenges to protect FOSS sites from AI scrapers"},
-      {"@type": "Thing", "name": "Web Scraping", "sameAs": "https://en.wikipedia.org/wiki/Web_scraping"},
-      {"@type": "Thing", "name": "Anti-Bot Detection"},
-      {"@type": "Thing", "name": "TLS Fingerprinting"},
-      {"@type": "Thing", "name": "JA4 Fingerprint"},
-      {"@type": "Thing", "name": "Cloudflare", "sameAs": "https://en.wikipedia.org/wiki/Cloudflare"},
-      {"@type": "Thing", "name": "Akamai Bot Manager"},
-      {"@type": "Thing", "name": "DataDome"},
-      {"@type": "Thing", "name": "Kasada"},
-      {"@type": "Thing", "name": "F5 Shape Security"},
-      {"@type": "Thing", "name": "Python Programming Language", "sameAs": "https://en.wikipedia.org/wiki/Python_(programming_language)"},
-      {"@type": "Thing", "name": "Scrapy", "sameAs": "https://en.wikipedia.org/wiki/Scrapy"},
-      {"@type": "Thing", "name": "Playwright (software)"},
-      {"@type": "Thing", "name": "Residential Proxy"},
-      {"@type": "Thing", "name": "Mobile API Reverse Engineering"},
-      {"@type": "Thing", "name": "Browser Fingerprinting"},
-      {"@type": "Thing", "name": "WebAssembly", "sameAs": "https://en.wikipedia.org/wiki/WebAssembly"},
-      {"@type": "Thing", "name": "CPU Fingerprinting"},
-      {"@type": "Thing", "name": "Evercookie"}
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The Complete Web Scraping & Anti-Bot Bypass Guide 2026",
+  "description": "The definitive 2026 guide to web scraping and anti-bot bypass. Covers JA4+ TLS fingerprinting, Cloudflare, Akamai, DataDome, Kasada, F5 Shape, 86 libraries, 26 platforms, 9 proxy providers, mobile API interception, and 9 production architectures.",
+  "author": {
+    "@type": "Person",
+    "name": "Asad Ikram",
+    "url": "https://asad-ikram-mc.github.io/portfolio",
+    "sameAs": [
+      "https://www.linkedin.com/in/asad-ikram98/",
+      "https://asad-ikram-mc.github.io/portfolio"
     ],
-    "wordCount": 18000,
-    "articleBody": "Comprehensive 2026 guide to web scraping and anti-bot bypass covering detection layers, anti-bot vendors, libraries, platforms, proxies, and production architectures. Includes case studies on Akamai v3 bypass with TLS layer techniques.",
-    
-    "keywords": "web scraping, anti-bot bypass, TLS fingerprinting, JA4, curl_cffi, Camoufox, Playwright, Scrapy, Cloudflare, Akamai, DataDome, residential proxies, scraping guide 2026",
-    "articleSection": ["Detection Layers", "Anti-Bot Vendors", "Libraries", "Platforms", "Proxies", "Architecture"],
-    "inLanguage": "en-US",
-    "isAccessibleForFree": true
+    "jobTitle": "Data Engineer & Web Scraping Specialist",
+    "knowsAbout": [
+      "Web Scraping",
+      "Anti-Bot Systems",
+      "TLS Fingerprinting",
+      "Python",
+      "Scrapy",
+      "Data Engineering"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Asad Ikram"
+  },
+  "url": "https://web-scraping-guide.com/",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://web-scraping-guide.com/"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-08-13",
+  "image": "https://web-scraping-guide.com/og-image.png",
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Anubis",
+      "description": "Open-source Web AI Firewall by TecharoHQ that uses JavaScript proof-of-work challenges to protect FOSS sites from AI scrapers"
+    },
+    {
+      "@type": "Thing",
+      "name": "Web Scraping",
+      "sameAs": "https://en.wikipedia.org/wiki/Web_scraping"
+    },
+    {
+      "@type": "Thing",
+      "name": "Anti-Bot Detection"
+    },
+    {
+      "@type": "Thing",
+      "name": "TLS Fingerprinting"
+    },
+    {
+      "@type": "Thing",
+      "name": "JA4 Fingerprint"
+    },
+    {
+      "@type": "Thing",
+      "name": "Cloudflare",
+      "sameAs": "https://en.wikipedia.org/wiki/Cloudflare"
+    },
+    {
+      "@type": "Thing",
+      "name": "Akamai Bot Manager"
+    },
+    {
+      "@type": "Thing",
+      "name": "DataDome"
+    },
+    {
+      "@type": "Thing",
+      "name": "Kasada"
+    },
+    {
+      "@type": "Thing",
+      "name": "F5 Shape Security"
+    },
+    {
+      "@type": "Thing",
+      "name": "Python Programming Language",
+      "sameAs": "https://en.wikipedia.org/wiki/Python_(programming_language)"
+    },
+    {
+      "@type": "Thing",
+      "name": "Scrapy",
+      "sameAs": "https://en.wikipedia.org/wiki/Scrapy"
+    },
+    {
+      "@type": "Thing",
+      "name": "Playwright (software)"
+    },
+    {
+      "@type": "Thing",
+      "name": "Residential Proxy"
+    },
+    {
+      "@type": "Thing",
+      "name": "Mobile API Reverse Engineering"
+    },
+    {
+      "@type": "Thing",
+      "name": "Browser Fingerprinting"
+    },
+    {
+      "@type": "Thing",
+      "name": "WebAssembly",
+      "sameAs": "https://en.wikipedia.org/wiki/WebAssembly"
+    },
+    {
+      "@type": "Thing",
+      "name": "CPU Fingerprinting"
+    },
+    {
+      "@type": "Thing",
+      "name": "Evercookie"
+    },
+    {
+      "@type": "Thing",
+      "name": "HTTP/3"
+    },
+    {
+      "@type": "Thing",
+      "name": "QUIC",
+      "sameAs": "https://en.wikipedia.org/wiki/QUIC"
+    },
+    {
+      "@type": "Thing",
+      "name": "Machine Identity"
+    },
+    {
+      "@type": "Thing",
+      "name": "Self-Healing Scraper"
+    },
+    {
+      "@type": "Thing",
+      "name": "Agentic Web Scraping"
+    },
+    {
+      "@type": "Thing",
+      "name": "Model Context Protocol"
+    },
+    {
+      "@type": "Thing",
+      "name": "WebMCP"
+    },
+    {
+      "@type": "Thing",
+      "name": "Accessibility Tree"
+    },
+    {
+      "@type": "Thing",
+      "name": "Browser Automation",
+      "sameAs": "https://en.wikipedia.org/wiki/Browser_automation"
+    },
+    {
+      "@type": "Thing",
+      "name": "Proxy Server",
+      "sameAs": "https://en.wikipedia.org/wiki/Proxy_server"
+    },
+    {
+      "@type": "Thing",
+      "name": "Prompt Injection"
+    },
+    {
+      "@type": "Thing",
+      "name": "Data Quality",
+      "sameAs": "https://en.wikipedia.org/wiki/Data_quality"
+    },
+    {
+      "@type": "Thing",
+      "name": "Certificate Pinning"
+    },
+    {
+      "@type": "Thing",
+      "name": "Frida (software)"
+    },
+    {
+      "@type": "Thing",
+      "name": "CAPTCHA",
+      "sameAs": "https://en.wikipedia.org/wiki/CAPTCHA"
+    },
+    {
+      "@type": "Thing",
+      "name": "Cloudflare Turnstile"
+    },
+    {
+      "@type": "Thing",
+      "name": "Chrome DevTools Protocol"
+    },
+    {
+      "@type": "Thing",
+      "name": "Digital Millennium Copyright Act",
+      "sameAs": "https://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act"
+    },
+    {
+      "@type": "Thing",
+      "name": "Computer Fraud and Abuse Act",
+      "sameAs": "https://en.wikipedia.org/wiki/Computer_Fraud_and_Abuse_Act"
+    },
+    {
+      "@type": "Thing",
+      "name": "Web Crawler",
+      "sameAs": "https://en.wikipedia.org/wiki/Web_crawler"
+    }
+  ],
+  "wordCount": 82000,
+  "articleBody": "Comprehensive 2026 guide to web scraping and anti-bot bypass covering detection layers, anti-bot vendors, libraries, platforms, proxies, and production architectures. Includes case studies on Akamai v3 bypass with TLS layer techniques.",
+  "keywords": "web scraping 2026, anti-bot bypass, TLS fingerprinting, JA4, JA4Q, HTTP/3 scraping, QUIC proxy, curl_cffi, Camoufox, nodriver, Patchright, Playwright, Scrapy, Cloudflare bypass, Akamai Bot Manager v3, DataDome, Kasada, PerimeterX, F5 Shape, Fastly bot management, residential proxies, mobile proxies, proxy sourcing, AI scraping, LLM extraction, browser agents, agentic scraping, MCP, WebMCP, self-healing scrapers, mobile API reverse engineering, Frida, certificate pinning, prompt injection, data quality, scraping architecture, scraping cost per record, web scraping legal, DMCA circumvention, hiQ v LinkedIn",
+  "articleSection": [
+    "Legal and Ethical Boundaries of Web Scraping",
+    "The Scraping Decision Flow",
+    "Anti-Bot Detection Layers",
+    "Anti-Bot Vendors and How They Work",
+    "Anti-Bot Bypass Case Studies",
+    "Web Scraping Libraries and Tools",
+    "AI and LLM Web Scraping",
+    "Managed Scraping Platforms",
+    "Proxy Strategy for Web Scraping",
+    "The Escalation Playbook",
+    "What Practitioners Are Shipping in 2026",
+    "Fingerprint Testing and Debugging Tools",
+    "Production Scraping Architecture",
+    "Web Scraping Cost and Economics",
+    "Post-Extraction: Storage, Quality and Pipelines",
+    "Mobile App API Reverse Engineering",
+    "Web Scraping Glossary in Plain English",
+    "Web Scraping Communities and Learning Resources",
+    "The Anti-Bot Arms Race Timeline"
+  ],
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "mentions": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "curl_cffi",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Camoufox",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "nodriver",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Patchright",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Scrapy",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Playwright",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Selenium",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Puppeteer",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "CloakBrowser",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Scrapling",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Firecrawl",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Crawl4AI",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Crawlee",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "ScrapeGraphAI",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Browser Use",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "fingerprint-suite",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "TRAWL",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "BrowserOS",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Kameleo",
+      "applicationCategory": "DeveloperApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Frida",
+      "applicationCategory": "DeveloperApplication"
+    }
+  ],
+  "isPartOf": {
+    "@id": "https://web-scraping-guide.com/#website"
   }
+}</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://web-scraping-guide.com/#webpage",
+  "url": "https://web-scraping-guide.com/",
+  "name": "The Complete Web Scraping & Anti-Bot Bypass Guide 2026",
+  "isPartOf": {
+    "@id": "https://web-scraping-guide.com/#website"
+  },
+  "inLanguage": "en-US",
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-08-13",
+  "description": "A single-page production reference covering anti-bot detection layers, vendor bypasses, libraries, proxies, AI and agentic scraping, mobile API reversing, architecture, cost and the legal position.",
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://web-scraping-guide.com/og-image.png"
+  },
+  "significantLink": [
+    "https://web-scraping-guide.com/#legal-ethics",
+    "https://web-scraping-guide.com/#flow",
+    "https://web-scraping-guide.com/#detect",
+    "https://web-scraping-guide.com/#antibots",
+    "https://web-scraping-guide.com/#cases",
+    "https://web-scraping-guide.com/#libs",
+    "https://web-scraping-guide.com/#ai",
+    "https://web-scraping-guide.com/#platforms",
+    "https://web-scraping-guide.com/#proxies",
+    "https://web-scraping-guide.com/#play",
+    "https://web-scraping-guide.com/#innovation",
+    "https://web-scraping-guide.com/#tools",
+    "https://web-scraping-guide.com/#arch",
+    "https://web-scraping-guide.com/#cost",
+    "https://web-scraping-guide.com/#post-extract",
+    "https://web-scraping-guide.com/#mobile",
+    "https://web-scraping-guide.com/#jargon",
+    "https://web-scraping-guide.com/#community",
+    "https://web-scraping-guide.com/#tl"
+  ],
+  "hasPart": [
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#legal-ethics",
+      "url": "https://web-scraping-guide.com/#legal-ethics",
+      "name": "Legal and Ethical Boundaries of Web Scraping",
+      "description": "Case law, terms of service, CFAA, GDPR and the difference between what is technically possible and what is lawful, including Google v. SerpApi, hiQ v. LinkedIn and Van Buren.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#flow",
+      "url": "https://web-scraping-guide.com/#flow",
+      "name": "The Scraping Decision Flow",
+      "description": "How to choose between a plain HTTP client, TLS impersonation, a stealth browser and a managed API, in the order that costs least.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#detect",
+      "url": "https://web-scraping-guide.com/#detect",
+      "name": "Anti-Bot Detection Layers",
+      "description": "Every layer that judges a request: TCP and layer 4, JA4+ TLS fingerprinting, HTTP/2 frame order, JavaScript fingerprinting, canvas and WebGL, network identity, behavioural scoring and session coherence.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#antibots",
+      "url": "https://web-scraping-guide.com/#antibots",
+      "name": "Anti-Bot Vendors and How They Work",
+      "description": "Cloudflare, Akamai Bot Manager, DataDome, Kasada, PerimeterX/HUMAN, F5 Shape and Fastly: what each one scores, and where each one is weakest.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#cases",
+      "url": "https://web-scraping-guide.com/#cases",
+      "name": "Anti-Bot Bypass Case Studies",
+      "description": "Worked field notes including Akamai Bot Manager v3, Cloudflare Turnstile, mobile signing in native code and targets that beat every route.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#libs",
+      "url": "https://web-scraping-guide.com/#libs",
+      "name": "Web Scraping Libraries and Tools",
+      "description": "The full arsenal: curl_cffi, Camoufox, nodriver, Scrapy, Playwright, Patchright, CloakBrowser, Scrapling, fingerprint-suite, TRAWL and more, placed by the detection layer each one answers.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#ai",
+      "url": "https://web-scraping-guide.com/#ai",
+      "name": "AI and LLM Web Scraping",
+      "description": "LLM-based extraction, MCP servers, browser agents, computer-use agents, prompt injection risk, and the ten failure modes of scrapers an agent wrote for you.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#platforms",
+      "url": "https://web-scraping-guide.com/#platforms",
+      "name": "Managed Scraping Platforms",
+      "description": "Unblocker APIs and managed browser platforms, and the point at which buying beats building.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#proxies",
+      "url": "https://web-scraping-guide.com/#proxies",
+      "name": "Proxy Strategy for Web Scraping",
+      "description": "Residential, mobile, ISP and datacenter IPs, sourcing and KYC risk, geofeed verification, failure attribution and why price does not predict performance.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#play",
+      "url": "https://web-scraping-guide.com/#play",
+      "name": "The Escalation Playbook",
+      "description": "A ladder to walk in order when a target blocks you, stopping at the first thing that works.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#innovation",
+      "url": "https://web-scraping-guide.com/#innovation",
+      "name": "What Practitioners Are Shipping in 2026",
+      "description": "Field notes from working engineers: HTTP/3 and the proxy gap, agent token economics, WebMCP, publisher cloaking, proxy error attribution and session reputation.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#tools",
+      "url": "https://web-scraping-guide.com/#tools",
+      "name": "Fingerprint Testing and Debugging Tools",
+      "description": "How to check your own fingerprint before a target does, plus wire-level capture and the mistakes that waste an afternoon.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#arch",
+      "url": "https://web-scraping-guide.com/#arch",
+      "name": "Production Scraping Architecture",
+      "description": "Nine architectures for running scrapers at scale, including self-healing fleets, browser sidecars, queueing, drift detection and data quality gates.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#cost",
+      "url": "https://web-scraping-guide.com/#cost",
+      "name": "Web Scraping Cost and Economics",
+      "description": "Cost per usable document, build versus buy, browser runtime cost and the numbers that actually decide the design.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#post-extract",
+      "url": "https://web-scraping-guide.com/#post-extract",
+      "name": "Post-Extraction: Storage, Quality and Pipelines",
+      "description": "What happens after the bypass: schemas, provenance, deduplication, drift, silent 200s and poisoned data.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#mobile",
+      "url": "https://web-scraping-guide.com/#mobile",
+      "name": "Mobile App API Reverse Engineering",
+      "description": "Intercepting mobile traffic, certificate pinning, Frida, native signing logic and rebuilding signatures in Python.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#jargon",
+      "url": "https://web-scraping-guide.com/#jargon",
+      "name": "Web Scraping Glossary in Plain English",
+      "description": "Fingerprinting, challenges, IP reputation and robots.txt explained without jargon.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#community",
+      "url": "https://web-scraping-guide.com/#community",
+      "name": "Web Scraping Communities and Learning Resources",
+      "description": "Where practitioners actually talk: Discord servers, newsletters, conferences, books and courses worth the time.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    },
+    {
+      "@type": "WebPageElement",
+      "@id": "https://web-scraping-guide.com/#tl",
+      "url": "https://web-scraping-guide.com/#tl",
+      "name": "The Anti-Bot Arms Race Timeline",
+      "description": "From IP bans to transformer-based behavioural scoring: how detection evolved and where it is heading.",
+      "isPartOf": {
+        "@id": "https://web-scraping-guide.com/#webpage"
+      }
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://web-scraping-guide.com/#glossary",
+  "name": "Web Scraping and Anti-Bot Glossary",
+  "url": "https://web-scraping-guide.com/#jargon",
+  "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "TLS Fingerprint",
+      "description": "How your browser \"shakes hands\" when connecting securely. Chrome and Firefox shake hands differently, so a server can tell them apart before you send a single header. Analogy: recognising someone by the way they shake hands, firm, soft, awkward.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "HTTP Fingerprint",
+      "description": "The order and style of your HTTP headers. A bot might say \"I'm Chrome\" but forget to include headers Chrome always sends. Analogy: like a boarding pass, if your name and flight number don't match the expected pattern, it's suspicious.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "TCP/IP Fingerprint",
+      "description": "Looks at how your computer sends and receives internet packets. Windows and Linux send packets with subtle differences. Analogy: recognising someone's hometown by their accent, you didn't ask, they just gave it away by how they talk.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Canvas Fingerprint",
+      "description": "Website secretly asks your browser to draw a hidden picture. Each GPU renders it slightly differently, that difference is your fingerprint. Analogy: asking 10 artists to draw the same tree, each drawing is unique even with the same instructions.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "WebGL Fingerprint",
+      "description": "Uses 3D graphics rendering to identify your GPU and driver. Same browser, different hardware, different fingerprint. Analogy: recognising a car engine by its sound, same model, but each engine has subtle variations you can hear.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Device Fingerprint",
+      "description": "Collects OS, fonts, screen size, timezone, plugins, battery level, everything about your setup combined into a unique profile. Analogy: identifying someone by their full outfit + hairstyle + voice + habits. Change one thing, the combo is still unique.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Behavioural Analysis",
+      "description": "Watching how you type, scroll, move your mouse. Bots move in straight lines at constant speed. Humans are messy and inconsistent. DataDome runs 35 behavioural signals in real-time. Analogy: a security guard watching body language, not what you say, how you move.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Dynamic Challenges",
+      "description": "The website throws mini-tests to check if you're real, CAPTCHA, Turnstile, proof-of-work puzzles. Kasada changes them constantly so you can't pre-solve. Analogy: a teacher changing exam questions mid-test to catch cheaters.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "IP Reputation",
+      "description": "Whether your IP address is associated with known bots, VPNs, datacenters, or abuse. Datacenter IPs are instantly flagged. Residential IPs from real ISPs get highest trust. Analogy: your home address appearing on a blacklist, the doorman knows before you knock.",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "robots.txt",
+      "description": "A text file at /robots.txt telling crawlers which paths to skip. Works on voluntary compliance only. Googlebot and GPTBot respect it. Commercial scrapers send a Chrome User-Agent and walk straight past it. Analogy: a \"staff only\" sign. Anyone who cares about signs obeys it. Anyone who does not care ",
+      "inDefinedTermSet": "https://web-scraping-guide.com/#glossary",
+      "url": "https://web-scraping-guide.com/#jargon"
+    }
+  ]
+}
   </script>
   <!-- ═══ END SEO ═══ -->
   <meta charset="UTF-8">
   <meta name="google-site-verification" content="_xzVvwcqQCAYt4vUM5adQrM245SmHaUv1YNK-diNDBs" />
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Web Scraping 2026: Bypass Cloudflare, Akamai &amp; More</title>
+<title>Web Scraping 2026: Bypass Cloudflare, Akamai, DataDome</title>
 
   <!-- ─── Favicon (yellow spider) ─── -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -2221,8 +2817,7 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 @media print{#gtoast,#rd-top,.rh .hlink{display:none!important}}
 </style>
 
-  <script type="application/ld+json">
-{
+  <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
@@ -2247,7 +2842,7 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
       "name": "How do you bypass Akamai Bot Manager in 2026?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Akamai Bot Manager in 2026 probes 60 Chrome extension URLs via fetch() to detect headless browsers. Real Chrome always has at least a few extensions installed. LinkedIn does a particularly aggressive version of this \u2014 they probe for Grammarly, 1Password, and other popular extensions by fetching resources at known extension paths. Your scraper never touches the DOM, but the DOM tells on you anyway. The fix: use CloakBrowser (loads real extension profiles) or Camoufox (uses Juggler protocol, no CDP artifacts). Combine with residential or ISP proxies since Akamai flags datacenter ASNs instantly. Set geoip=True in Camoufox to align WebRTC, DNS, and timezone with your proxy exit country."
+        "text": "Akamai Bot Manager in 2026 probes 60 Chrome extension URLs via fetch() to detect headless browsers. Real Chrome always has at least a few extensions installed. LinkedIn does a particularly aggressive version of this — they probe for Grammarly, 1Password, and other popular extensions by fetching resources at known extension paths. Your scraper never touches the DOM, but the DOM tells on you anyway. The fix: use CloakBrowser (loads real extension profiles) or Camoufox (uses Juggler protocol, no CDP artifacts). Combine with residential or ISP proxies since Akamai flags datacenter ASNs instantly. Set geoip=True in Camoufox to align WebRTC, DNS, and timezone with your proxy exit country."
       }
     },
     {
@@ -2263,7 +2858,7 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
       "name": "How do you scrape JavaScript-rendered websites with Python in 2026?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "For JavaScript-rendered websites in 2026, use Camoufox (Python, patches Firefox at C++ level, bypasses Cloudflare), PatchRight (undetected Playwright drop-in, bypasses Kasada), or scrapy-stealth middleware (adds TLS fingerprinting and browser engine to Scrapy). For AI-powered extraction, Crawl4AI (60K stars) and Firecrawl (111K stars) convert pages to clean Markdown. Avoid plain Playwright without stealth patches \u2014 navigator.webdriver=true is trivially detected by all major anti-bots."
+        "text": "For JavaScript-rendered websites in 2026, use Camoufox (Python, patches Firefox at C++ level, bypasses Cloudflare), PatchRight (undetected Playwright drop-in, bypasses Kasada), or scrapy-stealth middleware (adds TLS fingerprinting and browser engine to Scrapy). For AI-powered extraction, Crawl4AI (60K stars) and Firecrawl (111K stars) convert pages to clean Markdown. Avoid plain Playwright without stealth patches — navigator.webdriver=true is trivially detected by all major anti-bots."
       }
     },
     {
@@ -2279,7 +2874,7 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
       "name": "How do I intercept mobile app API traffic for scraping?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "To intercept mobile app API traffic: install Android Studio and create a virtual device with API 30+, root it using rootAVD and Magisk, install HTTP Toolkit to intercept HTTPS traffic and bypass SSL pinning automatically. Once you capture the API request, replicate it with curl_cffi for production scraping. Mobile APIs serve the same data as the website but with far weaker anti-bot protection \u2014 no Cloudflare, no JA4 fingerprinting."
+        "text": "To intercept mobile app API traffic: install Android Studio and create a virtual device with API 30+, root it using rootAVD and Magisk, install HTTP Toolkit to intercept HTTPS traffic and bypass SSL pinning automatically. Once you capture the API request, replicate it with curl_cffi for production scraping. Mobile APIs serve the same data as the website but with far weaker anti-bot protection — no Cloudflare, no JA4 fingerprinting."
       }
     },
     {
@@ -2287,7 +2882,7 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
       "name": "What is the best Scrapy anti-bot middleware in 2026?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "scrapy-stealth is the most complete Scrapy anti-bot middleware in 2026. It adds TLS fingerprint spoofing, HTTP/2 impersonation, proxy rotation, fingerprint cycling, and a real browser engine via CDP \u2014 all unavailable in scrapy-playwright, scrapy-splash, or scrapy-selenium. It supports per-request engine switching via request.meta, so easy URLs use the fast HTTP engine while protected pages use the browser engine. Install with: pip install scrapy-stealth"
+        "text": "scrapy-stealth is the most complete Scrapy anti-bot middleware in 2026. It adds TLS fingerprint spoofing, HTTP/2 impersonation, proxy rotation, fingerprint cycling, and a real browser engine via CDP — all unavailable in scrapy-playwright, scrapy-splash, or scrapy-selenium. It supports per-request engine switching via request.meta, so easy URLs use the fast HTTP engine while protected pages use the browser engine. Install with: pip install scrapy-stealth"
       }
     },
     {
@@ -2321,10 +2916,90 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
         "@type": "Answer",
         "text": "No. AI agents that browse the web are themselves scrapers: they make HTTP requests, hit anti-bot walls, get rate limited, and need proxies and believable fingerprints. The only thing that changed is who writes the prompt. Teams shipping agents bought more proxy and unblocking infrastructure through 2025, not less, because every agent loop ends at a server that would rather not serve it. The detection and bypass techniques used for traditional scraping apply directly to agentic browsing."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is my scraper still getting 429 errors after changing proxy provider?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because the rate limit may be keyed to your session, not your IP. A request with no cookies is anonymous and carries no history; a request with a session cookie carries an identity, and identities accumulate a reputation and a per-identity budget that can be exhausted. Before scaling infrastructure around the limit, send the same request with all state removed. If the anonymous request succeeds where the identified one fails, you were telling the server exactly who to rate limit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does using a proxy prevent HTTP/3, and does that matter for scraping?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. HTTP/3 runs over QUIC, which runs over UDP, while HTTP proxies tunnel TCP only. SOCKS5 defines a UDP ASSOCIATE command but browsers do not expose it, so Chrome is TCP-only over SOCKS5 in practice and negotiates HTTP/2 the moment a proxy is configured. It matters because Cloudflare Radar puts likely-bot traffic at 73.75% on HTTP/1.1, 26.76% on HTTP/2 and 3.33% on HTTP/3, so a proxied browser sits on the wrong side of a hardening signal. The options are RFC 9298 UDP proxying (CONNECT-UDP), a network-layer VPN tunnel that carries UDP, or a provider that has implemented HTTP/3 proxying."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is machine identity in web scraping?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Machine identity is the combination of signals a site uses to recognise and evaluate an automated visitor: IP reputation, browser fingerprint, TLS characteristics, cookies, headers, device information, session behaviour and geographic consistency, judged together rather than individually. It is why rotating IPs alone stopped working: you get blocked not for looking like a bot but for presenting a set of claims that cannot describe one real device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the accessibility tree instead of CSS selectors for scraping?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Often yes, and it is more durable. A hashed class name like css-1x7bhq9 is a build artifact that disappears on the next bundle, while an element's role and accessible name are semantic contracts that cannot quietly change without breaking the page for screen readers. Playwright exposes this directly with getByRole and get_by_role. Coverage on the open web is patchy so keep a CSS fallback, but on large commercial sites and anything that has been through a compliance review the role and name are usually present."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can an AI agent write a production web scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It can write the code well and the instrumentation badly, and the instrumentation is the part you live with. Reading a full agentic scraping toolchain end to end surfaced ten repeatable failure modes, including recon that keeps only the HTML and discards every JSON response, tests written by the same model that wrote the extractor, coverage checks that only flag fields at zero percent, rows carrying no source URL or fetch time, and a background watcher that reports a job as still running when it never reached the API."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some websites serve different content to AI crawlers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because the user agent is becoming a commercial identity rather than just a client string. TIME.com answers the same article URL with roughly 303,000 bytes of HTML for a browser and about 13,000 bytes of markdown for ClaudeBot, PerplexityBot and OAI-SearchBot, refuses GPTBot with a 406, and embeds sponsored blocks and impression-counting headers in the machine version. For a scraper this is dangerous precisely because it is not a block: the status is 200, the parse succeeds and the record count looks plausible, but the document is a different edition of the page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why can't Claude or ChatGPT reach my page even though it is public?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Claude's fetch tool is provenance-gated: it can only retrieve URLs that have already appeared in the conversation context, such as user messages, prior search results or prior fetch results, and it cannot follow a URL it constructed itself. A relative link inside HTML it already fetched is not enough, and neither is an llms.txt or a markdown version. That makes the search index the gatekeeper rather than your link graph, which for Claude means Brave Search. The design is an exfiltration defence, so it is not going to be relaxed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a self-healing scraper and how does it work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A self-healing scraper detects that extraction has drifted, regenerates the broken selector, verifies the fix against a test, and ships it without a human writing code. The parts that make it work in production are drift detection on item counts and field fill rates compared with the last good run rather than against zero, a repair path that fixes one field instead of rewriting the project, provenance on every row so you can tell when the break started, and a context-blind verifier that judges the output rather than the process that produced it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you detect which platform or CMS a website is built on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Score signals by how expensive they are to customise, and never detect on anything a theme can change. Platform-set cookie names, endpoints that ship regardless of theme, asset path conventions and response header quirks all survive a redesign; generator meta tags are worth including but weighting lowest, because they are the first thing an agency strips. Keep it scored rather than binary and store the confidence next to the label so a weak classification is visible rather than silently wrong."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is WebMCP and does it replace web scraping?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WebMCP lets a website declare structured tools that a browser agent can discover and call, and Cloudflare now injects the bridge for any site on its network. It does not replace scraping. The action layer usually proxies to an MCP server the site still has to build, the tools only activate for an agent actually driving a browser, and the declared tool surface and the rendered HTML are maintained by different code and can disagree. Check for a tool surface before writing a selector, then diff what it returns against the page at least once."
+      }
     }
-  ]
-}
-</script>
+  ],
+  "@id": "https://web-scraping-guide.com/#faq"
+}</script>
 
   <script type="application/ld+json">
   {
@@ -2396,8 +3071,7 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
   }
   </script>
 
-  <script type="application/ld+json">
-{
+  <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Asad's Web Scraping Guide 2026",
@@ -2412,25 +3086,32 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
   "publisher": {
     "@type": "Person",
     "name": "Asad Ikram"
-  }
-}
-</script>
+  },
+  "@id": "https://web-scraping-guide.com/#website"
+}</script>
 
-  <script type="application/ld+json">
-{
+  <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Asad Ikram",
   "url": "https://web-scraping-guide.com/",
   "jobTitle": "Data Engineer",
-  "knowsAbout": ["Web Scraping", "Anti-Bot Bypass", "Browser Fingerprinting", "TLS Fingerprinting", "Proxy Infrastructure", "Reverse Engineering", "Data Engineering"],
+  "knowsAbout": [
+    "Web Scraping",
+    "Anti-Bot Bypass",
+    "Browser Fingerprinting",
+    "TLS Fingerprinting",
+    "Proxy Infrastructure",
+    "Reverse Engineering",
+    "Data Engineering"
+  ],
   "description": "Data engineer with 7+ years building production web scrapers at scale, specialising in anti-bot evasion, TLS fingerprinting and large-scale crawling architecture.",
   "sameAs": [
     "https://www.linkedin.com/in/asad-ikram98/",
     "https://twitter.com/asad_ikram98"
-  ]
-}
-</script>
+  ],
+  "@id": "https://web-scraping-guide.com/#person"
+}</script>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4015695435596819" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-4015695435596819">
