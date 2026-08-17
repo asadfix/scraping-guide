@@ -71,7 +71,7 @@
     "@id": "https://web-scraping-guide.com/"
   },
   "datePublished": "2026-01-01",
-  "dateModified": "2026-08-22",
+  "dateModified": "2026-08-23",
   "image": "https://web-scraping-guide.com/og-image.png",
   "about": [
     {
@@ -390,7 +390,7 @@
   },
   "inLanguage": "en-US",
   "datePublished": "2026-01-01",
-  "dateModified": "2026-08-22",
+  "dateModified": "2026-08-23",
   "description": "A single-page production reference covering anti-bot detection layers, vendor bypasses, libraries, proxies, AI and agentic scraping, mobile API reversing, architecture, cost and the legal position.",
   "primaryImageOfPage": {
     "@type": "ImageObject",
@@ -2882,13 +2882,13 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 .kg-lg.off{opacity:.35}
 .kg-lg i{width:8px;height:8px;border-radius:50%;display:block}
 .kg-stage{grid-area:stage;position:relative;background:var(--s1);border:1px solid var(--b1);
-  border-radius:12px;overflow:hidden;min-height:520px}
-#kg-canvas{display:block;width:100%;height:520px;touch-action:none;cursor:grab}
+  border-radius:12px;overflow:hidden;min-height:640px}
+#kg-canvas{display:block;width:100%;height:640px;touch-action:none;cursor:grab}
 #kg-canvas.grabbing{cursor:grabbing}
 .kg-hint{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:9.5px;
   letter-spacing:.08em;text-transform:uppercase;color:var(--t3);pointer-events:none}
 .kg-panel{grid-area:panel;background:var(--s1);border:1px solid var(--b1);border-radius:12px;
-  padding:16px 17px;font-size:13.5px;line-height:1.68;color:var(--t2);max-height:520px;overflow-y:auto}
+  padding:16px 17px;font-size:13.5px;line-height:1.68;color:var(--t2);max-height:640px;overflow-y:auto}
 .kg-empty{color:var(--t3);font-size:13px}
 .kg-kind{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
   padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:9px}
@@ -2918,11 +2918,28 @@ html.rd-open #llmw,html.rd-open #rd-rail{display:none}
 .kg-ol-e{color:var(--t3);font-size:12.3px}
 @media(max-width:900px){
   .kg-wrap{grid-template-columns:1fr;grid-template-areas:"legend" "stage" "panel"}
-  #kg-canvas{height:420px}
-  .kg-stage{min-height:420px}
+  #kg-canvas{height:460px}
+  .kg-stage{min-height:460px}
   .kg-panel{max-height:none}
 }
 @media print{.kg-stage,.kg-legend{display:none}.kg-outline{border:0}.kg-outline-in{display:block!important}}
+
+/* ── LLM CONTEXT DOWNLOAD GROUP ─────────────────────────── */
+.dlwrap{text-align:center;margin-top:28px;position:relative;z-index:10}
+.dlmain{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;padding:10px 24px;
+  background:rgba(245,197,24,.08);border:1.5px solid rgba(245,197,24,.45);color:var(--y);border-radius:8px;
+  cursor:pointer;display:inline-flex;align-items:center;gap:9px;text-transform:uppercase;transition:all .16s}
+.dlmain:hover{background:rgba(245,197,24,.16);border-color:var(--y)}
+.dlmain .dlsub{font-size:9px;opacity:.6;font-weight:400;text-transform:none;letter-spacing:0}
+.dlalt{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.dlalt button{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+  background:rgba(255,255,255,.03);border:1px solid var(--b1);color:var(--t3);padding:6px 12px;
+  border-radius:6px;cursor:pointer;transition:all .15s}
+.dlalt button:hover{border-color:rgba(245,197,24,.4);color:var(--y);background:rgba(245,197,24,.06)}
+.dlalt em{font-style:normal;opacity:.55;text-transform:none;letter-spacing:0}
+.dlnote{font-family:var(--mono);font-size:10px;color:var(--t3);margin:10px auto 0;letter-spacing:.03em;
+  max-width:560px;line-height:1.6}
+@media(max-width:600px){.dlmain{font-size:10px;padding:9px 16px;flex-direction:column;gap:3px}.dlnote{font-size:9px}}
 </style>
 
   <script type="application/ld+json">{
@@ -3277,7 +3294,7 @@ function dismissLegalBanner(){
       <span class="nd"></span>
       <span class="nav-title">Asad's Scraping Guide</span>
       <span class="nav-badge">2026</span>
-      <span class="nav-updated" title="Last updated">Updated 2026-08-22 13:05 UTC</span>
+      <span class="nav-updated" title="Last updated">Updated 2026-08-23 11:40 UTC</span>
     </a>
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nls" id="mobNav">
@@ -3308,7 +3325,7 @@ function dismissLegalBanner(){
 <div id="ticker" role="complementary" aria-label="Recently added to the guide. Each item links to its section.">
   <div class="tk-lab"><span class="tk-dot"></span><span>What's new</span></div>
   <div class="tk-win">
-    <div class="tk-track"><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The guide as a graph: 68 nodes, 93 edges, 16 principles. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The guide as a graph: 68 nodes, 93 edges, 16 principles</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The LLM context now ships the graph structure ahead of the prose. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The LLM context now ships the graph structure ahead of the prose</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The man who found the supercookie sells browser tracking for a living. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The man who found the supercookie sells browser tracking for a living</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Repos that install themselves, because the reader is an agent. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Repos that install themselves, because the reader is an agent</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('legal-ethics')" aria-label="32 brokers sell data to AI developers and nobody knows which. Read it in Legal &amp; Ethics." title="Read this in Legal &amp; Ethics"><span class="tk-kind">New</span><span class="tk-txt">32 brokers sell data to AI developers and nobody knows which</span><span class="tk-go">Legal &amp; Ethics<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="ShaderGhost: a supercookie living in your GPU shader cache. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">ShaderGhost: a supercookie living in your GPU shader cache</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Nobody has shown that fingerprint randomisation actually works. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Nobody has shown that fingerprint randomisation actually works</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The localhost bridge: a decade-old hole between web and mobile. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The localhost bridge: a decade-old hole between web and mobile</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Access was the 2008 problem, legibility is the 2026 one. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Access was the 2008 problem, legibility is the 2026 one</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A whole new section on agentic browsers, cost and security. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A whole new section on agentic browsers, cost and security</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A ten-step agent flow: 7,000 tokens or 114,000, same work. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A ten-step agent flow: 7,000 tokens or 114,000, same work</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="HTML-in-Canvas injection: nothing to sanitise, still executes. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">HTML-in-Canvas injection: nothing to sanitise, still executes</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The proxies were fine, the tool measuring them was broken. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The proxies were fine, the tool measuring them was broken</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The protection is on the endpoint, not on the site. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The protection is on the endpoint, not on the site</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Every agentic browser tested at Black Hat lost to a web page. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Every agentic browser tested at Black Hat lost to a web page</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Fifteen stealth engines, and the detector that said they all worked. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Fifteen stealth engines, and the detector that said they all worked</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The endpoint only fires if you make the page ask for it. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The endpoint only fires if you make the page ask for it</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Your RAG pipeline is only as good as the layer nobody budgeted for. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Your RAG pipeline is only as good as the layer nobody budgeted for</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Using a proxy is what puts you on HTTP/2, and that is now the tell. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Using a proxy is what puts you on HTTP/2, and that is now the tell</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 100%-precise Turnstile check was a Chrome bug, now patched. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 100%-precise Turnstile check was a Chrome bug, now patched</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two thirds of an agent's token bill is the browser tool. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two thirds of an agent's token bill is the browser tool</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two stealth libraries that cover the same layer are one stealth library. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two stealth libraries that cover the same layer are one stealth library</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The accessibility tree is the cheapest selector nobody uses. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The accessibility tree is the cheapest selector nobody uses</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Ten failure modes in scrapers an agent wrote for you. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">New</span><span class="tk-txt">Ten failure modes in scrapers an agent wrote for you</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Claude cannot follow a link it was never handed. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Claude cannot follow a link it was never handed</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Whose fault was that 5xx? Proxy errors are getting a status code. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Whose fault was that 5xx? Proxy errors are getting a status code</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 429 that was fixed by deleting the cookie. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 429 that was fixed by deleting the cookie</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="WebMCP shipped, and most of it is a bridge to nowhere. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">WebMCP shipped, and most of it is a bridge to nowhere</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Why ambiguous traffic gets throttled harder than loud traffic. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Why ambiguous traffic gets throttled harder than loud traffic</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Price does not predict proxy performance, and the winner changes per domain. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Price does not predict proxy performance, and the winner changes per domain</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Half the web is automated, and that bot may be your best reader. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Half the web is automated, and that bot may be your best reader</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="A publisher now serves bots a different site, with ads built in. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">A publisher now serves bots a different site, with ads built in</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Cloudflare Kitesurf: an agent browser that cannot pass its own challenges. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Kitesurf: an agent browser that cannot pass its own challenges</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Only 18.5% of the web's front doors are actually open. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Only 18.5% of the web's front doors are actually open</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="TCP and layer 4 fingerprinting, below the handshake. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">TCP and layer 4 fingerprinting, below the handshake</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="Cloudflare Precursor scores the session, not the request. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Precursor scores the session, not the request</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('flow')" aria-label="Sweep the impersonation profile before you escalate the tool. Read it in Decision Flow." title="Read this in Decision Flow"><span class="tk-kind">Added</span><span class="tk-txt">Sweep the impersonation profile before you escalate the tool</span><span class="tk-go">Decision Flow<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('tools')" aria-label="powhttp, and two capture mistakes that waste an afternoon. Read it in Testing Tools." title="Read this in Testing Tools"><span class="tk-kind">Added</span><span class="tk-txt">powhttp, and two capture mistakes that waste an afternoon</span><span class="tk-go">Testing Tools<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('proxies')" aria-label="Verify the geography of your proxies, do not buy it. Read it in Proxies." title="Read this in Proxies"><span class="tk-kind">Added</span><span class="tk-txt">Verify the geography of your proxies, do not buy it</span><span class="tk-go">Proxies<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('post-extract')" aria-label="The quiet failure mode: a 200 with nothing in it. Read it in Post-Extraction." title="Read this in Post-Extraction"><span class="tk-kind">Added</span><span class="tk-txt">The quiet failure mode: a 200 with nothing in it</span><span class="tk-go">Post-Extraction<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Browser agents are becoming coding agents. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">Browser agents are becoming coding agents</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="The prompt injection surface that never crosses the network. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">The prompt injection surface that never crosses the network</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The guide as a graph: 68 nodes, 93 edges, 16 principles. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The guide as a graph: 68 nodes, 93 edges, 16 principles</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The LLM context now ships the graph structure ahead of the prose. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The LLM context now ships the graph structure ahead of the prose</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The man who found the supercookie sells browser tracking for a living. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The man who found the supercookie sells browser tracking for a living</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Repos that install themselves, because the reader is an agent. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Repos that install themselves, because the reader is an agent</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('legal-ethics')" aria-label="32 brokers sell data to AI developers and nobody knows which. Read it in Legal &amp; Ethics." title="Read this in Legal &amp; Ethics"><span class="tk-kind">New</span><span class="tk-txt">32 brokers sell data to AI developers and nobody knows which</span><span class="tk-go">Legal &amp; Ethics<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="ShaderGhost: a supercookie living in your GPU shader cache. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">ShaderGhost: a supercookie living in your GPU shader cache</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Nobody has shown that fingerprint randomisation actually works. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Nobody has shown that fingerprint randomisation actually works</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The localhost bridge: a decade-old hole between web and mobile. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The localhost bridge: a decade-old hole between web and mobile</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Access was the 2008 problem, legibility is the 2026 one. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Access was the 2008 problem, legibility is the 2026 one</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A whole new section on agentic browsers, cost and security. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A whole new section on agentic browsers, cost and security</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A ten-step agent flow: 7,000 tokens or 114,000, same work. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A ten-step agent flow: 7,000 tokens or 114,000, same work</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="HTML-in-Canvas injection: nothing to sanitise, still executes. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">HTML-in-Canvas injection: nothing to sanitise, still executes</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The proxies were fine, the tool measuring them was broken. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The proxies were fine, the tool measuring them was broken</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The protection is on the endpoint, not on the site. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The protection is on the endpoint, not on the site</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Every agentic browser tested at Black Hat lost to a web page. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Every agentic browser tested at Black Hat lost to a web page</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Fifteen stealth engines, and the detector that said they all worked. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Fifteen stealth engines, and the detector that said they all worked</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The endpoint only fires if you make the page ask for it. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The endpoint only fires if you make the page ask for it</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Your RAG pipeline is only as good as the layer nobody budgeted for. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Your RAG pipeline is only as good as the layer nobody budgeted for</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Using a proxy is what puts you on HTTP/2, and that is now the tell. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Using a proxy is what puts you on HTTP/2, and that is now the tell</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 100%-precise Turnstile check was a Chrome bug, now patched. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 100%-precise Turnstile check was a Chrome bug, now patched</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two thirds of an agent's token bill is the browser tool. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two thirds of an agent's token bill is the browser tool</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two stealth libraries that cover the same layer are one stealth library. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two stealth libraries that cover the same layer are one stealth library</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The accessibility tree is the cheapest selector nobody uses. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The accessibility tree is the cheapest selector nobody uses</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Ten failure modes in scrapers an agent wrote for you. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">New</span><span class="tk-txt">Ten failure modes in scrapers an agent wrote for you</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Claude cannot follow a link it was never handed. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Claude cannot follow a link it was never handed</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Whose fault was that 5xx? Proxy errors are getting a status code. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Whose fault was that 5xx? Proxy errors are getting a status code</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 429 that was fixed by deleting the cookie. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 429 that was fixed by deleting the cookie</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="WebMCP shipped, and most of it is a bridge to nowhere. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">WebMCP shipped, and most of it is a bridge to nowhere</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Why ambiguous traffic gets throttled harder than loud traffic. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Why ambiguous traffic gets throttled harder than loud traffic</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Price does not predict proxy performance, and the winner changes per domain. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Price does not predict proxy performance, and the winner changes per domain</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Half the web is automated, and that bot may be your best reader. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Half the web is automated, and that bot may be your best reader</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="A publisher now serves bots a different site, with ads built in. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">A publisher now serves bots a different site, with ads built in</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Cloudflare Kitesurf: an agent browser that cannot pass its own challenges. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Kitesurf: an agent browser that cannot pass its own challenges</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Only 18.5% of the web's front doors are actually open. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Only 18.5% of the web's front doors are actually open</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="TCP and layer 4 fingerprinting, below the handshake. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">TCP and layer 4 fingerprinting, below the handshake</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="Cloudflare Precursor scores the session, not the request. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Precursor scores the session, not the request</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('flow')" aria-label="Sweep the impersonation profile before you escalate the tool. Read it in Decision Flow." title="Read this in Decision Flow"><span class="tk-kind">Added</span><span class="tk-txt">Sweep the impersonation profile before you escalate the tool</span><span class="tk-go">Decision Flow<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('tools')" aria-label="powhttp, and two capture mistakes that waste an afternoon. Read it in Testing Tools." title="Read this in Testing Tools"><span class="tk-kind">Added</span><span class="tk-txt">powhttp, and two capture mistakes that waste an afternoon</span><span class="tk-go">Testing Tools<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('proxies')" aria-label="Verify the geography of your proxies, do not buy it. Read it in Proxies." title="Read this in Proxies"><span class="tk-kind">Added</span><span class="tk-txt">Verify the geography of your proxies, do not buy it</span><span class="tk-go">Proxies<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('post-extract')" aria-label="The quiet failure mode: a 200 with nothing in it. Read it in Post-Extraction." title="Read this in Post-Extraction"><span class="tk-kind">Added</span><span class="tk-txt">The quiet failure mode: a 200 with nothing in it</span><span class="tk-go">Post-Extraction<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Browser agents are becoming coding agents. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">Browser agents are becoming coding agents</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="The prompt injection surface that never crosses the network. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">The prompt injection surface that never crosses the network</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button></div>
+    <div class="tk-track"><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The graph now covers every section: 130 nodes, 188 edges. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The graph now covers every section: 130 nodes, 188 edges</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="Download the knowledge graph on its own, as markdown or JSON. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">Download the knowledge graph on its own, as markdown or JSON</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The guide as a graph: 68 nodes, 93 edges, 16 principles. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The guide as a graph: 68 nodes, 93 edges, 16 principles</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The LLM context now ships the graph structure ahead of the prose. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The LLM context now ships the graph structure ahead of the prose</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The man who found the supercookie sells browser tracking for a living. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The man who found the supercookie sells browser tracking for a living</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Repos that install themselves, because the reader is an agent. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Repos that install themselves, because the reader is an agent</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('legal-ethics')" aria-label="32 brokers sell data to AI developers and nobody knows which. Read it in Legal &amp; Ethics." title="Read this in Legal &amp; Ethics"><span class="tk-kind">New</span><span class="tk-txt">32 brokers sell data to AI developers and nobody knows which</span><span class="tk-go">Legal &amp; Ethics<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="ShaderGhost: a supercookie living in your GPU shader cache. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">ShaderGhost: a supercookie living in your GPU shader cache</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Nobody has shown that fingerprint randomisation actually works. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Nobody has shown that fingerprint randomisation actually works</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The localhost bridge: a decade-old hole between web and mobile. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The localhost bridge: a decade-old hole between web and mobile</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Access was the 2008 problem, legibility is the 2026 one. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Access was the 2008 problem, legibility is the 2026 one</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A whole new section on agentic browsers, cost and security. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A whole new section on agentic browsers, cost and security</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A ten-step agent flow: 7,000 tokens or 114,000, same work. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A ten-step agent flow: 7,000 tokens or 114,000, same work</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="HTML-in-Canvas injection: nothing to sanitise, still executes. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">HTML-in-Canvas injection: nothing to sanitise, still executes</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The proxies were fine, the tool measuring them was broken. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The proxies were fine, the tool measuring them was broken</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The protection is on the endpoint, not on the site. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The protection is on the endpoint, not on the site</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Every agentic browser tested at Black Hat lost to a web page. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Every agentic browser tested at Black Hat lost to a web page</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Fifteen stealth engines, and the detector that said they all worked. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Fifteen stealth engines, and the detector that said they all worked</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The endpoint only fires if you make the page ask for it. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The endpoint only fires if you make the page ask for it</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Your RAG pipeline is only as good as the layer nobody budgeted for. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Your RAG pipeline is only as good as the layer nobody budgeted for</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Using a proxy is what puts you on HTTP/2, and that is now the tell. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Using a proxy is what puts you on HTTP/2, and that is now the tell</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 100%-precise Turnstile check was a Chrome bug, now patched. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 100%-precise Turnstile check was a Chrome bug, now patched</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two thirds of an agent's token bill is the browser tool. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two thirds of an agent's token bill is the browser tool</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two stealth libraries that cover the same layer are one stealth library. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two stealth libraries that cover the same layer are one stealth library</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The accessibility tree is the cheapest selector nobody uses. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The accessibility tree is the cheapest selector nobody uses</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Ten failure modes in scrapers an agent wrote for you. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">New</span><span class="tk-txt">Ten failure modes in scrapers an agent wrote for you</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Claude cannot follow a link it was never handed. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Claude cannot follow a link it was never handed</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Whose fault was that 5xx? Proxy errors are getting a status code. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Whose fault was that 5xx? Proxy errors are getting a status code</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 429 that was fixed by deleting the cookie. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 429 that was fixed by deleting the cookie</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="WebMCP shipped, and most of it is a bridge to nowhere. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">WebMCP shipped, and most of it is a bridge to nowhere</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Why ambiguous traffic gets throttled harder than loud traffic. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Why ambiguous traffic gets throttled harder than loud traffic</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Price does not predict proxy performance, and the winner changes per domain. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Price does not predict proxy performance, and the winner changes per domain</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Half the web is automated, and that bot may be your best reader. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Half the web is automated, and that bot may be your best reader</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="A publisher now serves bots a different site, with ads built in. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">A publisher now serves bots a different site, with ads built in</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Cloudflare Kitesurf: an agent browser that cannot pass its own challenges. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Kitesurf: an agent browser that cannot pass its own challenges</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Only 18.5% of the web's front doors are actually open. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Only 18.5% of the web's front doors are actually open</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="TCP and layer 4 fingerprinting, below the handshake. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">TCP and layer 4 fingerprinting, below the handshake</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="Cloudflare Precursor scores the session, not the request. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Precursor scores the session, not the request</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('flow')" aria-label="Sweep the impersonation profile before you escalate the tool. Read it in Decision Flow." title="Read this in Decision Flow"><span class="tk-kind">Added</span><span class="tk-txt">Sweep the impersonation profile before you escalate the tool</span><span class="tk-go">Decision Flow<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('tools')" aria-label="powhttp, and two capture mistakes that waste an afternoon. Read it in Testing Tools." title="Read this in Testing Tools"><span class="tk-kind">Added</span><span class="tk-txt">powhttp, and two capture mistakes that waste an afternoon</span><span class="tk-go">Testing Tools<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('proxies')" aria-label="Verify the geography of your proxies, do not buy it. Read it in Proxies." title="Read this in Proxies"><span class="tk-kind">Added</span><span class="tk-txt">Verify the geography of your proxies, do not buy it</span><span class="tk-go">Proxies<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('post-extract')" aria-label="The quiet failure mode: a 200 with nothing in it. Read it in Post-Extraction." title="Read this in Post-Extraction"><span class="tk-kind">Added</span><span class="tk-txt">The quiet failure mode: a 200 with nothing in it</span><span class="tk-go">Post-Extraction<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Browser agents are becoming coding agents. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">Browser agents are becoming coding agents</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="The prompt injection surface that never crosses the network. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">The prompt injection surface that never crosses the network</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The graph now covers every section: 130 nodes, 188 edges. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The graph now covers every section: 130 nodes, 188 edges</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="Download the knowledge graph on its own, as markdown or JSON. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">Download the knowledge graph on its own, as markdown or JSON</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The guide as a graph: 68 nodes, 93 edges, 16 principles. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The guide as a graph: 68 nodes, 93 edges, 16 principles</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('kg')" aria-label="The LLM context now ships the graph structure ahead of the prose. Read it in Knowledge Graph." title="Read this in Knowledge Graph"><span class="tk-kind">New</span><span class="tk-txt">The LLM context now ships the graph structure ahead of the prose</span><span class="tk-go">Knowledge Graph<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The man who found the supercookie sells browser tracking for a living. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The man who found the supercookie sells browser tracking for a living</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Repos that install themselves, because the reader is an agent. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Repos that install themselves, because the reader is an agent</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('legal-ethics')" aria-label="32 brokers sell data to AI developers and nobody knows which. Read it in Legal &amp; Ethics." title="Read this in Legal &amp; Ethics"><span class="tk-kind">New</span><span class="tk-txt">32 brokers sell data to AI developers and nobody knows which</span><span class="tk-go">Legal &amp; Ethics<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="ShaderGhost: a supercookie living in your GPU shader cache. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">ShaderGhost: a supercookie living in your GPU shader cache</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Nobody has shown that fingerprint randomisation actually works. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Nobody has shown that fingerprint randomisation actually works</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The localhost bridge: a decade-old hole between web and mobile. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The localhost bridge: a decade-old hole between web and mobile</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Access was the 2008 problem, legibility is the 2026 one. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Access was the 2008 problem, legibility is the 2026 one</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A whole new section on agentic browsers, cost and security. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A whole new section on agentic browsers, cost and security</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="A ten-step agent flow: 7,000 tokens or 114,000, same work. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">A ten-step agent flow: 7,000 tokens or 114,000, same work</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('agentic')" aria-label="HTML-in-Canvas injection: nothing to sanitise, still executes. Read it in Agentic Browsers." title="Read this in Agentic Browsers"><span class="tk-kind">New</span><span class="tk-txt">HTML-in-Canvas injection: nothing to sanitise, still executes</span><span class="tk-go">Agentic Browsers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The proxies were fine, the tool measuring them was broken. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The proxies were fine, the tool measuring them was broken</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The protection is on the endpoint, not on the site. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The protection is on the endpoint, not on the site</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Every agentic browser tested at Black Hat lost to a web page. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Every agentic browser tested at Black Hat lost to a web page</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Fifteen stealth engines, and the detector that said they all worked. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Fifteen stealth engines, and the detector that said they all worked</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The endpoint only fires if you make the page ask for it. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The endpoint only fires if you make the page ask for it</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Your RAG pipeline is only as good as the layer nobody budgeted for. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Your RAG pipeline is only as good as the layer nobody budgeted for</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Using a proxy is what puts you on HTTP/2, and that is now the tell. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Using a proxy is what puts you on HTTP/2, and that is now the tell</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 100%-precise Turnstile check was a Chrome bug, now patched. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 100%-precise Turnstile check was a Chrome bug, now patched</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two thirds of an agent's token bill is the browser tool. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two thirds of an agent's token bill is the browser tool</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Two stealth libraries that cover the same layer are one stealth library. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Two stealth libraries that cover the same layer are one stealth library</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The accessibility tree is the cheapest selector nobody uses. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The accessibility tree is the cheapest selector nobody uses</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Ten failure modes in scrapers an agent wrote for you. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">New</span><span class="tk-txt">Ten failure modes in scrapers an agent wrote for you</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Claude cannot follow a link it was never handed. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Claude cannot follow a link it was never handed</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Whose fault was that 5xx? Proxy errors are getting a status code. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Whose fault was that 5xx? Proxy errors are getting a status code</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="The 429 that was fixed by deleting the cookie. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">The 429 that was fixed by deleting the cookie</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="WebMCP shipped, and most of it is a bridge to nowhere. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">WebMCP shipped, and most of it is a bridge to nowhere</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Why ambiguous traffic gets throttled harder than loud traffic. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Why ambiguous traffic gets throttled harder than loud traffic</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Price does not predict proxy performance, and the winner changes per domain. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Price does not predict proxy performance, and the winner changes per domain</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Half the web is automated, and that bot may be your best reader. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">New</span><span class="tk-txt">Half the web is automated, and that bot may be your best reader</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="A publisher now serves bots a different site, with ads built in. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">A publisher now serves bots a different site, with ads built in</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Cloudflare Kitesurf: an agent browser that cannot pass its own challenges. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Kitesurf: an agent browser that cannot pass its own challenges</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('innovation')" aria-label="Only 18.5% of the web's front doors are actually open. Read it in Innovation Feed." title="Read this in Innovation Feed"><span class="tk-kind">Added</span><span class="tk-txt">Only 18.5% of the web's front doors are actually open</span><span class="tk-go">Innovation Feed<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="TCP and layer 4 fingerprinting, below the handshake. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">TCP and layer 4 fingerprinting, below the handshake</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('detect')" aria-label="Cloudflare Precursor scores the session, not the request. Read it in Detection Layers." title="Read this in Detection Layers"><span class="tk-kind">Added</span><span class="tk-txt">Cloudflare Precursor scores the session, not the request</span><span class="tk-go">Detection Layers<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('flow')" aria-label="Sweep the impersonation profile before you escalate the tool. Read it in Decision Flow." title="Read this in Decision Flow"><span class="tk-kind">Added</span><span class="tk-txt">Sweep the impersonation profile before you escalate the tool</span><span class="tk-go">Decision Flow<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('tools')" aria-label="powhttp, and two capture mistakes that waste an afternoon. Read it in Testing Tools." title="Read this in Testing Tools"><span class="tk-kind">Added</span><span class="tk-txt">powhttp, and two capture mistakes that waste an afternoon</span><span class="tk-go">Testing Tools<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('proxies')" aria-label="Verify the geography of your proxies, do not buy it. Read it in Proxies." title="Read this in Proxies"><span class="tk-kind">Added</span><span class="tk-txt">Verify the geography of your proxies, do not buy it</span><span class="tk-go">Proxies<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('post-extract')" aria-label="The quiet failure mode: a 200 with nothing in it. Read it in Post-Extraction." title="Read this in Post-Extraction"><span class="tk-kind">Added</span><span class="tk-txt">The quiet failure mode: a 200 with nothing in it</span><span class="tk-go">Post-Extraction<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="Browser agents are becoming coding agents. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">Browser agents are becoming coding agents</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button><button class="tk-item" onclick="scrollToSection('ai')" aria-label="The prompt injection surface that never crosses the network. Read it in AI Scraping." title="Read this in AI Scraping"><span class="tk-kind">Added</span><span class="tk-txt">The prompt injection surface that never crosses the network</span><span class="tk-go">AI Scraping<span class="tk-arw">&#8594;</span></span></button></div>
   </div>
 </div>
 
@@ -3344,13 +3361,17 @@ function dismissLegalBanner(){
       <div class="hs"><div class="hs-n">4</div><div class="hs-l">Detection layers</div></div>
       <div class="hs"><div class="hs-n">6</div><div class="hs-l">Decision steps</div></div>
     </div>
-    <!-- LLM Context Download Button -->
-    <div style="text-align:center;margin-top:28px;position:relative;z-index:10">
-      <button id="llm-dl-btn" onclick="downloadLLMContext()" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;padding:10px 24px;background:rgba(245,197,24,.08);border:1.5px solid rgba(245,197,24,.4);border-radius:5px;color:rgba(245,197,24,.9);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(245,197,24,.16)'" onmouseout="this.style.background='rgba(245,197,24,.08)'">
-        <span>⬇</span> Download as LLM Context
-        <span style="font-size:9px;opacity:.6;font-weight:400;text-transform:none;letter-spacing:0">~50K tokens · Claude &amp; GPT-4o</span>
+    <!-- LLM Context Download -->
+    <div class="dlwrap">
+      <button id="llm-dl-btn" onclick="downloadLLMContext()" class="dlmain">
+        <span>&#11015;</span> Download as LLM Context
+        <span class="dlsub">Full guide &middot; graph included &middot; Claude &amp; GPT</span>
       </button>
-      <p style="font-family:var(--mono);font-size:10px;color:var(--t3);margin:8px 0 0;letter-spacing:.04em">Paste into Claude, ChatGPT, or Cursor — full guide as LLM context</p>
+      <div class="dlalt">
+        <button type="button" onclick="downloadKG('md')" title="The typed knowledge graph only: 130 nodes, 188 edges, no prose">&#11015; Graph only <em>.md &middot; ~7K tokens</em></button>
+        <button type="button" onclick="downloadKG('json')" title="Machine-readable nodes and edges for your own tooling">&#11015; Graph <em>.json</em></button>
+      </div>
+      <p class="dlnote">Paste into Claude, ChatGPT or Cursor. The full download already carries the graph ahead of the prose; the two smaller files are for when you only want the structure.</p>
     </div>
   </div>
 
@@ -11977,13 +11998,13 @@ The payoff scales past the one app. Most apps that protect their API at all push
 <section class="sec" id="kg">
 <div class="sk rv rv-l"><span class="sn">17</span> How this is wired</div>
 <h2 class="sh">The guide as a graph<br><em>because the links are the argument</em></h2>
-<p class="ss">Eighty-odd sections and a hundred and forty field notes are a pile, not a model. What makes this subject learnable is that almost everything in it is an instance of about sixteen principles, and those principles attach to the layers a request is judged at. Click any node to see what it connects to, and why.</p>
+<p class="ss">Twenty sections and a hundred and forty field notes are a pile, not a model. What makes this subject learnable is that almost everything in it is an instance of about eighteen principles, and those principles attach to the layers a request is judged at. <strong>130 nodes, 188 typed edges, and every section of the guide represented.</strong> The rings run outward from the spine: principles, then the layers a request is judged at, then methods, then tools and vendors, with the measured evidence and the case law on the rim. Click any node to see what it connects to, and why.</p>
 
 <div class="kg-wrap rv">
   <div class="kg-legend" id="kg-legend" role="group" aria-label="Filter the graph by node type"></div>
   <div class="kg-stage">
     <canvas id="kg-canvas" role="img" aria-label="Interactive knowledge graph. A text outline of every node and its connections follows below."></canvas>
-    <div class="kg-hint" id="kg-hint">Drag to move a node &middot; click to inspect</div>
+    <div class="kg-hint" id="kg-hint">Drag a node around its ring &middot; click to inspect &middot; chips filter</div>
   </div>
   <div class="kg-panel" id="kg-panel" aria-live="polite">
     <div class="kg-empty">Pick a node. The <strong>principles</strong> are the spine &mdash; start there if you want the short version of the whole guide.</div>
@@ -12498,8 +12519,8 @@ The payoff scales past the one app. Most apps that protect their API at all push
 </footer>
 <script>
 const KNOWLEDGE_BASE = `
-GUIDE FRESHNESS: This knowledge base and web-scraping-guide.com were last updated 2026-08-22. Techniques, tool versions, benchmarks, and anti-bot vendor behaviour reflect mid-2026, with the newest entries current to August 2026. Treat anything time-sensitive as an August 2026 snapshot.
-KNOWLEDGE GRAPH (#kg - the structure this guide actually has, and how to reason over it): the guide is not a list of tips. 68 NODES AND 93 TYPED EDGES organise everything: 16 PRINCIPLES (the spine), 8 DETECTION LAYERS (L0 TCP/layer-4, L1 TLS/JA4, L2 HTTP/2 and header order, L3 JavaScript fingerprinting, L4 hardware and OS side channels, L5 network identity, L6 behaviour and session scoring, L7 declared identity and policy), 6 vendors, 12 tools, 20 pieces of measured evidence and 6 legal nodes. EDGE VERBS: at (operates at a layer), beats (defeats), catch (catches), then (judged before), caseof (instance of a principle), backs (evidence for), cuts (limits or contradicts), costs (economic consequence). THE 16 PRINCIPLES: P1 coherence not realism; P2 the block is at a layer you are not working on; P3 network identity dominates fingerprint quality; P4 every piece of state is a claim that can be judged; P5 the best signals live in the seam between two layers; P6 below the sandbox patching stops working; P7 the expensive failures return 200; P8 alert on the delta not the level; P9 a row without provenance cannot be diagnosed; P10 check the instrument before trusting the verdict; P11 agent cost is how often the model looks; P12 agents cannot separate instruction from content; P13 protection is a rule on a route not a property of a site; P14 fix the class not the instance; P15 access was the old problem and legibility is the new one; P16 preventing is not the same as proving you prevented. HOW TO REASON WITH IT: to answer "why am I blocked", walk the layers IN ORDER and establish which layer the symptom belongs to BEFORE recommending a tool - most wasted work is a layer-2 fix applied to a layer-1 refusal. To test whether a claim in this guide is supported, follow the backs edges from evidence into the principle. Edges marked CUTS are the counter-evidence and should be quoted alongside the claim they limit rather than omitted - for example E-sowa (92.4% of sites run a WAF but 88% remain in the two lowest difficulty tiers) cuts P2, and T-fpscan cuts P16. The downloadable LLM context emits this graph as a typed node-and-edge index AHEAD of the prose, generated from the same data structure that draws the on-page visual, so the picture a reader clicks and the text a model reads cannot drift apart.
+GUIDE FRESHNESS: This knowledge base and web-scraping-guide.com were last updated 2026-08-23. Techniques, tool versions, benchmarks, and anti-bot vendor behaviour reflect mid-2026, with the newest entries current to August 2026. Treat anything time-sensitive as an August 2026 snapshot.
+KNOWLEDGE GRAPH (#kg - the structure this guide actually has, and how to reason over it): the guide is not a list of tips. 130 NODES AND 188 TYPED EDGES organise all of it, and EVERY SECTION OF THE GUIDE IS REPRESENTED. Node types: 18 PRINCIPLES (the spine), 8 DETECTION LAYERS (L0 TCP/layer-4, L1 TLS/JA4, L2 HTTP/2 and header order, L3 JavaScript fingerprinting, L4 hardware and OS side channels, L5 network identity, L6 behaviour and session scoring, L7 declared identity and policy), 39 METHODS or practice areas, 7 vendors, 22 tools, 28 pieces of measured evidence and 8 legal nodes. EDGE VERBS: at (operates at a layer), beats (defeats), catch (catches), then (judged before), caseof (instance of a principle), backs (evidence for), cuts (limits or contradicts), costs (economic consequence). THE 18 PRINCIPLES: P1 coherence not realism; P2 the block is at a layer you are not working on; P3 network identity dominates fingerprint quality; P4 every piece of state is a claim that can be judged; P5 the best signals live in the seam between two layers; P6 below the sandbox patching stops working; P7 the expensive failures return 200; P8 alert on the delta not the level; P9 a row without provenance cannot be diagnosed; P10 check the instrument before trusting the verdict; P11 agent cost is how often the model looks; P12 agents cannot separate instruction from content; P13 protection is a rule on a route not a property of a site; P14 fix the class not the instance; P15 access was the old problem and legibility is the new one; P16 preventing is not the same as proving you prevented; P17 spend the model once at build time; P18 escalate cheapest-first and stop at the first win. HOW TO REASON WITH IT: to answer "why am I blocked", walk the layers IN ORDER and establish which layer the symptom belongs to BEFORE recommending a tool - most wasted work is a layer-3 fix applied to a layer-1 refusal. To test whether a claim is supported, follow the backs edges from evidence into the principle. Edges marked CUTS are the counter-evidence and should be quoted alongside the claim they limit rather than omitted (E-sowa cuts P2; W-ryan cuts W-hiq; E-shopee cuts P13). A tool node is only a recommendation once you know the layer, which is why tools carry both beats and cuts edges to layers - the cuts edge tells you what that tool does NOT solve. DOWNLOADS: the full LLM context emits this graph as a typed node-and-edge index AHEAD of the prose; there is also a graph-only markdown download (~7K tokens) and a machine-readable JSON export, all generated from the same structure that draws the on-page visual, so the picture, the text and the export cannot drift apart.
 
 DETECTION LAYERS:
 Layer 1 TLS/JA4+: JA4+ fingerprints TLS ClientHello by sorting extensions, removing GREASE, hashing cipher suites+ALPN. Cloudflare uses a Rust crate at the edge, Akamai uses EdgeWorker. HTTP/2 SETTINGS frames are also fingerprinted. curl_cffi impersonate=chrome124 fixes this for Python; Go can use rquest/rnet for clean Chrome JA4.
@@ -14094,12 +14115,14 @@ rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
 </script>
 <script>
 /* ── KNOWLEDGE GRAPH ──────────────────────────────────────────────────
-   One data structure, two consumers: the canvas map a reader clicks
-   through, and the typed index prepended to the LLM context. Deriving
-   both from KG means the picture and the text cannot drift apart.
+   One data structure, three consumers: the canvas map a reader clicks
+   through, the typed index prepended to the LLM context download, and a
+   machine-readable JSON export. Deriving all three from KG means the
+   picture, the text and the export cannot drift apart.
 
    node: [id, type, label, section, description]
-     type  P principle · L layer · V vendor · T tool · E evidence · W law
+     P principle · L detection layer · C method/area · V vendor
+     T tool · E measured evidence · W law
    edge: [from, to, verb]
      at operates at · beats defeats · catch catches · then judged before
      caseof instance of · backs evidence for · cuts limits · costs costs
@@ -14109,6 +14132,7 @@ rdQuiet = true; rdZoomSet(rdLevel()); rdQuiet = false;
 
 var KG = {
  n:[
+  // ── PRINCIPLES · the spine. Almost everything else is an instance of one.
   ['P1','P','Coherence, not realism','detect','You are not blocked for looking like a bot. You are blocked for presenting claims that cannot describe one real device. Adding more realism adds another thing that has to match.'],
   ['P2','P','The block is at a layer you are not working on','flow','Doubling down on the layer you enjoy is the commonest waste. Ask which layer refused you before choosing a tool.'],
   ['P3','P','Network identity dominates fingerprint quality','proxies','Once the IP or ASN is wrong, fingerprint quality stops being the variable. Engine choice makes no measurable difference behind a datacenter exit.'],
@@ -14125,6 +14149,10 @@ var KG = {
   ['P14','P','Fix the class, not the instance','arch','Sites are instances of a smaller number of platforms. Key memory to the engine and one repair heals the whole class.'],
   ['P15','P','Access was the old problem, legibility is the new one','ai','Reaching the page was mostly solved a decade ago. Whether a model can use what you collected is the 2026 question.'],
   ['P16','P','Preventing is not the same as proving you prevented','tools','A test page showing different values measures your tool. Unlinkability at the target is the only evidence that counts.'],
+  ['P17','P','Spend the model once, at build time','cost','A model in the runtime loop is a per-request bill forever. Use it to write the extractor, then run the extractor.'],
+  ['P18','P','Escalate cheapest-first and stop at the first win','play','Every rung up the ladder costs more and breaks more often. The discipline is stopping, not climbing.'],
+
+  // ── LAYERS · the order a request is judged in.
   ['L0','L','Layer 0 · TCP/IP and layer 4','detect','SYN packet initial window, TTL, options ordering. Below the handshake, before anything you configure.'],
   ['L1','L','Layer 1 · TLS and JA4','detect','ClientHello cipher order, extensions, GREASE, ALPN. Fires before HTML is served, which is why browser patches cannot help here.'],
   ['L2','L','Layer 2 · HTTP/2 and header order','detect','SETTINGS frame values, pseudo-header sequence, header ordering. A library emits a different shape from a browser.'],
@@ -14133,32 +14161,93 @@ var KG = {
   ['L5','L','Layer 5 · Network identity','proxies','IP, ASN, WebRTC candidates, DNS resolver, geographic coherence. Five vectors that all have to agree.'],
   ['L6','L','Layer 6 · Behaviour and session scoring','detect','Mouse curves, scroll physics, navigation paths, scored continuously across a session rather than at a challenge.'],
   ['L7','L','Layer 7 · Declared identity and policy','legal-ethics','User agent, Web Bot Auth, robots posture. Increasingly a compliance question rather than an engineering one.'],
+
+  // ── METHODS · the areas of practice each section covers.
+  ['C-flow','C','The decision flow','flow','Choose between a plain HTTP client, TLS impersonation, a stealth browser and a managed API, cheapest first.'],
+  ['C-ladder','C','The five-tier difficulty ladder','play','Place the target before you promise a deadline. Difficulty is five discrete tiers, not a feeling.'],
+  ['C-esc','C','The escalation playbook','play','Walk the rungs in order and stop at the first thing that works. Most targets never need the top rung.'],
+  ['C-sweep','C','Impersonation profile sweep','flow','The cheapest escalation win almost nobody does: try every TLS profile before you change tool.'],
+  ['C-endpoint','C','Endpoint enumeration','flow','Read the JS bundles and list every route the frontend can call, then test each cold with a plain client.'],
+  ['C-capture','C','Wire-level capture','tools','Record what the page fetches rather than what it renders. The listener, not the snapshot.'],
+  ['C-mobile','C','Mobile API interception','mobile','Apps talk to cleaner APIs than websites and often behind weaker protection. Intercept before the anti-bot.'],
+  ['C-pin','C','Certificate pinning and Frida','mobile','Pinning stops a proxy seeing traffic. Frida unpins at runtime so the wire becomes readable again.'],
+  ['C-sign','C','Native signing logic','mobile','When the signature is computed in a stripped native library, rebuild it in Python or let the app sign while you watch.'],
+  ['C-captcha','C','Challenges and CAPTCHA','antibots','Turnstile, reCAPTCHA, hCaptcha, proof-of-work. The visible test is the last resort, not the first line.'],
+  ['C-obf','C','Obfuscation and deobfuscation','antibots','Detection scripts are packed, virtualised and rotated. Reading them is a specialism of its own.'],
+  ['C-managed','C','Managed unblocker platforms','platforms','Buy the hardest tier rather than build it. The honest comparison is cost per successful request, not per request.'],
+  ['C-cua','C','Computer-use agents','platforms','When the data lives behind a login the user owns, an agent operating with permission beats scraping.'],
+  ['C-session','C','Session stickiness','proxies','Rotate session objects, not IP addresses. One session is one exit IP plus coherent cookies, headers and geography.'],
+  ['C-source','C','Proxy sourcing and KYC risk','proxies','What separates providers is where the IPs came from, not price per gigabyte. Your exit IP inherits its history.'],
+  ['C-geo','C','Geofeed verification','proxies','Measure the geography of your pool rather than buying the claim. Location data for most networks is self-declared.'],
+  ['C-attr','C','Failure attribution','proxies','Log whether a failure was the proxy policy, the proxy infrastructure or the target. Otherwise you cannot argue with anyone.'],
+  ['C-heal','C','Self-healing scrapers','arch','Detect drift, regenerate the selector, verify against a test, ship. The instrumentation is the hard part, not the repair.'],
+  ['C-sidecar','C','Browser sidecar pattern','arch','Keep the browser out of the crawler. Only the requests that need one pay for one.'],
+  ['C-throttle','C','Adaptive throttling','arch','Blocked pages return faster than real ones, so a latency-only throttle accelerates into a ban.'],
+  ['C-login','C','Scraping behind a login','arch','The session becomes the asset. Mint it once, carefully, and replay it rather than logging in repeatedly.'],
+  ['C-queue','C','Queueing and resumability','arch','A crawl that cannot resume is a crawl you will run twice. State outside the process, always.'],
+  ['C-dq','C','Data quality gates','post-extract','Row counts, field fill rates, type checks and distribution drift, compared against the last good run.'],
+  ['C-doc','C','Document parsing','post-extract','A large share of the data you need is in PDFs and scans, where there is no DOM to select from.'],
+  ['C-dedupe','C','Dedupe and entity resolution','post-extract','The same record arrives from several routes with different keys. Resolving that is most of the pipeline.'],
+  ['C-cost','C','Cost per usable document','cost','The only unit that matters. Retries, browsers used where a request would do, and third-party bleed are the hidden drivers.'],
+  ['C-buy','C','Build versus buy','cost','Compare against the fully loaded cost of your own time and failure rate, not against the sticker price.'],
+  ['C-llm','C','LLM extraction','ai','Describe the fields instead of selecting them. Reliable for the easy 20%, and the rest is engineering.'],
+  ['C-mcp','C','Scraping as an MCP server','ai','Name the capability and let the model call it, rather than teaching a model to drive a scraper.'],
+  ['C-inject','C','Prompt injection against your own agent','ai','Point an agent at the open web and the page becomes an instruction channel into your infrastructure.'],
+  ['C-rag','C','Retrieval pipelines','ai','A model can only reason over what acquisition collected. Freshness, coverage and extraction fidelity are upstream of every answer.'],
+  ['C-agent','C','Agentic browsers','agentic','An LLM in the decision layer, adapting where a script would break, and failing quietly where a script would fail loudly.'],
+  ['C-webmcp','C','WebMCP and declared tools','agentic','Sites handing agents a sanctioned door, which is also a public API a stranger can call with words you never wrote.'],
+  ['C-glossary','C','Plain-English glossary','jargon','Fingerprinting, challenges, IP reputation and robots.txt explained without the jargon.'],
+  ['C-community','C','Community and learning','community','Discords, newsletters, conferences and books. Most real technique is transmitted here rather than in documentation.'],
+  ['C-history','C','The arms race timeline','tl','From IP bans to transformer-based behavioural scoring, and why each escalation produced the next.'],
+  ['C-robots','C','robots.txt is a norm, not a control','legal-ethics','It was never a security mechanism. Only the crawlers that were going to behave ever read it.'],
+  ['C-webbot','C','Web Bot Auth','legal-ethics','Cryptographically signed requests, so an allowlist rests on proof rather than a copyable user-agent string.'],
+  ['C-gdpr','C','Personal data and GDPR','legal-ethics','Public does not mean unregulated. A lawful basis is required whether or not the page was open.'],
+
+  // ── VENDORS
   ['V-ak','V','Akamai Bot Manager','antibots','Scores across five layers, three of them at the handshake. The _abck cookie sits at bot until sensor.js validates the session.'],
   ['V-cf','V','Cloudflare','antibots','Roughly a quarter of the web. Also ships Kitesurf and WebMCP, so it sells both the wall and the ladder.'],
   ['V-dd','V','DataDome','antibots','Fingerprint plus behavioural ML. Published the WASM SIMD CPU fingerprinting work.'],
   ['V-ka','V','Kasada','antibots','Real-browser-only by design, x-kpsdk headers, challenges that change constantly.'],
   ['V-px','V','PerimeterX / HUMAN','antibots','Frequently rebranded and served first-party, so hostname checks will not identify it.'],
   ['V-f5','V','F5 Shape','antibots','Heavy obfuscation and behavioural biometrics, usually found inside the composed stacks.'],
+  ['V-fastly','V','Fastly Bot Management','antibots','CDN-native, layered on the former Signal Sciences WAF. Standard JA3/JA4 and header-order stack.'],
+
+  // ── TOOLS
   ['T-curl','T','curl_cffi','libs','Impersonates browser TLS and HTTP/2 from Python. Runs no JavaScript, so JS challenges are where it stops. Cheapest thing to try first.'],
   ['T-utls','T','uTLS / Go sidecar','libs','Reimplements a real browser TLS stack byte for byte. The answer when the refusal happened at the handshake.'],
+  ['T-primp','T','primp / impit','libs','Rust-cored HTTP clients with impersonation, for when volume makes Python the bottleneck.'],
   ['T-cam','T','Camoufox','libs','Firefox with C++ level anti-detect patches. Has a real GPU context, so it passes WebGL checks Chromium forks fail.'],
   ['T-nod','T','nodriver / Patchright','libs','CDP automation without the webdriver markers. Patches the JS surface, not the network layer.'],
+  ['T-cloak','T','CloakBrowser','libs','Loads real extension profiles, so extension-enumeration probes return plausible answers.'],
+  ['T-scrapling','T','Scrapling','libs','Adaptive selectors that re-find an element after the DOM shifts under them.'],
   ['T-fps','T','fingerprint-suite','libs','Generates one coherent fingerprint across headers and JS APIs in a Playwright context, rather than spoofing per axis.'],
   ['T-trawl','T','TRAWL','libs','The escalation ladder as a product: plain HTTP, cached session, fresh solve, then residential proxy.'],
+  ['T-frida','T','Frida','mobile','Runtime instrumentation that unpins certificates and hooks the signing function while the app runs.'],
+  ['T-mitm','T','mitmproxy / Burp','tools','The intercepting proxy. Two independent TLS connections, which is itself a fingerprint if you forget it.'],
+  ['T-powhttp','T','powhttp','tools','Wire capture aimed at scraping workflows rather than security testing.'],
+  ['T-fpscan','T','fingerprint-scan.com','tools','Splits the fingerprint hash into sub-hashes, so you can see which group of signals moved rather than only that something did.'],
+  ['T-bench','T','StealthBench','tools','Reproducible stealth ranking against self-hosted detectors, with the harness published.'],
   ['T-kite','T','Cloudflare Kitesurf','agentic','Agent-first engine with no Chromium. Cheap per session, and explicitly not for TLS-fingerprint challenges.'],
   ['T-moli','T','Moli','agentic','Rust kernel with on-demand rendering. 73 MiB against headless Chrome’s 773 MiB at level success.'],
-  ['T-scrapy','T','Scrapy + scrapy-poet','arch','Page objects separate crawl logic from extraction, which is what makes machine-authored scrapers repairable.'],
+  ['T-bos','T','BrowserOS neo','agentic','Local agent browser using your own Chrome sessions, with session replay. Right for logged-in work, wrong for volume.'],
+  ['T-bu','T','Browser Use','agentic','Open-source agent browsing toolkit. Its own team found strong models prefer writing CDP code to reading screenshots.'],
   ['T-a11y','T','Accessibility-tree selectors','agentic','Role plus accessible name. More durable than CSS because changing it breaks the page for screen readers.'],
-  ['T-fpscan','T','fingerprint-scan.com','tools','Splits the fingerprint hash into sub-hashes, so you can see which group of signals moved rather than only that something did.'],
-  ['T-har','T','Wire-level capture','tools','A response listener, not a DOM snapshot. Filter to JSON, drop analytics hosts, dedupe by method and base path.'],
+  ['T-scrapy','T','Scrapy + scrapy-poet','arch','Page objects separate crawl logic from extraction, which is what makes machine-authored scrapers repairable.'],
+  ['T-crawl4ai','T','Crawl4AI','ai','Built for legibility rather than access: strip the chrome and hand a model something citable.'],
+  ['T-firecrawl','T','Firecrawl','ai','URL to clean markdown as a service, with an MCP server so a model can call it directly.'],
+
+  // ── EVIDENCE
   ['E-ak3','E','Akamai v3: every browser failed','cases','Seven stealth approaches all failed because the block happened before HTML was served. A Go TLS stack fixed it: 24 rpm, zero blocks in 500+ requests.'],
   ['E-15eng','E','Fifteen stealth engines, identical 403s','innovation','Three engines passed a free detector, then all hard-403’d on live Cloudflare at the same rate. The exit IPs were datacenter.'],
   ['E-proxy','E','Weeks lost to the wrong variable','innovation','Three providers swapped over a TLS-versus-user-agent mismatch, while a non-browser-like health checker reported healthy proxies as dead.'],
   ['E-429','E','The 429 fixed by deleting the cookie','innovation','Provider and pool swaps changed nothing. Removing the session cookie returned consistent 200s: the limit was per identity.'],
   ['E-kasada','E','Two endpoints, one defended','innovation','/searches was protected. /map-listings returned the same records plus extra fields, undefended.'],
+  ['E-shopee','E','Signing logic in a 4.7MB native library','cases','The signer exported only JNI_OnLoad, so static analysis stalled and the practical route was to let the app sign while watching.'],
+  ['E-reddit','E','92% to 61% with zero code changes','arch','A public scraper degraded over 30 days because the target changed around it. The fix was architectural, not tactical.'],
   ['E-shader','E','ShaderGhost','innovation','A 32-bit ID written into the GPU shader cache, readable cross-site, surviving profile wipes, on around 99% of browsers.'],
   ['E-frost','E','Frost: SSD timing','innovation','Disk-subsystem latency infers activity in other tabs with no permissions, and incognito does not help.'],
   ['E-simd','E','WASM SIMD CPU probes','detect','Vector instruction timing fingerprints the actual silicon, so JS-level patches cannot answer it.'],
+  ['E-math','E','Math.tanh reads the host libm','detect','Transcendental results differ by operating system, and CSS trig leaks the same signal everywhere on the page.'],
   ['E-bridge','E','Bridges to Self','innovation','A native app listening on localhost bypasses per-origin isolation, with neither platform’s model broken alone. USENIX Security 2026.'],
   ['E-time','E','A publisher serving bots a different site','innovation','The same URL returns 303 KB of HTML to a browser and 13 KB of markdown to assistant crawlers, carrying its own advertising.'],
   ['E-bh','E','Black Hat: every agentic browser fell','agentic','Comet, ChatGPT Atlas and Opera all lost to indirect prompt injection. No payload to detect.'],
@@ -14167,367 +14256,401 @@ var KG = {
   ['E-zyte','E','Ten failure modes in agent-built scrapers','ai','Recon kept only HTML, tests were written by the model that wrote the extractor, coverage flagged only zero, rows carried no provenance.'],
   ['E-http3','E','HTTP/3 is unreachable through a proxy','innovation','Configuring a proxy forces HTTP/2. Likely-bot share is 73.75% on HTTP/1.1, 26.76% on HTTP/2 and 3.33% on HTTP/3.'],
   ['E-turn','E','The 100% precise check was a Chrome bug','innovation','CDP clicks reported iframe-relative coordinates, real clicks main-frame-relative. Patched, and the check died with it.'],
-  ['E-sowa','E','Only 18.5% of front doors are open','innovation','24,898 sites audited. 92.4% run a WAF, and most never chose one: it arrived with the CDN.'],
+  ['E-sowa','E','Only 18.5% of front doors are open','innovation','24,898 sites audited. 92.4% run a WAF, and most never chose one: it arrived with the CDN. Yet 88% stay in the two lowest difficulty tiers.'],
   ['E-rand','E','Randomisation is unproven','tools','Watching a hash change proves nothing if the tracker identifies you on whatever stayed stable.'],
   ['E-bounty','E','Privacy bugs priced a fifth of memory bugs','innovation','Around $1,000 for a cross-site supercookie against roughly $5,000 for a sandbox escape, so the finder is paid to keep it.'],
   ['E-rag','E','RAG is bounded by acquisition','ai','A vector store indexed six months ago is an LLM with a stale cutoff. Boilerplate competes for similarity with the real content.'],
+  ['E-precursor','E','Cloudflare Precursor scores the session','detect','Behavioural checks moved from bursts at a challenge to continuous scoring, so a refresh no longer resets you.'],
+  ['E-refer','E','Crawl-to-refer ratios','innovation','Some AI crawlers take thousands of pages per visitor returned, which is the economic argument behind publisher blocking.'],
+  ['E-bots','E','Automated traffic is the majority','innovation','Past half of all web traffic, and a growing share is an agent acting for a real person who is genuinely the audience.'],
+  ['E-cost','E','19.25 MB per page versus a direct call','cost','One measured comparison of a full browser load against calling the API the page itself calls.'],
+  ['E-liveness','E','Liveness CAPTCHA','antibots','Hand-gesture challenges arrive because behavioural scoring hit a ceiling, and they are answerable with a virtual camera.'],
+
+  // ── LAW
   ['W-hiq','W','hiQ v. LinkedIn','legal-ethics','Scraping public data is not unauthorised access under the CFAA. Ninth Circuit, reaffirmed 2022.'],
   ['W-vb','W','Van Buren v. United States','legal-ethics','"Exceeds authorized access" reaches only areas off limits to you, not permitted areas used for a disfavoured purpose.'],
   ['W-bd','W','Meta and X Corp v. Bright Data','legal-ethics','Both failed. Contract and CFAA theories against public-data collection keep losing.'],
+  ['W-ccdh','W','X Corp v. CCDH','legal-ethics','Public-interest research survived a hostile platform. Read with Sandvig v. Barr.'],
+  ['W-ryan','W','Ryanair v. Booking.com','legal-ethics','The counterweight: a logged-in scrape against accepted terms is a different question from a public one.'],
   ['W-serp','W','Google v. SerpApi','legal-ethics','Live. Argues anti-bot is a technological protection measure, so bypassing it is DMCA circumvention rather than unauthorised access.'],
   ['W-stealth','W','Stealth-crawler legislation','legal-ethics','New York and a US House bill aim to prohibit bots masking identity, moving disclosure from engineering to compliance.'],
   ['W-broker','W','Data-broker non-compliance','legal-ethics','32 registered brokers sell to generative AI developers and nobody knows which. The licensed market is less inspectable than open collection.']
  ],
  e:[
-  ['L0','L1','then'],['L1','L2','then'],['L2','L3','then'],['L3','L4','then'],['L3','L6','then'],['L5','L1','then'],
-  ['P1','L3','at'],['P1','L1','at'],['P2','L1','at'],['P3','L5','at'],['P4','L2','at'],['P5','L1','at'],['P6','L4','at'],['P12','L7','at'],
+  ['L0','L1','then'],['L1','L2','then'],['L2','L3','then'],['L3','L4','then'],['L4','L6','then'],['L6','L7','then'],['L5','L1','then'],
+  ['P1','L3','at'],['P1','L1','at'],['P2','L1','at'],['P3','L5','at'],['P4','L2','at'],['P5','L1','at'],['P6','L4','at'],['P12','L7','at'],['P18','L1','at'],
   ['V-ak','L1','at'],['V-ak','L2','at'],['V-ak','L3','at'],['V-ak','L6','at'],
   ['V-cf','L1','at'],['V-cf','L5','at'],['V-cf','L6','at'],
   ['V-dd','L3','at'],['V-dd','L4','at'],['V-dd','L6','at'],
-  ['V-ka','L3','at'],['V-ka','L6','at'],['V-px','L3','at'],['V-f5','L3','at'],['V-f5','L6','at'],
-  ['T-curl','L1','beats'],['T-curl','L2','beats'],['T-curl','L3','cuts'],
-  ['T-utls','L1','beats'],['T-utls','L2','beats'],
-  ['T-cam','L3','beats'],['T-cam','L4','cuts'],
-  ['T-nod','L3','beats'],['T-nod','L1','cuts'],
-  ['T-fps','L3','beats'],['T-fps','P1','caseof'],
-  ['T-trawl','P2','caseof'],['T-trawl','L5','beats'],
-  ['T-kite','L1','cuts'],['T-moli','L1','cuts'],
-  ['T-a11y','P14','caseof'],['T-scrapy','P14','caseof'],
-  ['T-har','P13','caseof'],['T-fpscan','P16','cuts'],
-  ['E-ak3','P2','backs'],['E-ak3','V-ak','catch'],['E-ak3','T-utls','backs'],
+  ['V-ka','L3','at'],['V-ka','L6','at'],['V-px','L3','at'],['V-f5','L3','at'],['V-f5','L6','at'],['V-fastly','L1','at'],['V-fastly','L2','at'],
+  ['C-flow','P2','caseof'],['C-ladder','P18','caseof'],['C-esc','P18','caseof'],['C-sweep','P2','caseof'],['C-sweep','L1','at'],
+  ['C-endpoint','P13','caseof'],['C-capture','P13','caseof'],['C-capture','P10','caseof'],
+  ['C-mobile','P13','caseof'],['C-pin','C-mobile','backs'],['C-sign','C-mobile','backs'],['C-mobile','L3','cuts'],
+  ['C-captcha','L6','at'],['C-obf','L3','at'],['C-managed','P18','caseof'],['C-cua','C-agent','backs'],
+  ['C-session','P4','caseof'],['C-session','L5','at'],['C-source','L5','at'],['C-geo','L5','at'],['C-attr','P10','caseof'],
+  ['C-heal','P14','caseof'],['C-sidecar','P17','caseof'],['C-throttle','P7','caseof'],['C-login','P4','caseof'],['C-queue','P9','caseof'],
+  ['C-dq','P8','caseof'],['C-doc','P15','caseof'],['C-dedupe','P9','caseof'],
+  ['C-cost','P17','caseof'],['C-buy','C-cost','backs'],
+  ['C-llm','P17','cuts'],['C-mcp','P15','caseof'],['C-inject','P12','caseof'],['C-rag','P15','caseof'],
+  ['C-agent','P11','caseof'],['C-agent','P12','caseof'],['C-webmcp','P12','cuts'],['C-webmcp','L7','at'],
+  ['C-glossary','L3','at'],['C-community','P16','backs'],['C-history','P1','backs'],
+  ['C-robots','L7','at'],['C-webbot','L7','at'],['C-gdpr','L7','at'],
+  ['T-curl','L1','beats'],['T-curl','L2','beats'],['T-curl','L3','cuts'],['T-curl','C-flow','caseof'],
+  ['T-utls','L1','beats'],['T-utls','L2','beats'],['T-primp','L1','beats'],['T-primp','C-cost','backs'],
+  ['T-cam','L3','beats'],['T-cam','L4','cuts'],['T-nod','L3','beats'],['T-nod','L1','cuts'],
+  ['T-cloak','L3','beats'],['T-scrapling','P14','caseof'],['T-fps','L3','beats'],['T-fps','P1','caseof'],
+  ['T-trawl','P18','caseof'],['T-trawl','L5','beats'],
+  ['T-frida','C-pin','beats'],['T-frida','C-sign','beats'],
+  ['T-mitm','C-capture','caseof'],['T-mitm','L1','cuts'],['T-powhttp','C-capture','caseof'],
+  ['T-fpscan','P16','cuts'],['T-bench','P16','backs'],['T-bench','P10','caseof'],
+  ['T-kite','L1','cuts'],['T-moli','L1','cuts'],['T-kite','C-agent','backs'],['T-moli','C-agent','backs'],
+  ['T-bos','C-agent','backs'],['T-bos','L5','beats'],['T-bu','C-agent','backs'],['T-bu','P11','backs'],
+  ['T-a11y','P14','caseof'],['T-scrapy','P14','caseof'],['T-scrapy','C-heal','backs'],
+  ['T-crawl4ai','P15','caseof'],['T-firecrawl','C-llm','caseof'],
+  ['E-ak3','P2','backs'],['E-ak3','V-ak','catch'],['E-ak3','T-utls','backs'],['E-ak3','C-sweep','backs'],
   ['E-15eng','P3','backs'],['E-15eng','P16','backs'],['E-15eng','V-cf','catch'],
   ['E-proxy','P2','backs'],['E-proxy','P10','backs'],['E-proxy','P1','backs'],
-  ['E-429','P4','backs'],['E-kasada','P13','backs'],['E-kasada','V-ka','catch'],
-  ['E-shader','P6','backs'],['E-frost','P6','backs'],['E-simd','P6','backs'],['E-simd','V-dd','catch'],
-  ['E-bridge','P5','backs'],['E-turn','P5','backs'],['E-turn','V-cf','catch'],
-  ['E-time','P7','backs'],['E-time','L7','at'],
-  ['E-bh','P12','backs'],['E-canvas','P12','backs'],['E-bh','E-canvas','backs'],
-  ['E-tokens','P11','backs'],['E-zyte','P9','backs'],['E-zyte','P8','backs'],['E-zyte','P10','backs'],
+  ['E-429','P4','backs'],['E-429','C-session','cuts'],
+  ['E-kasada','P13','backs'],['E-kasada','V-ka','catch'],['E-kasada','C-endpoint','backs'],
+  ['E-shopee','C-sign','backs'],['E-shopee','P13','cuts'],['E-reddit','C-heal','backs'],['E-reddit','P8','backs'],
+  ['E-shader','P6','backs'],['E-frost','P6','backs'],['E-simd','P6','backs'],['E-simd','V-dd','catch'],['E-math','P6','backs'],['E-math','L4','at'],
+  ['E-bridge','P5','backs'],['E-bridge','C-mobile','cuts'],['E-turn','P5','backs'],['E-turn','V-cf','catch'],
+  ['E-time','P7','backs'],['E-time','L7','at'],['E-precursor','L6','at'],['E-precursor','C-session','backs'],
+  ['E-bh','P12','backs'],['E-canvas','P12','backs'],['E-bh','E-canvas','backs'],['E-canvas','C-inject','backs'],
+  ['E-tokens','P11','backs'],['E-zyte','P9','backs'],['E-zyte','P8','backs'],['E-zyte','P10','backs'],['E-zyte','C-heal','cuts'],
   ['E-http3','P3','backs'],['E-http3','L2','at'],
-  ['E-sowa','P2','cuts'],['E-rand','P16','backs'],['E-rand','P1','backs'],
+  ['E-sowa','P2','cuts'],['E-sowa','C-ladder','backs'],['E-rand','P16','backs'],['E-rand','P1','backs'],
   ['E-bounty','E-shader','backs'],['E-bounty','P6','costs'],
-  ['E-rag','P15','backs'],['E-rag','P9','backs'],
-  ['W-hiq','L7','at'],['W-vb','W-hiq','backs'],['W-bd','W-hiq','backs'],
+  ['E-rag','P15','backs'],['E-rag','P9','backs'],['E-cost','P17','backs'],['E-cost','C-cost','backs'],
+  ['E-liveness','C-captcha','backs'],['E-refer','L7','at'],['E-bots','L7','at'],['E-bots','P12','backs'],
+  ['W-hiq','L7','at'],['W-vb','W-hiq','backs'],['W-bd','W-hiq','backs'],['W-ccdh','W-hiq','backs'],
+  ['W-ryan','W-hiq','cuts'],['W-ryan','C-login','cuts'],
   ['W-serp','W-hiq','cuts'],['W-serp','L7','at'],['W-broker','W-serp','backs'],
-  ['W-stealth','P12','cuts'],['W-stealth','L7','at']
+  ['W-stealth','P12','cuts'],['W-stealth','L7','at'],['W-stealth','C-webbot','backs'],['C-robots','W-hiq','backs']
  ]
 };
 
 var TYPE = {
-  P:{n:'Principle', c:'#f5c518', r:11},
-  L:{n:'Layer',     c:'#5b9cdd', r:10},
-  V:{n:'Vendor',    c:'#e05555', r:8},
-  T:{n:'Tool',      c:'#1f9db5', r:7},
-  E:{n:'Evidence',  c:'#4caf74', r:6},
-  W:{n:'Law',       c:'#a78bfa', r:7}
+  P:{n:'Principle', c:'#f5c518', r:11, ring:0.17},
+  L:{n:'Layer',     c:'#5b9cdd', r:10, ring:0.40},
+  C:{n:'Method',    c:'#e0913f', r:7.5,ring:0.60},
+  V:{n:'Vendor',    c:'#e05555', r:8,  ring:0.76},
+  T:{n:'Tool',      c:'#1f9db5', r:7,  ring:0.76},
+  E:{n:'Evidence',  c:'#4caf74', r:6,  ring:0.93},
+  W:{n:'Law',       c:'#a78bfa', r:7,  ring:0.93}
 };
-var VERB = {
-  at:'operates at', beats:'defeats', catch:'catches', then:'judged before',
-  caseof:'instance of', backs:'evidence for', cuts:'limits', costs:'costs'
-};
-var SECLABEL = {
-  detect:'Detection Layers', flow:'Decision Flow', proxies:'Proxies', antibots:'Anti-Bot Vendors',
+var ORDER = ['P','L','C','V','T','E','W'];
+var VERB = {at:'operates at', beats:'defeats', catch:'catches', then:'judged before',
+            caseof:'instance of', backs:'evidence for', cuts:'limits', costs:'costs'};
+var SECLABEL = {detect:'Detection Layers', flow:'Decision Flow', proxies:'Proxies', antibots:'Anti-Bot Vendors',
   libs:'Libraries', cases:'Case Studies', innovation:'Innovation Feed', agentic:'Agentic Browsers',
   ai:'AI Scraping', arch:'Architecture', tools:'Testing Tools', 'post-extract':'Post-Extraction',
-  'legal-ethics':'Legal & Ethics'
-};
+  'legal-ethics':'Legal & Ethics', mobile:'Mobile API Scraping', cost:'Cost & Economics',
+  platforms:'Managed Platforms', play:'Decision Playbook', jargon:'Glossary', community:'Community', tl:'Timeline'};
 
-// ── index ────────────────────────────────────────────────────────────
-var byId = {}, adj = {};
-KG.n.forEach(function(a){
-  byId[a[0]] = {id:a[0], t:a[1], label:a[2], sec:a[3], desc:a[4]};
-  adj[a[0]] = [];
-});
+var byId={}, adj={};
+KG.n.forEach(function(a){ byId[a[0]]={id:a[0],t:a[1],label:a[2],sec:a[3],desc:a[4]}; adj[a[0]]=[]; });
 KG.e.forEach(function(e){
-  if(!byId[e[0]] || !byId[e[1]]) return;          // drop dangling edges rather than crash
-  adj[e[0]].push({to:e[1], verb:e[2], out:true});
-  adj[e[1]].push({to:e[0], verb:e[2], out:false});
+  if(!byId[e[0]]||!byId[e[1]]) return;
+  adj[e[0]].push({to:e[1],verb:e[2],out:true});
+  adj[e[1]].push({to:e[0],verb:e[2],out:false});
 });
 
-// ── the typed index an LLM reads ──────────────────────────────────────
-// Exposed so the context builder can prepend it to the download.
+// ── exports the download menu uses ───────────────────────────────────
 window.buildKGText = function(){
-  var out = 'KNOWLEDGE GRAPH — read this before the prose below.\n\n';
-  out += 'This guide is not a list of tips. Almost every finding in it is an instance of one of 16 principles,\n';
-  out += 'and those principles attach to the layers at which a request is judged. Node ids are stable; the\n';
-  out += 'detailed prose entry for a node appears later in this document under a matching heading.\n\n';
-  out += 'NODE TYPES: P principle | L detection layer | V anti-bot vendor | T tool | E measured evidence | W law\n';
-  out += 'EDGE VERBS: at=operates at | beats=defeats | catch=catches | then=judged before |\n';
-  out += '            caseof=instance of | backs=evidence for | cuts=limits or contradicts | costs=economic consequence\n\n';
-  out += 'HOW TO USE IT: to answer "why am I blocked", walk the layers in order (L0 then L1 ... L7) and ask which\n';
-  out += 'layer the symptom belongs to before recommending a tool. To answer "is this claim supported", follow the\n';
-  out += 'backs edges into a principle. Edges marked cuts are the counter-evidence and should be quoted alongside\n';
-  out += 'the claim they limit, never omitted.\n\n';
-  ['P','L','V','T','E','W'].forEach(function(t){
-    out += '\n== ' + TYPE[t].n.toUpperCase() + 'S ==\n';
+  var o = 'KNOWLEDGE GRAPH — read this before the prose below.\n\n';
+  o += 'This guide is not a list of tips. Almost every finding in it is an instance of one of 18 principles,\n';
+  o += 'and those principles attach to the layers at which a request is judged. Node ids are stable; the\n';
+  o += 'detailed prose for a node appears later in this document under a matching heading.\n\n';
+  o += 'NODE TYPES: P principle | L detection layer | C method or practice area | V anti-bot vendor |\n';
+  o += '            T tool | E measured evidence | W law\n';
+  o += 'EDGE VERBS: at=operates at | beats=defeats | catch=catches | then=judged before |\n';
+  o += '            caseof=instance of | backs=evidence for | cuts=limits or contradicts | costs=economic consequence\n\n';
+  o += 'HOW TO REASON WITH IT\n';
+  o += '1. To answer "why am I blocked", walk the layers IN ORDER (L0 then L1 ... L7) and establish which layer\n';
+  o += '   the symptom belongs to BEFORE recommending a tool. Most wasted effort is a layer-3 fix for a layer-1 refusal.\n';
+  o += '2. To check whether a claim is supported, follow the backs edges from evidence nodes into the principle.\n';
+  o += '3. Edges marked cuts are the COUNTER-EVIDENCE. Quote them alongside the claim they limit, never omit them.\n';
+  o += '4. A tool node is only a recommendation once you know the layer. Tools carry beats and cuts edges to layers\n';
+  o += '   precisely so you can tell what they do not solve.\n\n';
+  o += 'COUNTS: ' + KG.n.length + ' nodes, ' + KG.e.length + ' edges.\n';
+  ORDER.forEach(function(t){
+    o += '\n\n== ' + TYPE[t].n.toUpperCase() + 'S ==\n';
     KG.n.filter(function(a){return a[1]===t;}).forEach(function(a){
-      var n = byId[a[0]], es = adj[n.id];
-      out += '\n[' + n.id + '] ' + n.label + '  (section: #' + n.sec + ')\n';
-      out += '  ' + n.desc + '\n';
-      if(es.length){
-        var parts = es.map(function(x){
-          return (x.out ? '' : '<- ') + x.verb + ' ' + x.to;
-        });
-        out += '  edges: ' + parts.join(' | ') + '\n';
-      }
+      var n=byId[a[0]], es=adj[n.id];
+      o += '\n[' + n.id + '] ' + n.label + '  (section: #' + n.sec + ')\n  ' + n.desc + '\n';
+      if(es.length) o += '  edges: ' + es.map(function(x){ return (x.out?'':'<- ')+x.verb+' '+x.to; }).join(' | ') + '\n';
     });
   });
-  out += '\n\n== END KNOWLEDGE GRAPH ==\n\n';
-  return out;
+  return o + '\n\n== END KNOWLEDGE GRAPH ==\n\n';
 };
+window.buildKGJSON = function(){
+  return JSON.stringify({
+    name:'web-scraping-guide.com knowledge graph',
+    url:'https://web-scraping-guide.com/#kg',
+    generated:document.querySelector('.nav-updated') ? document.querySelector('.nav-updated').textContent.trim() : '',
+    nodeTypes:Object.keys(TYPE).reduce(function(m,k){ m[k]=TYPE[k].n; return m; },{}),
+    edgeVerbs:VERB,
+    nodes:KG.n.map(function(a){ return {id:a[0],type:a[1],label:a[2],section:a[3],description:a[4]}; }),
+    edges:KG.e.map(function(e){ return {from:e[0],to:e[1],verb:e[2]}; })
+  }, null, 2);
+};
+window.kgCounts = function(){ return {nodes:KG.n.length, edges:KG.e.length}; };
 
-// ── text outline (a11y, print, and no-canvas fallback) ────────────────
+// ── text outline: a11y, print, no-canvas ─────────────────────────────
 function renderOutline(){
-  var host = document.getElementById('kg-outline-body');
-  if(!host) return;
-  var h = '<div class="kg-outline-in">';
-  ['P','L','V','T','E','W'].forEach(function(t){
-    h += '<div class="kg-ol-h">' + TYPE[t].n + 's</div>';
+  var host=document.getElementById('kg-outline-body'); if(!host) return;
+  var h='<div class="kg-outline-in">';
+  ORDER.forEach(function(t){
+    h+='<div class="kg-ol-h">'+TYPE[t].n+'s</div>';
     KG.n.filter(function(a){return a[1]===t;}).forEach(function(a){
-      var n = byId[a[0]];
-      var es = adj[n.id].map(function(x){
-        var o = byId[x.to];
-        return (x.out ? '' : 'is ') + VERB[x.verb] + ' → ' + (o ? o.label : x.to);
-      });
-      h += '<div class="kg-ol-n"><b>' + n.label + '</b> — ' + n.desc +
-           (es.length ? '<br><span class="kg-ol-e">' + es.join(' &middot; ') + '</span>' : '') + '</div>';
+      var n=byId[a[0]];
+      var es=adj[n.id].map(function(x){ var o=byId[x.to]; return (x.out?'':'is ')+VERB[x.verb]+' → '+(o?o.label:x.to); });
+      h+='<div class="kg-ol-n"><b>'+n.label+'</b> — '+n.desc+(es.length?'<br><span class="kg-ol-e">'+es.join(' &middot; ')+'</span>':'')+'</div>';
     });
   });
-  host.innerHTML = h + '</div>';
+  host.innerHTML=h+'</div>';
 }
 
-// ── canvas map ───────────────────────────────────────────────────────
+// ── map ──────────────────────────────────────────────────────────────
 function initMap(){
-  var cv = document.getElementById('kg-canvas');
-  var panel = document.getElementById('kg-panel');
-  var legend = document.getElementById('kg-legend');
-  if(!cv || !cv.getContext || !panel || !legend) return;
-  var ctx = cv.getContext('2d');
-  if(!ctx) return;
+  var cv=document.getElementById('kg-canvas'), panel=document.getElementById('kg-panel'), legend=document.getElementById('kg-legend');
+  if(!cv||!cv.getContext||!panel||!legend) return;
+  var ctx=cv.getContext('2d'); if(!ctx) return;
+  var reduce=false; try{ reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
 
-  var reduce = false;
-  try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
-
-  var nodes = KG.n.map(function(a,i){
-    var ang = (i / KG.n.length) * Math.PI * 2;
-    return {id:a[0], t:a[1], label:a[2], sec:a[3], desc:a[4],
-            x:Math.cos(ang)*180, y:Math.sin(ang)*180, vx:0, vy:0, on:true};
+  // Radius is pinned per type and only the ANGLE is simulated. That keeps the
+  // concentric structure legible instead of collapsing into a hairball, while
+  // still letting related nodes drift together around the ring.
+  var LAYERSEQ=['L0','L1','L2','L3','L4','L5','L6','L7'];
+  var nodes=KG.n.map(function(a){
+    var t=a[1], n={id:a[0],t:t,label:a[2],sec:a[3],desc:a[4],ring:TYPE[t].ring,ang:0,va:0,on:true};
+    return n;
   });
-  var nmap = {}; nodes.forEach(function(n){ nmap[n.id]=n; });
-  var edges = KG.e.filter(function(e){ return nmap[e[0]] && nmap[e[1]]; })
-                  .map(function(e){ return {a:nmap[e[0]], b:nmap[e[1]], verb:e[2]}; });
+  var nmap={}; nodes.forEach(function(n){ nmap[n.id]=n; });
+  LAYERSEQ.forEach(function(id,i){ if(nmap[id]) nmap[id].ang = -Math.PI/2 + (i/LAYERSEQ.length)*Math.PI*2; });
+  // seed every other node near the mean angle of its layer neighbours
+  ORDER.forEach(function(t){
+    if(t==='L') return;
+    var list=nodes.filter(function(n){return n.t===t;});
+    list.forEach(function(n,i){
+      var xs=0, ys=0, c=0;
+      (adj[n.id]||[]).forEach(function(x){
+        var o=nmap[x.to]; if(!o||o.t!=='L') return;
+        xs+=Math.cos(o.ang); ys+=Math.sin(o.ang); c++;
+      });
+      n.ang = c ? Math.atan2(ys,xs) : (i/list.length)*Math.PI*2;
+      n.ang += (i%2?0.06:-0.06);
+    });
+  });
+  var edges=KG.e.filter(function(e){ return nmap[e[0]]&&nmap[e[1]]; })
+                .map(function(e){ return {a:nmap[e[0]],b:nmap[e[1]],verb:e[2]}; });
 
-  var W=0, H=0, sel=null, hover=null, drag=null, off={x:0,y:0};
-  var hidden = {};
-
+  var W=0,H=0,R=1,sel=null,hover=null,drag=null,hidden={};
+  function vis(n){ return !hidden[n.t]; }
   function size(){
-    var r = cv.getBoundingClientRect();
-    var dpr = Math.min(window.devicePixelRatio||1, 2);
-    W = r.width; H = r.height;
-    cv.width = Math.max(1, Math.round(W*dpr));
-    cv.height = Math.max(1, Math.round(H*dpr));
+    var r=cv.getBoundingClientRect(), dpr=Math.min(window.devicePixelRatio||1,2);
+    W=r.width; H=r.height; R=Math.min(W,H)/2-34;
+    cv.width=Math.max(1,Math.round(W*dpr)); cv.height=Math.max(1,Math.round(H*dpr));
     ctx.setTransform(dpr,0,0,dpr,0,0);
   }
-
-  function visible(n){ return !hidden[n.t]; }
+  function pos(n){ return {x:W/2+Math.cos(n.ang)*R*n.ring, y:H/2+Math.sin(n.ang)*R*n.ring}; }
+  function dAng(a,b){ var d=b-a; while(d>Math.PI)d-=Math.PI*2; while(d<-Math.PI)d+=Math.PI*2; return d; }
 
   function step(){
-    var i,j,a,b,dx,dy,d,f;
-    for(i=0;i<nodes.length;i++){
-      a=nodes[i]; if(!visible(a)) continue;
-      for(j=i+1;j<nodes.length;j++){
-        b=nodes[j]; if(!visible(b)) continue;
-        dx=b.x-a.x; dy=b.y-a.y; d=Math.sqrt(dx*dx+dy*dy)||0.01;
-        if(d>420) continue;
-        f = 1400/(d*d);
-        dx/=d; dy/=d;
-        a.vx-=dx*f; a.vy-=dy*f; b.vx+=dx*f; b.vy+=dy*f;
+    // same-ring repulsion
+    ORDER.forEach(function(t){
+      var list=nodes.filter(function(n){return n.t===t && vis(n);});
+      for(var i=0;i<list.length;i++) for(var j=i+1;j<list.length;j++){
+        var d=dAng(list[i].ang,list[j].ang), ad=Math.abs(d);
+        var min=(t==='E'||t==='W')?0.10:(t==='P'?0.40:0.20);
+        if(ad<min && ad>0.0001){ var f=(min-ad)*0.05*(d>0?1:-1); list[i].va-=f; list[j].va+=f; }
       }
-    }
+    });
+    // edge springs act on angle only
     edges.forEach(function(e){
-      if(!visible(e.a)||!visible(e.b)) return;
-      var dx=e.b.x-e.a.x, dy=e.b.y-e.a.y, d=Math.sqrt(dx*dx+dy*dy)||0.01;
-      var target = e.verb==='then' ? 78 : 116;
-      f = (d-target)*0.0075;
-      dx/=d; dy/=d;
-      e.a.vx+=dx*f; e.a.vy+=dy*f; e.b.vx-=dx*f; e.b.vy-=dy*f;
+      if(!vis(e.a)||!vis(e.b)) return;
+      var d=dAng(e.a.ang,e.b.ang), k=e.verb==='then'?0.010:0.020;
+      e.a.va+=d*k; e.b.va-=d*k;
     });
     nodes.forEach(function(n){
-      if(!visible(n)) return;
-      // principles pulled gently inward so the spine reads as the centre
-      var g = n.t==='P' ? 0.0045 : 0.0022;
-      n.vx -= n.x*g; n.vy -= n.y*g;
-      if(drag===n) return;
-      n.vx*=0.86; n.vy*=0.86;
-      n.x+=n.vx; n.y+=n.vy;
+      if(!vis(n)||drag===n) return;
+      n.va*=0.80; n.ang+=n.va;
     });
   }
-
-  function neighbours(n){
-    var s={}; if(!n) return s;
-    (adj[n.id]||[]).forEach(function(x){ s[x.to]=true; });
-    return s;
-  }
+  function nbrs(n){ var s={}; if(n)(adj[n.id]||[]).forEach(function(x){s[x.to]=true;}); return s; }
 
   function draw(){
     ctx.clearRect(0,0,W,H);
-    var cx=W/2+off.x, cy=H/2+off.y;
-    var nb = neighbours(sel);
+    // ring guides
+    ctx.strokeStyle='rgba(255,255,255,.035)';
+    [0.17,0.40,0.60,0.76,0.93].forEach(function(rr){
+      ctx.beginPath(); ctx.arc(W/2,H/2,R*rr,0,Math.PI*2); ctx.lineWidth=1; ctx.stroke();
+    });
+    var nb=nbrs(sel);
     edges.forEach(function(e){
-      if(!visible(e.a)||!visible(e.b)) return;
-      var lit = sel && (e.a.id===sel.id || e.b.id===sel.id);
-      ctx.strokeStyle = lit ? 'rgba(245,197,24,.62)'
-                            : (sel ? 'rgba(255,255,255,.045)' : 'rgba(255,255,255,.10)');
-      ctx.lineWidth = lit ? 1.6 : 1;
-      ctx.beginPath();
-      ctx.moveTo(cx+e.a.x, cy+e.a.y);
-      ctx.lineTo(cx+e.b.x, cy+e.b.y);
+      if(!vis(e.a)||!vis(e.b)) return;
+      var lit=sel&&(e.a.id===sel.id||e.b.id===sel.id);
+      var pa=pos(e.a), pb=pos(e.b);
+      ctx.strokeStyle=lit?'rgba(245,197,24,.7)':(sel?'rgba(255,255,255,.035)':'rgba(255,255,255,.085)');
+      ctx.lineWidth=lit?1.7:0.9;
+      ctx.beginPath(); ctx.moveTo(pa.x,pa.y);
+      // curve toward the centre so long chords do not slice across the middle
+      ctx.quadraticCurveTo((pa.x+pb.x)/2*0.72+W/2*0.28, (pa.y+pb.y)/2*0.72+H/2*0.28, pb.x,pb.y);
       ctx.stroke();
     });
+    var placed=[];
+    function fits(x,y,w,h){
+      for(var i=0;i<placed.length;i++){ var p=placed[i];
+        if(x<p.x+p.w&&x+w>p.x&&y<p.y+p.h&&y+h>p.y) return false; }
+      return true;
+    }
+    // draw nodes first
     nodes.forEach(function(n){
-      if(!visible(n)) return;
-      var T=TYPE[n.t], dim = sel && n.id!==sel.id && !nb[n.id];
-      var x=cx+n.x, y=cy+n.y;
-      ctx.globalAlpha = dim ? 0.22 : 1;
-      ctx.beginPath(); ctx.arc(x,y,T.r,0,Math.PI*2);
-      ctx.fillStyle = T.c; ctx.fill();
-      if(sel && n.id===sel.id){
-        ctx.lineWidth=2.5; ctx.strokeStyle='#fff'; ctx.stroke();
-      }
-      var showLabel = n.t==='P' || n.t==='L' || (sel && (n.id===sel.id || nb[n.id])) || hover===n;
-      if(showLabel){
-        ctx.font='500 11px ui-sans-serif,system-ui,-apple-system,sans-serif';
-        ctx.textAlign='center'; ctx.textBaseline='top';
-        var txt = n.label.length>34 ? n.label.slice(0,32)+'…' : n.label;
-        ctx.fillStyle='rgba(0,0,0,.55)';
-        var w=ctx.measureText(txt).width;
-        ctx.fillRect(x-w/2-4, y+T.r+3, w+8, 15);
-        ctx.fillStyle = dim ? 'rgba(240,240,244,.45)' : 'rgba(240,240,244,.94)';
-        ctx.fillText(txt, x, y+T.r+5);
-      }
+      if(!vis(n)) return;
+      var T=TYPE[n.t], dim=sel&&n.id!==sel.id&&!nb[n.id], p=pos(n);
+      ctx.globalAlpha=dim?0.18:1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,T.r,0,Math.PI*2); ctx.fillStyle=T.c; ctx.fill();
+      if(sel&&n.id===sel.id){ ctx.lineWidth=2.5; ctx.strokeStyle='#fff'; ctx.stroke(); }
       ctx.globalAlpha=1;
+    });
+    // then labels, highest priority first, skipping any that would collide
+    var prio=nodes.slice().filter(vis).sort(function(a,b){
+      function rank(n){
+        if(sel&&n.id===sel.id) return 0;
+        if(sel&&nb[n.id]) return 1;
+        if(hover===n) return 2;
+        if(n.t==='P') return 3;
+        if(n.t==='L') return 4;
+        if(n.t==='C') return 5;
+        return 6;
+      }
+      return rank(a)-rank(b);
+    });
+    ctx.font='500 11px ui-sans-serif,system-ui,-apple-system,sans-serif';
+    ctx.textBaseline='top';
+    prio.forEach(function(n){
+      var r=(function(){ if(sel&&n.id===sel.id)return 0; if(sel&&nb[n.id])return 1; if(hover===n)return 2;
+                         if(n.t==='P')return 3; if(n.t==='L')return 4; if(n.t==='C')return 5; return 6; })();
+      if(r>5 && !(sel&&(n.id===sel.id||nb[n.id])) && hover!==n) return;   // rim stays quiet until asked
+      if(sel && r>1 && hover!==n) return;                                  // focus mode
+      var T=TYPE[n.t], p=pos(n);
+      var txt=n.label.length>30?n.label.slice(0,28)+'…':n.label;
+      var w=ctx.measureText(txt).width+8, h=15;
+      var cand=[[p.x-w/2,p.y+T.r+4],[p.x-w/2,p.y-T.r-h-4],[p.x+T.r+5,p.y-h/2],[p.x-T.r-5-w,p.y-h/2]];
+      for(var i=0;i<cand.length;i++){
+        var x=cand[i][0], y=cand[i][1];
+        if(x<2||y<2||x+w>W-2||y+h>H-2) continue;
+        if(!fits(x,y,w,h)) continue;
+        placed.push({x:x,y:y,w:w,h:h});
+        ctx.fillStyle='rgba(11,11,15,.82)'; ctx.fillRect(x,y,w,h);
+        ctx.fillStyle=(sel&&n.id!==sel.id&&!nb[n.id])?'rgba(240,240,244,.5)':'rgba(240,240,244,.95)';
+        ctx.textAlign='left'; ctx.fillText(txt,x+4,y+2);
+        break;
+      }
     });
   }
 
   function pick(mx,my){
-    var cx=W/2+off.x, cy=H/2+off.y, best=null, bd=1e9;
+    var best=null,bd=1e9;
     nodes.forEach(function(n){
-      if(!visible(n)) return;
-      var dx=mx-(cx+n.x), dy=my-(cy+n.y), d=dx*dx+dy*dy;
-      var r=TYPE[n.t].r+7;
-      if(d<r*r && d<bd){ bd=d; best=n; }
+      if(!vis(n)) return;
+      var p=pos(n), dx=mx-p.x, dy=my-p.y, d=dx*dx+dy*dy, r=TYPE[n.t].r+8;
+      if(d<r*r&&d<bd){ bd=d; best=n; }
     });
     return best;
   }
-
+  function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function showPanel(n){
-    if(!n){ panel.innerHTML='<div class="kg-empty">Pick a node. The <strong>principles</strong> are the spine &mdash; start there if you want the short version of the whole guide.</div>'; return; }
+    if(!n){ panel.innerHTML='<div class="kg-empty">Pick a node. The <strong>principles</strong> in the centre are the spine &mdash; start there for the short version of the whole guide. Rings run outward: principles, then the layers a request is judged at, then methods, tools and vendors, then the evidence and case law on the rim.</div>'; return; }
     var T=TYPE[n.t];
     var h='<span class="kg-kind" style="background:'+T.c+'22;color:'+T.c+';border:1px solid '+T.c+'55">'+T.n+'</span>';
     h+='<div class="kg-name">'+esc(n.label)+'</div><div class="kg-desc">'+esc(n.desc)+'</div>';
-    var groups={};
-    (adj[n.id]||[]).forEach(function(x){
-      var o=byId[x.to]; if(!o) return;
-      var key=(x.out?'':'← ')+VERB[x.verb];
-      (groups[key]=groups[key]||[]).push(o);
-    });
-    Object.keys(groups).forEach(function(k){
+    var g={};
+    (adj[n.id]||[]).forEach(function(x){ var o=byId[x.to]; if(!o) return;
+      var k=(x.out?'':'← ')+VERB[x.verb]; (g[k]=g[k]||[]).push(o); });
+    Object.keys(g).forEach(function(k){
       h+='<div class="kg-grp">'+esc(k)+'</div>';
-      groups[k].forEach(function(o){
-        h+='<button class="kg-link" data-go="'+o.id+'">'+esc(o.label)+' <span style="color:'+TYPE[o.t].c+'">●</span></button>';
-      });
+      g[k].forEach(function(o){ h+='<button class="kg-link" data-go="'+o.id+'">'+esc(o.label)+' <span style="color:'+TYPE[o.t].c+'">●</span></button>'; });
     });
-    var lab = SECLABEL[n.sec] || n.sec;
-    h+='<button class="kg-jump" data-sec="'+n.sec+'">Read it in '+esc(lab)+' →</button>';
+    h+='<button class="kg-jump" data-sec="'+n.sec+'">Read it in '+esc(SECLABEL[n.sec]||n.sec)+' →</button>';
     panel.innerHTML=h;
   }
-  function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-  panel.addEventListener('click', function(ev){
+  panel.addEventListener('click',function(ev){
     var go=ev.target.closest('[data-go]'), sc=ev.target.closest('[data-sec]');
     if(go){ sel=nmap[go.getAttribute('data-go')]||null; showPanel(sel); draw(); }
-    else if(sc && typeof scrollToSection==='function'){ scrollToSection(sc.getAttribute('data-sec')); }
+    else if(sc&&typeof scrollToSection==='function'){ scrollToSection(sc.getAttribute('data-sec')); }
   });
 
-  // legend / filters
   var lh='';
-  ['P','L','V','T','E','W'].forEach(function(t){
-    lh+='<button class="kg-lg" data-t="'+t+'" aria-pressed="true"><i style="background:'+TYPE[t].c+'"></i>'+TYPE[t].n+'s</button>';
+  ORDER.forEach(function(t){
+    var c=KG.n.filter(function(a){return a[1]===t;}).length;
+    lh+='<button class="kg-lg" data-t="'+t+'" aria-pressed="true"><i style="background:'+TYPE[t].c+'"></i>'+TYPE[t].n+'s <b style="opacity:.5;font-weight:400">'+c+'</b></button>';
   });
   legend.innerHTML=lh;
-  legend.addEventListener('click', function(ev){
+  legend.addEventListener('click',function(ev){
     var b=ev.target.closest('[data-t]'); if(!b) return;
     var t=b.getAttribute('data-t');
-    hidden[t]=!hidden[t];
-    b.classList.toggle('off', !!hidden[t]);
-    b.setAttribute('aria-pressed', hidden[t]?'false':'true');
-    if(sel && hidden[sel.t]){ sel=null; showPanel(null); }
-    if(reduce){ settle(); }
-    draw();
+    hidden[t]=!hidden[t]; b.classList.toggle('off',!!hidden[t]);
+    b.setAttribute('aria-pressed',hidden[t]?'false':'true');
+    if(sel&&hidden[sel.t]){ sel=null; showPanel(null); }
+    settle(); draw();
   });
 
-  function xy(ev){
-    var r=cv.getBoundingClientRect();
-    var p = ev.touches && ev.touches[0] ? ev.touches[0] : ev;
-    return {x:p.clientX-r.left, y:p.clientY-r.top};
-  }
-  cv.addEventListener('pointerdown', function(ev){
+  function xy(ev){ var r=cv.getBoundingClientRect(), p=(ev.touches&&ev.touches[0])?ev.touches[0]:ev;
+                   return {x:p.clientX-r.left,y:p.clientY-r.top}; }
+  cv.addEventListener('pointerdown',function(ev){
     var p=xy(ev), n=pick(p.x,p.y);
     if(n){ drag=n; cv.classList.add('grabbing'); try{cv.setPointerCapture(ev.pointerId);}catch(e){} }
   });
-  cv.addEventListener('pointermove', function(ev){
+  cv.addEventListener('pointermove',function(ev){
     var p=xy(ev);
-    if(drag){
-      drag.x = p.x-(W/2+off.x); drag.y = p.y-(H/2+off.y);
-      drag.vx=0; drag.vy=0;
-      if(reduce) draw();
-      return;
-    }
+    if(drag){ drag.ang=Math.atan2(p.y-H/2,p.x-W/2); drag.va=0; draw(); return; }
     var n=pick(p.x,p.y);
-    if(n!==hover){ hover=n; cv.style.cursor = n?'pointer':'grab'; if(reduce) draw(); }
+    if(n!==hover){ hover=n; cv.style.cursor=n?'pointer':'default'; draw(); }
   });
-  cv.addEventListener('pointerup', function(ev){
+  cv.addEventListener('pointerup',function(ev){
     cv.classList.remove('grabbing');
     if(drag){ drag=null; try{cv.releasePointerCapture(ev.pointerId);}catch(e){} return; }
     var p=xy(ev), n=pick(p.x,p.y);
-    sel = (n && sel && n.id===sel.id) ? null : n;
+    sel=(n&&sel&&n.id===sel.id)?null:n;
     showPanel(sel); draw();
   });
-  cv.addEventListener('pointerleave', function(){ hover=null; if(reduce) draw(); });
+  cv.addEventListener('pointerleave',function(){ hover=null; draw(); });
 
-  function settle(){ for(var k=0;k<420;k++) step(); }
-
-  var running=false, seen=false;
-  function loop(){
-    if(!running) return;
-    step(); draw();
-    requestAnimationFrame(loop);
-  }
-
-  size(); settle(); draw(); renderOutline();
-
-  // Only animate when it is on screen, and never when reduced motion is asked for.
-  // Reduced motion still gets the full, correct, laid-out graph, just not the settling.
-  if(!reduce && 'IntersectionObserver' in window){
-    new IntersectionObserver(function(en){
-      en.forEach(function(x){
-        if(x.isIntersecting && !seen){
-          seen=true; running=true; loop();
-          setTimeout(function(){ running=false; draw(); }, 6000);   // settle, then rest
-        }
-      });
-    }, {threshold:0.15}).observe(cv);
-  }
+  function settle(){ for(var k=0;k<300;k++) step(); }
+  size(); settle(); draw(); renderOutline(); showPanel(null);
 
   var rt;
-  addEventListener('resize', function(){
-    clearTimeout(rt);
-    rt=setTimeout(function(){ size(); draw(); }, 160);
-  }, {passive:true});
+  addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ size(); draw(); },160); },{passive:true});
 }
-
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', initMap);
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initMap);
 else initMap();
 })();
+</script>
+<script>
+// Graph-only downloads. The full context already embeds the graph; these are for
+// when you want the structure without the prose, or want it machine-readable.
+function downloadKG(fmt){
+  try{
+    var isJson = fmt === 'json';
+    var body = isJson ? (window.buildKGJSON && window.buildKGJSON())
+                      : (window.buildKGText && window.buildKGText());
+    if(!body) return;
+    if(!isJson){
+      body = '# web-scraping-guide.com \u2014 knowledge graph\n\n'
+           + 'The typed structure behind the guide, without the prose. Every node id here also appears in\n'
+           + 'the full LLM context download, so the two can be used together.\n\n'
+           + 'Source: https://web-scraping-guide.com/#kg\n\n---\n\n' + body;
+    }
+    var blob = new Blob([body], {type: isJson ? 'application/json;charset=utf-8' : 'text/markdown;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = isJson ? 'scraping-guide-knowledge-graph.json' : 'scraping-guide-knowledge-graph.md';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }catch(e){}
+}
 </script>
 </body></html>
