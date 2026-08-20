@@ -1179,6 +1179,103 @@ pre{padding:20px 18px;overflow-x:auto;font-family:var(--mono);font-size:14px;lin
 .ptbody code{font-family:var(--mono);font-size:11px;background:var(--s3);padding:2px 5px;color:var(--y);border-radius:3px}
 .ptstat{margin-top:9px;padding-top:8px;border-top:1px solid var(--b1);font-family:var(--mono);font-size:10px;color:var(--grn)}
 
+/* ── BOOK MODE ─────────────────
+   Real pagination via CSS columns: the flow is a fixed-height box whose
+   content spills into columns to the right, and turning a page is a
+   translateX by one spread. Nothing is scrolled, so a page break lands
+   where a page break should. Sections get break-before so every chapter
+   opens on a fresh recto, the way a book does. */
+html.bk-open,html.bk-open body{overflow:hidden}
+html.bk-open #llmw,html.bk-open #rd-rail,html.bk-open #ss-rail,html.bk-open #ticker{display:none!important}
+#bk-over{position:fixed;inset:0;z-index:900;display:none;flex-direction:column;background:#0c0c0f}
+#bk-over.open{display:flex}
+#bk-over[data-paper="1"]{background:#ded4c0}
+
+#bk-bar{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--b1);
+  background:rgba(10,10,10,.96);flex:0 0 auto;flex-wrap:wrap}
+#bk-over[data-paper="1"] #bk-bar{background:#cfc3ab;border-bottom-color:#b9ab92}
+#bk-ttl{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--t1);margin-right:2px;white-space:nowrap}
+#bk-sel{background:var(--s1);color:var(--t1);border:1px solid var(--b1);border-radius:6px;
+  font-family:var(--sans);font-size:12.5px;padding:5px 9px;max-width:270px}
+.bk-b{background:none;border:1px solid transparent;color:var(--t3);cursor:pointer;border-radius:7px;
+  font-family:var(--mono);font-size:12px;padding:6px 11px;transition:all .14s;white-space:nowrap}
+.bk-b:hover{color:var(--y);border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.07)}
+.bk-b.on{color:var(--y);border-color:rgba(245,197,24,.4);background:rgba(245,197,24,.1)}
+#bk-spacer{flex:1 1 auto}
+
+#bk-stage{flex:1 1 auto;position:relative;overflow:hidden;display:flex;justify-content:center;padding:26px 62px 8px}
+#bk-paper{position:relative;width:100%;max-width:1280px;height:100%;overflow:hidden}
+#bk-flow{position:absolute;top:0;left:0;height:100%;width:100%;column-fill:auto;
+  transition:transform .40s cubic-bezier(.22,.61,.36,1);will-change:transform}
+#bk-spine{position:absolute;top:8px;bottom:8px;left:50%;width:1px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.10) 12%,rgba(255,255,255,.10) 88%,transparent);display:none}
+#bk-over[data-spread="2"] #bk-spine{display:block}
+#bk-over[data-paper="1"] #bk-spine{background:linear-gradient(180deg,transparent,rgba(60,45,25,.22) 12%,rgba(60,45,25,.22) 88%,transparent)}
+
+/* page turn affordances */
+.bk-arrow{position:absolute;top:0;bottom:0;width:56px;border:none;background:none;cursor:pointer;
+  color:var(--t3);font-size:26px;line-height:1;transition:color .15s,background .15s;z-index:2}
+.bk-arrow:hover{color:var(--y);background:rgba(245,197,24,.045)}
+.bk-arrow[disabled]{opacity:.2;cursor:default;background:none}
+#bk-prev{left:0} #bk-next{right:0}
+#bk-over[data-paper="1"] .bk-arrow{color:#7a6a4e}
+#bk-over[data-paper="1"] .bk-arrow:hover{color:#2d2415;background:rgba(90,70,35,.07)}
+
+#bk-foot{flex:0 0 auto;padding:9px 18px 13px;display:flex;align-items:center;gap:14px;
+  border-top:1px solid var(--b1);background:rgba(10,10,10,.96)}
+#bk-over[data-paper="1"] #bk-foot{background:#cfc3ab;border-top-color:#b9ab92}
+#bk-num{font-family:var(--mono);font-size:11px;color:var(--t3);white-space:nowrap}
+#bk-bar-wrap{flex:1;height:3px;background:var(--b1);border-radius:2px;overflow:hidden;cursor:pointer}
+#bk-fill{height:100%;width:0;background:var(--y);border-radius:2px;transition:width .3s}
+#bk-over[data-paper="1"] #bk-num{color:#6b5c42}
+#bk-over[data-paper="1"] #bk-bar-wrap{background:#b9ab92}
+#bk-over[data-paper="1"] #bk-fill{background:#8a6d2b}
+
+/* ── the page itself ── */
+#bk-flow section{break-before:column;padding:0 0 6px;border:none;margin:0}
+#bk-flow section:first-child{break-before:auto}
+#bk-flow h2,#bk-flow h3,#bk-flow .sk,#bk-flow .ct,#bk-flow .cname,#bk-flow .ic-title{break-after:avoid}
+#bk-flow .card,#bk-flow .icard,#bk-flow .ib,#bk-flow .cb,#bk-flow .ptcard,#bk-flow .lyr,#bk-flow .ds,
+#bk-flow .kpirow,#bk-flow table,#bk-flow .ct-wrap,#bk-flow .lt-wrap,#bk-flow figure,#bk-flow .abc,
+#bk-flow .ait2,#bk-flow .pg,#bk-flow details{break-inside:avoid}
+#bk-flow img{max-width:100%;height:auto}
+/* horizontal scrollers become ordinary flow — a book has no drag rail */
+#bk-flow .innov-scroll{display:block;overflow:visible;width:auto}
+#bk-flow .innov-scroll .icard{width:auto;max-width:none;margin:0 0 14px;display:block}
+#bk-flow .innov-hint,#bk-flow .arch-tabs,#bk-flow canvas,#bk-flow .kg-legend,
+#bk-flow #ss-rail,#bk-flow .tk-item{display:none!important}
+#bk-flow .ic-detail{display:block!important;max-height:none!important;opacity:1!important}
+#bk-flow .coll{display:block!important}
+#bk-flow .cards,#bk-flow .c2,#bk-flow .c3,#bk-flow .c4,#bk-flow .aitools,#bk-flow .ptgrid,
+#bk-flow .lyrs,#bk-flow .pgrid,#bk-flow .kpirow{display:block!important;grid-template-columns:none!important}
+#bk-flow .cards>*{margin-bottom:12px}
+#bk-flow .rv,#bk-flow .rv-l,#bk-flow .rv-r,#bk-flow .rv-scale{opacity:1!important;transform:none!important}
+#bk-flow .sh{font-size:26px;line-height:1.2;margin-bottom:10px}
+#bk-flow .ss{font-size:15px;max-width:none}
+#bk-flow p,#bk-flow .cbody,#bk-flow .ic-body,#bk-flow .ic-detail,#bk-flow .ptbody,#bk-flow .lyrb{
+  font-size:14.6px;line-height:1.78;text-align:justify;hyphens:auto}
+
+/* paper mode inverts the ink, not the layout */
+#bk-over[data-paper="1"] #bk-flow{color:#3a3020}
+#bk-over[data-paper="1"] #bk-flow h2,#bk-over[data-paper="1"] #bk-flow h3,
+#bk-over[data-paper="1"] #bk-flow .sh,#bk-over[data-paper="1"] #bk-flow strong,
+#bk-over[data-paper="1"] #bk-flow .cname,#bk-over[data-paper="1"] #bk-flow .ic-title{color:#181206}
+#bk-over[data-paper="1"] #bk-flow .ss,#bk-over[data-paper="1"] #bk-flow p,
+#bk-over[data-paper="1"] #bk-flow .cbody,#bk-over[data-paper="1"] #bk-flow .ic-body,
+#bk-over[data-paper="1"] #bk-flow .ic-detail{color:#43382a}
+#bk-over[data-paper="1"] #bk-flow .card,#bk-over[data-paper="1"] #bk-flow .icard,
+#bk-over[data-paper="1"] #bk-flow .ib,#bk-over[data-paper="1"] #bk-flow .ptcard{
+  background:rgba(255,252,244,.55);border-color:rgba(120,100,65,.28)}
+#bk-over[data-paper="1"] #bk-ttl,#bk-over[data-paper="1"] .bk-b{color:#4a3d28}
+#bk-over[data-paper="1"] #bk-sel{background:#e6dcc8;color:#2d2415;border-color:#b0a087}
+
+@media(max-width:900px){
+  #bk-stage{padding:16px 40px 6px}
+  .bk-arrow{width:36px;font-size:21px}
+  #bk-ttl{display:none}
+  #bk-sel{max-width:150px}
+}
+
 /* ── API-vs-SCRAPE SCORECARD ── */
 .kpiw{background:linear-gradient(140deg,rgba(245,197,24,.075),rgba(91,156,221,.045) 60%,rgba(76,175,116,.04));
   border:1px solid rgba(245,197,24,.30);border-radius:10px;margin:26px 0 30px;overflow:hidden;
@@ -2764,6 +2861,12 @@ html.rz #rd-body > section{zoom:var(--rz,1)}
 .rd-b[aria-disabled="true"]{opacity:.45;cursor:default}
 .rd-b[aria-disabled="true"]:hover{color:var(--t3);border-color:transparent;background:none}
 .rd-b-go{color:var(--y);font-size:15px}
+.rd-b-book{color:var(--y);position:relative}
+.rd-b-book svg{display:block;margin:0 auto}
+.rd-b-book::after{content:"";position:absolute;inset:-2px;border-radius:9px;
+  border:1px solid rgba(245,197,24,.34);animation:bkpulse 2.8s ease-in-out infinite;pointer-events:none}
+@keyframes bkpulse{0%,100%{opacity:.30}50%{opacity:.85}}
+@media(prefers-reduced-motion:reduce){.rd-b-book::after{animation:none;opacity:.5}}
 .rd-lvl{
   font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.02em;
   min-width:30px;text-align:center;user-select:none;
@@ -3328,7 +3431,7 @@ function dismissLegalBanner(){
       <span class="nd"></span>
       <span class="nav-title">Asad's Scraping Guide</span>
       <span class="nav-badge">2026</span>
-      <span class="nav-updated" title="Last updated">Updated 2026-08-20 17:25 UTC</span>
+      <span class="nav-updated" title="Last updated">Updated 2026-08-20 19:05 UTC</span>
     </a>
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nls" id="mobNav">
@@ -12820,8 +12923,34 @@ The payoff scales past the one app. Most apps that protect their API at all push
   <button type="button" class="rd-b" id="rd-minus" onclick="rdZoom(-1)" aria-label="Smaller text" title="Smaller text">A&#8722;</button>
   <span class="rd-sep"></span>
   <button type="button" class="rd-b rd-b-go" id="rd-go" onclick="rdOpen()" aria-haspopup="dialog" aria-label="Read one section full screen" title="Read one section full screen">&#9707;</button>
+  <button type="button" class="rd-b rd-b-book" id="rd-book" onclick="bkOpen()" aria-haspopup="dialog" aria-label="Read the whole guide as a book" title="Read the whole guide as a book">
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5V20"/><path d="M3 5.2v13.1c2.9-1.1 6-1.1 9 .2 3-1.3 6.1-1.3 9-.2V5.2c-2.9-1.1-6-1-9 .3-3-1.3-6.1-1.4-9-.3z"/></svg>
+  </button>
 </div>
 
+<div id="bk-over" role="dialog" aria-modal="true" aria-labelledby="bk-ttl" data-spread="2" data-paper="0">
+  <div id="bk-bar">
+    <span id="bk-ttl">The whole guide, as a book</span>
+    <select id="bk-sel" onchange="bkJump(this.value)" aria-label="Jump to a chapter"></select>
+    <span id="bk-spacer"></span>
+    <button type="button" class="bk-b" id="bk-paper-b" onclick="bkPaper()" aria-pressed="false" title="Switch between night and paper">Paper</button>
+    <button type="button" class="bk-b" onclick="bkSpread()" id="bk-spread-b" title="One page or a two-page spread">Spread</button>
+    <button type="button" class="bk-b" onclick="bkExit()" aria-label="Close the book">Close &#10005;</button>
+  </div>
+  <div id="bk-stage">
+    <button type="button" class="bk-arrow" id="bk-prev" onclick="bkTurn(-1)" aria-label="Previous page">&#8249;</button>
+    <div id="bk-paper">
+      <div id="bk-flow" role="region" aria-label="Book pages" tabindex="0"></div>
+      <div id="bk-spine"></div>
+    </div>
+    <button type="button" class="bk-arrow" id="bk-next" onclick="bkTurn(1)" aria-label="Next page">&#8250;</button>
+  </div>
+  <div id="bk-foot">
+    <span id="bk-num">&mdash;</span>
+    <div id="bk-bar-wrap" onclick="bkSeek(event)" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="bk-fill"></div></div>
+    <span id="bk-num2" style="font-family:var(--mono);font-size:11px;color:var(--t3);white-space:nowrap">&#8592; &#8594; to turn</span>
+  </div>
+</div>
 <div id="rd-over" role="dialog" aria-modal="true" aria-labelledby="rd-title">
   <div id="rd-bar">
     <h2 id="rd-title">Reader</h2>
@@ -14345,6 +14474,177 @@ function rdZoom(dir){
   const i = RD_STEPS.indexOf(rdLevel());
   rdZoomSet(RD_STEPS[Math.max(0, Math.min(RD_STEPS.length - 1, i + dir))]);
 }
+
+/* ══ BOOK MODE ══
+   Clones every section into a column flow rather than moving the live nodes.
+   Moving them (the way the one-section reader does) would empty main while the
+   book is open and risk restoring 20+ sections wrongly on exit. A book is
+   read-only anyway, so a clone loses nothing that matters and lets us strip
+   canvases, tab strips and drag rails that mean nothing on a page. */
+var BK = { built:false, page:0, pages:1, spread:2, paper:0, adv:0, token:0, prevFocus:null };
+
+function bkBuild(){
+  var flow = document.getElementById('bk-flow');
+  flow.innerHTML = '';
+  var sel = document.getElementById('bk-sel');
+  sel.innerHTML = '';
+  rdSections().forEach(function(sec){
+    var c = sec.cloneNode(true);
+    c.removeAttribute('style');
+    // reveal-on-scroll never fires inside the book, so commit it
+    c.classList.add('vi');
+    c.querySelectorAll('.rv,.rv-l,.rv-r,.rv-scale').forEach(function(e){ e.classList.add('vi'); });
+    // open every collapsible so nothing is hidden behind a click
+    c.querySelectorAll('details').forEach(function(d){ d.setAttribute('open',''); });
+    c.querySelectorAll('.coll').forEach(function(d){ d.classList.add('open'); });
+    c.querySelectorAll('.icard').forEach(function(d){ d.classList.add('expanded'); });
+    // strip things that cannot be a page
+    c.querySelectorAll('canvas,script,iframe,.innov-hint,.arch-tabs,button.tog').forEach(function(e){ e.remove(); });
+    c.querySelectorAll('[onclick]').forEach(function(e){ e.removeAttribute('onclick'); });
+    c.querySelectorAll('[id]').forEach(function(e){ e.removeAttribute('id'); });
+    c.id = 'bk-' + sec.id;
+    flow.appendChild(c);
+    var o = document.createElement('option');
+    o.value = 'bk-' + sec.id; o.textContent = rdLabel(sec);
+    sel.appendChild(o);
+  });
+  // A sentinel in the last column is the only reliable way to measure a
+  // paginated flow: scrollWidth on a column box whose parent clips reads stale
+  // and under-reports, which had the whole guide fitting in 24 pages.
+  var end = document.createElement('div');
+  end.id = 'bk-end';
+  end.setAttribute('aria-hidden', 'true');
+  end.style.cssText = 'display:block;width:100%;height:1px';
+  flow.appendChild(end);
+  BK.built = true;
+}
+
+/* Column layout is not final in the frame you set column-width in — the first
+   measurement had the whole guide at 24 pages when it is 45. So every layout
+   measures on a double rAF and then acts, once. bkGo never re-enters here, and
+   nothing else calls the measurement, which is what stops the loop an earlier
+   version of this had. */
+function bkLayout(opts){
+  opts = opts || {};
+  var flow = document.getElementById('bk-flow'), paper = document.getElementById('bk-paper');
+  var wasRatio = BK.pages > 1 ? BK.page / BK.pages : 0;
+  var W = paper.clientWidth, gap = 46;
+  var cols = (BK.spread === 2 && W >= 860) ? 2 : 1;
+  document.getElementById('bk-over').setAttribute('data-spread', String(cols));
+  var colW = cols === 2 ? Math.floor((W - gap) / 2) : W;
+  flow.style.columnWidth = colW + 'px';
+  flow.style.columnGap = gap + 'px';
+  BK.adv = (colW + gap) * cols;
+  // Measure synchronously — reading offsetLeft flushes layout — then re-measure
+  // on timers in case the column pass had not finished. Deliberately NOT
+  // requestAnimationFrame: rAF does not fire in a hidden tab, so a book opened
+  // and then backgrounded would sit on a stale page count for ever.
+  var ticket = ++BK.token;
+  bkApply(ticket, opts, wasRatio, gap);
+  setTimeout(function(){ bkApply(ticket, opts, wasRatio, gap); }, 0);
+  setTimeout(function(){ bkApply(ticket, opts, wasRatio, gap); }, 150);
+  setTimeout(function(){ bkApply(ticket, opts, wasRatio, gap); }, 600);
+}
+
+function bkApply(ticket, opts, wasRatio, gap){
+  if (ticket !== BK.token) return;
+  var flow = document.getElementById('bk-flow');
+  var liveW = parseFloat(getComputedStyle(flow).columnWidth) || 0;
+  var liveCols = Number(document.getElementById('bk-over').getAttribute('data-spread')) || 1;
+  var endEl = document.getElementById('bk-end');
+  var total = (endEl ? endEl.offsetLeft : flow.scrollWidth) + liveW;   // forces layout
+  if (total <= liveW) return;                                          // not laid out yet
+  BK.adv = (liveW + gap) * liveCols;
+  var pages = Math.max(1, Math.ceil(total / BK.adv));
+  if (pages === BK.pages && !opts.force) { bkGo(BK.page); return; }
+  BK.pages = pages;
+  if (opts.keepRatio) BK.page = Math.min(BK.pages - 1, Math.round(wasRatio * BK.pages));
+  if (opts.jumpTo && document.getElementById(opts.jumpTo)) bkJump(opts.jumpTo);
+  else bkGo(BK.page);
+}
+
+function bkGo(n){
+  BK.page = Math.max(0, Math.min(BK.pages - 1, n));
+  document.getElementById('bk-flow').style.transform = 'translateX(' + (-BK.page * BK.adv) + 'px)';
+  var cols = Number(document.getElementById('bk-over').getAttribute('data-spread'));
+  var first = BK.page * cols + 1, last = Math.min(first + cols - 1, BK.pages * cols);
+  document.getElementById('bk-num').textContent = (cols === 2 ? ('Pages ' + first + '\u2013' + last) : ('Page ' + first)) + ' of about ' + (BK.pages * cols);
+  var pct = BK.pages > 1 ? (BK.page / (BK.pages - 1)) * 100 : 100;
+  document.getElementById('bk-fill').style.width = pct + '%';
+  document.getElementById('bk-bar-wrap').setAttribute('aria-valuenow', String(Math.round(pct)));
+  document.getElementById('bk-prev').disabled = BK.page === 0;
+  document.getElementById('bk-next').disabled = BK.page >= BK.pages - 1;
+}
+
+function bkTurn(d){ bkGo(BK.page + d); }
+function bkSeek(ev){
+  var b = document.getElementById('bk-bar-wrap').getBoundingClientRect();
+  bkGo(Math.round(((ev.clientX - b.left) / b.width) * (BK.pages - 1)));
+}
+function bkJump(id){
+  var el = document.getElementById(id); if (!el) return;
+  var flow = document.getElementById('bk-flow');
+  // offsetLeft inside a column flow is the horizontal position of that chapter
+  var x = el.getBoundingClientRect().left - flow.getBoundingClientRect().left;
+  bkGo(Math.floor(x / BK.adv));
+}
+function bkSpread(){
+  BK.spread = BK.spread === 2 ? 1 : 2;
+  document.getElementById('bk-spread-b').classList.toggle('on', BK.spread === 1);
+  bkLayout({ keepRatio: true });
+}
+function bkPaper(){
+  BK.paper = BK.paper ? 0 : 1;
+  var ov = document.getElementById('bk-over');
+  ov.setAttribute('data-paper', String(BK.paper));
+  var b = document.getElementById('bk-paper-b');
+  b.setAttribute('aria-pressed', BK.paper ? 'true' : 'false');
+  b.classList.toggle('on', !!BK.paper);
+  b.textContent = BK.paper ? 'Night' : 'Paper';
+  try { localStorage.setItem('bk-paper', String(BK.paper)); } catch(e){}
+}
+function bkKeys(e){
+  if (!document.getElementById('bk-over').classList.contains('open')) return;
+  var k = e.key;
+  if (k === 'Escape'){ bkExit(); }
+  else if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey)){ e.preventDefault(); bkTurn(1); }
+  else if (k === 'ArrowLeft' || k === 'PageUp' || (k === ' ' && e.shiftKey)){ e.preventDefault(); bkTurn(-1); }
+  else if (k === 'Home'){ e.preventDefault(); bkGo(0); }
+  else if (k === 'End'){ e.preventDefault(); bkGo(BK.pages - 1); }
+}
+
+function bkOpen(startId){
+  BK.prevFocus = document.activeElement;
+  if (!BK.built) bkBuild();
+  try { if (localStorage.getItem('bk-paper') === '1' && !BK.paper) bkPaper(); } catch(e){}
+  document.documentElement.classList.add('bk-open');
+  document.getElementById('bk-over').classList.add('open');
+  ['nav','ticker','fade-banner','legal-banner'].forEach(rdInert);
+  rdInert(document.querySelector('main'));
+  rdInert(document.getElementById('footer'));
+  BK.page = 0;
+  var cur = startId || rdCurrent();
+  if (cur) document.getElementById('bk-sel').value = 'bk-' + cur;
+  bkLayout({ jumpTo: cur ? 'bk-' + cur : null });
+  document.getElementById('bk-flow').focus();
+  document.addEventListener('keydown', bkKeys, true);
+}
+
+function bkExit(){
+  document.getElementById('bk-over').classList.remove('open');
+  document.documentElement.classList.remove('bk-open');
+  rdUninert();
+  document.removeEventListener('keydown', bkKeys, true);
+  if (BK.prevFocus && BK.prevFocus.isConnected) BK.prevFocus.focus();
+  else { var b = document.getElementById('rd-book'); if (b) b.focus(); }
+}
+
+var BK_RT;
+addEventListener('resize', function(){
+  if (!document.getElementById('bk-over').classList.contains('open')) return;
+  clearTimeout(BK_RT);
+  BK_RT = setTimeout(function(){ bkLayout({ keepRatio: true }); }, 140);
+});
 
 function rdSections(){ return Array.from(document.querySelectorAll('main > section[id]')).filter(s => s.id !== 'hero'); }
 function rdLabel(s){
