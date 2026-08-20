@@ -71,7 +71,7 @@
     "@id": "https://web-scraping-guide.com/"
   },
   "datePublished": "2026-01-01",
-  "dateModified": "2026-08-26",
+  "dateModified": "2026-08-20",
   "image": "https://web-scraping-guide.com/og-image.png",
   "about": [
     {
@@ -390,7 +390,7 @@
   },
   "inLanguage": "en-US",
   "datePublished": "2026-01-01",
-  "dateModified": "2026-08-26",
+  "dateModified": "2026-08-20",
   "description": "A single-page production reference covering anti-bot detection layers, vendor bypasses, libraries, proxies, AI and agentic scraping, mobile API reversing, architecture, cost and the legal position.",
   "primaryImageOfPage": {
     "@type": "ImageObject",
@@ -3328,7 +3328,7 @@ function dismissLegalBanner(){
       <span class="nd"></span>
       <span class="nav-title">Asad's Scraping Guide</span>
       <span class="nav-badge">2026</span>
-      <span class="nav-updated" title="Last updated">Updated 2026-08-26 19:30 UTC</span>
+      <span class="nav-updated" title="Last updated">Updated 2026-08-20 13:40 UTC</span>
     </a>
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nls" id="mobNav">
@@ -12779,7 +12779,7 @@ The payoff scales past the one app. Most apps that protect their API at all push
 </footer>
 <script>
 const KNOWLEDGE_BASE = `
-GUIDE FRESHNESS: This knowledge base and web-scraping-guide.com were last updated 2026-08-26. Techniques, tool versions, benchmarks, and anti-bot vendor behaviour reflect mid-2026, with the newest entries current to August 2026. Treat anything time-sensitive as an August 2026 snapshot.
+GUIDE FRESHNESS: This knowledge base and web-scraping-guide.com were last updated 2026-08-20. Techniques, tool versions, benchmarks, and anti-bot vendor behaviour reflect mid-2026, with the newest entries current to August 2026. Treat anything time-sensitive as an August 2026 snapshot.
 KNOWLEDGE GRAPH (#kg - the structure this guide actually has, and how to reason over it): the guide is not a list of tips. 130 NODES AND 188 TYPED EDGES organise all of it, and EVERY SECTION OF THE GUIDE IS REPRESENTED. Node types: 18 PRINCIPLES (the spine), 8 DETECTION LAYERS (L0 TCP/layer-4, L1 TLS/JA4, L2 HTTP/2 and header order, L3 JavaScript fingerprinting, L4 hardware and OS side channels, L5 network identity, L6 behaviour and session scoring, L7 declared identity and policy), 39 METHODS or practice areas, 7 vendors, 22 tools, 28 pieces of measured evidence and 8 legal nodes. EDGE VERBS: at (operates at a layer), beats (defeats), catch (catches), then (judged before), caseof (instance of a principle), backs (evidence for), cuts (limits or contradicts), costs (economic consequence). THE 18 PRINCIPLES: P1 coherence not realism; P2 the block is at a layer you are not working on; P3 network identity dominates fingerprint quality; P4 every piece of state is a claim that can be judged; P5 the best signals live in the seam between two layers; P6 below the sandbox patching stops working; P7 the expensive failures return 200; P8 alert on the delta not the level; P9 a row without provenance cannot be diagnosed; P10 check the instrument before trusting the verdict; P11 agent cost is how often the model looks; P12 agents cannot separate instruction from content; P13 protection is a rule on a route not a property of a site; P14 fix the class not the instance; P15 access was the old problem and legibility is the new one; P16 preventing is not the same as proving you prevented; P17 spend the model once at build time; P18 escalate cheapest-first and stop at the first win. HOW TO REASON WITH IT: to answer "why am I blocked", walk the layers IN ORDER and establish which layer the symptom belongs to BEFORE recommending a tool - most wasted work is a layer-3 fix applied to a layer-1 refusal. To test whether a claim is supported, follow the backs edges from evidence into the principle. Edges marked CUTS are the counter-evidence and should be quoted alongside the claim they limit rather than omitted (E-sowa cuts P2; W-ryan cuts W-hiq; E-shopee cuts P13). A tool node is only a recommendation once you know the layer, which is why tools carry both beats and cuts edges to layers - the cuts edge tells you what that tool does NOT solve. DOWNLOADS: the full LLM context emits this graph as a typed node-and-edge index AHEAD of the prose; there is also a graph-only markdown download (~7K tokens) and a machine-readable JSON export, all generated from the same structure that draws the on-page visual, so the picture, the text and the export cannot drift apart.
 
 DETECTION LAYERS:
