@@ -8365,14 +8365,16 @@ Three tools sketch the direction, and the pattern matters more than any one of t
       <span class="arch-tool">Python + Node.js SDK</span>
     </div>
   </div>
-</div>
   <div class="ptstat">✓ Best for: ready-made scrapers, LangChain</div>
 </div>
 <div class="ptcard" style="border-color:var(--yellow)">
   <div class="ptname">Oxylabs</div>
   <div class="pttag">Enterprise · 100M+ IPs · OxyCopilot AI</div>
   <div class="ptbody">100M+ IPs, 195 countries. <strong>OxyCopilot AI</strong> generates parser code from natural language. Owns ScrapingBee (acquired 2025). ISO 27001 + GDPR. From $49/mo.</div>
-  <div class="ptst
+  <div class="ptstat">✓ Best for: enterprise scale, AI-generated parsers
+    <a href="https://oxylabs.io" target="_blank" class="pt-link">oxylabs.io ↗</a>
+  </div>
+</div>
   <div class="ptcard" style="border-color:rgba(255,165,0,.3)">
     <div class="ptname">ScrapingBee</div>
     <div class="pttag">Headless · Managed rendering</div>
@@ -8469,10 +8471,6 @@ Three tools sketch the direction, and the pattern matters more than any one of t
     <a href="https://scrapingrobot.com" target="_blank" class="pt-link">scrapingrobot.com ↗</a>
   </div>
 
-at">✓ Best for: enterprise scale, AI-generated parsers
-    <a href="https://oxylabs.io" target="_blank" class="pt-link">oxylabs.io ↗</a>
-  </div>
-</div>
 </div>
 
 <div style="margin-top:48px">
@@ -9411,6 +9409,7 @@ Two closing notes. Keep the whole chain consistent while you work: the IP your c
 </div>
 
 
+</div>
 <!-- ── 1: Scrapy Cluster ─────────────────────────────────────── -->
 <div class="arch-panel hidden" id="arch-1">
 <p class="arch-desc">Distributed crawling across multiple nodes using scrapy-redis. Redis acts as the shared frontier, all spiders pull URLs from the same queue and push items to the same pipeline. Horizontally scalable: add worker nodes without changing spider code.</p>
@@ -9525,6 +9524,7 @@ Two closing notes. Keep the whole chain consistent while you work: the IP your c
 </div>
 
 
+</div>
 <!-- ── 2: AWS ECS Pipeline ───────────────────────────────────── -->
 <div class="arch-panel hidden" id="arch-2">
 <p class="arch-desc">Production AWS pipeline: Scrapy spiders containerised and deployed to ECS Fargate tasks. EventBridge triggers runs on schedule, Step Functions orchestrates multi-step flows, results land in S3 data lake then processed to RDS. Built and maintained this pattern in production.</p>
@@ -9666,6 +9666,7 @@ Two closing notes. Keep the whole chain consistent while you work: the IP your c
 </div>
 
 
+</div>
 <!-- ── 3: AWS Data Lake (EKS) ────────────────────────────────── -->
 <div class="arch-panel hidden" id="arch-3">
 <p class="arch-desc">Enterprise-scale reference pattern: a large spider fleet on Kubernetes (EKS), ingesting to an S3 raw data lake, Glue cataloguing, Redshift Spectrum for external tables, and Bronze/Silver/Gold data layers, orchestrated by Apache Airflow. This is the shape such platforms typically take, not a description of any particular deployment.</p>
@@ -9798,6 +9799,7 @@ Two closing notes. Keep the whole chain consistent while you work: the IP your c
 </div>
 
 
+</div>
 <!-- ── 4: Scrapy Cluster VPS ──────────────────────────────────── -->
 <div class="arch-panel hidden" id="arch-4">
 <p class="arch-desc">Self-hosted distributed Scrapy cluster on VPS, no cloud needed. Scrapy Master distributes crawl jobs to Worker nodes via Docker. Apache Airflow handles scheduling. Results go to local NFS data lake, then ETL to SQL Server. Cost-effective for mid-scale scraping without AWS spend.</p>
@@ -9909,6 +9911,7 @@ Two closing notes. Keep the whole chain consistent while you work: the IP your c
 </div>
 
 
+</div>
 <!-- ── 5: Step Functions Multi-Region ────────────────────────── -->
 <div class="arch-panel hidden" id="arch-5">
 <p class="arch-desc">Full AWS Step Functions workflow for enterprise data collection. Scraper containers deployed via AWS Batch, Bronze/Silver/Gold EMR Serverless processing pipeline, RDS backend, application load balancer. Multi-stage medallion with AI/ML training capability bolted on.</p>
@@ -10085,6 +10088,7 @@ Two closing notes. Keep the whole chain consistent while you work: the IP your c
 </div>
 </div>
 
+</div>
 <!-- ── 6: Azure Pipeline ─────────────────────────────────────── -->
 <div class="arch-panel hidden" id="arch-6">
 <p class="arch-desc">Microsoft Azure-native scraping pipeline. Container Instances run Scrapy spiders, Logic Apps handle scheduling, Data Factory orchestrates ETL, Azure Data Lake Storage Gen2 for raw data, Synapse Analytics for Bronze/Silver/Gold processing, Power BI for dashboards.</p>
