@@ -6603,6 +6603,82 @@ This is the layer that does not care how good your fingerprint patches are. Anyt
     </div>
   </td>
 </tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('CapMonster')"><td>CapMonster Cloud <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">~$0.60/1k v2</span></td><td>reCAPTCHA, Turnstile, image</td><td><span class="dn"></span></td><td>&ndash;</td></tr>
+<tr class="lib-detail-row" id="detail-CapMonster">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> AI solver. Hosted sibling of the downloadable CapMonster app; a model answers, no humans in the loop.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Among the cheapest AI solvers (verified ~$0.60 per 1,000 reCAPTCHA v2 tokens Sep 2026)</li><li>Fast, fully automated</li><li>Text-CAPTCHA and image tiers priced lower still</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Struggles on the hardest challenge families where human-backed services still win</li><li>Token price, not a flat licence</li><li>Quality varies by challenge type</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('NopeCHA')"><td>NopeCHA <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">sub, daily caps</span></td><td>reCAPTCHA, hCaptcha, Turnstile, text</td><td><span class="dn"></span></td><td>&ndash;</td></tr>
+<tr class="lib-detail-row" id="detail-NopeCHA">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> AI solver sold as a SUBSCRIPTION with daily solve caps, not per-solve &mdash; so effective cost is a utilisation question.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Predictable monthly bill (~$4.99 for 2,000/day up to ~$99.99 for 200,000/day, Sep 2026)</li><li>Browser-extension and API modes</li><li>Cheap per-solve if you saturate a tier (~3 cents/1,000 at the Basic cap)</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Pay far above the market rate if you run it lightly</li><li>Daily cap can throttle a burst</li><li>Not a per-1,000 product, so it does not slot cleanly into a cost-per-solve comparison</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('DeathByCaptcha')"><td>DeathByCaptcha <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">discount tier</span></td><td>reCAPTCHA, image, text</td><td><span class="dn"></span></td><td>&ndash;</td></tr>
+<tr class="lib-detail-row" id="detail-DeathByCaptcha">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Hybrid: a model tries first and a human worker picks up the miss. One of the older discount solvers.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Cheap, long-established</li><li>Human fallback for unusual CAPTCHAs</li><li>Simple API compatible with common client libraries</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Human step adds latency on the hard ones</li><li>Quality/uptime less consistent than the newer AI leaders</li><li>Cost per solve</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('SolveCaptcha')"><td>SolveCaptcha <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">per-solve</span></td><td>reCAPTCHA, hCaptcha, image</td><td><span class="dn"></span></td><td>&ndash;</td></tr>
+<tr class="lib-detail-row" id="detail-SolveCaptcha">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> Automatic recognition service, API-compatible with the 2captcha family. Marketed as automatic; no explicit human-vs-AI split stated by the vendor.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>Drop-in for code already written against the 2captcha API</li><li>Covers the mainstream challenge types</li><li>Per-solve pricing in the mainstream range</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Vendor discloses less about how it solves than the AI-first services do</li><li>Smaller/less-documented than 2captcha or CapSolver</li><li>Cost per solve</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr class="lyr lib-expandable" onclick="toggleLibDetail('CapSkip')"><td>CapSkip <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lp">CAPTCHA</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Local API</span></td><td><span class="dn"></span></td><td><span class="dn"></span> <span style="font-size:11px">flat licence</span></td><td>reCAPTCHA, Turnstile (local)</td><td><span class="dn"></span></td><td>&ndash;</td></tr>
+<tr class="lib-detail-row" id="detail-CapSkip">
+  <td colspan="8">
+    <div class="lib-detail-inner">
+      <div class="lib-detail-top">
+        <span class="lib-http-badge">⚡ HTTP</span>
+        <div class="lib-under-hood"><span class="lib-hood-label">Under the hood:</span> LOCAL AI solver: the model runs on YOUR machine and exposes a local API that emulates the 2captcha / RuCaptcha / SolveCaptcha endpoints. Flat licence, no per-solve fee.</div>
+      </div>
+      <div class="lib-pc-row">
+        <div class="lib-pros"><div class="lib-pc-head">✓ Pros</div><ul><li>No per-solve cost &mdash; flat ~$10&ndash;$20/mo (plus an optional lifetime fee)</li><li>Data and tokens never leave your machine</li><li>Drop-in for the 2captcha API surface</li></ul></div>
+        <div class="lib-cons"><div class="lib-pc-head">✗ Cons</div><ul><li>Needs real local hardware (GPU/RAM) to run the model</li><li>You maintain the runtime, not a vendor</li><li>Newest and least battle-tested of the eight; local inference quality is on you</li></ul></div>
+      </div>
+    </div>
+  </td>
+</tr>
+
 <tr class="lyr lib-expandable" onclick="toggleLibDetail('Scrapyd')"><td><a href="https://github.com/scrapy/scrapyd" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;border-bottom:1px solid var(--b2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--y)'" onmouseout="this.style.borderColor='var(--b2)'">Scrapyd</a> <span class="lib-row-badge lib-http-b">⚡</span></td><td><span class="lcat lf">Framework</span></td><td><span style="font-family:var(--mono);font-size:11px;color:var(--t3)">Python</span></td><td><span class="dp"></span></td><td><span class="dp"></span> <span style="font-size:11px">Via middleware</span></td><td>Scrapy deploy tool</td><td><span class="dn"></span></td><td>–</td></tr>
 <tr class="lib-detail-row" id="detail-Scrapyd">
   <td colspan="8">
