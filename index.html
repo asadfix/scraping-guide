@@ -5511,7 +5511,7 @@ This is worth studying for what it tells you about where bot detection is headin
 <div class="cases-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin:32px 0 24px;padding-bottom:12px;border-bottom:1px solid var(--b1)">
   <button class="case-tab active" onclick="showCase('akamai', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(246,147,35,.12);border:1px solid rgba(246,147,35,.4);border-radius:5px;color:rgba(246,147,35,.95);cursor:pointer;transition:all .15s;font-weight:700">Akamai v3<span style="font-size:9px;opacity:.8;margin-left:4px">May 2026</span></button>
   <button class="case-tab" onclick="showCase('cloudflare', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:5px;color:var(--t3);cursor:pointer">Cloudflare<span style="font-size:9px;opacity:.6;margin-left:4px">soon</span></button>
-  <button class="case-tab" onclick="showCase('datadome', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:5px;color:var(--t3);cursor:pointer">DataDome<span style="font-size:9px;opacity:.6;margin-left:4px">soon</span></button>
+  <button class="case-tab" onclick="showCase('datadome', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:5px;color:var(--t3);cursor:pointer">DataDome<span style="font-size:9px;opacity:.8;margin-left:4px">Sep 2026</span></button>
   <button class="case-tab" onclick="showCase('perimeterx', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:5px;color:var(--t3);cursor:pointer">PerimeterX<span style="font-size:9px;opacity:.6;margin-left:4px">soon</span></button>
   <button class="case-tab" onclick="showCase('kasada', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:5px;color:var(--t3);cursor:pointer">Kasada<span style="font-size:9px;opacity:.6;margin-left:4px">soon</span></button>
   <button class="case-tab" onclick="showCase('f5shape', this)" style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:5px;color:var(--t3);cursor:pointer">F5 Shape<span style="font-size:9px;opacity:.6;margin-left:4px">soon</span></button>
@@ -5681,10 +5681,143 @@ gql, _ := s.DoWithBody(ctx, req, bytes.NewReader(payload))
   <h3 style="font-family:var(--serif);font-size:22px;color:var(--t2);font-weight:400;margin-bottom:8px">Cloudflare case study</h3>
   <p style="font-size:14px;color:var(--t3);line-height:1.8">Field notes on bypassing Cloudflare Turnstile + Bot Fight Mode in production. Coming after the next Turnstile rollout cycle.</p>
 </div>
-<div class="case-panel" id="case-datadome" style="display:none;padding:48px;text-align:center;background:rgba(255,255,255,.02);border:1px dashed var(--b2);border-radius:8px">
-  <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:12px">Coming soon</div>
-  <h3 style="font-family:var(--serif);font-size:22px;color:var(--t2);font-weight:400;margin-bottom:8px">DataDome case study</h3>
-  <p style="font-size:14px;color:var(--t3);line-height:1.8">Bypassing DataDome's behavioural ML and 85,000 per-customer models in production. Notes in progress.</p>
+<div class="case-panel" id="case-datadome" style="display:none">
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+    <span style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;background:rgba(91,156,221,.12);border:1px solid rgba(91,156,221,.3);border-radius:3px;color:rgba(91,156,221,.9)">Production bypass &middot; no challenge solved</span>
+    <span style="font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)">No browser &middot; 110&nbsp;KB payload from the first response &middot; curl_cffi fallback confirmed 200</span>
+  </div>
+  <h3 style="font-family:var(--serif);font-size:28px;font-weight:400;color:var(--t1);margin-bottom:10px;line-height:1.15">DataDome on Grainger: the data was already in the HTML, before the challenge applied</h3>
+  <p style="font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:28px">Field notes from a production job against a DataDome-protected site. The useful part is not a clever solve, it is that I never solved anything. DataDome's expensive machinery guards the paths it is asked to guard, and on this target the entire product payload was sitting in the first response, where no challenge had been applied yet.</p>
+
+  <div style="margin-bottom:28px;padding:18px 22px;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:8px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(91,156,221,.85);margin-bottom:10px">The core problem &middot; 85,000 models, and none of them are yours to beat</div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:10px">DataDome is architecturally unlike the others. It deploys <strong style="color:var(--t1)">85,000 separate ML models, one per protected site</strong>, so there is no universal bypass to find and nothing you learn on one target transfers as a payload to the next. It runs at the <strong style="color:var(--t1)">application server level, not the CDN</strong>, which removes origin-IP discovery from the toolkit entirely. Scoring is real-time at roughly <strong style="color:var(--t1)">2&nbsp;ms</strong>, so every request is judged on its own.</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:10px"><strong style="color:var(--t1)">Where the weight sits:</strong> L1 headers and L4 behaviour carry this vendor; L2 barely matters, which is the opposite of the Akamai job. The WASM <code>boring_challenge</code> is a Rust-compiled state machine that cannot be emulated, and <strong style="color:var(--t1)">IP reputation alone is 25&ndash;30% of the trust score</strong> before a single signal is read.</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin:0"><strong style="color:var(--t1)">The consequence worth internalising:</strong> because the model is per-site, the question is never &ldquo;how do I beat DataDome.&rdquo; It is &ldquo;which path on <em>this</em> site is the model not standing in front of.&rdquo;</p>
+  </div>
+
+  <div style="margin-bottom:28px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(224,71,71,.85);margin-bottom:14px">What does not pay here (and why)</div>
+    <div style="display:grid;gap:10px">
+      <div style="padding:14px 16px;background:rgba(224,71,71,.04);border:1px solid rgba(224,71,71,.18);border-radius:6px;border-left:3px solid rgba(224,71,71,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.85);margin-bottom:6px">&times; Emulating the WASM <code>boring_challenge</code></div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:6px">The obvious instinct: read the challenge, reimplement the state machine, mint tokens offline. It is a Rust-compiled VM, and reimplementing it is a browser-writing project with a maintenance tail that never ends.</div>
+        <div style="font-size:13px;color:var(--t3);line-height:1.7"><strong style="color:var(--t2)">Why:</strong> it requires actual browser execution to produce a valid solve token. If you have decided you need a real browser anyway, you no longer need the emulation.</div>
+      </div>
+      <div style="padding:14px 16px;background:rgba(224,71,71,.04);border:1px solid rgba(224,71,71,.18);border-radius:6px;border-left:3px solid rgba(224,71,71,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.85);margin-bottom:6px">&times; Hunting the unprotected origin</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:6px">A reliable move against CDN-placed protection, and simply not applicable here. There is no unguarded machine sitting behind the edge, because the guard is not at the edge.</div>
+        <div style="font-size:13px;color:var(--t3);line-height:1.7"><strong style="color:var(--t2)">Why:</strong> DataDome runs at the application server. Origin-IP bypass is structurally impossible, not merely difficult.</div>
+      </div>
+      <div style="padding:14px 16px;background:rgba(224,71,71,.04);border:1px solid rgba(224,71,71,.18);border-radius:6px;border-left:3px solid rgba(224,71,71,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.85);margin-bottom:6px">&times; Deep JS-surface patching</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:6px">Hours disappear into spoofing individual JavaScript properties. Against this vendor the return is poor, and every patched surface is a new thing that has to agree with everything around it.</div>
+        <div style="font-size:13px;color:var(--t3);line-height:1.7"><strong style="color:var(--t2)">Why:</strong> the weight is on the header set and on behaviour, not on the JS values a patch controls. Do not over-invest here.</div>
+      </div>
+      <div style="padding:14px 16px;background:rgba(224,71,71,.04);border:1px solid rgba(224,71,71,.18);border-radius:6px;border-left:3px solid rgba(224,71,71,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(224,71,71,.85);margin-bottom:6px">&times; Bringing the Akamai playbook across</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:6px">The Akamai job is won at the network layer: JA4, HTTP/2 SETTINGS, ALPN. Carrying that priority order to DataDome spends the budget in the wrong place.</div>
+        <div style="font-size:13px;color:var(--t3);line-height:1.7"><strong style="color:var(--t2)">Why:</strong> here L2 barely matters. What matters is the header <strong style="color:var(--t2)">set</strong>, the <strong style="color:var(--t2)">order</strong>, the <strong style="color:var(--t2)">casing</strong>, and then behavioural realism.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:28px;padding:20px 24px;background:linear-gradient(135deg,rgba(72,187,120,.06),rgba(72,187,120,.02));border:1px solid rgba(72,187,120,.3);border-radius:8px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(72,187,120,.85);margin-bottom:12px">The breakthrough &middot; a challenge cannot apply to a response it never guards</div>
+    <p style="font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:14px">Grainger.com is a Next.js application. Next.js serialises the page's server state into a <code>__NEXT_DATA__</code> script tag <strong style="color:var(--t1)">in the initial HTML document</strong>. On this target that blob was <strong style="color:var(--t1)">110&nbsp;KB and contained the product data</strong> &mdash; the same data the interactive paths would have returned, delivered with the document itself.</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:14px">Nothing was solved because nothing was asked. The challenge, the WASM VM, the 35-signal behavioural model and the per-site classifier all sit in front of the paths a browsing session takes after the document loads. The document was not one of them.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
+      <div style="padding:10px 14px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px"><strong style="color:rgba(91,156,221,.95);display:block;margin-bottom:3px">L1 &middot; Headers</strong><span style="color:var(--t2)">set, order, casing &mdash; heavy</span></div>
+      <div style="padding:10px 14px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px"><strong style="color:var(--t3);display:block;margin-bottom:3px">L2 &middot; HTTP/2</strong><span style="color:var(--t2)">barely matters here</span></div>
+      <div style="padding:10px 14px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px"><strong style="color:rgba(91,156,221,.95);display:block;margin-bottom:3px">L3 &middot; IP reputation</strong><span style="color:var(--t2)">25&ndash;30% of trust score</span></div>
+      <div style="padding:10px 14px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px"><strong style="color:rgba(91,156,221,.95);display:block;margin-bottom:3px">L4 &middot; Behavioural</strong><span style="color:var(--t2)">35+ signals &mdash; heavy</span></div>
+      <div style="padding:10px 14px;background:rgba(0,0,0,.3);border-radius:4px;font-size:12px"><strong style="color:rgba(72,187,120,.9);display:block;margin-bottom:3px">L0 &middot; The first response</strong><span style="color:var(--t2)">often guarded by none of it</span></div>
+    </div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin:0"><strong style="color:var(--t1)">Read the initial HTML before you fight anything.</strong> This is the cheapest check in scraping and the one most often skipped, because fighting is more interesting than reading.</p>
+  </div>
+
+  <div style="margin-bottom:28px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(72,187,120,.85);margin-bottom:14px">&#10003; What worked</div>
+    <div style="display:grid;gap:10px">
+      <div style="padding:14px 16px;background:rgba(72,187,120,.04);border:1px solid rgba(72,187,120,.18);border-radius:6px;border-left:3px solid rgba(72,187,120,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(72,187,120,.85);margin-bottom:6px">01 &middot; <code>__NEXT_DATA__</code> from the initial HTML</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85">110&nbsp;KB of product data, no browser, no challenge, no token. Confirmed on Grainger.com. Where a target is Next.js, React with embedded state, or ships JSON-LD, check this first every time.</div>
+      </div>
+      <div style="padding:14px 16px;background:rgba(72,187,120,.04);border:1px solid rgba(72,187,120,.18);border-radius:6px;border-left:3px solid rgba(72,187,120,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(72,187,120,.85);margin-bottom:6px">02 &middot; <code>curl_cffi chrome124</code> + residential proxy</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85">The fallback for paths that are not in the document. <strong style="color:var(--t1)">Confirmed 200 OK on Grainger.com.</strong> Get the header set, order and casing right and this clears a surprising amount of DataDome surface without a browser process.</div>
+      </div>
+      <div style="padding:14px 16px;background:rgba(72,187,120,.04);border:1px solid rgba(72,187,120,.18);border-radius:6px;border-left:3px solid rgba(72,187,120,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(72,187,120,.85);margin-bottom:6px">03 &middot; Mobile carrier egress for the hard paths</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85">T-Mobile and Vodafone 4G addresses carry the highest trust score and are the hardest for a vendor to flag, because flagging them costs real users. Given IP reputation is a quarter to a third of the score, this is the highest-leverage single change available.</div>
+      </div>
+      <div style="padding:14px 16px;background:rgba(72,187,120,.04);border:1px solid rgba(72,187,120,.18);border-radius:6px;border-left:3px solid rgba(72,187,120,.5)">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(72,187,120,.85);margin-bottom:6px">04 &middot; A real browser only when the path is genuinely interactive</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85">Camoufox with <code>geoip=True</code>, which aligns all five identity vectors with the proxy exit country. And rotate <strong style="color:var(--t1)">per session, not per request</strong> &mdash; mid-session rotation is its own signal.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:28px;padding:18px 22px;background:rgba(91,156,221,.04);border:1px solid rgba(91,156,221,.22);border-radius:8px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(91,156,221,.85);margin-bottom:12px">What the September 2026 field measurements add</div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:12px">Three independent measurements published this month sharpen the picture above. All three are by one practitioner writing as <strong style="color:var(--t1)">0xlearner</strong>, self-reported, each a single run against a single target &mdash; treat them as well-instrumented field notes rather than settled results.</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:12px"><strong style="color:var(--t1)">Request shape can be the entire gate.</strong> On the <code>hermes.com</code> listing endpoint the same URL answered <strong style="color:var(--t1)">403 as a top-level navigation and 200 as the page's own same-site <code>fetch</code></strong> &mdash; <code>Origin</code> present, <code>sec-fetch-mode: cors</code> &mdash; with an empty cookie jar and <strong style="color:var(--t1)">no token ever issued</strong>. The model was not asking who you are; it was asking why you were asking. Scope it to one endpoint on one site: rules are configured per customer and per path.</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:12px"><strong style="color:var(--t1)">Coherence, not honesty.</strong> Five bracketed cells against a live <code>idealista</code> slider: stock Linux Chrome wearing its own Linux user-agent <strong style="color:var(--t1)">solved</strong>; the same binary forced to a Windows user-agent <strong style="color:var(--t1)">blocked</strong>; a bare <code>(Linux)</code> token desktop Chrome never emits <strong style="color:var(--t1)">blocked</strong>. Both known-good controls wore a Windows user-agent on a Linux host and solved. Being honest was sufficient but not required; contradicting yourself was fatal in either direction.</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.85;margin:0"><strong style="color:var(--t1)">A minted session is a budget, not a key.</strong> Nine minted sessions against a G2 deployment ran anywhere from <strong style="color:var(--t1)">21 to 106 requests</strong> before dying, and cookie count did not predict which died when. Plan for a distribution and re-mint on evidence, not on a counter. One method note that costs nothing: bracket every A/B with a known-good control, because a burst of failures degrades the egress address for roughly fifteen minutes, after which every cell fails identically and the run tells you nothing.</p>
+  </div>
+
+  <div style="margin-bottom:28px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--y);margin-bottom:14px">Key takeaways</div>
+    <div style="display:grid;gap:10px">
+      <div style="padding:12px 16px;background:rgba(245,197,24,.04);border-left:2px solid rgba(245,197,24,.4);border-radius:0 5px 5px 0">
+        <strong style="color:var(--t1);font-size:14px;display:block;margin-bottom:4px">Read the first response before you fight the site.</strong>
+        <span style="font-size:13px;color:var(--t2);line-height:1.75">A 110&nbsp;KB <code>__NEXT_DATA__</code> blob beat an 85,000-model classifier by arriving before it. The check costs one request and it is the one most often skipped.</span>
+      </div>
+      <div style="padding:12px 16px;background:rgba(245,197,24,.04);border-left:2px solid rgba(245,197,24,.4);border-radius:0 5px 5px 0">
+        <strong style="color:var(--t1);font-size:14px;display:block;margin-bottom:4px">Per-site models mean method transfers, payloads do not.</strong>
+        <span style="font-size:13px;color:var(--t2);line-height:1.75">What works on Grainger may not work on Le Monde, and that is by design. Carry across the <em>procedure</em> &mdash; read the document, then shape the request, then fix the address &mdash; not a header set that happened to pass somewhere else.</span>
+      </div>
+      <div style="padding:12px 16px;background:rgba(245,197,24,.04);border-left:2px solid rgba(245,197,24,.4);border-radius:0 5px 5px 0">
+        <strong style="color:var(--t1);font-size:14px;display:block;margin-bottom:4px">Ask the way the page asks.</strong>
+        <span style="font-size:13px;color:var(--t2);line-height:1.75">An endpoint that refuses a top-level navigation may answer a same-site <code>fetch</code> with no credential at all. Before minting anything, try issuing the request the way the page's own JavaScript issues it.</span>
+      </div>
+      <div style="padding:12px 16px;background:rgba(245,197,24,.04);border-left:2px solid rgba(245,197,24,.4);border-radius:0 5px 5px 0">
+        <strong style="color:var(--t1);font-size:14px;display:block;margin-bottom:4px">A coherent lie beats an incoherent truth.</strong>
+        <span style="font-size:13px;color:var(--t2);line-height:1.75">Spoof one property and you now own the job of making everything it touches agree. A Linux host wearing a Windows user-agent is caught by the contradiction, not by the dishonesty.</span>
+      </div>
+      <div style="padding:12px 16px;background:rgba(245,197,24,.04);border-left:2px solid rgba(245,197,24,.4);border-radius:0 5px 5px 0">
+        <strong style="color:var(--t1);font-size:14px;display:block;margin-bottom:4px">There is no origin behind it, and IP is a third of the verdict.</strong>
+        <span style="font-size:13px;color:var(--t2);line-height:1.75">Application-server placement removes origin discovery from the board. With reputation at 25&ndash;30% of the score, the address you arrive from outranks most of what you do after arriving.</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:8px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--y);margin-bottom:14px">Practical decision tree &middot; DataDome in 2026</div>
+    <div style="display:grid;gap:12px">
+      <div style="display:flex;gap:14px;align-items:start">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">01</span>
+        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1);">Read the initial HTML.</strong> <code>__NEXT_DATA__</code>, embedded React state, JSON-LD. If the payload is there, you are finished and nothing was challenged.</span>
+      </div>
+      <div style="display:flex;gap:14px;align-items:start">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">02</span>
+        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1);">Issue the request the way the page's JavaScript issues it.</strong> <code>Origin</code>, <code>Referer</code>, <code>sec-fetch-mode: cors</code>, <code>sec-fetch-site: same-site</code>. On some endpoints this is the whole gate, and it costs one attempt to find out.</span>
+      </div>
+      <div style="display:flex;gap:14px;align-items:start">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">03</span>
+        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1);"><code>curl_cffi chrome124</code> + residential proxy.</strong> Header set, order and casing first; this is where the vendor's weight sits. Confirmed working on Grainger.com.</span>
+      </div>
+      <div style="display:flex;gap:14px;align-items:start">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">04</span>
+        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1);">Mobile carrier egress.</strong> For paths where reputation is doing the blocking rather than the fingerprint. Highest trust score, hardest to flag, and it addresses a quarter to a third of the verdict directly.</span>
+      </div>
+      <div style="display:flex;gap:14px;align-items:start">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--y);min-width:28px;font-size:14px">05</span>
+        <span style="color:var(--t2);font-size:14px;line-height:1.8"><strong style="color:var(--t1);">Camoufox + <code>geoip=True</code>, or a managed API.</strong> Only for genuinely interactive paths that need the WASM challenge executed. Treat a minted session as a budget of tens of requests, bracket your tests with a control, and if the per-site model is heavy enough that this becomes a maintenance project, the managed API is cheaper than your week.</span>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="case-panel" id="case-perimeterx" style="display:none;padding:48px;text-align:center;background:rgba(255,255,255,.02);border:1px dashed var(--b2);border-radius:8px">
   <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:12px">Coming soon</div>
@@ -15449,6 +15582,10 @@ function showCase(name, btn) {
       btn.style.background = 'rgba(246,147,35,.12)';
       btn.style.borderColor = 'rgba(246,147,35,.4)';
       btn.style.color = 'rgba(246,147,35,.95)';
+    } else if (name === 'datadome') {
+      btn.style.background = 'rgba(91,156,221,.12)';
+      btn.style.borderColor = 'rgba(91,156,221,.4)';
+      btn.style.color = 'rgba(91,156,221,.95)';
     } else {
       btn.style.background = 'rgba(245,197,24,.08)';
       btn.style.borderColor = 'rgba(245,197,24,.3)';
