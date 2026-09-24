@@ -42,7 +42,7 @@
   "@context": "https://schema.org",
   "@type": "TechArticle",
   "headline": "The Complete Web Scraping & Anti-Bot Bypass Guide 2026",
-  "description": "The definitive 2026 guide to web scraping and anti-bot bypass. Covers JA4+ TLS fingerprinting, Cloudflare, Akamai, DataDome, Kasada, F5 Shape, 91 libraries, 26 platforms, 9 proxy providers, mobile API interception, and 9 production architectures.",
+  "description": "The definitive 2026 guide to web scraping and anti-bot bypass. Covers JA4+ TLS fingerprinting, Cloudflare, Akamai, DataDome, Kasada, F5 Shape, 91 libraries, 25 platforms, 6 proxy providers, mobile API interception, and 11 production architectures.",
   "author": {
     "@type": "Person",
     "name": "Asad Ikram",
@@ -2891,7 +2891,7 @@ section[id], div[id^="self-heal"] {
 .tk-lab .tk-dot{width:5px;height:5px;border-radius:50%;background:var(--y);animation:tkpulse 2.4s ease-in-out infinite}
 @keyframes tkpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
 .tk-win{flex:1;overflow:hidden;height:100%;display:flex;align-items:center;min-width:0}
-.tk-track{display:flex;align-items:center;width:max-content;animation:tkscroll 600s linear infinite}
+.tk-track{display:flex;align-items:center;width:max-content;animation:tkscroll 1260s linear infinite}
 .tk-win:hover .tk-track{animation-play-state:paused}
 @keyframes tkscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .tk-item{
@@ -15872,6 +15872,25 @@ function downloadLLMContext() {
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', syncLibCount);
   } else { syncLibCount(); }
+})();
+
+/* Ticker speed: the track grows with every card, so a fixed duration made it
+   faster each sweep. Derive the duration from the distance to hold a constant
+   reading speed instead. */
+(function(){
+  var PX_PER_S = 50;
+  function syncTickerSpeed(){
+    try{
+      var t = document.querySelector('.tk-track');
+      if(!t) return;
+      var dist = t.scrollWidth / 2;
+      if(dist > 0) t.style.animationDuration = Math.round(dist / PX_PER_S) + 's';
+    }catch(e){/* keep the stylesheet duration */}
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', syncTickerSpeed);
+  } else { syncTickerSpeed(); }
+  window.addEventListener('load', syncTickerSpeed);
 })();
 
 // ══════════════════════════════════════════════════════════════
