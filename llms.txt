@@ -1,7 +1,7 @@
 # The Complete Web Scraping & Anti-Bot Bypass Guide 2026
 
 > A single-page production reference by Asad Ikram, a data engineer with 7 years building
-> production scraping infrastructure. Free, no signup, no paywall. Last updated 2026-08-13.
+> production scraping infrastructure. Free, no signup, no paywall. Last updated 2026-09-24.
 > Covers how modern anti-bot systems decide what to trust, and what actually gets through.
 
 The guide is one HTML document at https://web-scraping-guide.com/ with 19 linked sections.
